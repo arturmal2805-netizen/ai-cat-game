@@ -6,7 +6,7 @@ import {createWarehouseAirlock} from './warehouse-airlock.js';
 import {gatherTrip,gatherFrame} from './gather-system.js';
 const unsafe=new Set(['shore-trip','boarding','outbound','leaving-boat','airlock-in','airlock-out','return-boarding','inbound','disembark']);
 const distance=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y,a.z-b.z);
-export function createWarehouseVisits({origin,getActors,canSimulate=()=>true,onBoatPose=()=>{},onDoorPose=()=>{},onPark=()=>{},onComplete=()=>{},onManualReady=()=>false,getSeat=null}){
+export function createWarehouseVisits({origin,getActors,canSimulate=()=>true,onBoatPose=()=>{},onDoorPose=()=>{},onPark=()=>{},onComplete=()=>{},onManualReady=()=>false,getSeat=null,onVisitStep=()=>false,onVisitUnsafe=()=>false}){
  const visits=new Map(),routes=Array.from({length:A.capacity},(_,i)=>createWarehouseShuttleRoute(1024,i)),scratch={};
  const boats=routes.map((r,slot)=>({slot,id:null,...r.sample(0),speed:0,open:0}));let clock=0,shoreOwner=null,entryOwner=null,manual=null;
  const world=p=>new T.Vector3(p.x+origin.x,p.y,p.z+origin.z),local=p=>({x:p.x-origin.x,y:p.y,z:p.z-origin.z});
@@ -27,7 +27,7 @@ export function createWarehouseVisits({origin,getActors,canSimulate=()=>true,onB
   const p=local(actor.position),v={id,activity:a,ticket,boat:null,phase:'pending',age:0,local:p,yaw:actor.yaw||0,walkPhase:0,cancelled:false,manualWanted:false,frame:{position:actor.position.clone?.()||new T.Vector3(actor.position.x,actor.position.y,actor.position.z),yaw:actor.yaw||0,walking:false,reaction:{},locomotion:null}};visits.set(id,v);return true;
  }
  function update(dt,time){if(!canSimulate())return;dt=T.MathUtils.clamp(dt,0,.1);clock+=dt;
-  for(const v of [...visits.values()]){v.age+=dt;v.frame.walking=false;v.frame.reaction={};v.frame.locomotion=null;
+  for(const v of [...visits.values()]){v.age+=dt;v.frame.walking=false;v.frame.reaction={};v.frame.locomotion=null;v.frame.squish=null;
    if(v.phase==='pending'){if(v.cancelled){finish(v);continue;}const b=boats.find(b=>!b.id);if(b){b.id=v.id;v.boat=b.slot;const to=world(A.shore);if(v.frame.position.distanceTo(to)<.05){v.local={...A.shore};phase(v,'await-board');}else{v.trip=gatherTrip(v.frame.position,to,clock*1000);phase(v,'shore-trip');}}}
    else if(v.phase==='shore-trip'){const p=gatherFrame(v.trip,clock*1000);v.local=local(p.position);v.yaw=p.yaw;v.frame.reaction=p.reaction;if(p.done)phase(v,'await-board');}
    else if(v.phase==='await-board'){if(v.cancelled){finish(v);continue;}if(!shoreOwner){shoreOwner=v.id;boats[v.boat].open=1;phase(v,'boarding');}}
@@ -36,12 +36,13 @@ export function createWarehouseVisits({origin,getActors,canSimulate=()=>true,onB
    else if(v.phase==='leaving-boat'){boats[v.boat].open=1;if(walk(v,A.outside,dt)){v.airlock=createWarehouseAirlock(true);phase(v,'airlock-in');}}
    else if(v.phase==='airlock-in'||v.phase==='airlock-out'){const f=v.airlock.step(dt);v.local={...f.position};v.frame.walking=true;v.frame.locomotion={mode:'walk',speed:2.5,phase:(v.walkPhase+=dt*5)};onDoorPose(f.outer,f.inner,f.water,time);if(f.done){if(v.phase==='airlock-in')phase(v,'lobby-walk');else phase(v,'return-boarding');}}
    else if(v.phase==='lobby-walk'){if(walk(v,visitPoint(v),dt)){if(entryOwner===v.id)entryOwner=null;phase(v,'visit');}}
-   else if(v.phase==='visit'){
-    if(v.manualWanted&&manual!==v.id){manual=v.id;if(!onManualReady(v.id)){manual=null;v.age=0;}}
+   else if(v.phase==='visit'){let venueStep=false;
+    if(v.manualWanted&&manual!==v.id&&!onVisitUnsafe(v)){manual=v.id;if(!onManualReady(v.id)){manual=null;v.age=0;}}
     if(manual===v.id){const actor=getActors().find(a=>a.id===v.id);if(actor)v.local=local(actor.position);v.age=0;}
+    else if((venueStep=onVisitStep(v,dt,time))){}
     else if(!v.cancelled&&v.activity.action==='explore'){const base=visitPoint(v),a=v.age*.15,p={x:base.x+Math.sin(a)*6,y:A.foot,z:base.z+Math.cos(a)*8};walk(v,p,dt,2);v.frame.reaction.headYaw=Math.sin(v.age*.4)*.12;}
     else{v.frame.reaction={ride:true,crouch:.5,eyeClose:.35,earRelax:-.06};}
-    if((v.cancelled||v.age>v.activity.duration)&&manual!==v.id&&!entryOwner){entryOwner=v.id;phase(v,'lobby-return');}
+    if((v.cancelled||v.age>v.activity.duration)&&manual!==v.id&&!venueStep&&!entryOwner){entryOwner=v.id;phase(v,'lobby-return');}
    }
    else if(v.phase==='lobby-return'){if(walk(v,A.inside,dt)){v.airlock=createWarehouseAirlock(false);phase(v,'airlock-out');}}
    else if(v.phase==='return-boarding'){boats[v.boat].open=1;if(walk(v,seat(v),dt)){v.progress=0;phase(v,'inbound');}}
@@ -51,5 +52,5 @@ export function createWarehouseVisits({origin,getActors,canSimulate=()=>true,onB
   }
   for(const b of boats)onBoatPose(b,time);
  }
- return{start,update,visits,boats,has:id=>visits.has(id),get:id=>visits.get(id),frame:id=>visits.get(id)?.frame||null,unsafe:id=>unsafe.has(visits.get(id)?.phase),get manual(){return manual;},requestManual(id='chichi'){const v=visits.get(id);if(!v)return false;v.manualWanted=true;v.cancelled=false;return true;},releaseManual(id=manual||'chichi'){const v=visits.get(id);if(v){const a=getActors().find(a=>a.id===id);if(a)v.local=local(a.position);v.manualWanted=false;v.age=0;}manual=null;},cancel(id){const v=visits.get(id);if(!v)return true;v.cancelled=true;v.manualWanted=false;if(manual===id)manual=null;if(v.phase==='pending'||v.phase==='await-board'){finish(v);return true;}return false;},safePosition(id){const v=visits.get(id);if(!v)return null;return v.phase==='pending'?v.frame.position.clone():world(A.shore);},dispose(){for(const v of [...visits.values()]){v.cancelled=true;onPark(v.id,this.safePosition(v.id));}visits.clear();for(const b of boats)b.id=null;manual=shoreOwner=entryOwner=null;}};
+ return{start,update,visits,boats,has:id=>visits.has(id),get:id=>visits.get(id),frame:id=>visits.get(id)?.frame||null,unsafe:id=>unsafe.has(visits.get(id)?.phase)||!!(visits.get(id)&&onVisitUnsafe(visits.get(id))),get manual(){return manual;},requestManual(id='chichi'){const v=visits.get(id);if(!v)return false;v.manualWanted=true;v.cancelled=false;return true;},releaseManual(id=manual||'chichi'){const v=visits.get(id);if(v){const a=getActors().find(a=>a.id===id);if(a)v.local=local(a.position);v.manualWanted=false;v.age=0;}manual=null;},cancel(id){const v=visits.get(id);if(!v)return true;v.cancelled=true;v.manualWanted=false;if(manual===id)manual=null;if(v.phase==='pending'||v.phase==='await-board'){finish(v);return true;}return false;},safePosition(id){const v=visits.get(id);if(!v)return null;return v.phase==='pending'?v.frame.position.clone():world(A.shore);},dispose(){for(const v of [...visits.values()]){v.cancelled=true;onPark(v.id,this.safePosition(v.id));}visits.clear();for(const b of boats)b.id=null;manual=shoreOwner=entryOwner=null;}};
 }

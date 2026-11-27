@@ -5161,6 +5161,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
         );
         if(npcLocomotion)applyExplorerLocomotion(n.model,npcLocomotion,reduced);if(waterfront?.has(id))applyWaterfrontCatMotion(n.model,waterfront.frame(id),time,reduced);
         if (npcReaction) {reactCat(n.model, npcReaction, reduced);if(npcReaction.waterGesture||npcReaction.rideSit||npcReaction.waterSurf||npcReaction.waterProne||npcReaction.waterPawLift)applyAtollSit(n.model,npcReaction,reduced);if(manualVisit?.object?.userData.magicBed)applyMagicBedReach(n.model,manualVisit.object,manualVisit.harvester,reduced);applyMallIcePose(n.model,npcReaction,reduced);applyResortExpression(n.model,npcReaction,reduced);}
+        warehouseVisits?.applyCatPose(id,n.model,n.carrier,time,reduced);
         if(courtVisit?.zooCarry)relaxCarriedCat(n.model,courtVisit.zooCarry,time,reduced);
         if (n.hatRig) {
           const resting =
@@ -5773,6 +5774,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     }
     if(!dialogOpen&&waterfront?.has('chichi'))applyWaterfrontCatMotion(cat,waterfront.frame('chichi'),time,reduced);
     if(court.get('chichi')?.zooCarry&&!dialogOpen)relaxCarriedCat(cat,court.get('chichi').zooCarry,time,reduced);
+    if(!dialogOpen){warehouseVisits?.applyCatPose('chichi',cat,chichiCarrier,time,reduced);warehouseVisits?.finalizeFrame(dt);}
     mall?.updateHeld();resortSpa?.updateHeld();
     const spongeFriend = itemGroups.get("bikini-sponge");
     if (spongeFriend?.userData.playing && spongeFriend.userData.pose) {
