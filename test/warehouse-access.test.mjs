@@ -17,3 +17,10 @@ test('pressure entry has real independently moving doors, a constant floor and n
  assert(new T.Raycaster(near.clone().add(new T.Vector3(7,0,0)),new T.Vector3(0,0,-1),0,100).intersectObjects(core,true).length>0,'neighbouring glazing remains sealed');
  for(const entering of [true,false]){const transit=createWarehouseAirlock(entering);for(let i=0;i<2000&&!transit.frame.done;i++){const f=transit.step(1/120);assert.equal(f.position.y,A.foot,'no elevator movement');assert(f.outer<1e-6||f.inner<1e-6);if(f.inner>.01)assert(f.water<.001);if(f.outer>.01)assert(f.water>.999);root.userData.entry.userData.update(f.outer,f.inner,f.water,i/120);}assert(transit.frame.done);}
 });
+
+test('a bounded submarine fleet carries every queued visitor through both doors and back without duplicate actors',async()=>{
+ const {createWarehouseVisits}=await import('../public/warehouse-visit-runtime.js');const actors=Array.from({length:7},(_,i)=>({id:i?'cat-'+i:'chichi',position:new T.Vector3(A.shore.x,A.shore.y,A.shore.z)})),done=[],phases=new Set();
+ const r=createWarehouseVisits({origin:{x:0,z:0},getActors:()=>actors,onComplete:(id,result)=>done.push({id,...result})});for(const a of actors)assert(r.start(a.id));assert.equal(r.start('chichi'),false);
+ for(let i=0;i<30000&&r.visits.size;i++){r.update(.1,i*.1);assert(r.boats.filter(b=>b.id).length<=3);for(const v of r.visits.values()){phases.add(v.phase);assert(Number.isFinite(v.frame.position.x+v.frame.position.y+v.frame.position.z));}}
+ assert.equal(r.visits.size,0);assert.equal(done.length,actors.length);assert.equal(new Set(done.map(v=>v.id)).size,actors.length);assert(done.every(v=>v.completed));for(const p of ['boarding','outbound','airlock-in','visit','airlock-out','inbound','disembark'])assert(phases.has(p),p);
+});
