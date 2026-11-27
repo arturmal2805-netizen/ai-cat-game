@@ -5,7 +5,9 @@
     "public/world.js",
     "public/leisure-data.js",
     "public/warehouse-exterior.js",
-    "public/mosasaur-water-probe-assets.js"
+    "public/mosasaur-water-probe-assets.js",
+    "public/mosasaur-biome.js",
+    "public/mosasaur-expansion.js"
   ],
   "frozenFiles": {
     "package-lock.json": "b3d16d1c9aa17089e38d9dd4805f4177e5e5beac1293c4898e7e8ec964a1ddbe",
@@ -219,7 +221,6 @@
     "public/mosasaur-anatomy.js": "898f1e9a1aec3c8e0574f5a9ee044d6237b59286736c52402eea30b433152137",
     "public/mosasaur-assets.js": "28c6bd09c2cfa812121ccec18e99ff73cbfbdd23cfed763fb092068980e75201",
     "public/mosasaur-bed-optics.js": "8057f3aff0facf828ee27a40ce33dcc369149f1daa90fbb255780d1a800679a4",
-    "public/mosasaur-biome.js": "9d9c9d50fc6c2fa7d23b7bfe7b15513e1fba1b617ab5fcfe6805a2cee3f7fb3d",
     "public/mosasaur-coast-garden.js": "d09cbc43ad7178ee9dcef5d2fd2aa017df56b5c2d879d5428e1b39286c38ca29",
     "public/mosasaur-collision.js": "0eb286c5d4831dd4d15e06a0be7f60597feaa661df848ddd9447ea3052f13678",
     "public/mosasaur-coral-anatomy.js": "9242407829b0a30234ced589c2fe72512b9791c7fab309f1fc5446086ddf8758",
@@ -228,7 +229,6 @@
     "public/mosasaur-corals.js": "125792f4ad4251072e59841958e200743cab991c41a9e1f7b32916a11c1411ee",
     "public/mosasaur-data.js": "8fcad356f09ea062ed8c1a3459efbdf71b406f917f0ce38ec243b02254bb3e9a",
     "public/mosasaur-expansion-data.js": "110e23efe0dfc8b90e79fb3cc63afaace5325e1a24379e0f30ba8561d0a33c62",
-    "public/mosasaur-expansion.js": "dbb1283953ee8841101655adce44ee0ba26e8b227b4983189471aee92deb3dca",
     "public/mosasaur-fish.js": "12ac224221f24ecfa58cf3891622f1fe8c9774f796390cb8cee3fd22a4946a3a",
     "public/mosasaur-floor-stones-data.js": "d979a40a338c7e4cdf872e3fde19adcc1bc5c40e948709abafa84d75f66a2968",
     "public/mosasaur-floor-stones.js": "3fa953b81bf929208f9954effe2fce47a87deaf38178323e7e1a8d6e5ab7dd79",
@@ -478,5 +478,6 @@
     "public/zoo-waterlife.js": "d1042acb0825e040f226d7c8d2f6061a30e6287e1abf272edf531d4341842bfc",
     "server.mjs": "5ebceae99dd5c595d48b1db7e64b1002110d874d91d8a92849ebb35acb4419cd",
     "worker.mjs": "38ef06c3128c2bb1c995d6ed47188052fb9753dbbbfe27354a5e8a9ab67f10d7"
-  }
+  },
+  "workerBoundary": "Move the renderer-only Warehouse builder import from shared expansion physics to the biome scene. Physics, saved coordinates and every existing geometry remain identical; workerd must never initialize the Meshopt renderer encoder."
 }

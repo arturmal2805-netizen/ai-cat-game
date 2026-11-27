@@ -3,7 +3,6 @@ import * as T from 'three';
 import {mergeGeometries} from 'three/addons/utils/BufferGeometryUtils.js';
 import {MOSA_SEA,MOSA_RADIUS,MOSA_HEADLANDS,mosaCoastFactor,mosaBedY,mosaWaterRadius} from './mosasaur-data.js';
 import {expandedCoastPoint,expandedCoastSamples,MOSA_EXPANSION,WAREHOUSE} from './mosasaur-expansion-data.js';
-import {warehouseExteriorSteps} from './warehouse-exterior.js';
 const TAU=Math.PI*2,clamp=T.MathUtils.clamp,smooth=T.MathUtils.smoothstep;
 export const expansionPoint=(a,margin=0)=>expandedCoastPoint(a,MOSA_SEA,mosaCoastFactor,margin);
 export function expansionOuterPoint(a){const p=expansionPoint(a,30),r=Math.hypot(p.x,p.z),s=Math.max(r,MOSA_RADIUS)/r;return{x:p.x*s,z:p.z*s};}
@@ -76,7 +75,6 @@ export function* expandMosaSeaSteps(sea){
  return sea.userData.expansion;
 }
 export const expandMosaSea=sea=>runSceneSteps(expandMosaSeaSteps(sea));
-export function* expansionWarehouseSteps(){return yield* warehouseExteriorSteps();}
 
 // Residents retain valid released save coordinates on the still-dry old shore.
 // Owned pads and the existing pier always win; never strand a saved cat where
