@@ -3612,7 +3612,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
       callbacks.onCityDrive?.(choice.id, choice.car, road);
       return;
     }
-    if ((focused==='autumn'||viewingOverview)&&(waterfront?.pick(raycaster)||resortSpa?.pick(raycaster,mall?.root)||mall?.pick(raycaster)))return;
+    if ((focused==='autumn'||viewingOverview)&&(waterfront?.pick(raycaster)||resortSpa?.pick(raycaster,mall?.root)||mall?.pick(raycaster)||warehouseVisits?.pick(raycaster)))return;
     if (focused === HOUSING_ID) {
       const homes = islands.get(HOUSING_ID)?.userData.houses;
       const hit =
@@ -6171,7 +6171,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     reserve:id=>{if(id==='chichi'){manualWalk?.stop();callbacks.onControlChichi?.();cancelHeroActivity();heroGather=null;jobs.cancel(id);crew.cancel(id);housingLife.cancel?.(id);}else{cancelResident(id,true);const n=npcs.get(id);if(!n)return false;n.leisureBiome='autumn';n.manualUntil=performance.now()+60000;}return true;},
     hold:id=>{const n=npcs.get(id);if(n)n.manualUntil=performance.now()+60000;},
     onPark:(id,p)=>{const carrier=id==='chichi'?chichiCarrier:npcs.get(id)?.carrier;if(p&&carrier)carrier.position.copy(p);const n=npcs.get(id);if(n){n.manualAnchor={x:p.x,z:p.z};n.manualUntil=performance.now()+90000;}gatherSavePending=true;},
-    onComplete:(id,result)=>{if(result.ticket)finishLeisure(id,result);},onReleaseManual:()=>manualWalk?.stop(),onManualReady:()=>manualWalk?.start({pitch:.2,distance:6})||false,onError:message=>callbacks.onReaction?.(message),
+    onComplete:(id,result)=>{if(result.ticket)finishLeisure(id,result);},onReleaseManual:()=>manualWalk?.stop(),onInspect:()=>focusWarehouse(),onManualReady:()=>manualWalk?.start({pitch:.2,distance:6})||false,onError:message=>callbacks.onReaction?.(message),
   });
   const canControlChichi=()=>!warehouseVisits?.unsafe('chichi')&&!waterfront?.unsafe('chichi')&&!resortSpa?.frame('chichi')?.phase?.startsWith('restoring-')&&(callbacks.canControlChichi?callbacks.canControlChichi()!==false:callbacks.canDragCat?.('chichi')!==false);
   submarine=createSubmarineRuntime({extraOceanClear:waterfrontOceanClear,scene,container,canvas:renderer.domElement,camera,look,actor:chichiCarrier,getModel:()=>cat,getMall:()=>mall,onLandExit:()=>{manualWalk?.start();refreshManualButton();},onError:message=>callbacks.onReaction?.(message),getIsland:()=>islands.get('autumn'),getGame:()=>game,getFocused:()=>focused,canPilot:()=>canControlChichi()&&!mall?.inspection&&!manualWalk?.active,cancelHero:()=>{callbacks.onControlChichi?.();cancelHeroActivity();heroGather=null;jobs.cancel('chichi');crew.cancel('chichi');leisure.cancel('chichi');spa.cancel('chichi');chill.cancel('chichi');court.cancel('chichi');faceCamera.setEnabled(false,look);},approachDock:point=>{heroGather=gatherTrip(chichiCarrier.position,{x:point.x,y:point.y,z:point.z},performance.now());return true;},focus});

@@ -1,3 +1,4 @@
+import accessScope from '../docs/specifications/warehouse-access-protection-2026-11-27.json' with {type:'json'};
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -18,10 +19,10 @@ test('explicit additional x3 supersedes only Warehouse size and its necessary su
  assert.equal(W.width/old.width,3);assert.equal(W.heightScale/old.heightScale,3);
  assert.equal(W.platformWidth/old.platformWidth,3);assert.equal(W.depth/old.depth,3);assert.equal(W.platformDepth/old.platformDepth,3);
  for(const k of ['id','z','exteriorOnly'])assert.equal(W[k],old[k],k);
- for(const [file,hash] of Object.entries(scope.frozenFiles).filter(([f])=>!scope.followupAuthorizedFiles.includes(f)&&!scope.proportionAuthorizedFiles.includes(f)))assert.equal(createHash('sha256').update(readFileSync(new URL('../'+file,import.meta.url))).digest('hex'),hash,file);
+ for(const [file,hash] of Object.entries(scope.frozenFiles).filter(([f])=>!accessScope.authorizedFiles.includes(f)&&!scope.followupAuthorizedFiles.includes(f)&&!scope.proportionAuthorizedFiles.includes(f)))assert.equal(createHash('sha256').update(readFileSync(new URL('../'+file,import.meta.url))).digest('hex'),hash,file);
 });
 test('the larger native shell stays submerged, embedded and separated by the previous open-water approach',()=>{
- const root=runSceneSteps(warehouseExteriorSteps()),b=new T.Box3().setFromObject(root,true),old=scope.previousWarehouse;
+ const root=runSceneSteps(warehouseExteriorSteps()),b=(root.updateWorldMatrix(true,true),root.children.filter(o=>o!==root.userData.entry).reduce((b,o)=>b.expandByObject(o,true),new T.Box3())),old=scope.previousWarehouse;
  // Approved previous measured native bounds, rather than a guessed purchase footprint.
  assert(Math.abs((b.max.x-b.min.x)/1323.50048828125-3)<1e-5);
  assert(Math.abs((b.max.y-b.min.y)/143.781463637352-3)<1e-5);

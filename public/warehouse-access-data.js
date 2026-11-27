@@ -1,6 +1,8 @@
 import {WAREHOUSE as W} from './mosasaur-expansion-data.js';
 // One dry, level entry and a two-door pressure chamber; no elevator or new fee.
-const floor=W.y+.86*(W.heightScale||1),front=W.depth/2,berth=W.platformDepth/2;
+// The original neutral plane sits inside its beveled slab. The usable dry
+// surface is 2 cm above that unchanged scaled foundation, not below its cap.
+const floor=W.y+1.1*(W.heightScale||1)+.86*(1-(W.heightScale||1))+.02,front=W.depth/2,berth=W.platformDepth/2;
 export const WAREHOUSE_ACCESS=Object.freeze({
  floor,foot:floor+.012,capacity:3,cruiseSpeed:48,
  shore:Object.freeze({x:0,y:.16,z:96}),

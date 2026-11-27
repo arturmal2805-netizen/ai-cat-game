@@ -24,3 +24,24 @@ test('a bounded submarine fleet carries every queued visitor through both doors 
  for(let i=0;i<30000&&r.visits.size;i++){r.update(.1,i*.1);assert(r.boats.filter(b=>b.id).length<=3);for(const v of r.visits.values()){phases.add(v.phase);assert(Number.isFinite(v.frame.position.x+v.frame.position.y+v.frame.position.z));}}
  assert.equal(r.visits.size,0);assert.equal(done.length,actors.length);assert.equal(new Set(done.map(v=>v.id)).size,actors.length);assert(done.every(v=>v.completed));for(const p of ['boarding','outbound','airlock-in','visit','airlock-out','inbound','disembark'])assert(phases.has(p),p);
 });
+
+test('entrance floor is the actual scaled native base and original facade vertices survive the aperture',async()=>{
+ const {warehouseExteriorSteps}=await import('../public/warehouse-exterior.js');const root=runSceneSteps(warehouseExteriorSteps());root.updateMatrixWorld(true);const floor=root.children.find(o=>o.name.startsWith('Neutral sealed'));
+ const hit=new T.Raycaster(new T.Vector3(A.lobby.x+7,A.foot+5,A.lobby.z),new T.Vector3(0,-1,0),0,10).intersectObject(floor,true)[0];assert(hit);assert(Math.abs(hit.point.y-A.floor)<1e-4,'gallery matches the native dry floor');const slab=root.children.find(o=>o.name.startsWith('Seafloor foundation'));const solid=new T.Raycaster(new T.Vector3(A.lobby.x+7,A.foot+5,A.lobby.z),new T.Vector3(0,0-1,0),0,10).intersectObject(slab,true)[0];assert(solid);assert(A.floor>=solid.point.y&&A.floor-solid.point.y<.03,'cat paws stay above the actual beveled slab cap');
+});
+test('Warehouse activities validate through the existing AI catalogue without new inference or money fields',async()=>{
+ const {newGame}=await import('../public/economy.js'),{leisureOffers,validateLeisureOffers}=await import('../public/leisure-data.js');const g=newGame(0);g.unlocked.push('autumn');const before=structuredClone(g),offers=leisureOffers(g,0),wh=offers.filter(o=>o.id.startsWith('warehouse-'));assert.equal(wh.length,2);assert.deepEqual(validateLeisureOffers(wh),wh);assert.deepEqual(g,before);assert.throws(()=>validateLeisureOffers([{...wh[0],action:'eat'}]));assert.throws(()=>validateLeisureOffers([{...wh[0],biome:'moon'}]));
+});
+test('only explicitly authorized entrance/controller/catalogue files change from the published broad Warehouse',async()=>{
+ const {readFileSync}=await import('node:fs'),{createHash}=await import('node:crypto'),scope=(await import('../docs/specifications/warehouse-access-protection-2026-11-27.json',{with:{type:'json'}})).default;
+ assert(Object.keys(scope.frozenFiles).length>400);for(const [file,hash]of Object.entries(scope.frozenFiles))assert.equal(createHash('sha256').update(readFileSync(new URL('../'+file,import.meta.url))).digest('hex'),hash,file);
+});
+test('cancellation in every physical phase returns safely; manual takeover stays latched through boarding and flight',async()=>{
+ const {createWarehouseVisits}=await import('../public/warehouse-visit-runtime.js');
+ for(const target of ['pending','shore-trip','await-board','boarding','outbound','leaving-boat','airlock-in','lobby-walk','visit','lobby-return','airlock-out','return-boarding','inbound','disembark']){
+  const actor={id:'chichi',position:new T.Vector3(A.shore.x+2,A.shore.y,A.shore.z)},done=[];const r=createWarehouseVisits({origin:{x:0,z:0},getActors:()=>[actor],onComplete:(id,result)=>done.push(result)});r.start('chichi');let seen=false;
+  for(let i=0;i<20000&&r.has('chichi');i++){const v=r.get('chichi');if(v.phase===target&&!seen){seen=true;r.cancel('chichi');}r.update(.1,i*.1);if(r.frame('chichi'))actor.position.copy(r.frame('chichi').position);}
+  assert(seen,target);assert(!r.has('chichi'),target+' finishes return');assert.equal(done.length,1);assert.equal(done[0].completed,false,target);
+ }
+ let starts=0;const actor={id:'chichi',position:new T.Vector3(A.shore.x,A.shore.y,A.shore.z)},r=createWarehouseVisits({origin:{x:0,z:0},getActors:()=>[actor],onManualReady:()=>{starts++;return true;}});r.start('chichi');r.requestManual();for(let i=0;i<5000&&!r.manual;i++){r.update(.1,i*.1);actor.position.copy(r.frame('chichi').position);}assert.equal(r.manual,'chichi');assert.equal(starts,1);actor.position.x+=5;for(let i=0;i<10;i++)r.update(.1,500+i);assert.equal(starts,1,'manual start happens once');assert.equal(r.frame('chichi').position.x,actor.position.x);r.releaseManual();r.cancel('chichi');for(let i=0;i<15000&&r.has('chichi');i++)r.update(.1,600+i*.1);assert(!r.has('chichi'));
+});

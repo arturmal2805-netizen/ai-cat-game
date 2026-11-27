@@ -1,3 +1,4 @@
+import accessScope from '../docs/specifications/warehouse-access-protection-2026-11-27.json' with {type:'json'};
 import test from "node:test";
 import assert from "node:assert/strict";
 import fs from "node:fs";
@@ -56,7 +57,7 @@ test("V14 preserves every frozen old venue, water, cat and economy source byte",
     ),
   );
   assert.equal(Object.keys(p.frozenFiles).length, 116);
-  for (const [f, h] of Object.entries(p.frozenFiles).filter(([f]) => !["public/warehouse-camera.js","public/mosasaur-water-probe-assets.js","public/mosasaur-expansion-data.js","public/mosasaur-expansion.js","public/ocean-water-domain.js"].includes(f)))
+  for (const [f, h] of Object.entries(p.frozenFiles).filter(([f]) => !accessScope.authorizedFiles.includes(f)&&!["public/warehouse-camera.js","public/mosasaur-water-probe-assets.js","public/mosasaur-expansion-data.js","public/mosasaur-expansion.js","public/ocean-water-domain.js"].includes(f)))
     assert.equal(
       crypto
         .createHash("sha256")

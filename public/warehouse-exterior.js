@@ -36,8 +36,9 @@ export function* warehouseExteriorSteps(){
  for(const [key,geometries]of Object.entries(buffers)){yield;if(geometries.length)mesh(mergeGeometries(geometries),palette[key],key+' structure · one shared batch');geometries.forEach(g=>g.dispose());}
  // Author the larger shell into its own geometry; no island/old-building scale.
  const sx=W.width/240,sy=W.heightScale||1,sz=W.depth/120,anchor=.86;root.traverse(o=>{if(o.isMesh){o.geometry.scale(sx,sy,sz);o.position.x*=sx;o.position.y=anchor+(o.position.y-anchor)*sy;o.position.z*=sz;}});
+ const dryFloor=root.children.find(o=>o.name.startsWith('Neutral sealed'));dryFloor.position.y+=A.floor-W.y-.86;
  const aperture=new T.Box3(new T.Vector3(...A.aperture.min),new T.Vector3(...A.aperture.max));
  for(const child of root.children)if(child.isMesh)yield* warehouseApertureSteps(child,aperture);
- const entry=yield* warehouseEntrySteps();root.add(entry);
+ const entry=yield* warehouseEntrySteps();root.add(entry);root.updateWorldMatrix(true,true);
  root.userData={warehouse:true,phase:2,exteriorOnly:false,interiorEquipped:false,interactive:true,entry,dimensions:{width:W.width,depth:W.depth,heightScale:W.heightScale||1},facade,dispose(){const geometries=new Set(),materials=new Set(),textures=new Set();root.traverse(o=>{if(o.isMesh){geometries.add(o.geometry);for(const m of Array.isArray(o.material)?o.material:[o.material]){materials.add(m);if(m.map)textures.add(m.map);}}});for(const g of geometries)g.dispose();for(const t of textures)t.dispose();for(const m of materials)m.dispose();}};return root;
 }
