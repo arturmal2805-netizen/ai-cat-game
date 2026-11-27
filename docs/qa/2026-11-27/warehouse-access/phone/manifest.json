@@ -1,0 +1,108 @@
+{
+  "capturedSource": "23a5043877f186eb719eb673f37c5406ba017277",
+  "capturedModules": 474,
+  "allModuleBytesMatchSource": true,
+  "archivedAt": "2026-11-27T18:25:09.373507+00:00",
+  "node": "v22.23.5",
+  "qaBundleSha256": "1823d40482220640335fd66e0de58d224408a7b629915cd798b870883897a2ed",
+  "role": "phone",
+  "viewport": [
+    390,
+    844
+  ],
+  "dpr": 2,
+  "renderer": "Headless Chromium SwiftShader",
+  "fixture": "Private world; no player token, live save or paid inference.",
+  "clock": "Fixed noon/time7 for architecture; explicit simulated monotonic steps for transport/physics, raster paused during preparation.",
+  "limitations": "Native correctness/geometry/input images do not establish artistic approval, physical device FPS or AAA equivalence.",
+  "files": {
+    "warehouse-access-native.json": {
+      "bytes": 15508,
+      "sha256": "b8854792acf342ba6f495e8271f45501955ff7de27d646b706c661d27881c82f"
+    },
+    "working-entrance-and-dock.png": {
+      "bytes": 382160,
+      "sha256": "88cac49cc0cc506d098884e260e3558bd340494b88b527f39f0322a98a6ffe9f"
+    },
+    "warehouse-native-third-person-walking.png": {
+      "bytes": 313273,
+      "sha256": "b4202ff46ecdfe61b926971bb1263e00d123726785ad3bdf8d6acba132b2290a"
+    },
+    "chichi-visit.png": {
+      "bytes": 466233,
+      "sha256": "1b171ddcde8006e0a0c96e4c1d9f3ee178e06aef0ebfe3a27adfbf9f5c265580"
+    },
+    "chichi-leaving-boat.png": {
+      "bytes": 826787,
+      "sha256": "dd89bc8bab488086caa511e1a3949567631a95aaef3028ef6c705bccc49d53ed"
+    },
+    "qa-build.json": {
+      "bytes": 233,
+      "sha256": "70bfea023b554735149864a1b5144bd1d1b0a68f4a3c2be1813c6f70c52e66a5"
+    },
+    "warehouse-wide-product.png": {
+      "bytes": 439887,
+      "sha256": "c0860a1e7d6ee36a461799c6a25d9f3cf63eccf783ef2d71009c16c7df06c8f4"
+    },
+    "source-proof.tar.gz": {
+      "bytes": 2349520,
+      "sha256": "21d34eda71f9e400c42284d154fd38e14ded38013a5d000da4be4eb8a296865e"
+    },
+    "warehouse-private-save-reloads.json": {
+      "bytes": 23977,
+      "sha256": "e279a17b95ebd2b3eba3d72f2ea7d3d8ba954a1a98f1ad05c53e32948b4dac82"
+    },
+    "chichi-outbound.png": {
+      "bytes": 842292,
+      "sha256": "6a3e19f3add4ae00c3b20a5af9ad5894c130202a4b173755c923de6b8484b623"
+    },
+    "chichi-airlock-in.png": {
+      "bytes": 666631,
+      "sha256": "d149b66158d513bc5af018852735f052f94c1382f584dde0e6aa34f8437cba9f"
+    },
+    "run.log": {
+      "bytes": 714,
+      "sha256": "46af06cde1b7ca7fcc9b20835a6bb155828db65cc0f0d1687a565fc3e29bad1d"
+    },
+    "source-files.json": {
+      "bytes": 44079,
+      "sha256": "3238cfe9d9c916c3063db688e931fa70379c0f814b8262722c7671a161cb5a88"
+    },
+    "protected-buildings.json.gz": {
+      "bytes": 1142938,
+      "sha256": "70c66b7c94b07d6683b24a10ee702eeeccfe1bfe3dc15ff83b1b662a5c70d551"
+    },
+    "chichi-boarding.png": {
+      "bytes": 443290,
+      "sha256": "a2124643b40024a48a9070e82a8768b299d0780057c953ea5239da5072dbdebb"
+    },
+    "harness/warehouse-access-phone-native.mjs": {
+      "bytes": 7733,
+      "sha256": "8c33b9d847fda49f8da594d15714fa5dea4be67b0d9ea3d623d54e5465be5813"
+    },
+    "harness/check-warehouse-access-phone.cjs": {
+      "bytes": 124478,
+      "sha256": "d9c72849981ea0251eac36a6be80223f9ee912a204cab701b4c0e6ffdfd16f7e"
+    },
+    "harness/warehouse-access-protected.mjs": {
+      "bytes": 4515,
+      "sha256": "6579f1057bb2cbba898da5cc7e3195a1f7558a3014a6e9247124f0bcf1d8c647"
+    },
+    "harness/check-warehouse-access-final.cjs": {
+      "bytes": 124478,
+      "sha256": "823851aa47db19135567e0a2934c5c6376684b893bc89cbc15719e2c96726f0c"
+    },
+    "harness/warehouse-access-final-native.mjs": {
+      "bytes": 7047,
+      "sha256": "1371b7aa3492faa9b449930d1e43584f000b99c8cacffc9bda28a6bc65586463"
+    },
+    "harness/warehouse-access-hardlinks.cjs": {
+      "bytes": 614,
+      "sha256": "7e2f0b272cefbfc4dfdf4cac2c89220d7fd63fc2bb17c9d13d9f4ea024179dd5"
+    },
+    "harness/warehouse-access-save.mjs": {
+      "bytes": 1874,
+      "sha256": "65ed693f228236ec56331226e466d57ffcf9f6bdd34a104df87df9220a617ec0"
+    }
+  }
+}

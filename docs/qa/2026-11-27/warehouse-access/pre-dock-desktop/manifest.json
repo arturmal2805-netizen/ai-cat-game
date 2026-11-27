@@ -7,14 +7,14 @@
   "qaBundleSha256": "1286eebc170970c3db75147625aeb03bae15446efe0cc8d63eddd923fc1cf345",
   "role": "pre-dock-desktop",
   "viewport": [
-    390,
-    844
+    1100,
+    800
   ],
   "dpr": 2,
   "renderer": "Headless Chromium SwiftShader",
   "fixture": "Private world; no player token, live save or paid inference.",
   "clock": "Fixed noon/time7 for architecture; explicit simulated monotonic steps for transport/physics, raster paused during preparation.",
-  "limitations": "Native correctness/geometry/input images do not establish artistic approval, physical device FPS or AAA equivalence.",
+  "limitations": "Native correctness/geometry/input images do not establish artistic approval, physical device FPS or AAA equivalence. Pre-dock stage only: actual native trip/control checks passed, but the dock slab was subsequently opened into real water berths. The viewport metadata was corrected from the role-label fallback using the native desktop report.",
   "files": {
     "warehouse-access-native.json": {
       "bytes": 15507,
