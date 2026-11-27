@@ -1,9 +1,9 @@
 import {MOSA_SEA,mosaCoastFactor} from './mosasaur-data.js';
-import {expandedWaterContains,expandedCoastPoint,MOSA_EXPANSION} from './mosasaur-expansion-data.js';
+import {expandedWaterContains,expandedCoastPoint,MOSA_EXPANSION,WAREHOUSE} from './mosasaur-expansion-data.js';
 
 // The common floor undulates five metres below its authored deep-bed level.
 // A valid diver near that floor must survive reload as well as horizontal travel.
-export const OCEAN_EXPLORER_MIN_Y=Math.min(-198,MOSA_EXPANSION.bedY-5);
+export const OCEAN_EXPLORER_MIN_Y=Math.min(-198,MOSA_EXPANSION.bedY-5,WAREHOUSE.y-5);
 
 // Physical navigation and saved explorer poses share the actual common lagoon.
 // Retain the old allowed ellipse as well, so legacy edge saves remain valid.
