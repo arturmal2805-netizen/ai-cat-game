@@ -1,5 +1,5 @@
 {
-  "base": "f240386219e025fa3c65ea86f376860916f4c4b8",
+  "base": "56afaec7396cb2e6401aa875c97f8fa1d7ff67b5",
   "request": "Working Warehouse entrance without elevator; existing native small submarines and recall UI; two compact AI activities. Preserve other venues, cats, wallets and saves.",
   "authorizedFiles": [
     "public/world.js",
@@ -219,7 +219,7 @@
     "public/mosasaur-anatomy.js": "898f1e9a1aec3c8e0574f5a9ee044d6237b59286736c52402eea30b433152137",
     "public/mosasaur-assets.js": "28c6bd09c2cfa812121ccec18e99ff73cbfbdd23cfed763fb092068980e75201",
     "public/mosasaur-bed-optics.js": "8057f3aff0facf828ee27a40ce33dcc369149f1daa90fbb255780d1a800679a4",
-    "public/mosasaur-biome.js": "d1c1415129c1f99ca0710d46c2aa97bf8e78f6bd5e0f67e4d2c4fe590a23d6e1",
+    "public/mosasaur-biome.js": "9d9c9d50fc6c2fa7d23b7bfe7b15513e1fba1b617ab5fcfe6805a2cee3f7fb3d",
     "public/mosasaur-coast-garden.js": "d09cbc43ad7178ee9dcef5d2fd2aa017df56b5c2d879d5428e1b39286c38ca29",
     "public/mosasaur-collision.js": "0eb286c5d4831dd4d15e06a0be7f60597feaa661df848ddd9447ea3052f13678",
     "public/mosasaur-coral-anatomy.js": "9242407829b0a30234ced589c2fe72512b9791c7fab309f1fc5446086ddf8758",

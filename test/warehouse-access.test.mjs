@@ -45,3 +45,7 @@ test('cancellation in every physical phase returns safely; manual takeover stays
  }
  let starts=0;const actor={id:'chichi',position:new T.Vector3(A.shore.x,A.shore.y,A.shore.z)},r=createWarehouseVisits({origin:{x:0,z:0},getActors:()=>[actor],onManualReady:()=>{starts++;return true;}});r.start('chichi');r.requestManual();for(let i=0;i<5000&&!r.manual;i++){r.update(.1,i*.1);actor.position.copy(r.frame('chichi').position);}assert.equal(r.manual,'chichi');assert.equal(starts,1);actor.position.x+=5;for(let i=0;i<10;i++)r.update(.1,500+i);assert.equal(starts,1,'manual start happens once');assert.equal(r.frame('chichi').position.x,actor.position.x);r.releaseManual();r.cancel('chichi');for(let i=0;i<15000&&r.has('chichi');i++)r.update(.1,600+i*.1);assert(!r.has('chichi'));
 });
+
+test('all three shuttle slots retain full hull clearance in both shipping lanes',()=>{
+ for(let slot=0;slot<3;slot++){const route=createWarehouseShuttleRoute(1024,slot);for(const reverse of [false,true])for(let d=0;d<route.length;d+=3){const p=route.sample(d,reverse,{},reverse?-12:12);for(const offset of [-3.1,0,3.1]){const q={x:p.x+Math.sin(p.yaw)*offset,y:p.y+Math.sin(p.pitch)*offset,z:p.z+Math.cos(p.yaw)*offset};assert(warehouseShuttleClear(q),JSON.stringify({slot,reverse,d,q}));}}}
+});
