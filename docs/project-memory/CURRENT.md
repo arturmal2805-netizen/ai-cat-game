@@ -60,9 +60,12 @@ AI calls. Новые save enum опасны для старых клиентов
 точнийзапит6a89ca7 + access data/compact2offers/sharedarcroute + aperture triangleclip.
 3NodechecksPASS:full swept hull route/bed/reefs/Mall/SPA/waterfront, identityoffers,
 actualtriangleaperture без приховування великої частини facade. Clone/boat runtime/UI/AI
-ще НЕ підключені. Зараз localWIP робочоїgallery/pressuredoors/actualshellcut + airlock:
+ще НЕ підключені. Новаstage робочоїgallery/pressuredoors/actualshellcut + airlock:
 4NodechecksPASS; actualray through alloldcornices/glazing open, neighbouring glass stays,
-constantfloor (no lift), sequentialseals neverbothopen. Потрібноcommit/push localWIP.
+constantfloor (no lift), sequentialseals neverbothopen. Remote **c1f5578** зберігає цюstage,4NodechecksPASS. Staticgallery/doors batched
+черезnativebatchModelSteps, спільнеwater-core поле, originalplayerboat/Mall/SPAне змінені.
+Немаєbodylift: airlock змінюєwater/doors, усікроки actorнаодномуfloor. Потрібніfleet,
+visit runtime,World/AI/UI/normalizationcompatibility і повнийnativeaudit.
 Нові `warehouse-entry-model.js`, `warehouse-airlock.js`, modified`warehouse-exterior.js`,
 `warehouse-access-data.js`,`test/warehouse-access.test.mjs`. Інші будівлі незмінні.
 Defaultgallery8mwide floorW.y+.86, chamberW.z+170, dockW.z+183, shore6/-.85/92,
@@ -218,3 +221,8 @@ closed/unmerged; редизайн ТРЦ исключён, Warehouse interior н
 Crimson Desert — visual target, stable release — regression baseline,
 d6fa805 — historical technical base. Не удалять старые worktrees и существующий
 `scripts/__pycache__/` в ветке памяти. Подробная история — ссылка в начале.
+
+Publication watcher активний: shell session запускає `gh run watch46002981562 --exit-status`,
+тоді залежнийactualHTTP/Worker verifier. Logs `/workspace/qa/warehouse-threefold-main-publication-watch.log`
+і`/workspace/qa/warehouse-threefold-live-verification.log`. ПісляSUCCESS негайно дати7656b95
+посилання, зберегтиlive receipt уmemory і продовжуватиsubmarineentry; не завершуватиусюзадачу.
