@@ -32,7 +32,9 @@ CSS **6009872ae8865f57fb8d358ee2e71be2eac6ad5bdac240cba496a6664983b2d3**.
 сохранить. Прежнее условие«depth unchanged» явноsuperseded этим новымзапросом.
 Вернуть пропорции до последнего×3растяжения, сохранить остальные здания/кошельки.
 Новыйworktree `/workspace/chichi-warehouse-proportions`, branch`codex/warehouse-proportions`,
-basepublished7656b95. ЕщёWIP. DefaultWarehousecamera станет fittedsteepobliqueoverview:
+basepublished7656b95. Source7c00f111139252e79a34e2bb9093d2af8abfd044, PR19 merged mainf240386219e025fa3c65ea86f376860916f4c4b8. Desktop+phone native PASS exact466modules; evidence `docs/qa/2026-11-27/warehouse-proportions`. NOT LIVE: full PR CI found real grey-underside regression after widened deep shelf. Old decorative cone cap -212 is above newly deepened bed at historical grey-patch rays.
+Correction worktree `/workspace/chichi-warehouse-proportions-fix`, branch `codex/warehouse-proportions-bed-fix`: only hidden underside moved to min(old-12,WAREHOUSE.y-32), physical seabed/buildings unchanged; probe rebaked, build/native/CI pending. The grey-patch regression itself PASSES; prebuild missing uncompressed reef asset is build prerequisite, not implementation failure. Local full tests on7c00 also first missed sparse historicalQAJSON; materialized two referenced files. Do not weaken the real grey-patch test.
+DefaultWarehousecamera станет fittedsteepobliqueoverview:
 старыйwest-underwaterfitдляширокогокорпусанаphoneвыходитзаберег/скрываетсядном.
 Проверитьactualshape/shoreclearance/camera, Node22/actualdesktop+phone/CI/live.
 Не называть7656b95визуальноодобренным: userrejectsaspect. Inlinephotoнетисходныхbytes.
@@ -46,9 +48,10 @@ WarehouseвсуществующемAIспискевизитов/активнос
 последнеекорректирующеерасширениеприоритетно, но незавершатьобщуюзадачупосленего.
 
 Worktree `/workspace/chichi-warehouse-submarine-access`, branch`codex/warehouse-submarine-access`,
-remote **7529ca0faaa7737c89975204824bb265dd757e15**, base985b436 (предыдущийgeometry).
+remote checkpoint **7a34c5e70cdab3faa7b24f3c74ea3e593e6d4a63**, base985b436 (предыдущийgeometry).
 Spec6a89ca7, route/aperture098f1cf, entryc1f5578, fleet/visitRuntime7529ca0.
-5NodechecksPASS; API/UI/AI/worldintegration/nativeQA ЕЩЁ НЕ ПОДКЛЮЧЕНЫ.
+9Node route/doors/cancel/manual/offer/freeze checks PASS. World/recall/AI catalogue now wired WIP, actual native QA STILL REQUIRED. Widened current footprint carried by f2523a2; entry parameterized; actual native anchored floor remains W.y+.86 (geometry scaling is offset by anchored mesh.position). Preserve that exact level; test now raycasts original floor beside cut corridor. Scene reparenting needs root.updateWorldMatrix(true,true) after adding prebatched entry. Recent WIP uncommitted tests/foot/gangplank/producer/probe changes remain in worktree; checkpoint before native QA.
+Need cherry-pick buried-cone fix after correction settles, then update independent access scope baseline to corrected published main. No entry publication yet.
 ActualdoorwaycutsownWarehouseglass/cornices, сохраняетoldvertexprefixиостальныездания;
 neighboringglasssealed.8mlevelgallery, sequentialpressuredoors,sharedwatercore; floor
 неподнимается. Статика/створкиbatchModelSteps. НетSquish/interior/economyfeature.
