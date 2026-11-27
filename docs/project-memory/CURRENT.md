@@ -17,21 +17,41 @@ test/deploy/pages SUCCESS. Actual HTTP HTML/JS/CSS/assets повторно со�
 
 Пользователь явно уточнил: Warehouse **ещё ×3 по ширине и высоте**, глубина прежняя.
 WIP ветка `codex/warehouse-scale-three`, worktree `/workspace/chichi-warehouse-scale-three`.
-Checkpoint Warehouse **2e8ebff**; текущий **724601a70fbb305996f720f479d67d345d923565**, PR #18.
-Width3600/platform3960, heightScale7.5; глубина240/296 прежняя. Рост east/down:
-x3520/y-453/z450 удерживает старый открытый подход и крышу ниже-30м; география одной
-лагуны расширена, foundation физически углублён, minY restore учитывает новый floor.
-Actual reflection rebaked fb0c25fc4b94, исторические PNG сохранены. Другие здания/коты/
-сохранения/деньги защищены frozen registry main970. 29terrain/camera/save checks PASS.
+Checkpoint Warehouse2e8ebff; controlfix724601a; текущий source **985b436d92b42f721b8ad2c59b1acef09a899364**,
+PR#18, worktree `/workspace/chichi-warehouse-scale-three`. Width3600/platform3960,
+heightScale7.5, depth240/296 прежняя. x3520/y-453/z450 сохраняет открытый подход и
+крышу ниже-30м. Сначала shelf400 скрывал низ корпуса; реальный PNG это выявил.
+985b436: shelf1400 с fade shore/core/protected-building shoulder; CPU sight-line
+регрессия + actual native bed ray проходят. Final reflection53b97df97494, старые PNG
+сохранены. 23currentfloor/camera tests, прежние29terrain/save и26control/physics PASS.
 
-Новый отзыв пользователя: авто Чичи не прыгала в воду, слабо прогибалась сетка, takeover
-на пути к батуту уводил её обратно. Все3регрессии воспроизведены failing tests.
-Исправлено в724601a: авто4растущихпрыжка2.5/5.5/11/20→dive/splash/swim/climb;
-requestPlayer защёлкивается через approach/flight/water/oldreturn; глобальная кнопка
-перехватывает тот же actor. Springk500, press.42s, Gaussian320, pinnedrim58–68м;
-поддержка всех grounded phases следует общей сетке. 26control/physics/nativegeometry
-Node22checks PASS. Native desktop/phone actual clicks/QA пока идут; CI45999865046 идёт.
-Новые размеры и исправления **ещё не опубликованы**. Не повторять ratio-вопрос.
+Desktop724601a: auto4растущихпрыжка2.5/5.5/11/20→dive/splash/swim/climb PASS;
+реальная верхняя «Управлять Чичи» во время approach→manual PASS,7heldSpace hops
+2.5→43.3096m, nativepeak40.58m, compression/landing/dive/splash/swim screenshots.
+Mall/SPA native geometry/material/poses exact, DPR2/lights at same target exact.
+Warehouse product view был визуально отклонён из-за короткого slope, не публиковать724.
+Final985 desktop native сейчас идёт; PNG product показывает полный корпус, bedray0.
+QAroot `/workspace/qa/warehouse-threefold-native-desktop`, helper
+`/workspace/qa/check-warehouse-threefold.cjs`, env как в log scripts/session summary.
+One GPU at a time, не менять public/build пока QA идёт. Следом phone с реальными
+кнопками и двумя privateSQLite deep saves (helperwarehouse-threefold-deep-save.mjs).
+CI PR985 **46001305748** идёт; старый724CI отменён новым push. Ещё НЕ опубликовано.
+
+## Новый запрос: функциональный Warehouse — следующий выпуск сразу после текущего
+
+Пользователь27ноября: адекватный рабочий вход **без нового лифта**. Котики, выбравшие
+Warehouse через обычное AI-решение, садятся в маленькие субмарины и плывут ко входу.
+Для Чичи тот же транспорт; при нажатии Warehouse показать кнопку «Відправити Чічі
+до Warehouse». Добавить Warehouse в возможные посещения/активности котиков.
+Пользователю прямо сообщён порядок: сначала опубликовать текущий bugfix+scale,
+сразу затем транспорт/вход. Не останавливать задачу после первого выпуска.
+Новый запрос явно supersedes прежнее exterior-only/no-interactions ограничение
+для следующего выпуска; интерьер Squish/магазины/новая экономика не запрошены.
+Сохранять ТРЦ/SPA/ресторан/батут, модели котов, кошельки/владение и shared saves.
+Использовать существующие native submarine/seat/airlock/navigation, bounded queue,
+один simulation owner и существующий compact AI leisure batch без новых per-cat
+AI calls. Новые save enum опасны для старых клиентов — проверить совместимость,
+никаких live-player QA/paid inference. Точные архитектурные решения ещё не приняты.
 
 User исправил запрос FIRST→**THIRD PERSON**. Default батут thirdperson7.2m/.28rad;
 whole native кот/лапки/landing видны. V остаётся optional. Сохраненыspring-v3,
