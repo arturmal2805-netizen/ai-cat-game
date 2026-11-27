@@ -495,5 +495,15 @@
     "public/waterfront-world.js",
     "public/waterfront-trampoline.js",
     "public/world.js"
+  ],
+  "proportionRequest": {
+    "publishedRelease": "7656b9544c986ad29dc470f25d45693689f96dd1",
+    "reason": "User rejected the long narrow capsule and supplied a live screenshot; increase the transverse Z dimension, preserving current length and height.",
+    "depthMultiplier": 3,
+    "depth": 720,
+    "platformDepth": 888
+  },
+  "proportionAuthorizedFiles": [
+    "public/warehouse-camera.js"
   ]
 }
