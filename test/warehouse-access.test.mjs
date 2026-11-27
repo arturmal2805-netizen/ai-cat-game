@@ -49,3 +49,19 @@ test('cancellation in every physical phase returns safely; manual takeover stays
 test('all three shuttle slots retain full hull clearance in both shipping lanes',()=>{
  for(let slot=0;slot<3;slot++){const route=createWarehouseShuttleRoute(1024,slot);for(const reverse of [false,true])for(let d=0;d<route.length;d+=3){const p=route.sample(d,reverse,{},reverse?-12:12);for(const offset of [-3.1,0,3.1]){const q={x:p.x+Math.sin(p.yaw)*offset,y:p.y+Math.sin(p.pitch)*offset,z:p.z+Math.cos(p.yaw)*offset};assert(warehouseShuttleClear(q),JSON.stringify({slot,reverse,d,q}));}}}
 });
+
+test('actual docking berths keep the native submarine hull above water rather than inside a solid slab',async()=>{
+ const {warehouseExteriorSteps}=await import('../public/warehouse-exterior.js'),{warehouseFleetSteps}=await import('../public/warehouse-shuttle-models.js');const root=runSceneSteps(warehouseExteriorSteps()),fleet=runSceneSteps(warehouseFleetSteps({x:0,z:0}));root.updateWorldMatrix(true,true);fleet.updateWorldMatrix(true,true);
+ const solids=[];root.userData.entry.traverse(o=>{if(o.isMesh&&!o.material.transparent&&o.material.type!=='ShaderMaterial')solids.push(o);});
+ for(let slot=0;slot<3;slot++){const x=A.dock.x+(slot-1)*14,z=A.dock.z;
+  assert.equal(new T.Raycaster(new T.Vector3(x,A.floor+.3,z),new T.Vector3(0,-1,0),0,3.5).intersectObjects(solids,true).length,0,'water berth is genuinely cut through the floor');
+  const ramp=fleet.userData.dockRamps[slot];ramp.visible=true;ramp.updateWorldMatrix(true,true);for(const t of [.1,.3,.5,.7,.9]){const px=x+(A.outside.x-x)*t,pz=z-.25+(A.outside.z-(z-.25))*t,hit=new T.Raycaster(new T.Vector3(px,A.floor+1,pz),new T.Vector3(0,-1,0),0,2).intersectObject(ramp,true)[0];assert(hit,'real gangplank supports each boarding step');assert(Math.abs(hit.point.y-A.floor)<.001);}
+ }
+ fleet.userData.dispose();root.userData.dispose();
+});
+
+test('a late control request during the return voyage transfers once at the dry shore without reversing the boat',async()=>{
+ const {createWarehouseVisits}=await import('../public/warehouse-visit-runtime.js');const actor={id:'chichi',position:new T.Vector3(A.shore.x,A.shore.y,A.shore.z)},handoffs=[];const r=createWarehouseVisits({origin:{x:0,z:0},getActors:()=>[actor],onPark:(id,p)=>actor.position.copy(p),onManualReady:id=>{handoffs.push({id,p:actor.position.toArray()});return true;}});r.start('chichi');let requested=false;
+ for(let i=0;i<20000&&r.has('chichi');i++){if(r.get('chichi').phase==='inbound'&&!requested){r.requestManual();requested=true;}r.update(.1,i*.1);if(r.frame('chichi'))actor.position.copy(r.frame('chichi').position);}
+ assert(requested);assert.equal(handoffs.length,1);assert.deepEqual(handoffs[0].p,[A.shore.x,A.shore.y,A.shore.z]);assert(!r.has('chichi'));
+});

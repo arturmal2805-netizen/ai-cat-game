@@ -14,11 +14,11 @@ export function createWarehouseWorld({scene,container,getGame,getActors,getFocus
  const call=button('🐈 Відправити Чічі до Warehouse',()=>void invite('chichi'),'warehouseCall');
  const control=button('🎮 Керувати Чічі після прибуття',()=>requestManual(),'warehouseControl');
  const back=button('↩ Повернути Чічі на берег',()=>{onReleaseManual();runtime.releaseManual();runtime.cancel('chichi');},'warehouseReturn');
- const status=document.createElement('small');status.setAttribute('role','status');panel.append(status);
+ const status=document.createElement('small');status.setAttribute('role','status');status.style.color='#e8d8ad';status.style.display='block';status.style.lineHeight='1.4';panel.append(status);
  button('Закрити',()=>exit());container.append(panel);
  const seat=new T.Vector3();
  const runtime=createWarehouseVisits({origin,getActors,canSimulate,onPark,onComplete,onManualReady,
-  onBoatPose:(pose,time)=>{const m=fleet?.userData.boats[pose.slot];if(!m)return;m.position.set(pose.x,pose.y,pose.z);m.rotation.set(-(pose.pitch||0),pose.yaw||0,0,'YXZ');m.userData.update(time,pose.speed,pose.open);const ramp=fleet.userData.ramps[pose.slot];if(ramp)ramp.visible=Math.hypot(pose.x-(A.departure.x+pose.slot*14),pose.z-A.departure.z)<1&&pose.open>.1;m.updateWorldMatrix(true,false);},
+  onBoatPose:(pose,time)=>{const m=fleet?.userData.boats[pose.slot];if(!m)return;m.position.set(pose.x,pose.y,pose.z);m.rotation.set(-(pose.pitch||0),pose.yaw||0,0,'YXZ');m.userData.update(time,pose.speed,pose.open);const ramp=fleet.userData.ramps[pose.slot];if(ramp)ramp.visible=Math.hypot(pose.x-(A.departure.x+pose.slot*14),pose.z-A.departure.z)<1&&pose.open>.1;const dockRamp=fleet.userData.dockRamps[pose.slot];if(dockRamp)dockRamp.visible=Math.hypot(pose.x-(A.dock.x+(pose.slot-1)*14),pose.z-A.dock.z)<1&&['leaving-boat','return-boarding'].includes(runtime.get(pose.id)?.phase);m.updateWorldMatrix(true,false);},
   getSeat:pose=>{const m=fleet?.userData.boats[pose.slot];if(!m)return{x:pose.x,y:pose.y-.55,z:pose.z+.25};seat.copy(m.userData.seat);m.localToWorld(seat);return{x:seat.x-origin.x,y:seat.y,z:seat.z-origin.z};},
   onDoorPose:(outer,inner,water,time)=>getModel()?.userData.entry?.userData.update(outer,inner,water,time),
  });
@@ -26,7 +26,7 @@ export function createWarehouseWorld({scene,container,getGame,getActors,getFocus
   pending=(async()=>{let model;try{model=await prepare(warehouseFleetSteps(origin),abort.signal);await prepareModel(model);if(disposed){model.userData.dispose();return false;}fleet=model;fleet.userData.biomeId='autumn';scene.add(fleet);return true;}catch(e){model?.userData.dispose();if(!disposed)onError('Warehouse: '+e.message);return false;}finally{pending=null;}})();return pending;
  }
  async function invite(id){if(!canSimulate()||!canInvite(id)){onError('Дочекайся безпечного завершення поточного переходу.');return false;}if(!await ensure()||disposed||!canSimulate()||!canInvite(id))return false;if(runtime.has(id))return true;if(!reserve(id))return false;const ok=runtime.start(id);if(ok)onError('Чічі прямує до причалу. Субмарина доставить її до входу Warehouse.');return ok;}
- function requestManual(){if(runtime.has('chichi')){runtime.requestManual();onError('Керування увімкнеться після безпечного прибуття до Warehouse.');return true;}return invite('chichi').then(ok=>ok&&runtime.requestManual());}
+ function requestManual(){if(runtime.has('chichi')){const returning=['lobby-return','airlock-out','return-boarding','inbound','disembark'].includes(runtime.get('chichi')?.phase);runtime.requestManual();onError(returning?'Керування увімкнеться на березі після завершення зворотного рейсу.':'Керування увімкнеться після безпечного прибуття до Warehouse.');return true;}return invite('chichi').then(ok=>ok&&runtime.requestManual());}
  function exit(){opened=false;panel.hidden=true;if(!runtime.manual)runtime.releaseManual();}
  const local=p=>({x:p.x-origin.x,y:p.y,z:p.z-origin.z});
  function support(p,radius=.6){if(!getModel()||Math.abs(p.y-A.foot)>.65)return null;const q=local(p),sx=W.width/240,sz=W.depth/120,dx=Math.max(0,Math.abs(q.x-W.x)-60*sx),dz=Math.abs(q.z-W.z),rx=59.4*sx-radius,rz=59.4*sz-radius,inside=(dx/rx)**2+(dz/rz)**2<1;

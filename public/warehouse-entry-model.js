@@ -1,3 +1,4 @@
+import {warehouseApertureSteps} from './warehouse-aperture.js';
 import * as T from 'three';
 import {batchModelSteps} from './model-batching.js';
 import {WAREHOUSE as W} from './mosasaur-expansion-data.js';
@@ -16,7 +17,9 @@ export function* warehouseEntrySteps(){
  box('Glazed gallery roof',0,7.2,mid,8.1,.12,length,glass);
  // The three small shuttles dock against one sealed horizontal boarding lobby.
  const dockFront=A.dock.z-A.chamber.z+4,dockMid=(front+dockFront)/2,dockLength=dockFront-front;
- box('Dock lobby level foundation',0,-1.4,dockMid,40,3,dockLength,stone);box('Dock lobby glass roof',0,7.2,dockMid,40,.12,dockLength,glass);
+ const dockFloor=box('Dock lobby foundation with open water berths',0,-1.4,dockMid,40,3,dockLength,stone);
+ for(const x of [-14,0,14]){const hole=new T.Box3(new T.Vector3(x-3,-4,dockFront-8.1),new T.Vector3(x+3,1,dockFront+.2));yield* warehouseApertureSteps(dockFloor,hole);for(const side of [-1,1])box('Gold wet berth side edging',x+side*3,.12,dockFront-4,.08,.08,8,gold);box('Gold wet berth inner edging',x,.12,dockFront-8.1,6,.08,.08,gold);}
+ box('Dock lobby glass roof',0,7.2,dockMid,40,.12,dockLength,glass);
  for(const side of [-1,1]){box('Dock lobby side glazing',side*20,3.6,dockMid,.12,7.2,dockLength,glass);box('Dock lobby warm sill',side*19.8,.22,dockMid,.08,.08,dockLength,light);}
  for(const x of [-14,0,14]){box('Submarine docking collar',x,.22,dockFront,5,.12,.2,gold);for(const side of [-1,1])box('Dock collar brass jamb',x+side*2.5,3.6,dockFront,.14,7.2,.2,gold);}
 
