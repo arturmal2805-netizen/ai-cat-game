@@ -1,0 +1,19 @@
+{
+  "rows": [
+    {
+      "name": "warehouse-phone-portal",
+      "eye": [
+        3070,
+        -90,
+        1950
+      ],
+      "fov": 110,
+      "dpr": 2,
+      "lost": false,
+      "badPrograms": 0
+    }
+  ],
+  "errors": [],
+  "httpErrors": [],
+  "renderer": "SwiftShader; no physical device FPS claim"
+}

@@ -1,0 +1,23 @@
+{
+  "source": "7c00f111139252e79a34e2bb9093d2af8abfd044",
+  "index.html": {
+    "bytes": 31956,
+    "sha256": "d9a050a5c64219c8f6720859e205a6595993e3334980551a08dfe9639619c1b1"
+  },
+  "dist/app.js": {
+    "bytes": 2884578,
+    "sha256": "0c17cedc992cca6e081034ed3d90cdfc9b4974f86b97125c3269e6ee4ec428e0"
+  },
+  "style.css": {
+    "bytes": 70099,
+    "sha256": "6009872ae8865f57fb8d358ee2e71be2eac6ad5bdac240cba496a6664983b2d3"
+  },
+  "models/reefs/organic-reef-1b90309ff46a4537.bin.gz": {
+    "bytes": 7866400,
+    "sha256": "70d7512296dbb20dbb2f6468b558db374dfdbc0232810118b54a1c81c5cec395"
+  },
+  "art/ocean-reflections/tropical-coast-699cd3d6abc5.png": {
+    "bytes": 37484,
+    "sha256": "699cd3d6abc59ac936a80948fe82922fbf6ffbf614c763947b92143e910232fc"
+  }
+}
