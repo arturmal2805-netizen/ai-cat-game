@@ -1,0 +1,11 @@
+# Engine audit and implementation order
+
+Base published541293e. Three0.186.1 WebGLRenderer, esbuild0.28.2, meshoptimizer1.3.0, no installed Rapier/Cannon/Ammo/soft-body engine. Existing custom cached ballistic/submarine route/contact systems and original cat leg/knee/ankle rig. No engine upgrade or dependency needed. New local XPBD solver works in metres, fixed60Hz with bounded substeps; constraints and outputs independent of renderer. Existing static batching is preserved; only selected active deformation cage reaches GPU. New renderer imports remain behind warehouse-world / biome boundary, never shared server math.
+
+Exterior shell original authoring240x120 is already baked to3600x720 and height7.5; preserve exact buffers/transforms. Interior must fit actual stadium volume, maintain dryfloor-450.32 and entry corridor. Nativecatgeometry remains original. Paw markers and reversible scoped analytic leg correction can use existing ankle/knee/shoulder nodes after nativeanimate. No persistent anatomy change.
+
+Existing fleet has3 native submarines, one owner per visitor, safe queued manual takeover, native original actors, transient visits and legacy safe shore save positions. Reuse rather than duplicate. Extend existing two leisure offers locally; no new inference requests. No new purchases or player-customized toy ownership was requested, so no global save schema change: temporary wave/dent/fragments recreate on reload (V16section48).
+
+Implementation gates: first ONE correct XPBD squish contact/hold/release/collision/recovery rendered in actual engine with fixed camera; then material variants and real-state frames, then paw/choreography, advanced damage/strands/giant/multicontact,10 sectors, LOD/audio/AI, actual full integration and final tests. V17 every meaningful stage gets current screenshots, explicit findings/correction/retest, fixedseed/steps/cameras. Conceptart comparison is semantic, previous accepted native screenshots are regression baselines. No universal similarity percentage.
+
+ReferencesA andB are original inline images viewed in user conversation; original bytes are not mounted in filesystem. Manifest records exact provenance and missing-image-file status, not fabricated originals. Final HTML board must distinguish this from available real captures.
