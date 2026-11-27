@@ -1,0 +1,92 @@
+{
+  "capturedSource": "8efa5f974fd02735135fe80c5493cb312d70d19d",
+  "capturedModules": 474,
+  "allModuleBytesMatchSource": true,
+  "archivedAt": "2026-11-27T18:10:49.536118+00:00",
+  "node": "v22.23.5",
+  "qaBundleSha256": "1286eebc170970c3db75147625aeb03bae15446efe0cc8d63eddd923fc1cf345",
+  "role": "pre-dock-desktop",
+  "viewport": [
+    390,
+    844
+  ],
+  "dpr": 2,
+  "renderer": "Headless Chromium SwiftShader",
+  "fixture": "Private world; no player token, live save or paid inference.",
+  "clock": "Fixed noon/time7 for architecture; explicit simulated monotonic steps for transport/physics, raster paused during preparation.",
+  "limitations": "Native correctness/geometry/input images do not establish artistic approval, physical device FPS or AAA equivalence.",
+  "files": {
+    "warehouse-access-native.json": {
+      "bytes": 15507,
+      "sha256": "d89e6d665566cece88c959dc12a77becbe31dbb9b5a341445ff4440fd9e1f037"
+    },
+    "working-entrance-and-dock.png": {
+      "bytes": 676398,
+      "sha256": "46dea4829ee37b1c1b8d60c341138c9c192f5576eaf73fff2f0a465b0eff0e6f"
+    },
+    "warehouse-native-third-person-walking.png": {
+      "bytes": 426242,
+      "sha256": "32683b19470807f7a34f1e0f9390405836cd27f759ab9820ef2822f44948b1c1"
+    },
+    "chichi-visit.png": {
+      "bytes": 931239,
+      "sha256": "35d04fdcf4ab4ba2927a343fc1f97f5b1349c1c8eb60f65ec835f081074f0f6d"
+    },
+    "chichi-leaving-boat.png": {
+      "bytes": 2239145,
+      "sha256": "caac351041381be4cc5843c2f1ca0633797c59543843389734faf17771c92698"
+    },
+    "qa-build.json": {
+      "bytes": 233,
+      "sha256": "23e49f446fd3aad79da373485c68c565413d3538450ddad096dcb43c7d747b0a"
+    },
+    "warehouse-wide-product.png": {
+      "bytes": 1177139,
+      "sha256": "ccf185a0d80cf55168eec7cb5d861b86ed9734e1d07e0355adc124dcdbf1ab95"
+    },
+    "source-proof.tar.gz": {
+      "bytes": 2348485,
+      "sha256": "e41eeab86295a9230f725ff60c339c9ca40f8d6a31a6472a5b7a9a1a99859daa"
+    },
+    "chichi-outbound.png": {
+      "bytes": 2225511,
+      "sha256": "0c6d22209bebe1b9a9402f36cad73087e3735b5c2dc04a9347ab77edf2729299"
+    },
+    "chichi-airlock-in.png": {
+      "bytes": 1528038,
+      "sha256": "b3e2287c2f3e45f6b7dba26b939dd9919b4b0ab9e4c96f8eaff307a9c9471332"
+    },
+    "run.log": {
+      "bytes": 267,
+      "sha256": "8238175afe5c9f848a70c88ce461e2d9d2b089b3c3eac8e4820678d5c4d2ace3"
+    },
+    "source-files.json": {
+      "bytes": 44079,
+      "sha256": "342a8f6c5f1c6623b46184b0c1c044458d5e198efdf9556929f2c7c8d866450f"
+    },
+    "protected-buildings.json.gz": {
+      "bytes": 1142795,
+      "sha256": "8c30fabbedecf2db58f4a32e4af66b4209c43226eb905223c0833b0cf39cd6d5"
+    },
+    "chichi-boarding.png": {
+      "bytes": 1184320,
+      "sha256": "b98eb811c30e1380d75ff0534e90d4c01060436ccea270910047c7d92e82634a"
+    },
+    "harness/warehouse-access-protected.mjs": {
+      "bytes": 4515,
+      "sha256": "6579f1057bb2cbba898da5cc7e3195a1f7558a3014a6e9247124f0bcf1d8c647"
+    },
+    "harness/check-warehouse-access.cjs": {
+      "bytes": 124472,
+      "sha256": "d6211d6cc634e2040630ad4acafd87800f38126d8cd088a455e7fb80f3a11ce9"
+    },
+    "harness/warehouse-access-hardlinks.cjs": {
+      "bytes": 614,
+      "sha256": "7e2f0b272cefbfc4dfdf4cac2c89220d7fd63fc2bb17c9d13d9f4ea024179dd5"
+    },
+    "harness/warehouse-access-native.mjs": {
+      "bytes": 6824,
+      "sha256": "397219675bc1e7b2ca5503ffe98b35f49f848f973fb7048f155b20b220359068"
+    }
+  }
+}
