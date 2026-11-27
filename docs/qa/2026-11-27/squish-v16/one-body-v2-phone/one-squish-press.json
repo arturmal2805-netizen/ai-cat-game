@@ -1,0 +1,46 @@
+{
+  "solver": {
+    "particles": 343,
+    "constraints": 3150,
+    "contacts": 1,
+    "steps": 70,
+    "time": 1.1666666666666674,
+    "volumeRatio": 0.9973290060659508,
+    "minTetRatio": 0.7354837521267746,
+    "maxDeformation": 0.31611192191786414,
+    "maxStrain": 0.18840757589537932,
+    "damage": 0,
+    "faults": 0,
+    "lastPhysicsMs": 1,
+    "droppedTime": 0
+  },
+  "camera": {
+    "position": [
+      3067,
+      -444.448,
+      1250
+    ],
+    "target": [
+      3060,
+      -447.948,
+      1240
+    ],
+    "fov": 48,
+    "aspect": 0.5300546448087432,
+    "near": 0.08,
+    "far": 20000
+  },
+  "renderer": {
+    "dpr": 2,
+    "shadow": 1,
+    "toneMapping": 4,
+    "info": {
+      "frame": 3,
+      "calls": 49,
+      "triangles": 649774,
+      "points": 0,
+      "lines": 0
+    }
+  },
+  "time": 1.1666666666666674
+}
