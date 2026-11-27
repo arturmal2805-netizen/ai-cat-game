@@ -14,3 +14,13 @@ test('Warehouse button camera fits the real shell in portrait/landscape and rema
   for(let i=0;i<8;i++){const p=new T.Vector3(i&1?bounds.max.x:bounds.min.x,i&2?bounds.max.y:bounds.min.y,i&4?bounds.max.z:bounds.min.z).project(c);assert(Math.abs(p.x)<.9&&Math.abs(p.y)<.9&&p.z<1,JSON.stringify({aspect,p}));}
  }
 });
+
+// Fitting a bounding box alone did not expose the buried lower silhouette.
+test('the full lower Warehouse silhouette has a clear underwater sight line above the actual physical bed',()=>{
+ const model=runSceneSteps(warehouseExteriorSteps()),bounds=new T.Box3().setFromObject(model,true);
+ for(const aspect of [320/740,390/844,1100/800,16/9]){
+  const v=warehouseCameraView(bounds,40,aspect),eye=v.target.clone().add(new T.Vector3(Math.sin(v.azimuth)*Math.cos(v.elevation),Math.sin(v.elevation),Math.cos(v.azimuth)*Math.cos(v.elevation)).multiplyScalar(v.distance));
+  const nearBase=new T.Vector3(1540,-452.59,450);
+  for(let i=0;i<=200;i++){const p=eye.clone().lerp(nearBase,i/200);assert(p.y>expansionBedY(p.x,p.z)+.1,'the floor must not mask the lower shell: '+JSON.stringify({aspect,p}));}
+ }
+});
