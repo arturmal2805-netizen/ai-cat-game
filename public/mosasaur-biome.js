@@ -1,3 +1,4 @@
+import {WAREHOUSE} from './mosasaur-expansion-data.js';
 import {warehouseHabitatSteps} from './warehouse-habitat.js';
 import {expansionShorePath,expansionOuterPoint,expansionCoastDecorPoint,expandMosaSeaSteps,expansionWarehouseSteps} from './mosasaur-expansion.js';
 import {mosaPierPoles,mosaPierRails} from './resort-pier-link-data.js';
@@ -199,7 +200,7 @@ export function* mosasaurBiomeSteps(
   bottom.rotation.z = Math.PI;
   // The expanded bed dips below the old -200m cone cap. Bury this purely
   // decorative underside so it cannot show as a grey patch through the sand.
-  bottom.position.y -= 12;
+  bottom.position.y = Math.min(bottom.position.y-12, WAREHOUSE.y-32);
   bottom.name = 'Buried decorative island underside';
   yield;
   // The same water/fish engine, with a physically much deeper basin. Nothing
