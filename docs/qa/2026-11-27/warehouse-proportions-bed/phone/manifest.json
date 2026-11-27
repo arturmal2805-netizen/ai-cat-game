@@ -1,0 +1,92 @@
+{
+  "capturedSource": "56afaec7396cb2e6401aa875c97f8fa1d7ff67b5",
+  "capturedModules": 466,
+  "allModuleBytesMatchSource": true,
+  "archivedAt": "2026-11-27T17:55:34.354548+00:00",
+  "node": "v22.23.5",
+  "qaBundleSha256": "7c187883ad70b40f9072d9f3bb1d6e7611189b93018733de37d037cbc1c7a4bf",
+  "role": "phone",
+  "viewport": [
+    390,
+    844
+  ],
+  "dpr": 2,
+  "renderer": "Headless Chromium SwiftShader",
+  "fixture": "Private world; no player token, live save or paid inference.",
+  "clock": "Fixed noon/time7 for architecture; explicit simulated monotonic steps for transport/physics, raster paused during preparation.",
+  "limitations": "Native correctness/geometry/input images do not establish artistic approval, physical device FPS or AAA equivalence.",
+  "files": {
+    "warehouse-product-camera.png": {
+      "bytes": 418073,
+      "sha256": "babc99e8347fb32c1776ff7a99e55e5b608cdebfbf5ff3b4c6d5ad70718e7922"
+    },
+    "warehouse-product.json": {
+      "bytes": 1579,
+      "sha256": "99a4f640fb2e9f33519005e4fa13cc3fa2e5538c037d4f0c63d0dc4e31da8c0b"
+    },
+    "qa-build.json": {
+      "bytes": 233,
+      "sha256": "13a214a1fb74e27b032ca9a4f61f431458f7f7ee672894c3e0d5afa827797090"
+    },
+    "proportions-native.json": {
+      "bytes": 2120,
+      "sha256": "c6f510f9e92069a1fc6f05330c70da00992c58f8bb6abf2acf7a7f6b8df84ca1"
+    },
+    "source-proof.tar.gz": {
+      "bytes": 2328297,
+      "sha256": "0adbb2269cb3e24469eff7d1bf959956f594e0d658fff2b5bf0259cd896fa827"
+    },
+    "warehouse-native-views.json": {
+      "bytes": 308,
+      "sha256": "2e0056be6e105f6ef39683f6ee46e468aa9c17aeaee7415e1296e8ef154d64d5"
+    },
+    "run.log": {
+      "bytes": 354,
+      "sha256": "6bbc62aa06405afedc55884bee7ee8197f8d077797bb9f5af7bafb26e96f28ae"
+    },
+    "common-lagoon-overview.png": {
+      "bytes": 335139,
+      "sha256": "ad3cf85eed26d15b37156f775d62ec4b839eb342ead962891a804a53067ee74a"
+    },
+    "deep-private-save.json": {
+      "bytes": 23197,
+      "sha256": "cbc3cca7f9c56a36401d5ac72f32698cfdd0cab9e364545b1db37001bca32736"
+    },
+    "protected-comparison.json": {
+      "bytes": 163,
+      "sha256": "d9786bfb7f32113742d5335f151b7829c1830c61613149c4e664f78816883c7a"
+    },
+    "warehouse-phone-portal.png": {
+      "bytes": 691246,
+      "sha256": "8813fd81b8d0e876f00da2153a9ca9cac9faa5cb66f17a940d49640c08488707"
+    },
+    "source-files.json": {
+      "bytes": 43301,
+      "sha256": "33397421c0dd7b063fff65fa28ccbcb9a3b00d00a6f213bd4424613303b65e23"
+    },
+    "protected-buildings.json.gz": {
+      "bytes": 1138207,
+      "sha256": "29fb608aa1e25c0d1e935ec778fca88c755962b9342d91c9d5bbbc2554ed3627"
+    },
+    "harness/check-warehouse-proportions-bed.cjs": {
+      "bytes": 124372,
+      "sha256": "6fd869c70f4c9a5e3e90e9661db5af3a768aeedef3043664d28b57c8d84c8157"
+    },
+    "harness/warehouse-proportions-bed-hardlinks.cjs": {
+      "bytes": 613,
+      "sha256": "c90dd1e0c29eedc4ea184caaf953811672f573edabd8f0ce04453bf770f5efe2"
+    },
+    "harness/warehouse-proportions-bed-native.mjs": {
+      "bytes": 6034,
+      "sha256": "c90762319bb28b5c5141aa3800eb7c00601341ffef7205ecca9eab73393ec000"
+    },
+    "harness/warehouse-proportions-bed-protected.mjs": {
+      "bytes": 4515,
+      "sha256": "6579f1057bb2cbba898da5cc7e3195a1f7558a3014a6e9247124f0bcf1d8c647"
+    },
+    "harness/warehouse-proportions-bed-deep-save.mjs": {
+      "bytes": 3393,
+      "sha256": "16353c350c90bf39c8e6a0be40c471a2359c2e07eb06f49f339fadd545c0c84d"
+    }
+  }
+}

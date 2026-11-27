@@ -1,0 +1,31 @@
+{
+  "rows": [
+    {
+      "name": "warehouse-overhead",
+      "eye": [
+        3070,
+        3500,
+        950
+      ],
+      "fov": 65,
+      "dpr": 2,
+      "lost": false,
+      "badPrograms": 0
+    },
+    {
+      "name": "old-core-preserved",
+      "eye": [
+        0,
+        740,
+        1550
+      ],
+      "fov": 40,
+      "dpr": 2,
+      "lost": false,
+      "badPrograms": 0
+    }
+  ],
+  "errors": [],
+  "httpErrors": [],
+  "renderer": "SwiftShader; no physical device FPS claim"
+}
