@@ -1,0 +1,105 @@
+{
+  "verifiedAt": "2026-11-27T13:18:45.429299+00:00",
+  "release": "7656b9544c986ad29dc470f25d45693689f96dd1",
+  "candidate": "985b436d92b42f721b8ad2c59b1acef09a899364",
+  "workflow": "https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/46002981562",
+  "applicationScripts": [
+    "./dist/app.js?v=5020781e6cb7028a"
+  ],
+  "stylesheets": [
+    "./style.css?v=6009872ae8865f57"
+  ],
+  "resources": [
+    {
+      "path": "",
+      "bytes": 31956,
+      "sha256": "10df8c9128c04036e37fd175248c9485b503e5ac7d1e9b60bd4a1a1a133ea971",
+      "headers": {
+        "ETag": "\"6b09832b-7cd4\"",
+        "Last-Modified": "Fri, 27 Nov 2026 13:18:35 GMT",
+        "Content-Type": "text/html; charset=utf-8",
+        "Cache-Control": "max-age=600"
+      }
+    },
+    {
+      "path": "dist/app.js?v=5020781e6cb7028a",
+      "bytes": 2884704,
+      "sha256": "5020781e6cb7028afa491d8322352910e9ed7afec39e6202f03e7be96e6b299e",
+      "headers": {
+        "ETag": "\"6b09832b-2c0460\"",
+        "Last-Modified": "Fri, 27 Nov 2026 13:18:35 GMT",
+        "Content-Type": "application/javascript; charset=utf-8",
+        "Cache-Control": "max-age=600"
+      }
+    },
+    {
+      "path": "style.css?v=6009872ae8865f57",
+      "bytes": 70099,
+      "sha256": "6009872ae8865f57fb8d358ee2e71be2eac6ad5bdac240cba496a6664983b2d3",
+      "headers": {
+        "ETag": "\"6b09832b-111d3\"",
+        "Last-Modified": "Fri, 27 Nov 2026 13:18:35 GMT",
+        "Content-Type": "text/css; charset=utf-8",
+        "Cache-Control": "max-age=600"
+      }
+    },
+    {
+      "path": "art/ocean-reflections/tropical-coast-53b97df97494.png",
+      "bytes": 36836,
+      "sha256": "53b97df9749447e94c2e0e0ccfad7f614aa5616aa1d87548def3c27d07f7c7ed",
+      "headers": {
+        "ETag": "\"6b09832b-8fe4\"",
+        "Last-Modified": "Fri, 27 Nov 2026 13:18:35 GMT",
+        "Content-Type": "image/png",
+        "Cache-Control": "max-age=600"
+      }
+    },
+    {
+      "path": "models/reefs/organic-reef-1b90309ff46a4537.bin.gz",
+      "bytes": 7866400,
+      "sha256": "70d7512296dbb20dbb2f6468b558db374dfdbc0232810118b54a1c81c5cec395",
+      "headers": {
+        "ETag": "\"6b09832b-780820\"",
+        "Last-Modified": "Fri, 27 Nov 2026 13:18:35 GMT",
+        "Content-Type": "application/gzip",
+        "Cache-Control": "max-age=600"
+      }
+    },
+    {
+      "path": "art/spa-reflections/spa-interiors-ffabc732b641.png",
+      "bytes": 190875,
+      "sha256": "ffabc732b641d70c2894ca97ebff1ab83ba4fecbf6da71e5d0251efd19648d6f",
+      "headers": {
+        "ETag": "\"6b09832b-2e99b\"",
+        "Last-Modified": "Fri, 27 Nov 2026 13:18:35 GMT",
+        "Content-Type": "image/png",
+        "Cache-Control": "max-age=600"
+      }
+    },
+    {
+      "path": "art/ocean-water/wind-field-2523d71db8b6.png",
+      "bytes": 1974687,
+      "sha256": "2523d71db8b62ce0212f4eb8bce5310456a901d69f209865c41f5f3dc2b692a8",
+      "headers": {
+        "ETag": "\"6b09832b-1e219f\"",
+        "Last-Modified": "Fri, 27 Nov 2026 13:18:35 GMT",
+        "Content-Type": "image/png",
+        "Cache-Control": "max-age=600"
+      }
+    },
+    {
+      "path": "config.js",
+      "bytes": 76,
+      "sha256": "fe697fea359a95d5fba735bd1ab6bb3c2d650db114bba37cbb50dba3514e7a55",
+      "headers": {
+        "ETag": "\"6b09832b-4c\"",
+        "Last-Modified": "Fri, 27 Nov 2026 13:18:35 GMT",
+        "Content-Type": "application/javascript; charset=utf-8",
+        "Cache-Control": "max-age=600"
+      }
+    }
+  ],
+  "workerRelease": "7656b9544c986ad29dc470f25d45693689f96dd1",
+  "paidInferenceCalled": false,
+  "limitations": "Actual HTTP bytes, completed release/save workflow and native geometry checks do not establish artistic approval or physical Mac/iPhone FPS."
+}
