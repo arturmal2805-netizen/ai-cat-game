@@ -1,0 +1,16 @@
+TAP version 13
+# Subtest: actual workerd starts with Warehouse catalogue but no renderer encoder initialization
+ok 1 - actual workerd starts with Warehouse catalogue but no renderer encoder initialization
+  ---
+  duration_ms: 461.650368
+  type: 'test'
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 1
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1501.587126
