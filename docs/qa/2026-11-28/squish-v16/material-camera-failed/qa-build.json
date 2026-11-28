@@ -1,0 +1,8 @@
+{
+  "sha256": "b5c653fce3ad054373c3b91baa54c3972eb4ab54f6c41b89447a981cb305c746",
+  "baseline": null,
+  "node": "v22.23.5",
+  "head": "5a3bcc2fee5937a6f09f8a078abf80172ab22aa9",
+  "dirty": "?? scripts/__pycache__/\n",
+  "sourceOverlay": "source-HEAD.patch"
+}

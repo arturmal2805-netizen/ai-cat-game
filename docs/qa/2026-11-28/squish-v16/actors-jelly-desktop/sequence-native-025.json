@@ -1,0 +1,52 @@
+{
+  "solver": {
+    "sleeping": false,
+    "particles": 343,
+    "constraints": 3150,
+    "contacts": 0,
+    "steps": 552,
+    "time": 9.200000000000037,
+    "volumeRatio": 0.999977364320893,
+    "minTetRatio": 0.9997168083060819,
+    "maxDeformation": 0.005956657412458305,
+    "maxStrain": 0.0020595349216447696,
+    "damage": 0,
+    "faults": 0,
+    "limitedSteps": 0,
+    "lastPhysicsMs": 1,
+    "droppedTime": 0
+  },
+  "camera": {
+    "position": [
+      3097,
+      -443.948,
+      1214
+    ],
+    "target": [
+      3090,
+      -446.948,
+      1204
+    ],
+    "fov": 48,
+    "aspect": 1.561764705882353,
+    "near": 0.08,
+    "far": 20000
+  },
+  "renderer": {
+    "dpr": 2,
+    "shadow": 1,
+    "toneMapping": 4,
+    "info": {
+      "frame": 32,
+      "calls": 221,
+      "triangles": 4419011,
+      "points": 320,
+      "lines": 0
+    }
+  },
+  "time": 9.200000000000037,
+  "sceneTime": 7,
+  "reviewHour": 12,
+  "seed": 4419,
+  "nativePaws": []
+}

@@ -1,0 +1,27 @@
+{
+  "stage": "interior-desktop-v1",
+  "referenceImage": null,
+  "ratings": {
+    "Visual Style": 45,
+    "Reference Fidelity": 46,
+    "Geometry": 62,
+    "Materials": 60,
+    "Lighting": 34,
+    "Physics Behavior": null,
+    "Performance": null
+  },
+  "findings": [
+    {
+      "id": "SQ-11",
+      "severity": "MAJOR",
+      "status": "OPEN",
+      "actual": "All 11 real UI camera paths + GL/HTTP checks PASS. Actual reference review REJECTS cold sparse prototype/poor metal/fog and clipped signs. No full art approval."
+    },
+    {
+      "id": "SQ-12",
+      "severity": "MAJOR",
+      "status": "OPEN",
+      "actual": "Final visual density/lighting, four resource LODs, actor choreography/manual support and final 3\u20135s sequences still required. Original reference bytes unmounted, no fabricated substitute."
+    }
+  ]
+}

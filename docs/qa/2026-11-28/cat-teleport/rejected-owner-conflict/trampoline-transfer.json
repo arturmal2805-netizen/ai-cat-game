@@ -1,0 +1,14 @@
+{
+  "id": "luna",
+  "position": [
+    -452.3855661223712,
+    -156.32,
+    531.813528517193
+  ],
+  "visit": {
+    "phase": "prepare",
+    "kind": "bounce"
+  },
+  "active": false,
+  "ops": []
+}

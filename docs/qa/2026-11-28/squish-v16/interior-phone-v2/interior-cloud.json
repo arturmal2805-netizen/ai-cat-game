@@ -1,0 +1,519 @@
+{
+  "camera": {
+    "position": [
+      3051.507223246955,
+      -435.1943917525771,
+      1237.8453639757274
+    ],
+    "target": [
+      3030.0000067521096,
+      -445.94799999999975,
+      1202.000003150985
+    ],
+    "fov": 52.00890022524784,
+    "aspect": 0.5300546448087432,
+    "near": 0.08,
+    "far": 3500
+  },
+  "renderer": {
+    "dpr": 2,
+    "shadow": 1,
+    "toneMapping": 4,
+    "info": {
+      "frame": 5,
+      "calls": 84,
+      "triangles": 3584514,
+      "points": 0,
+      "lines": 0
+    }
+  },
+  "sceneTime": 7,
+  "reviewHour": 12,
+  "seed": 4419,
+  "sectorCount": 10,
+  "collectables": 2220,
+  "environments": [
+    {
+      "colour": 16777215,
+      "metalness": 0,
+      "emissive": 0,
+      "intensity": 1.8,
+      "inputMap": true,
+      "preparedMap": true,
+      "preparedMapping": 306,
+      "textureType": 1016
+    },
+    {
+      "colour": 5711683,
+      "metalness": 0,
+      "emissive": 0,
+      "intensity": 1.8,
+      "inputMap": true,
+      "preparedMap": true,
+      "preparedMapping": 306,
+      "textureType": 1016
+    },
+    {
+      "colour": 16768729,
+      "metalness": 0.13,
+      "emissive": 0,
+      "intensity": 1.8,
+      "inputMap": true,
+      "preparedMap": true,
+      "preparedMapping": 306,
+      "textureType": 1016
+    },
+    {
+      "colour": 16109185,
+      "metalness": 0.62,
+      "emissive": 9198629,
+      "intensity": 1.8,
+      "inputMap": true,
+      "preparedMap": true,
+      "preparedMapping": 306,
+      "textureType": 1016
+    },
+    {
+      "colour": 16765856,
+      "metalness": 0,
+      "emissive": 16759920,
+      "intensity": 1.8,
+      "inputMap": true,
+      "preparedMap": true,
+      "preparedMapping": 306,
+      "textureType": 1016
+    },
+    {
+      "colour": 16767097,
+      "metalness": 0,
+      "emissive": 0,
+      "intensity": 1.8,
+      "inputMap": true,
+      "preparedMap": true,
+      "preparedMapping": 306,
+      "textureType": 1016
+    },
+    {
+      "colour": 16770268,
+      "metalness": 0,
+      "emissive": 0,
+      "intensity": 1.8,
+      "inputMap": true,
+      "preparedMap": true,
+      "preparedMapping": 306,
+      "textureType": 1016
+    },
+    {
+      "colour": 16751835,
+      "metalness": 0,
+      "emissive": 16737226,
+      "intensity": 1.8,
+      "inputMap": true,
+      "preparedMap": true,
+      "preparedMapping": 306,
+      "textureType": 1016
+    },
+    {
+      "colour": 16777215,
+      "inputMap": false,
+      "preparedMap": false
+    },
+    {
+      "colour": 16771567,
+      "metalness": 0,
+      "emissive": 0,
+      "intensity": 1.8,
+      "inputMap": true,
+      "preparedMap": true,
+      "preparedMapping": 306,
+      "textureType": 1016
+    },
+    {
+      "colour": 11373567,
+      "metalness": 0,
+      "emissive": 0,
+      "intensity": 1.8,
+      "inputMap": true,
+      "preparedMap": true,
+      "preparedMapping": 306,
+      "textureType": 1016
+    },
+    {
+      "colour": 16777215,
+      "inputMap": false,
+      "preparedMap": false
+    },
+    {
+      "colour": 16767471,
+      "metalness": 0,
+      "emissive": 0,
+      "intensity": 1.8,
+      "inputMap": true,
+      "preparedMap": true,
+      "preparedMapping": 306,
+      "textureType": 1016
+    },
+    {
+      "colour": 16777215,
+      "inputMap": false,
+      "preparedMap": false
+    },
+    {
+      "colour": 16767177,
+      "metalness": 0,
+      "emissive": 0,
+      "intensity": 1.8,
+      "inputMap": true,
+      "preparedMap": true,
+      "preparedMapping": 306,
+      "textureType": 1016
+    },
+    {
+      "colour": 16777215,
+      "inputMap": false,
+      "preparedMap": false
+    },
+    {
+      "colour": 16743376,
+      "metalness": 0,
+      "emissive": 0,
+      "intensity": 1.8,
+      "inputMap": true,
+      "preparedMap": true,
+      "preparedMapping": 306,
+      "textureType": 1016
+    },
+    {
+      "colour": 16777215,
+      "inputMap": false,
+      "preparedMap": false
+    },
+    {
+      "colour": 14459135,
+      "metalness": 0,
+      "emissive": 0,
+      "intensity": 1.8,
+      "inputMap": true,
+      "preparedMap": true,
+      "preparedMapping": 306,
+      "textureType": 1016
+    },
+    {
+      "colour": 16777215,
+      "inputMap": false,
+      "preparedMap": false
+    },
+    {
+      "colour": 8841712,
+      "metalness": 0,
+      "emissive": 0,
+      "intensity": 1.8,
+      "inputMap": true,
+      "preparedMap": true,
+      "preparedMapping": 306,
+      "textureType": 1016
+    },
+    {
+      "colour": 16777215,
+      "inputMap": false,
+      "preparedMap": false
+    },
+    {
+      "colour": 16758486,
+      "metalness": 0,
+      "emissive": 0,
+      "intensity": 1.8,
+      "inputMap": true,
+      "preparedMap": true,
+      "preparedMapping": 306,
+      "textureType": 1016
+    },
+    {
+      "colour": 16777215,
+      "inputMap": false,
+      "preparedMap": false
+    },
+    {
+      "colour": 14063049,
+      "metalness": 0,
+      "emissive": 0,
+      "intensity": 1.8,
+      "inputMap": true,
+      "preparedMap": true,
+      "preparedMapping": 306,
+      "textureType": 1016
+    },
+    {
+      "colour": 16777215,
+      "inputMap": false,
+      "preparedMap": false
+    },
+    {
+      "colour": 10414573,
+      "metalness": 0,
+      "emissive": 0,
+      "intensity": 1.8,
+      "inputMap": true,
+      "preparedMap": true,
+      "preparedMapping": 306,
+      "textureType": 1016
+    },
+    {
+      "colour": 16777215,
+      "inputMap": false,
+      "preparedMap": false
+    },
+    {
+      "colour": 11728127,
+      "metalness": 0.08,
+      "emissive": 0,
+      "intensity": 1.8,
+      "inputMap": true,
+      "preparedMap": true,
+      "preparedMapping": 306,
+      "textureType": 1016
+    },
+    {
+      "colour": 16777215,
+      "inputMap": false,
+      "preparedMap": false
+    },
+    {
+      "colour": 16777215,
+      "inputMap": false,
+      "preparedMap": false
+    },
+    {
+      "colour": 10710977,
+      "metalness": 0.18,
+      "emissive": 0,
+      "intensity": 1.8,
+      "inputMap": true,
+      "preparedMap": true,
+      "preparedMapping": 306,
+      "textureType": 1016
+    },
+    {
+      "colour": 16233687,
+      "metalness": 0,
+      "emissive": 0,
+      "intensity": 1.8,
+      "inputMap": true,
+      "preparedMap": true,
+      "preparedMapping": 306,
+      "textureType": 1016
+    }
+  ],
+  "materials": [
+    {
+      "sector": "jelly",
+      "material": "jelly",
+      "solver": {
+        "sleeping": true,
+        "particles": 343,
+        "constraints": 3150,
+        "contacts": 0,
+        "steps": 0,
+        "time": 0,
+        "volumeRatio": 1,
+        "minTetRatio": 0.9999999999999998,
+        "maxDeformation": 0,
+        "maxStrain": 0,
+        "damage": 0,
+        "faults": 0,
+        "limitedSteps": 0,
+        "lastPhysicsMs": 0,
+        "droppedTime": 0
+      }
+    },
+    {
+      "sector": "butter",
+      "material": "butter",
+      "solver": {
+        "sleeping": true,
+        "particles": 343,
+        "constraints": 3150,
+        "contacts": 0,
+        "steps": 0,
+        "time": 0,
+        "volumeRatio": 1,
+        "minTetRatio": 0.9999999999999998,
+        "maxDeformation": 0,
+        "maxStrain": 0,
+        "damage": 0,
+        "faults": 0,
+        "limitedSteps": 0,
+        "lastPhysicsMs": 0,
+        "droppedTime": 0
+      }
+    },
+    {
+      "sector": "slime",
+      "material": "slime",
+      "solver": {
+        "sleeping": true,
+        "particles": 343,
+        "constraints": 3150,
+        "contacts": 0,
+        "steps": 0,
+        "time": 0,
+        "volumeRatio": 1,
+        "minTetRatio": 0.9999999999999998,
+        "maxDeformation": 0,
+        "maxStrain": 0,
+        "damage": 0,
+        "faults": 0,
+        "limitedSteps": 0,
+        "lastPhysicsMs": 0,
+        "droppedTime": 0
+      }
+    },
+    {
+      "sector": "cloud",
+      "material": "cloud",
+      "solver": {
+        "sleeping": true,
+        "particles": 343,
+        "constraints": 3150,
+        "contacts": 0,
+        "steps": 0,
+        "time": 0,
+        "volumeRatio": 1,
+        "minTetRatio": 0.9999999999999998,
+        "maxDeformation": 0,
+        "maxStrain": 0,
+        "damage": 0,
+        "faults": 0,
+        "limitedSteps": 0,
+        "lastPhysicsMs": 0,
+        "droppedTime": 0
+      }
+    },
+    {
+      "sector": "giant",
+      "material": "giant",
+      "solver": {
+        "sleeping": true,
+        "particles": 1089,
+        "constraints": 11208,
+        "contacts": 0,
+        "steps": 0,
+        "time": 0,
+        "volumeRatio": 1,
+        "minTetRatio": 0.9999999999999997,
+        "maxDeformation": 0,
+        "maxStrain": 0,
+        "damage": 0,
+        "faults": 0,
+        "limitedSteps": 0,
+        "lastPhysicsMs": 0,
+        "droppedTime": 0
+      }
+    },
+    {
+      "sector": "crunchy",
+      "material": "crunchy",
+      "solver": {
+        "sleeping": true,
+        "particles": 343,
+        "constraints": 3150,
+        "contacts": 0,
+        "steps": 0,
+        "time": 0,
+        "volumeRatio": 1,
+        "minTetRatio": 0.9999999999999998,
+        "maxDeformation": 0,
+        "maxStrain": 0,
+        "damage": 0,
+        "faults": 0,
+        "limitedSteps": 0,
+        "lastPhysicsMs": 0,
+        "droppedTime": 0
+      }
+    },
+    {
+      "sector": "collection",
+      "material": "mochi",
+      "solver": {
+        "sleeping": true,
+        "particles": 343,
+        "constraints": 3150,
+        "contacts": 0,
+        "steps": 0,
+        "time": 0,
+        "volumeRatio": 1,
+        "minTetRatio": 0.9999999999999998,
+        "maxDeformation": 0,
+        "maxStrain": 0,
+        "damage": 0,
+        "faults": 0,
+        "limitedSteps": 0,
+        "lastPhysicsMs": 0,
+        "droppedTime": 0
+      }
+    },
+    {
+      "sector": "mochi",
+      "material": "mochi",
+      "solver": {
+        "sleeping": true,
+        "particles": 343,
+        "constraints": 3150,
+        "contacts": 0,
+        "steps": 0,
+        "time": 0,
+        "volumeRatio": 1,
+        "minTetRatio": 0.9999999999999998,
+        "maxDeformation": 0,
+        "maxStrain": 0,
+        "damage": 0,
+        "faults": 0,
+        "limitedSteps": 0,
+        "lastPhysicsMs": 0,
+        "droppedTime": 0
+      }
+    },
+    {
+      "sector": "foam",
+      "material": "foam",
+      "solver": {
+        "sleeping": true,
+        "particles": 343,
+        "constraints": 3150,
+        "contacts": 0,
+        "steps": 0,
+        "time": 0,
+        "volumeRatio": 1,
+        "minTetRatio": 0.9999999999999997,
+        "maxDeformation": 0,
+        "maxStrain": 0,
+        "damage": 0,
+        "faults": 0,
+        "limitedSteps": 0,
+        "lastPhysicsMs": 0,
+        "droppedTime": 0
+      }
+    },
+    {
+      "sector": "sensory",
+      "material": "foam",
+      "solver": {
+        "sleeping": true,
+        "particles": 343,
+        "constraints": 3150,
+        "contacts": 0,
+        "steps": 0,
+        "time": 0,
+        "volumeRatio": 1,
+        "minTetRatio": 0.9999999999999997,
+        "maxDeformation": 0,
+        "maxStrain": 0,
+        "damage": 0,
+        "faults": 0,
+        "limitedSteps": 0,
+        "lastPhysicsMs": 0,
+        "droppedTime": 0
+      }
+    }
+  ]
+}

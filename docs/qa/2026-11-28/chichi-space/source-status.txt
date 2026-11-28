@@ -1,0 +1,12 @@
+ M docs/specifications/warehouse-access-protection-2026-11-27.json
+ M public/chichi-manual.js
+ M public/index.html
+ M public/world.js
+ M scripts/check-aquarium.cjs
+?? docs/SQUISH_V20_V21_IMPLEMENTATION_TRACKER.md
+?? docs/specifications/warehouse-teleport-v21-2026-11-28.md
+?? docs/specifications/warehouse-visual-v20-2026-11-28.md
+?? public/chichi-ground-jump.js
+?? scripts/__pycache__/
+?? scripts/audit-space-jump-native.mjs
+?? test/chichi-ground-jump.test.mjs

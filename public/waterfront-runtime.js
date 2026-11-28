@@ -142,7 +142,7 @@ export function createWaterfrontRuntime({
   function start(
     id,
     activityId,
-    { invite = false, ticket = null, enqueue = false } = {},
+    { invite = false, ticket = null, enqueue = false, portalArrival=false } = {},
   ) {
     const a = waterfrontActivity(activityId),
       actor = getActors().find((a) => a.id === id);
@@ -213,6 +213,9 @@ export function createWaterfrontRuntime({
       );
       v.trip.start = clock * 1000;
       phase(v, "travel");
+    } else if(portalArrival&&v.active&&['bounce','dive'].includes(a.kind)&&waterfrontDrySupport(p,v.radius)?.kind==='net'){
+      v.local.y=netSurface(v,animationTime);phase(v,"prepare");
+      getTrampoline()?.userData.impact?.(v.local.x-W.trampoline.x,v.local.z-W.trampoline.z,2.95,animationTime);
     } else if (!route(v, v.target, v.active ? "prepare" : "waiting"))
       return false;
     visits.set(id, v);
@@ -630,6 +633,7 @@ export function createWaterfrontRuntime({
       }
   }
   return {
+    teleportArrival(activityId){const activity=waterfrontActivity(activityId);if(!activity)return null;const used=new Set(activeVisits().map(v=>v.slot));let slot=0;while(used.has(slot))slot++;return destination(activity,slot);},
     visits,
     redirect(id, activity) {
       const v = visits.get(id);

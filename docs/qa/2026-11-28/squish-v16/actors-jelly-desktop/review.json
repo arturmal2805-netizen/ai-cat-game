@@ -1,0 +1,26 @@
+{
+  "stage": "actors-jelly-desktop",
+  "referenceImage": null,
+  "ratings": {
+    "Cat Interaction": 78,
+    "Physics Behavior": 80,
+    "Visual Style": 46,
+    "Reference Fidelity": 48,
+    "Lighting": 35,
+    "Performance": null
+  },
+  "findings": [
+    {
+      "id": "SQ-13",
+      "severity": "ACCEPTED scoped native route/contact",
+      "status": "RETESTED",
+      "actual": "Real Chichi boards/enters/approaches/jumps, HappyBounce landing drives43N per paw, all measured skin contact errors<.06m. 37 actual fixed-step frames/12fps=3.08s, MP4 and four full-DPR raw anchorframes; all37source PNG hashes/metadata retained. Original rig buffers unchanged in separate native tests."
+    },
+    {
+      "id": "SQ-14",
+      "severity": "MAJOR",
+      "status": "OPEN",
+      "actual": "Cloud body contact and full touch interactions need native proof; manual physical support, fourLODs, originalASMR and final rich art still open."
+    }
+  ]
+}

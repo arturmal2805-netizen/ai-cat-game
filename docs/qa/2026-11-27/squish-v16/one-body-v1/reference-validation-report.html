@@ -1,0 +1,312 @@
+<!doctype html><meta charset="utf-8"><title>Warehouse reference validation</title><style>body{font:16px system-ui;background:#181323;color:#fff0e1;margin:24px}h1,h2{color:#efc678}.grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}img{width:100%}section{background:#31243e;padding:12px;border-radius:12px}pre{white-space:pre-wrap}.BLOCKER{color:#ff8c89}</style><h1>V16 one-squish native desktop — correction required — actual game validation</h1><p>Reference → implementation → capture → comparison → correction → retest. No pixel-identity or hardware-FPS claim.</p><h2>Review findings</h2><pre>{
+  &quot;stage&quot;: &quot;V16 one-squish native desktop \u2014 correction required&quot;,
+  &quot;referenceImage&quot;: null,
+  &quot;ratings&quot;: {
+    &quot;Visual Style&quot;: 25,
+    &quot;Geometry&quot;: 35,
+    &quot;Materials&quot;: 30,
+    &quot;Lighting&quot;: 25,
+    &quot;Squish Detail&quot;: 25,
+    &quot;Physics Behavior&quot;: 65,
+    &quot;Cat Interaction&quot;: 0,
+    &quot;Reference Fidelity&quot;: 25,
+    &quot;Performance&quot;: null
+  },
+  &quot;ratingMeaning&quot;: &quot;Reviewer criterion estimates, not objective mathematical beauty/similarity; physical-device performance unmeasured.&quot;,
+  &quot;findings&quot;: [
+    {
+      &quot;id&quot;: &quot;SQ-01&quot;,
+      &quot;severity&quot;: &quot;BLOCKER&quot;,
+      &quot;zone&quot;: &quot;single prototype&quot;,
+      &quot;material&quot;: &quot;jelly&quot;,
+      &quot;state&quot;: &quot;rest&quot;,
+      &quot;actual&quot;: &quot;Long oval ears resemble rabbit ears&quot;,
+      &quot;expected&quot;: &quot;Short rounded triangular cat ears, refB jelly&quot;,
+      &quot;screenshot&quot;: &quot;one-squish-rest.png&quot;,
+      &quot;cause&quot;: &quot;Ellipsoid ear geometry&quot;,
+      &quot;fix&quot;: &quot;Rounded bevelled triangular ear shape bound to same cage&quot;,
+      &quot;status&quot;: &quot;OPEN&quot;
+    },
+    {
+      &quot;id&quot;: &quot;SQ-02&quot;,
+      &quot;severity&quot;: &quot;MAJOR&quot;,
+      &quot;zone&quot;: &quot;single prototype&quot;,
+      &quot;material&quot;: &quot;jelly&quot;,
+      &quot;state&quot;: &quot;rest&quot;,
+      &quot;actual&quot;: &quot;Plain opaque-looking pink surface&quot;,
+      &quot;expected&quot;: &quot;Translucent jelly with interior depth and coloured highlights&quot;,
+      &quot;screenshot&quot;: &quot;one-squish-rest.png&quot;,
+      &quot;cause&quot;: &quot;Opacity and absent interior inclusions/probe&quot;,
+      &quot;fix&quot;: &quot;Material/depth details without scene-copy refraction&quot;,
+      &quot;status&quot;: &quot;OPEN&quot;
+    },
+    {
+      &quot;id&quot;: &quot;SQ-03&quot;,
+      &quot;severity&quot;: &quot;BLOCKER&quot;,
+      &quot;zone&quot;: &quot;single prototype&quot;,
+      &quot;material&quot;: &quot;jelly&quot;,
+      &quot;state&quot;: &quot;paw&quot;,
+      &quot;actual&quot;: &quot;Real mouse contact works, live cat paw integration not yet present&quot;,
+      &quot;expected&quot;: &quot;Actual native paw pressure/contact&quot;,
+      &quot;fix&quot;: &quot;Reversible existing-rig marker and contact integration&quot;,
+      &quot;status&quot;: &quot;OPEN&quot;
+    },
+    {
+      &quot;id&quot;: &quot;SQ-04&quot;,
+      &quot;severity&quot;: &quot;ACCEPTED&quot;,
+      &quot;zone&quot;: &quot;single prototype&quot;,
+      &quot;state&quot;: &quot;press-release&quot;,
+      &quot;actual&quot;: &quot;Actual held mouse press produces 0.316m local deformation, volume ratio0.99733, minimum tet ratio0.73548; recovers after release&quot;,
+      &quot;screenshot&quot;: &quot;one-squish-press.png&quot;,
+      &quot;status&quot;: &quot;VERIFIED&quot;
+    }
+  ]
+}</pre><article><h2>one-squish-press</h2><div class="grid"><section><h3>Reference</h3><p>Original reference A/B is visible in the user conversation. Original image bytes are not mounted here. This slot is explicitly incomplete; no generated replacement is used.</p></section><section><h3>Actual game</h3><img src="one-squish-press.png"></section><section><h3>Same-camera state difference</h3><img src="one-squish-press-difference.png"></section></div><details><summary>Camera, timestep, material measurements and hash</summary><pre>{
+  &quot;image&quot;: &quot;one-squish-press.png&quot;,
+  &quot;sha256&quot;: &quot;e8f1c83821114f71d5ae11e0d461ae34d1d4a9815af2060e3b6e1cfa52e4b157&quot;,
+  &quot;size&quot;: [
+    2124,
+    1360
+  ],
+  &quot;meanRGB&quot;: [
+    177.0968196106126,
+    178.48557418023708,
+    179.55651725379417
+  ],
+  &quot;metadata&quot;: {
+    &quot;solver&quot;: {
+      &quot;particles&quot;: 343,
+      &quot;constraints&quot;: 3150,
+      &quot;contacts&quot;: 1,
+      &quot;steps&quot;: 72,
+      &quot;time&quot;: 1.2000000000000006,
+      &quot;volumeRatio&quot;: 0.9973290076927503,
+      &quot;minTetRatio&quot;: 0.7354832632869694,
+      &quot;maxDeformation&quot;: 0.3161124467100626,
+      &quot;maxStrain&quot;: 0.18840751182730284,
+      &quot;damage&quot;: 0,
+      &quot;faults&quot;: 0,
+      &quot;lastPhysicsMs&quot;: 1,
+      &quot;droppedTime&quot;: 0
+    },
+    &quot;camera&quot;: {
+      &quot;position&quot;: [
+        3067,
+        -444.448,
+        1250
+      ],
+      &quot;target&quot;: [
+        3060,
+        -447.948,
+        1240
+      ],
+      &quot;fov&quot;: 48,
+      &quot;aspect&quot;: 1.561764705882353,
+      &quot;near&quot;: 0.08,
+      &quot;far&quot;: 20000
+    },
+    &quot;renderer&quot;: {
+      &quot;dpr&quot;: 2,
+      &quot;shadow&quot;: 1,
+      &quot;toneMapping&quot;: 4,
+      &quot;info&quot;: {
+        &quot;frame&quot;: 3,
+        &quot;calls&quot;: 63,
+        &quot;triangles&quot;: 670566,
+        &quot;points&quot;: 320,
+        &quot;lines&quot;: 0
+      }
+    },
+    &quot;time&quot;: 1.2000000000000006
+  },
+  &quot;sameCameraAndRenderSettings&quot;: true,
+  &quot;meanAbsolutePixelDifference&quot;: 0.3764572024666741,
+  &quot;changedPixelFraction&quot;: 0.0059515896754181894,
+  &quot;differenceImage&quot;: &quot;one-squish-press-difference.png&quot;
+}</pre></details></article><article><h2>one-squish-recovery</h2><div class="grid"><section><h3>Reference</h3><p>Original reference A/B is visible in the user conversation. Original image bytes are not mounted here. This slot is explicitly incomplete; no generated replacement is used.</p></section><section><h3>Actual game</h3><img src="one-squish-recovery.png"></section><section><h3>Same-camera state difference</h3><img src="one-squish-recovery-difference.png"></section></div><details><summary>Camera, timestep, material measurements and hash</summary><pre>{
+  &quot;image&quot;: &quot;one-squish-recovery.png&quot;,
+  &quot;sha256&quot;: &quot;60096316a781c9ecaff634130b5605705ca94d558cdf4168569eaeb610a6c758&quot;,
+  &quot;size&quot;: [
+    2124,
+    1360
+  ],
+  &quot;meanRGB&quot;: [
+    176.98773298161072,
+    178.40585535061481,
+    179.48052405284147
+  ],
+  &quot;metadata&quot;: {
+    &quot;solver&quot;: {
+      &quot;particles&quot;: 343,
+      &quot;constraints&quot;: 3150,
+      &quot;contacts&quot;: 0,
+      &quot;steps&quot;: 264,
+      &quot;time&quot;: 4.39999999999999,
+      &quot;volumeRatio&quot;: 1,
+      &quot;minTetRatio&quot;: 0.9999999999999986,
+      &quot;maxDeformation&quot;: 1.2755491433176288e-15,
+      &quot;maxStrain&quot;: 1.3259635701789325e-15,
+      &quot;damage&quot;: 0,
+      &quot;faults&quot;: 0,
+      &quot;lastPhysicsMs&quot;: 1,
+      &quot;droppedTime&quot;: 0
+    },
+    &quot;camera&quot;: {
+      &quot;position&quot;: [
+        3067,
+        -444.448,
+        1250
+      ],
+      &quot;target&quot;: [
+        3060,
+        -447.948,
+        1240
+      ],
+      &quot;fov&quot;: 48,
+      &quot;aspect&quot;: 1.561764705882353,
+      &quot;near&quot;: 0.08,
+      &quot;far&quot;: 20000
+    },
+    &quot;renderer&quot;: {
+      &quot;dpr&quot;: 2,
+      &quot;shadow&quot;: 1,
+      &quot;toneMapping&quot;: 4,
+      &quot;info&quot;: {
+        &quot;frame&quot;: 5,
+        &quot;calls&quot;: 63,
+        &quot;triangles&quot;: 670566,
+        &quot;points&quot;: 320,
+        &quot;lines&quot;: 0
+      }
+    },
+    &quot;time&quot;: 4.39999999999999
+  },
+  &quot;sameCameraAndRenderSettings&quot;: true,
+  &quot;meanAbsolutePixelDifference&quot;: 0.0,
+  &quot;changedPixelFraction&quot;: 0.0,
+  &quot;differenceImage&quot;: &quot;one-squish-recovery-difference.png&quot;
+}</pre></details></article><article><h2>one-squish-release</h2><div class="grid"><section><h3>Reference</h3><p>Original reference A/B is visible in the user conversation. Original image bytes are not mounted here. This slot is explicitly incomplete; no generated replacement is used.</p></section><section><h3>Actual game</h3><img src="one-squish-release.png"></section><section><h3>Same-camera state difference</h3><img src="one-squish-release-difference.png"></section></div><details><summary>Camera, timestep, material measurements and hash</summary><pre>{
+  &quot;image&quot;: &quot;one-squish-release.png&quot;,
+  &quot;sha256&quot;: &quot;8ac624f529861ccf1999fbf64856ae70e8243d7353386a594dea88062692e4af&quot;,
+  &quot;size&quot;: [
+    2124,
+    1360
+  ],
+  &quot;meanRGB&quot;: [
+    176.98788564860973,
+    178.40594397363466,
+    179.48061059875928
+  ],
+  &quot;metadata&quot;: {
+    &quot;solver&quot;: {
+      &quot;particles&quot;: 343,
+      &quot;constraints&quot;: 3150,
+      &quot;contacts&quot;: 0,
+      &quot;steps&quot;: 84,
+      &quot;time&quot;: 1.4,
+      &quot;volumeRatio&quot;: 1.0000138305546755,
+      &quot;minTetRatio&quot;: 0.9999214068970795,
+      &quot;maxDeformation&quot;: 0.0013406355883397883,
+      &quot;maxStrain&quot;: 0.00035568863084503826,
+      &quot;damage&quot;: 0,
+      &quot;faults&quot;: 0,
+      &quot;lastPhysicsMs&quot;: 1.7999999970197678,
+      &quot;droppedTime&quot;: 0
+    },
+    &quot;camera&quot;: {
+      &quot;position&quot;: [
+        3067,
+        -444.448,
+        1250
+      ],
+      &quot;target&quot;: [
+        3060,
+        -447.948,
+        1240
+      ],
+      &quot;fov&quot;: 48,
+      &quot;aspect&quot;: 1.561764705882353,
+      &quot;near&quot;: 0.08,
+      &quot;far&quot;: 20000
+    },
+    &quot;renderer&quot;: {
+      &quot;dpr&quot;: 2,
+      &quot;shadow&quot;: 1,
+      &quot;toneMapping&quot;: 4,
+      &quot;info&quot;: {
+        &quot;frame&quot;: 4,
+        &quot;calls&quot;: 63,
+        &quot;triangles&quot;: 670566,
+        &quot;points&quot;: 320,
+        &quot;lines&quot;: 0
+      }
+    },
+    &quot;time&quot;: 1.4
+  },
+  &quot;sameCameraAndRenderSettings&quot;: true,
+  &quot;meanAbsolutePixelDifference&quot;: 0.00786517761530224,
+  &quot;changedPixelFraction&quot;: 0.0001246261216350947,
+  &quot;differenceImage&quot;: &quot;one-squish-release-difference.png&quot;
+}</pre></details></article><article><h2>one-squish-rest</h2><div class="grid"><section><h3>Reference</h3><p>Original reference A/B is visible in the user conversation. Original image bytes are not mounted here. This slot is explicitly incomplete; no generated replacement is used.</p></section><section><h3>Actual game</h3><img src="one-squish-rest.png"></section><section><h3>Same-camera state difference</h3><img src="one-squish-rest-difference.png"></section></div><details><summary>Camera, timestep, material measurements and hash</summary><pre>{
+  &quot;image&quot;: &quot;one-squish-rest.png&quot;,
+  &quot;sha256&quot;: &quot;60096316a781c9ecaff634130b5605705ca94d558cdf4168569eaeb610a6c758&quot;,
+  &quot;size&quot;: [
+    2124,
+    1360
+  ],
+  &quot;meanRGB&quot;: [
+    176.98773298161072,
+    178.40585535061481,
+    179.48052405284147
+  ],
+  &quot;metadata&quot;: {
+    &quot;solver&quot;: {
+      &quot;particles&quot;: 343,
+      &quot;constraints&quot;: 3150,
+      &quot;contacts&quot;: 0,
+      &quot;steps&quot;: 12,
+      &quot;time&quot;: 0.19999999999999998,
+      &quot;volumeRatio&quot;: 1,
+      &quot;minTetRatio&quot;: 0.9999999999999992,
+      &quot;maxDeformation&quot;: 3.413720343488778e-16,
+      &quot;maxStrain&quot;: 7.569702440626067e-16,
+      &quot;damage&quot;: 0,
+      &quot;faults&quot;: 0,
+      &quot;lastPhysicsMs&quot;: 9.5,
+      &quot;droppedTime&quot;: 0
+    },
+    &quot;camera&quot;: {
+      &quot;position&quot;: [
+        3067,
+        -444.448,
+        1250
+      ],
+      &quot;target&quot;: [
+        3060,
+        -447.948,
+        1240
+      ],
+      &quot;fov&quot;: 48,
+      &quot;aspect&quot;: 1.561764705882353,
+      &quot;near&quot;: 0.08,
+      &quot;far&quot;: 20000
+    },
+    &quot;renderer&quot;: {
+      &quot;dpr&quot;: 2,
+      &quot;shadow&quot;: 1,
+      &quot;toneMapping&quot;: 4,
+      &quot;info&quot;: {
+        &quot;frame&quot;: 2,
+        &quot;calls&quot;: 63,
+        &quot;triangles&quot;: 670566,
+        &quot;points&quot;: 320,
+        &quot;lines&quot;: 0
+      }
+    },
+    &quot;time&quot;: 0.19999999999999998
+  },
+  &quot;sameCameraAndRenderSettings&quot;: true,
+  &quot;meanAbsolutePixelDifference&quot;: 0.0,
+  &quot;changedPixelFraction&quot;: 0.0,
+  &quot;differenceImage&quot;: &quot;one-squish-rest-difference.png&quot;
+}</pre></details></article>

@@ -1,0 +1,720 @@
+{
+  "passed": true,
+  "desktop": false,
+  "frames": [
+    {
+      "state": "rest",
+      "material": "butter",
+      "solver": {
+        "sleeping": true,
+        "particles": 343,
+        "constraints": 3150,
+        "contacts": 0,
+        "steps": 0,
+        "time": 0,
+        "volumeRatio": 1,
+        "minTetRatio": 0.9999999999999998,
+        "maxDeformation": 0,
+        "maxStrain": 0,
+        "damage": 0,
+        "faults": 0,
+        "limitedSteps": 0,
+        "lastPhysicsMs": 0,
+        "droppedTime": 0
+      },
+      "butter": {
+        "crackedVertices": 0,
+        "maxSurfaceDamage": 0,
+        "detached": 0,
+        "activeFragments": 0
+      },
+      "camera": {
+        "position": [
+          3052,
+          -445.948,
+          1242
+        ],
+        "target": [
+          3048,
+          -447.548,
+          1237.3
+        ],
+        "fov": 48,
+        "aspect": 0.5300546448087432,
+        "near": 0.08,
+        "far": 20000
+      },
+      "renderer": {
+        "dpr": 2,
+        "shadow": 1,
+        "toneMapping": 4
+      },
+      "time": 0
+    },
+    {
+      "state": "press",
+      "material": "butter",
+      "solver": {
+        "sleeping": false,
+        "particles": 343,
+        "constraints": 3150,
+        "contacts": 1,
+        "steps": 12,
+        "time": 0.19999999999999998,
+        "volumeRatio": 0.9969517236070822,
+        "minTetRatio": 0.764429477676086,
+        "maxDeformation": 0.3601909306901599,
+        "maxStrain": 0.19876045764619937,
+        "damage": 0.04514089971780777,
+        "faults": 0,
+        "limitedSteps": 0,
+        "lastPhysicsMs": 1.9000000059604645,
+        "droppedTime": 0
+      },
+      "butter": {
+        "crackedVertices": 0,
+        "maxSurfaceDamage": 0.04457011818885803,
+        "detached": 0,
+        "activeFragments": 0
+      },
+      "camera": {
+        "position": [
+          3052,
+          -445.948,
+          1242
+        ],
+        "target": [
+          3048,
+          -447.548,
+          1237.3
+        ],
+        "fov": 48,
+        "aspect": 0.5300546448087432,
+        "near": 0.08,
+        "far": 20000
+      },
+      "renderer": {
+        "dpr": 2,
+        "shadow": 1,
+        "toneMapping": 4
+      },
+      "time": 0.19999999999999998
+    },
+    {
+      "state": "cracked",
+      "material": "butter",
+      "solver": {
+        "sleeping": false,
+        "particles": 343,
+        "constraints": 3150,
+        "contacts": 1,
+        "steps": 87,
+        "time": 1.4499999999999997,
+        "volumeRatio": 0.9963978519216263,
+        "minTetRatio": 0.741686481625522,
+        "maxDeformation": 0.4368481891011748,
+        "maxStrain": 0.1360500185802083,
+        "damage": 0.39247244596481323,
+        "faults": 0,
+        "limitedSteps": 0,
+        "lastPhysicsMs": 1.0999999940395355,
+        "droppedTime": 0
+      },
+      "butter": {
+        "crackedVertices": 21,
+        "maxSurfaceDamage": 0.39007386565208435,
+        "detached": 0,
+        "activeFragments": 0
+      },
+      "camera": {
+        "position": [
+          3052,
+          -445.948,
+          1242
+        ],
+        "target": [
+          3048,
+          -447.548,
+          1237.3
+        ],
+        "fov": 48,
+        "aspect": 0.5300546448087432,
+        "near": 0.08,
+        "far": 20000
+      },
+      "renderer": {
+        "dpr": 2,
+        "shadow": 1,
+        "toneMapping": 4
+      },
+      "time": 1.4499999999999997
+    },
+    {
+      "state": "fractured",
+      "material": "butter",
+      "solver": {
+        "sleeping": false,
+        "particles": 343,
+        "constraints": 3150,
+        "contacts": 1,
+        "steps": 327,
+        "time": 5.449999999999986,
+        "volumeRatio": 0.9886603394568746,
+        "minTetRatio": 0.25339641416883923,
+        "maxDeformation": 1.2142415647254594,
+        "maxStrain": 1.022081444891976,
+        "damage": 1,
+        "faults": 0,
+        "limitedSteps": 0,
+        "lastPhysicsMs": 1.2000000178813934,
+        "droppedTime": 0
+      },
+      "butter": {
+        "crackedVertices": 82,
+        "maxSurfaceDamage": 1,
+        "detached": 10,
+        "activeFragments": 4
+      },
+      "camera": {
+        "position": [
+          3052,
+          -445.948,
+          1242
+        ],
+        "target": [
+          3048,
+          -447.548,
+          1237.3
+        ],
+        "fov": 48,
+        "aspect": 0.5300546448087432,
+        "near": 0.08,
+        "far": 20000
+      },
+      "renderer": {
+        "dpr": 2,
+        "shadow": 1,
+        "toneMapping": 4
+      },
+      "time": 5.449999999999986
+    },
+    {
+      "state": "reset",
+      "material": "butter",
+      "solver": {
+        "sleeping": true,
+        "particles": 343,
+        "constraints": 3150,
+        "contacts": 0,
+        "steps": 327,
+        "time": 5.449999999999986,
+        "volumeRatio": 1,
+        "minTetRatio": 0.9999999999999998,
+        "maxDeformation": 0,
+        "maxStrain": 1.022081444891976,
+        "damage": 0,
+        "faults": 0,
+        "limitedSteps": 0,
+        "lastPhysicsMs": 0,
+        "droppedTime": 0
+      },
+      "butter": {
+        "crackedVertices": 0,
+        "maxSurfaceDamage": 0,
+        "detached": 0,
+        "activeFragments": 0
+      },
+      "camera": {
+        "position": [
+          3052,
+          -445.948,
+          1242
+        ],
+        "target": [
+          3048,
+          -447.548,
+          1237.3
+        ],
+        "fov": 48,
+        "aspect": 0.5300546448087432,
+        "near": 0.08,
+        "far": 20000
+      },
+      "renderer": {
+        "dpr": 2,
+        "shadow": 1,
+        "toneMapping": 4
+      },
+      "time": 5.449999999999986
+    },
+    {
+      "state": "rest",
+      "material": "slime",
+      "solver": {
+        "sleeping": true,
+        "particles": 343,
+        "constraints": 3150,
+        "contacts": 0,
+        "steps": 0,
+        "time": 0,
+        "volumeRatio": 1,
+        "minTetRatio": 0.9999999999999998,
+        "maxDeformation": 0,
+        "maxStrain": 0,
+        "damage": 0,
+        "faults": 0,
+        "limitedSteps": 0,
+        "lastPhysicsMs": 0,
+        "droppedTime": 0
+      },
+      "filaments": {
+        "active": 0,
+        "tears": 0,
+        "filaments": []
+      },
+      "coalescence": {
+        "phase": "rest",
+        "centres": [
+          0.32,
+          0.68
+        ],
+        "components": 2,
+        "volumeProxyRatio": 1.0223463687150838,
+        "isolation": 78.84375,
+        "vertices": 2832,
+        "updates": 2,
+        "approximation": "Two overdamped centres with volume-normalized implicit surface; not full fluid simulation."
+      },
+      "camera": {
+        "position": [
+          3079,
+          -444.448,
+          1246
+        ],
+        "target": [
+          3072,
+          -447.948,
+          1236
+        ],
+        "fov": 48,
+        "aspect": 0.5300546448087432,
+        "near": 0.08,
+        "far": 20000
+      },
+      "renderer": {
+        "dpr": 2,
+        "shadow": 1,
+        "toneMapping": 4
+      },
+      "time": 0
+    },
+    {
+      "state": "stretch",
+      "material": "slime",
+      "solver": {
+        "sleeping": false,
+        "particles": 343,
+        "constraints": 3150,
+        "contacts": 1,
+        "steps": 16,
+        "time": 0.26666666666666666,
+        "volumeRatio": 0.9996546643322198,
+        "minTetRatio": 0.9359700635120443,
+        "maxDeformation": 0.11521138309564107,
+        "maxStrain": 0.044604567696349115,
+        "damage": 0,
+        "faults": 0,
+        "limitedSteps": 0,
+        "lastPhysicsMs": 1.100000023841858,
+        "droppedTime": 0
+      },
+      "filaments": {
+        "active": 3,
+        "tears": 0,
+        "filaments": [
+          {
+            "length": 0.720286024060269,
+            "radius": 0.04079459909798768,
+            "restLength": 0.3329720856257005,
+            "finite": true
+          },
+          {
+            "length": 0.707153363137837,
+            "radius": 0.040340392049619186,
+            "restLength": 0.31966224088737705,
+            "finite": true
+          },
+          {
+            "length": 0.6943484726977923,
+            "radius": 0.03990134521386151,
+            "restLength": 0.307078958400523,
+            "finite": true
+          }
+        ]
+      },
+      "coalescence": {
+        "phase": "rest",
+        "centres": [
+          0.32,
+          0.68
+        ],
+        "components": 2,
+        "volumeProxyRatio": 1.0223463687150838,
+        "isolation": 78.84375,
+        "vertices": 2832,
+        "updates": 2,
+        "approximation": "Two overdamped centres with volume-normalized implicit surface; not full fluid simulation."
+      },
+      "camera": {
+        "position": [
+          3079,
+          -444.448,
+          1246
+        ],
+        "target": [
+          3072,
+          -447.948,
+          1236
+        ],
+        "fov": 48,
+        "aspect": 0.5300546448087432,
+        "near": 0.08,
+        "far": 20000
+      },
+      "renderer": {
+        "dpr": 2,
+        "shadow": 1,
+        "toneMapping": 4
+      },
+      "time": 0.26666666666666666
+    },
+    {
+      "state": "release",
+      "material": "slime",
+      "solver": {
+        "sleeping": false,
+        "particles": 343,
+        "constraints": 3150,
+        "contacts": 0,
+        "steps": 61,
+        "time": 1.016666666666668,
+        "volumeRatio": 0.9999985536087244,
+        "minTetRatio": 0.9982477579482605,
+        "maxDeformation": 0.00335948566052543,
+        "maxStrain": 0.004535513953526128,
+        "damage": 0,
+        "faults": 0,
+        "limitedSteps": 0,
+        "lastPhysicsMs": 1.0999999940395355,
+        "droppedTime": 0
+      },
+      "filaments": {
+        "active": 0,
+        "tears": 0,
+        "filaments": []
+      },
+      "coalescence": {
+        "phase": "rest",
+        "centres": [
+          0.32,
+          0.68
+        ],
+        "components": 2,
+        "volumeProxyRatio": 1.0223463687150838,
+        "isolation": 78.84375,
+        "vertices": 2832,
+        "updates": 2,
+        "approximation": "Two overdamped centres with volume-normalized implicit surface; not full fluid simulation."
+      },
+      "camera": {
+        "position": [
+          3079,
+          -444.448,
+          1246
+        ],
+        "target": [
+          3072,
+          -447.948,
+          1236
+        ],
+        "fov": 48,
+        "aspect": 0.5300546448087432,
+        "near": 0.08,
+        "far": 20000
+      },
+      "renderer": {
+        "dpr": 2,
+        "shadow": 1,
+        "toneMapping": 4
+      },
+      "time": 1.016666666666668
+    },
+    {
+      "state": "twist",
+      "material": "slime",
+      "solver": {
+        "sleeping": false,
+        "particles": 343,
+        "constraints": 3150,
+        "contacts": 1,
+        "steps": 121,
+        "time": 2.0166666666666644,
+        "volumeRatio": 0.9999956961734241,
+        "minTetRatio": 0.6756659030730179,
+        "maxDeformation": 0.4991338507472287,
+        "maxStrain": 0.1667689306990757,
+        "damage": 0,
+        "faults": 0,
+        "limitedSteps": 0,
+        "lastPhysicsMs": 1.199999988079071,
+        "droppedTime": 0
+      },
+      "filaments": {
+        "active": 3,
+        "tears": 0,
+        "filaments": [
+          {
+            "length": 0.8709225427088342,
+            "radius": 0.06,
+            "restLength": 1.2252432166664997,
+            "finite": true
+          },
+          {
+            "length": 0.8892795657816495,
+            "radius": 0.06,
+            "restLength": 1.243621212260864,
+            "finite": true
+          },
+          {
+            "length": 0.9077060189484131,
+            "radius": 0.06,
+            "restLength": 1.262048532816029,
+            "finite": true
+          }
+        ]
+      },
+      "coalescence": {
+        "phase": "rest",
+        "centres": [
+          0.32,
+          0.68
+        ],
+        "components": 2,
+        "volumeProxyRatio": 1.0223463687150838,
+        "isolation": 78.84375,
+        "vertices": 2832,
+        "updates": 2,
+        "approximation": "Two overdamped centres with volume-normalized implicit surface; not full fluid simulation."
+      },
+      "camera": {
+        "position": [
+          3079,
+          -444.448,
+          1246
+        ],
+        "target": [
+          3072,
+          -447.948,
+          1236
+        ],
+        "fov": 48,
+        "aspect": 0.5300546448087432,
+        "near": 0.08,
+        "far": 20000
+      },
+      "renderer": {
+        "dpr": 2,
+        "shadow": 1,
+        "toneMapping": 4
+      },
+      "time": 2.0166666666666644
+    },
+    {
+      "state": "rest",
+      "material": "slime",
+      "solver": {
+        "sleeping": true,
+        "particles": 343,
+        "constraints": 3150,
+        "contacts": 0,
+        "steps": 127,
+        "time": 2.116666666666664,
+        "volumeRatio": 1,
+        "minTetRatio": 0.9999999999999998,
+        "maxDeformation": 0,
+        "maxStrain": 0.15264261721885086,
+        "damage": 0,
+        "faults": 0,
+        "limitedSteps": 0,
+        "lastPhysicsMs": 7.700000017881393,
+        "droppedTime": 0
+      },
+      "filaments": {
+        "active": 0,
+        "tears": 0,
+        "filaments": []
+      },
+      "coalescence": {
+        "phase": "rest",
+        "centres": [
+          0.32,
+          0.68
+        ],
+        "components": 2,
+        "volumeProxyRatio": 1.0223463687150838,
+        "isolation": 78.84375,
+        "vertices": 2832,
+        "updates": 3,
+        "approximation": "Two overdamped centres with volume-normalized implicit surface; not full fluid simulation."
+      },
+      "camera": {
+        "position": [
+          3068.3,
+          -446.748,
+          1243.3
+        ],
+        "target": [
+          3068.3,
+          -449.048,
+          1238.9
+        ],
+        "fov": 48,
+        "aspect": 0.5300546448087432,
+        "near": 0.08,
+        "far": 20000
+      },
+      "renderer": {
+        "dpr": 2,
+        "shadow": 1,
+        "toneMapping": 4
+      },
+      "time": 2.116666666666664
+    },
+    {
+      "state": "merged",
+      "material": "slime",
+      "solver": {
+        "sleeping": true,
+        "particles": 343,
+        "constraints": 3150,
+        "contacts": 0,
+        "steps": 127,
+        "time": 2.116666666666664,
+        "volumeRatio": 1,
+        "minTetRatio": 0.9999999999999998,
+        "maxDeformation": 0,
+        "maxStrain": 0.15264261721885086,
+        "damage": 0,
+        "faults": 0,
+        "limitedSteps": 0,
+        "lastPhysicsMs": 0,
+        "droppedTime": 0
+      },
+      "filaments": {
+        "active": 0,
+        "tears": 0,
+        "filaments": []
+      },
+      "coalescence": {
+        "phase": "merged",
+        "centres": [
+          0.495,
+          0.505
+        ],
+        "components": 1,
+        "volumeProxyRatio": 1.0195530726256983,
+        "isolation": 94.34375,
+        "vertices": 2184,
+        "updates": 150,
+        "approximation": "Two overdamped centres with volume-normalized implicit surface; not full fluid simulation."
+      },
+      "camera": {
+        "position": [
+          3068.3,
+          -446.748,
+          1243.3
+        ],
+        "target": [
+          3068.3,
+          -449.048,
+          1238.9
+        ],
+        "fov": 48,
+        "aspect": 0.5300546448087432,
+        "near": 0.08,
+        "far": 20000
+      },
+      "renderer": {
+        "dpr": 2,
+        "shadow": 1,
+        "toneMapping": 4
+      },
+      "time": 2.116666666666664
+    },
+    {
+      "state": "split",
+      "material": "slime",
+      "solver": {
+        "sleeping": true,
+        "particles": 343,
+        "constraints": 3150,
+        "contacts": 0,
+        "steps": 127,
+        "time": 2.116666666666664,
+        "volumeRatio": 1,
+        "minTetRatio": 0.9999999999999998,
+        "maxDeformation": 0,
+        "maxStrain": 0.15264261721885086,
+        "damage": 0,
+        "faults": 0,
+        "limitedSteps": 0,
+        "lastPhysicsMs": 0,
+        "droppedTime": 0
+      },
+      "filaments": {
+        "active": 0,
+        "tears": 0,
+        "filaments": []
+      },
+      "coalescence": {
+        "phase": "rest",
+        "centres": [
+          0.32,
+          0.68
+        ],
+        "components": 2,
+        "volumeProxyRatio": 1.0223463687150838,
+        "isolation": 78.84375,
+        "vertices": 2832,
+        "updates": 296,
+        "approximation": "Two overdamped centres with volume-normalized implicit surface; not full fluid simulation."
+      },
+      "camera": {
+        "position": [
+          3068.3,
+          -446.748,
+          1243.3
+        ],
+        "target": [
+          3068.3,
+          -449.048,
+          1238.9
+        ],
+        "fov": 48,
+        "aspect": 0.5300546448087432,
+        "near": 0.08,
+        "far": 20000
+      },
+      "renderer": {
+        "dpr": 2,
+        "shadow": 1,
+        "toneMapping": 4
+      },
+      "time": 2.116666666666664
+    }
+  ],
+  "errors": [],
+  "httpErrors": [],
+  "paidInferenceCalled": false,
+  "limitations": "Implicit two-mass coalescence is a volume-normalized visual approximation. Fixed-step game state captures do not measure real-device FPS. Final ten-sector interior/ASMR/full acceptance remain open."
+}

@@ -1,0 +1,41 @@
+{
+  "stage": "materials-phone",
+  "referenceImage": null,
+  "ratings": {
+    "Visual Style": 40,
+    "Geometry": 60,
+    "Materials": 60,
+    "Lighting": 25,
+    "Squish Detail": 55,
+    "Physics Behavior": 75,
+    "Cat Interaction": null,
+    "Reference Fidelity": 45,
+    "Performance": null
+  },
+  "findings": [
+    {
+      "id": "SQ-06",
+      "severity": "ACCEPTED for fleece correction",
+      "status": "RETESTED",
+      "actual": "Sharp/dotted prototypes replaced with dense original-game groom authoring on a new toy clone. Actual cloud rest/press/recovery frames. Original cat sources unchanged."
+    },
+    {
+      "id": "SQ-05",
+      "severity": "ACCEPTED basic material responses only",
+      "status": "RETESTED",
+      "actual": "All seven actual touch states pass, independent fixed camera/positive volumes/held memory. Full advanced states and final lighting/interior are still open."
+    },
+    {
+      "id": "SQ-07",
+      "severity": "MAJOR",
+      "status": "OPEN",
+      "actual": "Foam holds a dent but needs high-resolution paw-lobe footprint."
+    },
+    {
+      "id": "SQ-02",
+      "severity": "MAJOR",
+      "status": "OPEN",
+      "actual": "Final referenceA luxury architecture/lighting/shelves and full advanced material state board not yet built."
+    }
+  ]
+}

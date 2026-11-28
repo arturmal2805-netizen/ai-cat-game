@@ -1,3 +1,4 @@
+import {catArrivalCandidates,catTeleportDestination} from "./cat-teleport-destinations.js";
 import * as T from "three";
 import { waterfrontLocalLighting } from "./waterfront-lighting.js";
 import { cityClock } from "./jobcity-system.js";
@@ -6,6 +7,7 @@ import {
   WATERFRONT_VIEWS,
   waterfrontOrigin,
   waterfrontActivity,
+  WATERFRONT_ACTIVITIES,
 } from "./waterfront-data.js";
 import { waterfrontModelSteps } from "./waterfront-model.js";
 import {
@@ -40,6 +42,7 @@ export function createWaterfrontWorld({
   onCamera = () => {},
   onExit = () => {},
   onError = () => {},
+  teleportCat=null,
 }) {
   const origin = waterfrontOrigin(byBiome("autumn").center),
     abort = new AbortController(),
@@ -346,6 +349,18 @@ export function createWaterfrontWorld({
     if (root) root.userData.restaurant.userData.roof.visible = true;
     onExit(restore);
   }
+  function waterfrontTeleportEntry(activityId){
+    const activity=waterfrontActivity(activityId);if(!activity)return false;
+    const net=['bounce','dive'].includes(activity.kind);
+    const entry=catTeleportDestination({destinationId:activityId,displayName:activity.name,targetType:'waterfront',portalTheme:net?'trampoline':activity.kind==='dine'?'restaurant':'waterfront',arrivalAnimation:net?'net-drop':'portal-hop',
+      prepare:()=>ensure(),requiredConditions:()=>canSimulate()&&getGame().unlocked.includes('autumn'),
+      arrivalPoints:a=>{const p=runtime?.teleportArrival(activityId);if(!p)return[];return catArrivalCandidates({x:p.x+origin.x,y:p.y,z:p.z+origin.z},a.radius,8).map(p=>{const q=local(p),hit=waterfrontWalkable(q,a.radius);if(!hit||net&&hit.kind!=='net')return null;return{...p,y:net?(root.userData.trampoline?.userData.height?.(q.x-W.trampoline.x,q.z-W.trampoline.z,0)??W.trampoline.y)+.012:hit.y};}).filter(Boolean);},
+      checkArrival:(p,a)=>{const hit=waterfrontWalkable(local(p),a.radius);return!!hit&&(!net||hit.kind==='net');}});
+    return entry;
+  }
+  function teleportVisit(id,activityId,options={}){if(!teleportCat)return runtime?.start(id,activityId,options)||false;const entry=waterfrontTeleportEntry(activityId);if(!entry)return false;
+    return!!teleportCat(id,entry,()=>{const ok=runtime.start(id,activityId,{...options,invite:false,portalArrival:true});if(ok&&id==='chichi'&&wantPlayer)runtime.requestPlayer();return ok;},{ticket:options.ticket});
+  }
   async function invite(id, activityId) {
     if (!canSimulate() || !canInvite(id)) {
       onError("Котик зараз зайнятий. Запроси після роботи або відпочинку.");
@@ -358,7 +373,7 @@ export function createWaterfrontWorld({
     }
     if (runtime.has(id)) runtime.cancel(id);
     if (!reserve(id)) return false;
-    if (!runtime.start(id, activityId, { invite: true })) {
+    if (!teleportVisit(id, activityId, { invite: true })) {
       onPark(id, getActors().find((a) => a.id === id)?.position);
       return false;
     }
@@ -417,7 +432,7 @@ export function createWaterfrontWorld({
     )
       return false;
     if (
-      !runtime.start("chichi", "waterfront-bounce", {
+      !teleportVisit("chichi", "waterfront-bounce", {
         invite: true,
         enqueue: true,
       })
@@ -436,7 +451,7 @@ export function createWaterfrontWorld({
       if (a.id === "chichi" || runtime.has(a.id) || !canInvite(a.id)) continue;
       if (!reserve(a.id)) continue;
       if (
-        runtime.start(a.id, "waterfront-bounce", {
+        teleportVisit(a.id, "waterfront-bounce", {
           invite: true,
           enqueue: true,
         })
@@ -471,6 +486,7 @@ export function createWaterfrontWorld({
     ensure,
     inspect,
     exit,
+    teleportDestinations:()=>WATERFRONT_ACTIVITIES.map(a=>waterfrontTeleportEntry(a.id)),
     invite,
     inviteAll,
     inviteAllTrampoline,
@@ -551,7 +567,7 @@ export function createWaterfrontWorld({
       );
     },
     startReady(id, activityId, ticket) {
-      return runtime?.start(id, activityId, { ticket }) || false;
+      return teleportVisit(id, activityId, { ticket });
     },
     support(p, radius) {
       if (!root) return null;

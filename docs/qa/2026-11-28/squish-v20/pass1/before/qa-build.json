@@ -1,0 +1,8 @@
+{
+  "sha256": "cb4eac10c2e1f212b33fdb8bfa9a7384113ccf0eb9c5682cacc7dc748f059842",
+  "baseline": "f1abf006e2354ccad74a2c8884699f4562b5c958",
+  "node": "v22.23.5",
+  "head": "f1abf006e2354ccad74a2c8884699f4562b5c958",
+  "dirty": " M public/squish-interior-art.js\n M public/squish-model.js\n M scripts/audit-squish-interior.mjs\n?? public/squish-environment.js\n?? scripts/__pycache__/\n",
+  "sourceOverlay": "source-HEAD.patch"
+}

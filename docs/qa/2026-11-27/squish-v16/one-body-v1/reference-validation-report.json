@@ -1,0 +1,329 @@
+{
+  "schema": 17,
+  "stage": "V16 one-squish native desktop \u2014 correction required",
+  "reference": "Original user reference A/interior and B/material states, immutable inline conversation images",
+  "referenceFileAvailable": false,
+  "conceptArtPixelScore": null,
+  "review": {
+    "stage": "V16 one-squish native desktop \u2014 correction required",
+    "referenceImage": null,
+    "ratings": {
+      "Visual Style": 25,
+      "Geometry": 35,
+      "Materials": 30,
+      "Lighting": 25,
+      "Squish Detail": 25,
+      "Physics Behavior": 65,
+      "Cat Interaction": 0,
+      "Reference Fidelity": 25,
+      "Performance": null
+    },
+    "ratingMeaning": "Reviewer criterion estimates, not objective mathematical beauty/similarity; physical-device performance unmeasured.",
+    "findings": [
+      {
+        "id": "SQ-01",
+        "severity": "BLOCKER",
+        "zone": "single prototype",
+        "material": "jelly",
+        "state": "rest",
+        "actual": "Long oval ears resemble rabbit ears",
+        "expected": "Short rounded triangular cat ears, refB jelly",
+        "screenshot": "one-squish-rest.png",
+        "cause": "Ellipsoid ear geometry",
+        "fix": "Rounded bevelled triangular ear shape bound to same cage",
+        "status": "OPEN"
+      },
+      {
+        "id": "SQ-02",
+        "severity": "MAJOR",
+        "zone": "single prototype",
+        "material": "jelly",
+        "state": "rest",
+        "actual": "Plain opaque-looking pink surface",
+        "expected": "Translucent jelly with interior depth and coloured highlights",
+        "screenshot": "one-squish-rest.png",
+        "cause": "Opacity and absent interior inclusions/probe",
+        "fix": "Material/depth details without scene-copy refraction",
+        "status": "OPEN"
+      },
+      {
+        "id": "SQ-03",
+        "severity": "BLOCKER",
+        "zone": "single prototype",
+        "material": "jelly",
+        "state": "paw",
+        "actual": "Real mouse contact works, live cat paw integration not yet present",
+        "expected": "Actual native paw pressure/contact",
+        "fix": "Reversible existing-rig marker and contact integration",
+        "status": "OPEN"
+      },
+      {
+        "id": "SQ-04",
+        "severity": "ACCEPTED",
+        "zone": "single prototype",
+        "state": "press-release",
+        "actual": "Actual held mouse press produces 0.316m local deformation, volume ratio0.99733, minimum tet ratio0.73548; recovers after release",
+        "screenshot": "one-squish-press.png",
+        "status": "VERIFIED"
+      }
+    ]
+  },
+  "frames": [
+    {
+      "image": "one-squish-press.png",
+      "sha256": "e8f1c83821114f71d5ae11e0d461ae34d1d4a9815af2060e3b6e1cfa52e4b157",
+      "size": [
+        2124,
+        1360
+      ],
+      "meanRGB": [
+        177.0968196106126,
+        178.48557418023708,
+        179.55651725379417
+      ],
+      "metadata": {
+        "solver": {
+          "particles": 343,
+          "constraints": 3150,
+          "contacts": 1,
+          "steps": 72,
+          "time": 1.2000000000000006,
+          "volumeRatio": 0.9973290076927503,
+          "minTetRatio": 0.7354832632869694,
+          "maxDeformation": 0.3161124467100626,
+          "maxStrain": 0.18840751182730284,
+          "damage": 0,
+          "faults": 0,
+          "lastPhysicsMs": 1,
+          "droppedTime": 0
+        },
+        "camera": {
+          "position": [
+            3067,
+            -444.448,
+            1250
+          ],
+          "target": [
+            3060,
+            -447.948,
+            1240
+          ],
+          "fov": 48,
+          "aspect": 1.561764705882353,
+          "near": 0.08,
+          "far": 20000
+        },
+        "renderer": {
+          "dpr": 2,
+          "shadow": 1,
+          "toneMapping": 4,
+          "info": {
+            "frame": 3,
+            "calls": 63,
+            "triangles": 670566,
+            "points": 320,
+            "lines": 0
+          }
+        },
+        "time": 1.2000000000000006
+      },
+      "sameCameraAndRenderSettings": true,
+      "meanAbsolutePixelDifference": 0.3764572024666741,
+      "changedPixelFraction": 0.0059515896754181894,
+      "differenceImage": "one-squish-press-difference.png"
+    },
+    {
+      "image": "one-squish-recovery.png",
+      "sha256": "60096316a781c9ecaff634130b5605705ca94d558cdf4168569eaeb610a6c758",
+      "size": [
+        2124,
+        1360
+      ],
+      "meanRGB": [
+        176.98773298161072,
+        178.40585535061481,
+        179.48052405284147
+      ],
+      "metadata": {
+        "solver": {
+          "particles": 343,
+          "constraints": 3150,
+          "contacts": 0,
+          "steps": 264,
+          "time": 4.39999999999999,
+          "volumeRatio": 1,
+          "minTetRatio": 0.9999999999999986,
+          "maxDeformation": 1.2755491433176288e-15,
+          "maxStrain": 1.3259635701789325e-15,
+          "damage": 0,
+          "faults": 0,
+          "lastPhysicsMs": 1,
+          "droppedTime": 0
+        },
+        "camera": {
+          "position": [
+            3067,
+            -444.448,
+            1250
+          ],
+          "target": [
+            3060,
+            -447.948,
+            1240
+          ],
+          "fov": 48,
+          "aspect": 1.561764705882353,
+          "near": 0.08,
+          "far": 20000
+        },
+        "renderer": {
+          "dpr": 2,
+          "shadow": 1,
+          "toneMapping": 4,
+          "info": {
+            "frame": 5,
+            "calls": 63,
+            "triangles": 670566,
+            "points": 320,
+            "lines": 0
+          }
+        },
+        "time": 4.39999999999999
+      },
+      "sameCameraAndRenderSettings": true,
+      "meanAbsolutePixelDifference": 0.0,
+      "changedPixelFraction": 0.0,
+      "differenceImage": "one-squish-recovery-difference.png"
+    },
+    {
+      "image": "one-squish-release.png",
+      "sha256": "8ac624f529861ccf1999fbf64856ae70e8243d7353386a594dea88062692e4af",
+      "size": [
+        2124,
+        1360
+      ],
+      "meanRGB": [
+        176.98788564860973,
+        178.40594397363466,
+        179.48061059875928
+      ],
+      "metadata": {
+        "solver": {
+          "particles": 343,
+          "constraints": 3150,
+          "contacts": 0,
+          "steps": 84,
+          "time": 1.4,
+          "volumeRatio": 1.0000138305546755,
+          "minTetRatio": 0.9999214068970795,
+          "maxDeformation": 0.0013406355883397883,
+          "maxStrain": 0.00035568863084503826,
+          "damage": 0,
+          "faults": 0,
+          "lastPhysicsMs": 1.7999999970197678,
+          "droppedTime": 0
+        },
+        "camera": {
+          "position": [
+            3067,
+            -444.448,
+            1250
+          ],
+          "target": [
+            3060,
+            -447.948,
+            1240
+          ],
+          "fov": 48,
+          "aspect": 1.561764705882353,
+          "near": 0.08,
+          "far": 20000
+        },
+        "renderer": {
+          "dpr": 2,
+          "shadow": 1,
+          "toneMapping": 4,
+          "info": {
+            "frame": 4,
+            "calls": 63,
+            "triangles": 670566,
+            "points": 320,
+            "lines": 0
+          }
+        },
+        "time": 1.4
+      },
+      "sameCameraAndRenderSettings": true,
+      "meanAbsolutePixelDifference": 0.00786517761530224,
+      "changedPixelFraction": 0.0001246261216350947,
+      "differenceImage": "one-squish-release-difference.png"
+    },
+    {
+      "image": "one-squish-rest.png",
+      "sha256": "60096316a781c9ecaff634130b5605705ca94d558cdf4168569eaeb610a6c758",
+      "size": [
+        2124,
+        1360
+      ],
+      "meanRGB": [
+        176.98773298161072,
+        178.40585535061481,
+        179.48052405284147
+      ],
+      "metadata": {
+        "solver": {
+          "particles": 343,
+          "constraints": 3150,
+          "contacts": 0,
+          "steps": 12,
+          "time": 0.19999999999999998,
+          "volumeRatio": 1,
+          "minTetRatio": 0.9999999999999992,
+          "maxDeformation": 3.413720343488778e-16,
+          "maxStrain": 7.569702440626067e-16,
+          "damage": 0,
+          "faults": 0,
+          "lastPhysicsMs": 9.5,
+          "droppedTime": 0
+        },
+        "camera": {
+          "position": [
+            3067,
+            -444.448,
+            1250
+          ],
+          "target": [
+            3060,
+            -447.948,
+            1240
+          ],
+          "fov": 48,
+          "aspect": 1.561764705882353,
+          "near": 0.08,
+          "far": 20000
+        },
+        "renderer": {
+          "dpr": 2,
+          "shadow": 1,
+          "toneMapping": 4,
+          "info": {
+            "frame": 2,
+            "calls": 63,
+            "triangles": 670566,
+            "points": 320,
+            "lines": 0
+          }
+        },
+        "time": 0.19999999999999998
+      },
+      "sameCameraAndRenderSettings": true,
+      "meanAbsolutePixelDifference": 0.0,
+      "changedPixelFraction": 0.0,
+      "differenceImage": "one-squish-rest-difference.png"
+    }
+  ],
+  "caveats": [
+    "Differences between rest and press show real state changes, not fidelity to artwork.",
+    "Software Chromium timings are not measurements of a physical user phone/Mac."
+  ]
+}

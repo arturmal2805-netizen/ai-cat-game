@@ -1,0 +1,8 @@
+{
+  "sha256": "224b22b05887323f63b3a3fb9d6a4a75020920d1dab8e9041c6954d92a18555a",
+  "baseline": null,
+  "node": "v22.23.5",
+  "head": "5382f50637cce27cc7cd44bac4171fef97abd983",
+  "dirty": " M docs/specifications/warehouse-access-protection-2026-11-27.json\n M public/chichi-manual.js\n M public/index.html\n M public/world.js\n M scripts/check-aquarium.cjs\n?? docs/SQUISH_V20_V21_IMPLEMENTATION_TRACKER.md\n?? docs/specifications/warehouse-teleport-v21-2026-11-28.md\n?? docs/specifications/warehouse-visual-v20-2026-11-28.md\n?? public/chichi-ground-jump.js\n?? scripts/__pycache__/\n?? scripts/audit-space-jump-native.mjs\n?? test/chichi-ground-jump.test.mjs\n",
+  "sourceOverlay": "source-HEAD.patch"
+}

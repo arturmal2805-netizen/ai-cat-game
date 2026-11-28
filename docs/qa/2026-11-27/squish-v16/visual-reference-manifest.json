@@ -1,0 +1,123 @@
+{
+  "version": 17,
+  "references": [
+    {
+      "id": "A",
+      "title": "CHICHI SQUISH WAREHOUSE",
+      "source": "Original user inline image in this conversation: referenceA warehouse interior, referenceB five labelled material panels",
+      "imagePath": null,
+      "originalBytesAvailable": false,
+      "immutable": true,
+      "states": [
+        "overview"
+      ],
+      "cameras": [
+        "overview",
+        "interaction",
+        "material-close-up"
+      ],
+      "verification": "semantic art comparison plus actual contact/strain/recovery measurements; no pixel match to conceptart"
+    },
+    {
+      "id": "B-butter",
+      "title": "Butter Squish Kingdom",
+      "source": "Original user inline image in this conversation: referenceA warehouse interior, referenceB five labelled material panels",
+      "imagePath": null,
+      "originalBytesAvailable": false,
+      "immutable": true,
+      "states": [
+        "normal",
+        "press",
+        "cracked",
+        "fractured"
+      ],
+      "cameras": [
+        "overview",
+        "interaction",
+        "material-close-up"
+      ],
+      "verification": "semantic art comparison plus actual contact/strain/recovery measurements; no pixel match to conceptart"
+    },
+    {
+      "id": "B-slime",
+      "title": "Slime Lab",
+      "source": "Original user inline image in this conversation: referenceA warehouse interior, referenceB five labelled material panels",
+      "imagePath": null,
+      "originalBytesAvailable": false,
+      "immutable": true,
+      "states": [
+        "rest",
+        "stretch",
+        "twist",
+        "merge"
+      ],
+      "cameras": [
+        "overview",
+        "interaction",
+        "material-close-up"
+      ],
+      "verification": "semantic art comparison plus actual contact/strain/recovery measurements; no pixel match to conceptart"
+    },
+    {
+      "id": "B-jelly",
+      "title": "Jelly Squish Universe",
+      "source": "Original user inline image in this conversation: referenceA warehouse interior, referenceB five labelled material panels",
+      "imagePath": null,
+      "originalBytesAvailable": false,
+      "immutable": true,
+      "states": [
+        "rest",
+        "impact",
+        "wobble",
+        "recovery"
+      ],
+      "cameras": [
+        "overview",
+        "interaction",
+        "material-close-up"
+      ],
+      "verification": "semantic art comparison plus actual contact/strain/recovery measurements; no pixel match to conceptart"
+    },
+    {
+      "id": "B-cloud",
+      "title": "Cloud Squish Paradise",
+      "source": "Original user inline image in this conversation: referenceA warehouse interior, referenceB five labelled material panels",
+      "imagePath": null,
+      "originalBytesAvailable": false,
+      "immutable": true,
+      "states": [
+        "rest",
+        "sink",
+        "compression",
+        "recovery"
+      ],
+      "cameras": [
+        "overview",
+        "interaction",
+        "material-close-up"
+      ],
+      "verification": "semantic art comparison plus actual contact/strain/recovery measurements; no pixel match to conceptart"
+    },
+    {
+      "id": "B-crunchy",
+      "title": "Crunchy & Memory Foam",
+      "source": "Original user inline image in this conversation: referenceA warehouse interior, referenceB five labelled material panels",
+      "imagePath": null,
+      "originalBytesAvailable": false,
+      "immutable": true,
+      "states": [
+        "press",
+        "filler",
+        "imprint",
+        "hold",
+        "recovery"
+      ],
+      "cameras": [
+        "overview",
+        "interaction",
+        "material-close-up"
+      ],
+      "verification": "semantic art comparison plus actual contact/strain/recovery measurements; no pixel match to conceptart"
+    }
+  ]
+}

@@ -1,0 +1,5152 @@
+{
+  "initial": {
+    "position": [
+      195,
+      0.16,
+      -265
+    ],
+    "scroll": 0
+  },
+  "ascent": [
+    {
+      "position": [
+        195,
+        0.7109500000000001,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 0.7109500000000001,
+        "velocity": 5.019,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.7932375,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 0.7932375,
+        "velocity": 4.8555,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.8728,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 0.8728,
+        "velocity": 4.692,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.9496375,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 0.9496375,
+        "velocity": 4.5285,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.02375,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.02375,
+        "velocity": 4.365,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.0951374999999999,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.0951374999999999,
+        "velocity": 4.2015,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.1638,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.1638,
+        "velocity": 4.038,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.2297375,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.2297375,
+        "velocity": 3.8745000000000003,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.2929499999999998,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.2929499999999998,
+        "velocity": 3.7110000000000003,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.3534374999999998,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.3534374999999998,
+        "velocity": 3.5475000000000003,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.4111999999999998,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.4111999999999998,
+        "velocity": 3.3840000000000003,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.4662374999999999,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.4662374999999999,
+        "velocity": 3.2205000000000004,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.5185499999999998,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.5185499999999998,
+        "velocity": 3.0570000000000004,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.5681374999999997,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.5681374999999997,
+        "velocity": 2.8935000000000004,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.6149999999999998,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.6149999999999998,
+        "velocity": 2.7300000000000004,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.6591374999999997,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.6591374999999997,
+        "velocity": 2.5665000000000004,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.7005499999999998,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.7005499999999998,
+        "velocity": 2.4030000000000005,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.7392374999999998,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.7392374999999998,
+        "velocity": 2.2395000000000005,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    }
+  ],
+  "held": [
+    {
+      "position": [
+        195,
+        1.9141374999999998,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.9141374999999998,
+        "velocity": 1.2585000000000006,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.9337499999999999,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.9337499999999999,
+        "velocity": 1.0950000000000006,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.9506374999999998,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.9506374999999998,
+        "velocity": 0.9315000000000007,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.9647999999999999,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.9647999999999999,
+        "velocity": 0.7680000000000007,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.9762374999999999,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.9762374999999999,
+        "velocity": 0.6045000000000007,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.98495,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.98495,
+        "velocity": 0.4410000000000007,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.9909375,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.9909375,
+        "velocity": 0.27750000000000075,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.9942,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.9942,
+        "velocity": 0.11400000000000074,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.9947375,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.9947375,
+        "velocity": -0.04949999999999927,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.99255,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.99255,
+        "velocity": -0.21299999999999927,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.9876375,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.9876375,
+        "velocity": -0.3764999999999993,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.98,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.98,
+        "velocity": -0.5399999999999993,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.9696375,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.9696375,
+        "velocity": -0.7034999999999992,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.95655,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.95655,
+        "velocity": -0.8669999999999992,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.9407375,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.9407375,
+        "velocity": -1.0304999999999993,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.9222,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.9222,
+        "velocity": -1.1939999999999993,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.9009375,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.9009375,
+        "velocity": -1.3574999999999993,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.87695,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.87695,
+        "velocity": -1.5209999999999992,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.8502375,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.8502375,
+        "velocity": -1.6844999999999992,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.8208,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.8208,
+        "velocity": -1.8479999999999992,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.7886374999999999,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.7886374999999999,
+        "velocity": -2.0114999999999994,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.75375,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.75375,
+        "velocity": -2.1749999999999994,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.7161374999999999,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.7161374999999999,
+        "velocity": -2.3384999999999994,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.6758,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.6758,
+        "velocity": -2.5019999999999993,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.6327375,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.6327375,
+        "velocity": -2.6654999999999993,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.5869499999999999,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.5869499999999999,
+        "velocity": -2.8289999999999993,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.5384375,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.5384375,
+        "velocity": -2.9924999999999993,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.4871999999999999,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.4871999999999999,
+        "velocity": -3.1559999999999993,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.4332375,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.4332375,
+        "velocity": -3.3194999999999992,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.37655,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.37655,
+        "velocity": -3.482999999999999,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.3171374999999999,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.3171374999999999,
+        "velocity": -3.646499999999999,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.255,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.255,
+        "velocity": -3.809999999999999,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.1901374999999998,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.1901374999999998,
+        "velocity": -3.973499999999999,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.12255,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.12255,
+        "velocity": -4.137,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.0522375,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.0522375,
+        "velocity": -4.3004999999999995,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.9792,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 0.9792,
+        "velocity": -4.4639999999999995,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.9034375,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 0.9034375,
+        "velocity": -4.6274999999999995,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.8249500000000001,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 0.8249500000000001,
+        "velocity": -4.7909999999999995,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.7437375,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 0.7437375,
+        "velocity": -4.9544999999999995,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.6598,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 0.6598,
+        "velocity": -5.117999999999999,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.5731375000000001,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 0.5731375000000001,
+        "velocity": -5.281499999999999,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.48375000000000007,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 0.48375000000000007,
+        "velocity": -5.444999999999999,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.3916375000000001,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 0.3916375000000001,
+        "velocity": -5.608499999999999,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.29680000000000006,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 0.29680000000000006,
+        "velocity": -5.771999999999999,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.19923750000000007,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 0.19923750000000007,
+        "velocity": -5.935499999999999,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 1,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": true
+    }
+  ],
+  "tap": [
+    {
+      "position": [
+        195,
+        0.2586375,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 0.2586375,
+        "velocity": 5.8365,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.35455000000000003,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 0.35455000000000003,
+        "velocity": 5.673,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.4477375,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 0.4477375,
+        "velocity": 5.5095,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.5382,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 0.5382,
+        "velocity": 5.346,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.6259375,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 0.6259375,
+        "velocity": 5.1825,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.7109500000000001,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 0.7109500000000001,
+        "velocity": 5.019,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.7932375,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 0.7932375,
+        "velocity": 4.8555,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.8728,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 0.8728,
+        "velocity": 4.692,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.9496375,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 0.9496375,
+        "velocity": 4.5285,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.02375,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.02375,
+        "velocity": 4.365,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    }
+  ],
+  "twice": [
+    {
+      "position": [
+        195,
+        1.0951374999999999,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.0951374999999999,
+        "velocity": 4.2015,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.1638,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.1638,
+        "velocity": 4.038,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.2297375,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.2297375,
+        "velocity": 3.8745000000000003,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.2929499999999998,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.2929499999999998,
+        "velocity": 3.7110000000000003,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.3534374999999998,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.3534374999999998,
+        "velocity": 3.5475000000000003,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    }
+  ],
+  "exit": [
+    {
+      "position": [
+        195,
+        1.4111999999999998,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.4111999999999998,
+        "velocity": 3.3840000000000003,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.4662374999999999,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.4662374999999999,
+        "velocity": 3.2205000000000004,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.5185499999999998,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.5185499999999998,
+        "velocity": 3.0570000000000004,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.5681374999999997,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.5681374999999997,
+        "velocity": 2.8935000000000004,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.6149999999999998,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.6149999999999998,
+        "velocity": 2.7300000000000004,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.6591374999999997,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.6591374999999997,
+        "velocity": 2.5665000000000004,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.7005499999999998,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.7005499999999998,
+        "velocity": 2.4030000000000005,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.7392374999999998,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.7392374999999998,
+        "velocity": 2.2395000000000005,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.7752,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.7752,
+        "velocity": 2.0760000000000005,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.8084375,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.8084375,
+        "velocity": 1.9125000000000005,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.8389499999999999,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.8389499999999999,
+        "velocity": 1.7490000000000006,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.8667375,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.8667375,
+        "velocity": 1.5855000000000006,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.8918,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.8918,
+        "velocity": 1.4220000000000006,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.9141374999999998,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.9141374999999998,
+        "velocity": 1.2585000000000006,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.9337499999999999,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.9337499999999999,
+        "velocity": 1.0950000000000006,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.9506374999999998,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.9506374999999998,
+        "velocity": 0.9315000000000007,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.9647999999999999,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.9647999999999999,
+        "velocity": 0.7680000000000007,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.9762374999999999,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.9762374999999999,
+        "velocity": 0.6045000000000007,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.98495,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.98495,
+        "velocity": 0.4410000000000007,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.9909375,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.9909375,
+        "velocity": 0.27750000000000075,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.9942,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.9942,
+        "velocity": 0.11400000000000074,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.9947375,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.9947375,
+        "velocity": -0.04949999999999927,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.99255,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.99255,
+        "velocity": -0.21299999999999927,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.9876375,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.9876375,
+        "velocity": -0.3764999999999993,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.98,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.98,
+        "velocity": -0.5399999999999993,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.9696375,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.9696375,
+        "velocity": -0.7034999999999992,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.95655,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.95655,
+        "velocity": -0.8669999999999992,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.9407375,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.9407375,
+        "velocity": -1.0304999999999993,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.9222,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.9222,
+        "velocity": -1.1939999999999993,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.9009375,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.9009375,
+        "velocity": -1.3574999999999993,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.87695,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.87695,
+        "velocity": -1.5209999999999992,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.8502375,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.8502375,
+        "velocity": -1.6844999999999992,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.8208,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.8208,
+        "velocity": -1.8479999999999992,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.7886374999999999,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.7886374999999999,
+        "velocity": -2.0114999999999994,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.75375,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.75375,
+        "velocity": -2.1749999999999994,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.7161374999999999,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.7161374999999999,
+        "velocity": -2.3384999999999994,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.6758,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.6758,
+        "velocity": -2.5019999999999993,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.6327375,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.6327375,
+        "velocity": -2.6654999999999993,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.5869499999999999,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.5869499999999999,
+        "velocity": -2.8289999999999993,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.5384375,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.5384375,
+        "velocity": -2.9924999999999993,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.4871999999999999,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.4871999999999999,
+        "velocity": -3.1559999999999993,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.4332375,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.4332375,
+        "velocity": -3.3194999999999992,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.37655,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.37655,
+        "velocity": -3.482999999999999,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.3171374999999999,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.3171374999999999,
+        "velocity": -3.646499999999999,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.255,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.255,
+        "velocity": -3.809999999999999,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.1901374999999998,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.1901374999999998,
+        "velocity": -3.973499999999999,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.12255,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.12255,
+        "velocity": -4.137,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        1.0522375,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 1.0522375,
+        "velocity": -4.3004999999999995,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.9792,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 0.9792,
+        "velocity": -4.4639999999999995,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.9034375,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 0.9034375,
+        "velocity": -4.6274999999999995,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.8249500000000001,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 0.8249500000000001,
+        "velocity": -4.7909999999999995,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.7437375,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 0.7437375,
+        "velocity": -4.9544999999999995,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.6598,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 0.6598,
+        "velocity": -5.117999999999999,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.5731375000000001,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 0.5731375000000001,
+        "velocity": -5.281499999999999,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.48375000000000007,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 0.48375000000000007,
+        "velocity": -5.444999999999999,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.3916375000000001,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 0.3916375000000001,
+        "velocity": -5.608499999999999,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.29680000000000006,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 0.29680000000000006,
+        "velocity": -5.771999999999999,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.19923750000000007,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": true,
+        "y": 0.19923750000000007,
+        "velocity": -5.935499999999999,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "safe": [
+        195,
+        0.16,
+        -265
+      ],
+      "active": true
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": false
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": false
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": false
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": false
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": false
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": false
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": false
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": false
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": false
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": false
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": false
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": false
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": false
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": false
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": false
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": false
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": false
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": false
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": false
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": false
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": false
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": false
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": false
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": false
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": false
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": false
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": false
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": false
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": false
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": false
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": false
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": false
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": false
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": false
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": false
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": false
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": false
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": false
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": false
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": false
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": false
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": false
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": false
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": false
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": false
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": false
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": false
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": false
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": false
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": false
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": false
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": false
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": false
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": false
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": false
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": false
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": false
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": false
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": false
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": false
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": false
+    },
+    {
+      "position": [
+        195,
+        0.16,
+        -265
+      ],
+      "diagnostics": {
+        "airborne": false,
+        "y": 0.16,
+        "velocity": 0,
+        "launches": 2,
+        "fixedStep": 0.016666666666666666,
+        "gravity": 9.81
+      },
+      "active": false
+    }
+  ],
+  "realKeyboard": true,
+  "realNativeModel": true,
+  "errors": [],
+  "httpErrors": []
+}

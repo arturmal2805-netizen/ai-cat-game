@@ -1,0 +1,43 @@
+{
+  "stage": "advanced-phone",
+  "referenceImage": null,
+  "ratings": {
+    "Materials": 62,
+    "Physics Behavior": 77,
+    "Visual Style": 38,
+    "Reference Fidelity": 42,
+    "Lighting": 25,
+    "Performance": null
+  },
+  "findings": [
+    {
+      "id": "SQ-08",
+      "severity": "ACCEPTED for rind shader / bounded shards",
+      "status": "RETESTED",
+      "actual": "Desktop + coarse touch real press/strong load/reset pass; visible strain cracks and actual fragments; zero GL or HTTP errors."
+    },
+    {
+      "id": "SQ-09",
+      "severity": "MAJOR",
+      "status": "OPEN",
+      "actual": "Filament winding fixed, but actual stretch is visually too short; coalescence still needs a supporting vessel and polished shading."
+    },
+    {
+      "id": "SQ-07",
+      "severity": "MAJOR",
+      "status": "OPEN",
+      "actual": "Foam still needs high-resolution paw footprint and physical crunchy filler."
+    },
+    {
+      "id": "SQ-02",
+      "severity": "MAJOR",
+      "status": "OPEN",
+      "actual": "Ten-sector reference hall, lighting, native material reactions, audio, manual support and final videos remain incomplete."
+    }
+  ],
+  "limitations": [
+    "No original reference bytes mounted, no invented substitute.",
+    "Background clock not pinned in this historical stage; state differences are not isolated material-only motion.",
+    "Implicit two-centre coalescence is not a full fluid solver."
+  ]
+}

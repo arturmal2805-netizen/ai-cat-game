@@ -1,0 +1,327 @@
+<!doctype html><meta charset="utf-8"><title>Warehouse reference validation</title><style>body{font:16px system-ui;background:#181323;color:#fff0e1;margin:24px}h1,h2{color:#efc678}.grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}img{width:100%}section{background:#31243e;padding:12px;border-radius:12px}pre{white-space:pre-wrap}.BLOCKER{color:#ff8c89}</style><h1>giant-desktop-close — actual game validation</h1><p>Reference → implementation → capture → comparison → correction → retest. No pixel-identity or hardware-FPS claim.</p><h2>Review findings</h2><pre>{
+  &quot;stage&quot;: &quot;giant-desktop-close&quot;,
+  &quot;referenceImage&quot;: null,
+  &quot;ratings&quot;: {
+    &quot;Visual Style&quot;: 45,
+    &quot;Reference Fidelity&quot;: 46,
+    &quot;Geometry&quot;: 62,
+    &quot;Materials&quot;: 60,
+    &quot;Lighting&quot;: 34,
+    &quot;Physics Behavior&quot;: 77,
+    &quot;Performance&quot;: null
+  },
+  &quot;findings&quot;: [
+    {
+      &quot;id&quot;: &quot;SQ-11&quot;,
+      &quot;severity&quot;: &quot;MAJOR&quot;,
+      &quot;status&quot;: &quot;OPEN&quot;,
+      &quot;actual&quot;: &quot;Real giant press/hold/recovery PASS, positive tetrahedra/0 faults. Helper still used close7m camera and cropped ears: overview art rejected, fixed later.&quot;
+    },
+    {
+      &quot;id&quot;: &quot;SQ-12&quot;,
+      &quot;severity&quot;: &quot;MAJOR&quot;,
+      &quot;status&quot;: &quot;OPEN&quot;,
+      &quot;actual&quot;: &quot;Final visual density/lighting, four resource LODs, actor choreography/manual support and final 3\u20135s sequences still required. Original reference bytes unmounted, no fabricated substitute.&quot;
+    }
+  ]
+}</pre><article><h2>material-giant-hold</h2><div class="grid"><section><h3>Reference</h3><p>Original reference A/B is visible in the user conversation. Original image bytes are not mounted here. This slot is explicitly incomplete; no generated replacement is used.</p></section><section><h3>Actual game</h3><img src="material-giant-hold.png"></section><section><h3>Same-camera state difference</h3><img src="material-giant-hold-difference.png"></section></div><details><summary>Camera, timestep, material measurements and hash</summary><pre>{
+  &quot;image&quot;: &quot;material-giant-hold.png&quot;,
+  &quot;sha256&quot;: &quot;fcb6e28bb03dfb6d04ad8885c8aaf2663440615f195205e719364545747e790f&quot;,
+  &quot;size&quot;: [
+    2124,
+    1360
+  ],
+  &quot;meanRGB&quot;: [
+    159.44603377367898,
+    161.86048694195193,
+    161.62709510357814
+  ],
+  &quot;metadata&quot;: {
+    &quot;material&quot;: &quot;giant&quot;,
+    &quot;solver&quot;: {
+      &quot;sleeping&quot;: false,
+      &quot;particles&quot;: 1089,
+      &quot;constraints&quot;: 11208,
+      &quot;contacts&quot;: 0,
+      &quot;steps&quot;: 180,
+      &quot;time&quot;: 2.9999999999999942,
+      &quot;volumeRatio&quot;: 1.0000201991415283,
+      &quot;minTetRatio&quot;: 0.9997493329216927,
+      &quot;maxDeformation&quot;: 0.006762963123974911,
+      &quot;maxStrain&quot;: 0.0008701605572829828,
+      &quot;damage&quot;: 0,
+      &quot;faults&quot;: 0,
+      &quot;limitedSteps&quot;: 0,
+      &quot;lastPhysicsMs&quot;: 3.800000011920929,
+      &quot;droppedTime&quot;: 0
+    },
+    &quot;sceneTime&quot;: 7,
+    &quot;reviewHour&quot;: 12,
+    &quot;seed&quot;: 4419,
+    &quot;camera&quot;: {
+      &quot;position&quot;: [
+        3067,
+        -444.448,
+        1205
+      ],
+      &quot;target&quot;: [
+        3060,
+        -445.89799999999997,
+        1195
+      ],
+      &quot;fov&quot;: 48,
+      &quot;aspect&quot;: 1.561764705882353,
+      &quot;near&quot;: 0.08,
+      &quot;far&quot;: 20000
+    },
+    &quot;objectPosition&quot;: [
+      3060,
+      -449.948,
+      1195
+    ],
+    &quot;renderer&quot;: {
+      &quot;dpr&quot;: 2,
+      &quot;shadow&quot;: 1,
+      &quot;toneMapping&quot;: 4,
+      &quot;info&quot;: {
+        &quot;frame&quot;: 4,
+        &quot;calls&quot;: 237,
+        &quot;triangles&quot;: 850240,
+        &quot;points&quot;: 320,
+        &quot;lines&quot;: 0
+      }
+    },
+    &quot;time&quot;: 2.9999999999999942
+  },
+  &quot;group&quot;: &quot;material-giant&quot;,
+  &quot;sameCameraAndRenderSettings&quot;: true,
+  &quot;edgeMeanAbsoluteDifference&quot;: 0.23586243584062627,
+  &quot;meanAbsolutePixelDifference&quot;: 0.052567067316568815,
+  &quot;changedPixelFraction&quot;: 0.0008966157084302648,
+  &quot;differenceImage&quot;: &quot;material-giant-hold-difference.png&quot;
+}</pre></details></article><article><h2>material-giant-press</h2><div class="grid"><section><h3>Reference</h3><p>Original reference A/B is visible in the user conversation. Original image bytes are not mounted here. This slot is explicitly incomplete; no generated replacement is used.</p></section><section><h3>Actual game</h3><img src="material-giant-press.png"></section><section><h3>Same-camera state difference</h3><img src="material-giant-press-difference.png"></section></div><details><summary>Camera, timestep, material measurements and hash</summary><pre>{
+  &quot;image&quot;: &quot;material-giant-press.png&quot;,
+  &quot;sha256&quot;: &quot;ad2447d74c0817603da8bacf48871f5ad1e5a64c0342e8d5fef7b1dcb08dcc6c&quot;,
+  &quot;size&quot;: [
+    2124,
+    1360
+  ],
+  &quot;meanRGB&quot;: [
+    159.34803090727817,
+    161.97033205937743,
+    161.77504154204055
+  ],
+  &quot;metadata&quot;: {
+    &quot;material&quot;: &quot;giant&quot;,
+    &quot;solver&quot;: {
+      &quot;sleeping&quot;: false,
+      &quot;particles&quot;: 1089,
+      &quot;constraints&quot;: 11208,
+      &quot;contacts&quot;: 1,
+      &quot;steps&quot;: 120,
+      &quot;time&quot;: 1.9999999999999978,
+      &quot;volumeRatio&quot;: 1.0001028644872099,
+      &quot;minTetRatio&quot;: 0.8888343353410638,
+      &quot;maxDeformation&quot;: 0.5254847207106647,
+      &quot;maxStrain&quot;: 0.14828708610723026,
+      &quot;damage&quot;: 0,
+      &quot;faults&quot;: 0,
+      &quot;limitedSteps&quot;: 0,
+      &quot;lastPhysicsMs&quot;: 3.7000000178813934,
+      &quot;droppedTime&quot;: 0
+    },
+    &quot;sceneTime&quot;: 7,
+    &quot;reviewHour&quot;: 12,
+    &quot;seed&quot;: 4419,
+    &quot;camera&quot;: {
+      &quot;position&quot;: [
+        3067,
+        -444.448,
+        1205
+      ],
+      &quot;target&quot;: [
+        3060,
+        -445.89799999999997,
+        1195
+      ],
+      &quot;fov&quot;: 48,
+      &quot;aspect&quot;: 1.561764705882353,
+      &quot;near&quot;: 0.08,
+      &quot;far&quot;: 20000
+    },
+    &quot;objectPosition&quot;: [
+      3060,
+      -449.948,
+      1195
+    ],
+    &quot;renderer&quot;: {
+      &quot;dpr&quot;: 2,
+      &quot;shadow&quot;: 1,
+      &quot;toneMapping&quot;: 4,
+      &quot;info&quot;: {
+        &quot;frame&quot;: 3,
+        &quot;calls&quot;: 237,
+        &quot;triangles&quot;: 850240,
+        &quot;points&quot;: 320,
+        &quot;lines&quot;: 0
+      }
+    },
+    &quot;time&quot;: 1.9999999999999978
+  },
+  &quot;group&quot;: &quot;material-giant&quot;,
+  &quot;sameCameraAndRenderSettings&quot;: true,
+  &quot;edgeMeanAbsoluteDifference&quot;: 1.2631549795059267,
+  &quot;meanAbsolutePixelDifference&quot;: 2.2123947601639524,
+  &quot;changedPixelFraction&quot;: 0.030133903844023487,
+  &quot;differenceImage&quot;: &quot;material-giant-press-difference.png&quot;
+}</pre></details></article><article><h2>material-giant-recovery</h2><div class="grid"><section><h3>Reference</h3><p>Original reference A/B is visible in the user conversation. Original image bytes are not mounted here. This slot is explicitly incomplete; no generated replacement is used.</p></section><section><h3>Actual game</h3><img src="material-giant-recovery.png"></section><section><h3>Same-camera state difference</h3><img src="material-giant-recovery-difference.png"></section></div><details><summary>Camera, timestep, material measurements and hash</summary><pre>{
+  &quot;image&quot;: &quot;material-giant-recovery.png&quot;,
+  &quot;sha256&quot;: &quot;8f0916259cf66cb2fd9dc58e40e9dd0c0273d145020e906b593a587b10169cec&quot;,
+  &quot;size&quot;: [
+    2124,
+    1360
+  ],
+  &quot;meanRGB&quot;: [
+    159.4522051899856,
+    161.85039984214023,
+    161.61740196078432
+  ],
+  &quot;metadata&quot;: {
+    &quot;material&quot;: &quot;giant&quot;,
+    &quot;solver&quot;: {
+      &quot;sleeping&quot;: true,
+      &quot;particles&quot;: 1089,
+      &quot;constraints&quot;: 11208,
+      &quot;contacts&quot;: 0,
+      &quot;steps&quot;: 414,
+      &quot;time&quot;: 6.899999999999981,
+      &quot;volumeRatio&quot;: 1,
+      &quot;minTetRatio&quot;: 0.9999999999999997,
+      &quot;maxDeformation&quot;: 0,
+      &quot;maxStrain&quot;: 1.9468042861742813e-07,
+      &quot;damage&quot;: 0,
+      &quot;faults&quot;: 0,
+      &quot;limitedSteps&quot;: 0,
+      &quot;lastPhysicsMs&quot;: 0,
+      &quot;droppedTime&quot;: 0
+    },
+    &quot;sceneTime&quot;: 7,
+    &quot;reviewHour&quot;: 12,
+    &quot;seed&quot;: 4419,
+    &quot;camera&quot;: {
+      &quot;position&quot;: [
+        3067,
+        -444.448,
+        1205
+      ],
+      &quot;target&quot;: [
+        3060,
+        -445.89799999999997,
+        1195
+      ],
+      &quot;fov&quot;: 48,
+      &quot;aspect&quot;: 1.561764705882353,
+      &quot;near&quot;: 0.08,
+      &quot;far&quot;: 20000
+    },
+    &quot;objectPosition&quot;: [
+      3060,
+      -449.948,
+      1195
+    ],
+    &quot;renderer&quot;: {
+      &quot;dpr&quot;: 2,
+      &quot;shadow&quot;: 1,
+      &quot;toneMapping&quot;: 4,
+      &quot;info&quot;: {
+        &quot;frame&quot;: 5,
+        &quot;calls&quot;: 237,
+        &quot;triangles&quot;: 850240,
+        &quot;points&quot;: 320,
+        &quot;lines&quot;: 0
+      }
+    },
+    &quot;time&quot;: 6.899999999999981
+  },
+  &quot;group&quot;: &quot;material-giant&quot;,
+  &quot;sameCameraAndRenderSettings&quot;: true,
+  &quot;edgeMeanAbsoluteDifference&quot;: 0.005804346220597467,
+  &quot;meanAbsolutePixelDifference&quot;: 0.001631563642406115,
+  &quot;changedPixelFraction&quot;: 0.0,
+  &quot;differenceImage&quot;: &quot;material-giant-recovery-difference.png&quot;
+}</pre></details></article><article><h2>material-giant-rest</h2><div class="grid"><section><h3>Reference</h3><p>Original reference A/B is visible in the user conversation. Original image bytes are not mounted here. This slot is explicitly incomplete; no generated replacement is used.</p></section><section><h3>Actual game</h3><img src="material-giant-rest.png"></section><section><h3>Same-camera state difference</h3><img src="material-giant-rest-difference.png"></section></div><details><summary>Camera, timestep, material measurements and hash</summary><pre>{
+  &quot;image&quot;: &quot;material-giant-rest.png&quot;,
+  &quot;sha256&quot;: &quot;1e1912d83b30c1f27af5b3c76c442c8a71cb96fe2b430d2d9df1cdc44595ef71&quot;,
+  &quot;size&quot;: [
+    2124,
+    1360
+  ],
+  &quot;meanRGB&quot;: [
+    159.45219515065912,
+    161.8477840783206,
+    161.61513307300322
+  ],
+  &quot;metadata&quot;: {
+    &quot;material&quot;: &quot;giant&quot;,
+    &quot;solver&quot;: {
+      &quot;sleeping&quot;: true,
+      &quot;particles&quot;: 1089,
+      &quot;constraints&quot;: 11208,
+      &quot;contacts&quot;: 0,
+      &quot;steps&quot;: 0,
+      &quot;time&quot;: 0,
+      &quot;volumeRatio&quot;: 1,
+      &quot;minTetRatio&quot;: 0.9999999999999997,
+      &quot;maxDeformation&quot;: 0,
+      &quot;maxStrain&quot;: 0,
+      &quot;damage&quot;: 0,
+      &quot;faults&quot;: 0,
+      &quot;limitedSteps&quot;: 0,
+      &quot;lastPhysicsMs&quot;: 0,
+      &quot;droppedTime&quot;: 0
+    },
+    &quot;sceneTime&quot;: 7,
+    &quot;reviewHour&quot;: 12,
+    &quot;seed&quot;: 4419,
+    &quot;camera&quot;: {
+      &quot;position&quot;: [
+        3067,
+        -444.448,
+        1205
+      ],
+      &quot;target&quot;: [
+        3060,
+        -445.89799999999997,
+        1195
+      ],
+      &quot;fov&quot;: 48,
+      &quot;aspect&quot;: 1.561764705882353,
+      &quot;near&quot;: 0.08,
+      &quot;far&quot;: 20000
+    },
+    &quot;objectPosition&quot;: [
+      3060,
+      -449.948,
+      1195
+    ],
+    &quot;renderer&quot;: {
+      &quot;dpr&quot;: 2,
+      &quot;shadow&quot;: 1,
+      &quot;toneMapping&quot;: 4,
+      &quot;info&quot;: {
+        &quot;frame&quot;: 2,
+        &quot;calls&quot;: 355,
+        &quot;triangles&quot;: 1086692,
+        &quot;points&quot;: 320,
+        &quot;lines&quot;: 0
+      }
+    },
+    &quot;time&quot;: 0
+  },
+  &quot;group&quot;: &quot;material-giant&quot;,
+  &quot;sameCameraAndRenderSettings&quot;: true,
+  &quot;edgeMeanAbsoluteDifference&quot;: 0.0,
+  &quot;meanAbsolutePixelDifference&quot;: 0.0,
+  &quot;changedPixelFraction&quot;: 0.0,
+  &quot;differenceImage&quot;: &quot;material-giant-rest-difference.png&quot;
+}</pre></details></article>

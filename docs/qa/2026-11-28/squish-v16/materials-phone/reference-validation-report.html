@@ -1,0 +1,2057 @@
+<!doctype html><meta charset="utf-8"><title>Warehouse reference validation</title><style>body{font:16px system-ui;background:#181323;color:#fff0e1;margin:24px}h1,h2{color:#efc678}.grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}img{width:100%}section{background:#31243e;padding:12px;border-radius:12px}pre{white-space:pre-wrap}.BLOCKER{color:#ff8c89}</style><h1>materials-phone — actual game validation</h1><p>Reference → implementation → capture → comparison → correction → retest. No pixel-identity or hardware-FPS claim.</p><h2>Review findings</h2><pre>{
+  &quot;stage&quot;: &quot;materials-phone&quot;,
+  &quot;referenceImage&quot;: null,
+  &quot;ratings&quot;: {
+    &quot;Visual Style&quot;: 40,
+    &quot;Geometry&quot;: 60,
+    &quot;Materials&quot;: 60,
+    &quot;Lighting&quot;: 25,
+    &quot;Squish Detail&quot;: 55,
+    &quot;Physics Behavior&quot;: 75,
+    &quot;Cat Interaction&quot;: null,
+    &quot;Reference Fidelity&quot;: 45,
+    &quot;Performance&quot;: null
+  },
+  &quot;findings&quot;: [
+    {
+      &quot;id&quot;: &quot;SQ-06&quot;,
+      &quot;severity&quot;: &quot;ACCEPTED for fleece correction&quot;,
+      &quot;status&quot;: &quot;RETESTED&quot;,
+      &quot;actual&quot;: &quot;Sharp/dotted prototypes replaced with dense original-game groom authoring on a new toy clone. Actual cloud rest/press/recovery frames. Original cat sources unchanged.&quot;
+    },
+    {
+      &quot;id&quot;: &quot;SQ-05&quot;,
+      &quot;severity&quot;: &quot;ACCEPTED basic material responses only&quot;,
+      &quot;status&quot;: &quot;RETESTED&quot;,
+      &quot;actual&quot;: &quot;All seven actual touch states pass, independent fixed camera/positive volumes/held memory. Full advanced states and final lighting/interior are still open.&quot;
+    },
+    {
+      &quot;id&quot;: &quot;SQ-07&quot;,
+      &quot;severity&quot;: &quot;MAJOR&quot;,
+      &quot;status&quot;: &quot;OPEN&quot;,
+      &quot;actual&quot;: &quot;Foam holds a dent but needs high-resolution paw-lobe footprint.&quot;
+    },
+    {
+      &quot;id&quot;: &quot;SQ-02&quot;,
+      &quot;severity&quot;: &quot;MAJOR&quot;,
+      &quot;status&quot;: &quot;OPEN&quot;,
+      &quot;actual&quot;: &quot;Final referenceA luxury architecture/lighting/shelves and full advanced material state board not yet built.&quot;
+    }
+  ]
+}</pre><article><h2>material-butter-hold</h2><div class="grid"><section><h3>Reference</h3><p>Original reference A/B is visible in the user conversation. Original image bytes are not mounted here. This slot is explicitly incomplete; no generated replacement is used.</p></section><section><h3>Actual game</h3><img src="material-butter-hold.png"></section><section><h3>Same-camera state difference</h3><img src="material-butter-hold-difference.png"></section></div><details><summary>Camera, timestep, material measurements and hash</summary><pre>{
+  &quot;image&quot;: &quot;material-butter-hold.png&quot;,
+  &quot;sha256&quot;: &quot;b2cb65c0029d6016a307ef28e02324cfe41abcd47d323d45adf9472ad4243f99&quot;,
+  &quot;size&quot;: [
+    776,
+    1464
+  ],
+  &quot;meanRGB&quot;: [
+    172.51803243479242,
+    172.1272041011774,
+    158.93120017886315
+  ],
+  &quot;metadata&quot;: {
+    &quot;material&quot;: &quot;butter&quot;,
+    &quot;solver&quot;: {
+      &quot;sleeping&quot;: false,
+      &quot;particles&quot;: 343,
+      &quot;constraints&quot;: 3150,
+      &quot;contacts&quot;: 0,
+      &quot;steps&quot;: 180,
+      &quot;time&quot;: 2.9999999999999942,
+      &quot;volumeRatio&quot;: 0.9988347731040625,
+      &quot;minTetRatio&quot;: 0.9105887437840189,
+      &quot;maxDeformation&quot;: 0.2139553719793662,
+      &quot;maxStrain&quot;: 0.15942108641318573,
+      &quot;damage&quot;: 0.598224401473999,
+      &quot;faults&quot;: 0,
+      &quot;limitedSteps&quot;: 0,
+      &quot;lastPhysicsMs&quot;: 1.5999999940395355,
+      &quot;droppedTime&quot;: 0
+    },
+    &quot;camera&quot;: {
+      &quot;position&quot;: [
+        3055,
+        -444.448,
+        1246
+      ],
+      &quot;target&quot;: [
+        3048,
+        -447.96799999999996,
+        1236
+      ],
+      &quot;fov&quot;: 48,
+      &quot;aspect&quot;: 0.5300546448087432,
+      &quot;near&quot;: 0.08,
+      &quot;far&quot;: 20000
+    },
+    &quot;objectPosition&quot;: [
+      3048,
+      -449.948,
+      1236
+    ],
+    &quot;renderer&quot;: {
+      &quot;dpr&quot;: 2,
+      &quot;shadow&quot;: 1,
+      &quot;toneMapping&quot;: 4,
+      &quot;info&quot;: {
+        &quot;frame&quot;: 8,
+        &quot;calls&quot;: 71,
+        &quot;triangles&quot;: 671722,
+        &quot;points&quot;: 0,
+        &quot;lines&quot;: 0
+      }
+    },
+    &quot;time&quot;: 2.9999999999999942
+  },
+  &quot;group&quot;: &quot;material-butter&quot;,
+  &quot;sameCameraAndRenderSettings&quot;: true,
+  &quot;edgeMeanAbsoluteDifference&quot;: 0.8770999403789458,
+  &quot;meanAbsolutePixelDifference&quot;: 0.6333360913939121,
+  &quot;changedPixelFraction&quot;: 0.009223071939609036,
+  &quot;differenceImage&quot;: &quot;material-butter-hold-difference.png&quot;
+}</pre></details></article><article><h2>material-butter-press</h2><div class="grid"><section><h3>Reference</h3><p>Original reference A/B is visible in the user conversation. Original image bytes are not mounted here. This slot is explicitly incomplete; no generated replacement is used.</p></section><section><h3>Actual game</h3><img src="material-butter-press.png"></section><section><h3>Same-camera state difference</h3><img src="material-butter-press-difference.png"></section></div><details><summary>Camera, timestep, material measurements and hash</summary><pre>{
+  &quot;image&quot;: &quot;material-butter-press.png&quot;,
+  &quot;sha256&quot;: &quot;c571d10f27e6b70d723b28c6f69d08cb85f583f7355bd6d9d0d14ec7ab1e47a9&quot;,
+  &quot;size&quot;: [
+    776,
+    1464
+  ],
+  &quot;meanRGB&quot;: [
+    172.74509006534842,
+    172.3613652047772,
+    159.09849973240944
+  ],
+  &quot;metadata&quot;: {
+    &quot;material&quot;: &quot;butter&quot;,
+    &quot;solver&quot;: {
+      &quot;sleeping&quot;: false,
+      &quot;particles&quot;: 343,
+      &quot;constraints&quot;: 3150,
+      &quot;contacts&quot;: 1,
+      &quot;steps&quot;: 120,
+      &quot;time&quot;: 1.9999999999999978,
+      &quot;volumeRatio&quot;: 0.9963973303938358,
+      &quot;minTetRatio&quot;: 0.7257829160344349,
+      &quot;maxDeformation&quot;: 0.45066091576539397,
+      &quot;maxStrain&quot;: 0.16387936638982856,
+      &quot;damage&quot;: 0.598224401473999,
+      &quot;faults&quot;: 0,
+      &quot;limitedSteps&quot;: 0,
+      &quot;lastPhysicsMs&quot;: 1.0999999940395355,
+      &quot;droppedTime&quot;: 0
+    },
+    &quot;camera&quot;: {
+      &quot;position&quot;: [
+        3055,
+        -444.448,
+        1246
+      ],
+      &quot;target&quot;: [
+        3048,
+        -447.96799999999996,
+        1236
+      ],
+      &quot;fov&quot;: 48,
+      &quot;aspect&quot;: 0.5300546448087432,
+      &quot;near&quot;: 0.08,
+      &quot;far&quot;: 20000
+    },
+    &quot;objectPosition&quot;: [
+      3048,
+      -449.948,
+      1236
+    ],
+    &quot;renderer&quot;: {
+      &quot;dpr&quot;: 2,
+      &quot;shadow&quot;: 1,
+      &quot;toneMapping&quot;: 4,
+      &quot;info&quot;: {
+        &quot;frame&quot;: 7,
+        &quot;calls&quot;: 71,
+        &quot;triangles&quot;: 671722,
+        &quot;points&quot;: 0,
+        &quot;lines&quot;: 0
+      }
+    },
+    &quot;time&quot;: 1.9999999999999978
+  },
+  &quot;group&quot;: &quot;material-butter&quot;,
+  &quot;sameCameraAndRenderSettings&quot;: true,
+  &quot;edgeMeanAbsoluteDifference&quot;: 1.3348916375603253,
+  &quot;meanAbsolutePixelDifference&quot;: 1.4280756483202826,
+  &quot;changedPixelFraction&quot;: 0.024757408033350234,
+  &quot;differenceImage&quot;: &quot;material-butter-press-difference.png&quot;
+}</pre></details></article><article><h2>material-butter-recovery</h2><div class="grid"><section><h3>Reference</h3><p>Original reference A/B is visible in the user conversation. Original image bytes are not mounted here. This slot is explicitly incomplete; no generated replacement is used.</p></section><section><h3>Actual game</h3><img src="material-butter-recovery.png"></section><section><h3>Same-camera state difference</h3><img src="material-butter-recovery-difference.png"></section></div><details><summary>Camera, timestep, material measurements and hash</summary><pre>{
+  &quot;image&quot;: &quot;material-butter-recovery.png&quot;,
+  &quot;sha256&quot;: &quot;d0488a8a17eef5a601f1ed83eb9aae11b847a64a9029a075881e4ae64bf30afd&quot;,
+  &quot;size&quot;: [
+    776,
+    1464
+  ],
+  &quot;meanRGB&quot;: [
+    172.39267330009577,
+    172.02922018477832,
+    158.90152227339306
+  ],
+  &quot;metadata&quot;: {
+    &quot;material&quot;: &quot;butter&quot;,
+    &quot;solver&quot;: {
+      &quot;sleeping&quot;: false,
+      &quot;particles&quot;: 343,
+      &quot;constraints&quot;: 3150,
+      &quot;contacts&quot;: 0,
+      &quot;steps&quot;: 420,
+      &quot;time&quot;: 6.9999999999999805,
+      &quot;volumeRatio&quot;: 0.9997740749410357,
+      &quot;minTetRatio&quot;: 0.9820386881479061,
+      &quot;maxDeformation&quot;: 0.0443932278035742,
+      &quot;maxStrain&quot;: 0.026490740096132503,
+      &quot;damage&quot;: 0.598224401473999,
+      &quot;faults&quot;: 0,
+      &quot;limitedSteps&quot;: 0,
+      &quot;lastPhysicsMs&quot;: 1.2000000178813934,
+      &quot;droppedTime&quot;: 0
+    },
+    &quot;camera&quot;: {
+      &quot;position&quot;: [
+        3055,
+        -444.448,
+        1246
+      ],
+      &quot;target&quot;: [
+        3048,
+        -447.96799999999996,
+        1236
+      ],
+      &quot;fov&quot;: 48,
+      &quot;aspect&quot;: 0.5300546448087432,
+      &quot;near&quot;: 0.08,
+      &quot;far&quot;: 20000
+    },
+    &quot;objectPosition&quot;: [
+      3048,
+      -449.948,
+      1236
+    ],
+    &quot;renderer&quot;: {
+      &quot;dpr&quot;: 2,
+      &quot;shadow&quot;: 1,
+      &quot;toneMapping&quot;: 4,
+      &quot;info&quot;: {
+        &quot;frame&quot;: 9,
+        &quot;calls&quot;: 71,
+        &quot;triangles&quot;: 671722,
+        &quot;points&quot;: 0,
+        &quot;lines&quot;: 0
+      }
+    },
+    &quot;time&quot;: 6.9999999999999805
+  },
+  &quot;group&quot;: &quot;material-butter&quot;,
+  &quot;sameCameraAndRenderSettings&quot;: true,
+  &quot;edgeMeanAbsoluteDifference&quot;: 0.38883812883781194,
+  &quot;meanAbsolutePixelDifference&quot;: 0.1543572075751601,
+  &quot;changedPixelFraction&quot;: 0.0014752689989296379,
+  &quot;differenceImage&quot;: &quot;material-butter-recovery-difference.png&quot;
+}</pre></details></article><article><h2>material-butter-rest</h2><div class="grid"><section><h3>Reference</h3><p>Original reference A/B is visible in the user conversation. Original image bytes are not mounted here. This slot is explicitly incomplete; no generated replacement is used.</p></section><section><h3>Actual game</h3><img src="material-butter-rest.png"></section><section><h3>Same-camera state difference</h3><img src="material-butter-rest-difference.png"></section></div><details><summary>Camera, timestep, material measurements and hash</summary><pre>{
+  &quot;image&quot;: &quot;material-butter-rest.png&quot;,
+  &quot;sha256&quot;: &quot;bfb6700dbbb9b968aaec6a08345d98ded9114ba9b21b50c2692a9006b753d1db&quot;,
+  &quot;size&quot;: [
+    776,
+    1464
+  ],
+  &quot;meanRGB&quot;: [
+    172.35643238409105,
+    172.00279033575572,
+    158.9000918962312
+  ],
+  &quot;metadata&quot;: {
+    &quot;material&quot;: &quot;butter&quot;,
+    &quot;solver&quot;: {
+      &quot;sleeping&quot;: true,
+      &quot;particles&quot;: 343,
+      &quot;constraints&quot;: 3150,
+      &quot;contacts&quot;: 0,
+      &quot;steps&quot;: 0,
+      &quot;time&quot;: 0,
+      &quot;volumeRatio&quot;: 1,
+      &quot;minTetRatio&quot;: 0.9999999999999998,
+      &quot;maxDeformation&quot;: 0,
+      &quot;maxStrain&quot;: 0,
+      &quot;damage&quot;: 0,
+      &quot;faults&quot;: 0,
+      &quot;limitedSteps&quot;: 0,
+      &quot;lastPhysicsMs&quot;: 0,
+      &quot;droppedTime&quot;: 0
+    },
+    &quot;camera&quot;: {
+      &quot;position&quot;: [
+        3055,
+        -444.448,
+        1246
+      ],
+      &quot;target&quot;: [
+        3048,
+        -447.96799999999996,
+        1236
+      ],
+      &quot;fov&quot;: 48,
+      &quot;aspect&quot;: 0.5300546448087432,
+      &quot;near&quot;: 0.08,
+      &quot;far&quot;: 20000
+    },
+    &quot;objectPosition&quot;: [
+      3048,
+      -449.948,
+      1236
+    ],
+    &quot;renderer&quot;: {
+      &quot;dpr&quot;: 2,
+      &quot;shadow&quot;: 1,
+      &quot;toneMapping&quot;: 4,
+      &quot;info&quot;: {
+        &quot;frame&quot;: 6,
+        &quot;calls&quot;: 71,
+        &quot;triangles&quot;: 671722,
+        &quot;points&quot;: 0,
+        &quot;lines&quot;: 0
+      }
+    },
+    &quot;time&quot;: 0
+  },
+  &quot;group&quot;: &quot;material-butter&quot;,
+  &quot;sameCameraAndRenderSettings&quot;: true,
+  &quot;edgeMeanAbsoluteDifference&quot;: 0.0,
+  &quot;meanAbsolutePixelDifference&quot;: 0.0,
+  &quot;changedPixelFraction&quot;: 0.0,
+  &quot;differenceImage&quot;: &quot;material-butter-rest-difference.png&quot;
+}</pre></details></article><article><h2>material-cloud-hold</h2><div class="grid"><section><h3>Reference</h3><p>Original reference A/B is visible in the user conversation. Original image bytes are not mounted here. This slot is explicitly incomplete; no generated replacement is used.</p></section><section><h3>Actual game</h3><img src="material-cloud-hold.png"></section><section><h3>Same-camera state difference</h3><img src="material-cloud-hold-difference.png"></section></div><details><summary>Camera, timestep, material measurements and hash</summary><pre>{
+  &quot;image&quot;: &quot;material-cloud-hold.png&quot;,
+  &quot;sha256&quot;: &quot;d914259bdaf0e0297b3cfe35e7ed335f1c0cabd4a83d9dd170684e0c78b95015&quot;,
+  &quot;size&quot;: [
+    776,
+    1464
+  ],
+  &quot;meanRGB&quot;: [
+    171.35043008140386,
+    170.88723874711283,
+    173.57046345980507
+  ],
+  &quot;metadata&quot;: {
+    &quot;material&quot;: &quot;cloud&quot;,
+    &quot;solver&quot;: {
+      &quot;sleeping&quot;: false,
+      &quot;particles&quot;: 343,
+      &quot;constraints&quot;: 3150,
+      &quot;contacts&quot;: 0,
+      &quot;steps&quot;: 180,
+      &quot;time&quot;: 2.9999999999999942,
+      &quot;volumeRatio&quot;: 0.9979683834474812,
+      &quot;minTetRatio&quot;: 0.7835973232229198,
+      &quot;maxDeformation&quot;: 0.18436943026039906,
+      &quot;maxStrain&quot;: 0.0009481333203644546,
+      &quot;damage&quot;: 0,
+      &quot;faults&quot;: 0,
+      &quot;limitedSteps&quot;: 0,
+      &quot;lastPhysicsMs&quot;: 1,
+      &quot;droppedTime&quot;: 0
+    },
+    &quot;camera&quot;: {
+      &quot;position&quot;: [
+        3067,
+        -444.448,
+        1236
+      ],
+      &quot;target&quot;: [
+        3060,
+        -447.96799999999996,
+        1226
+      ],
+      &quot;fov&quot;: 48,
+      &quot;aspect&quot;: 0.5300546448087432,
+      &quot;near&quot;: 0.08,
+      &quot;far&quot;: 20000
+    },
+    &quot;objectPosition&quot;: [
+      3060,
+      -449.948,
+      1226
+    ],
+    &quot;renderer&quot;: {
+      &quot;dpr&quot;: 2,
+      &quot;shadow&quot;: 1,
+      &quot;toneMapping&quot;: 4,
+      &quot;info&quot;: {
+        &quot;frame&quot;: 16,
+        &quot;calls&quot;: 90,
+        &quot;triangles&quot;: 723974,
+        &quot;points&quot;: 0,
+        &quot;lines&quot;: 0
+      }
+    },
+    &quot;time&quot;: 2.9999999999999942
+  },
+  &quot;group&quot;: &quot;material-cloud&quot;,
+  &quot;sameCameraAndRenderSettings&quot;: true,
+  &quot;edgeMeanAbsoluteDifference&quot;: 0.5787531923084145,
+  &quot;meanAbsolutePixelDifference&quot;: 0.41530846853698383,
+  &quot;changedPixelFraction&quot;: 0.005152878711058532,
+  &quot;differenceImage&quot;: &quot;material-cloud-hold-difference.png&quot;
+}</pre></details></article><article><h2>material-cloud-press</h2><div class="grid"><section><h3>Reference</h3><p>Original reference A/B is visible in the user conversation. Original image bytes are not mounted here. This slot is explicitly incomplete; no generated replacement is used.</p></section><section><h3>Actual game</h3><img src="material-cloud-press.png"></section><section><h3>Same-camera state difference</h3><img src="material-cloud-press-difference.png"></section></div><details><summary>Camera, timestep, material measurements and hash</summary><pre>{
+  &quot;image&quot;: &quot;material-cloud-press.png&quot;,
+  &quot;sha256&quot;: &quot;09d79d410579ea85f368faef77bcbc8fe915a15677cdf523c3e7fef753d10fa8&quot;,
+  &quot;size&quot;: [
+    776,
+    1464
+  ],
+  &quot;meanRGB&quot;: [
+    171.60710400118302,
+    171.14386073319812,
+    173.77855560954313
+  ],
+  &quot;metadata&quot;: {
+    &quot;material&quot;: &quot;cloud&quot;,
+    &quot;solver&quot;: {
+      &quot;sleeping&quot;: false,
+      &quot;particles&quot;: 343,
+      &quot;constraints&quot;: 3150,
+      &quot;contacts&quot;: 1,
+      &quot;steps&quot;: 120,
+      &quot;time&quot;: 1.9999999999999978,
+      &quot;volumeRatio&quot;: 0.9935511234792775,
+      &quot;minTetRatio&quot;: 0.4469035311660141,
+      &quot;maxDeformation&quot;: 0.5268137058774646,
+      &quot;maxStrain&quot;: 0.15827771829363074,
+      &quot;damage&quot;: 0,
+      &quot;faults&quot;: 0,
+      &quot;limitedSteps&quot;: 0,
+      &quot;lastPhysicsMs&quot;: 1.199999988079071,
+      &quot;droppedTime&quot;: 0
+    },
+    &quot;camera&quot;: {
+      &quot;position&quot;: [
+        3067,
+        -444.448,
+        1236
+      ],
+      &quot;target&quot;: [
+        3060,
+        -447.96799999999996,
+        1226
+      ],
+      &quot;fov&quot;: 48,
+      &quot;aspect&quot;: 0.5300546448087432,
+      &quot;near&quot;: 0.08,
+      &quot;far&quot;: 20000
+    },
+    &quot;objectPosition&quot;: [
+      3060,
+      -449.948,
+      1226
+    ],
+    &quot;renderer&quot;: {
+      &quot;dpr&quot;: 2,
+      &quot;shadow&quot;: 1,
+      &quot;toneMapping&quot;: 4,
+      &quot;info&quot;: {
+        &quot;frame&quot;: 15,
+        &quot;calls&quot;: 90,
+        &quot;triangles&quot;: 723974,
+        &quot;points&quot;: 0,
+        &quot;lines&quot;: 0
+      }
+    },
+    &quot;time&quot;: 1.9999999999999978
+  },
+  &quot;group&quot;: &quot;material-cloud&quot;,
+  &quot;sameCameraAndRenderSettings&quot;: true,
+  &quot;edgeMeanAbsoluteDifference&quot;: 1.577225402794209,
+  &quot;meanAbsolutePixelDifference&quot;: 1.136038697350384,
+  &quot;changedPixelFraction&quot;: 0.020730346177680128,
+  &quot;differenceImage&quot;: &quot;material-cloud-press-difference.png&quot;
+}</pre></details></article><article><h2>material-cloud-recovery</h2><div class="grid"><section><h3>Reference</h3><p>Original reference A/B is visible in the user conversation. Original image bytes are not mounted here. This slot is explicitly incomplete; no generated replacement is used.</p></section><section><h3>Actual game</h3><img src="material-cloud-recovery.png"></section><section><h3>Same-camera state difference</h3><img src="material-cloud-recovery-difference.png"></section></div><details><summary>Camera, timestep, material measurements and hash</summary><pre>{
+  &quot;image&quot;: &quot;material-cloud-recovery.png&quot;,
+  &quot;sha256&quot;: &quot;a2497f18d45de1f79956fa052c8d7f2e3eb9c0739c53e2316c5672896f8c4446&quot;,
+  &quot;size&quot;: [
+    776,
+    1464
+  ],
+  &quot;meanRGB&quot;: [
+    171.1883705495465,
+    170.72590100557716,
+    173.43406269365107
+  ],
+  &quot;metadata&quot;: {
+    &quot;material&quot;: &quot;cloud&quot;,
+    &quot;solver&quot;: {
+      &quot;sleeping&quot;: false,
+      &quot;particles&quot;: 343,
+      &quot;constraints&quot;: 3150,
+      &quot;contacts&quot;: 0,
+      &quot;steps&quot;: 420,
+      &quot;time&quot;: 6.9999999999999805,
+      &quot;volumeRatio&quot;: 0.9998762966038943,
+      &quot;minTetRatio&quot;: 0.9868424372738293,
+      &quot;maxDeformation&quot;: 0.011211237582934134,
+      &quot;maxStrain&quot;: 5.9806218612002866e-05,
+      &quot;damage&quot;: 0,
+      &quot;faults&quot;: 0,
+      &quot;limitedSteps&quot;: 0,
+      &quot;lastPhysicsMs&quot;: 1,
+      &quot;droppedTime&quot;: 0
+    },
+    &quot;camera&quot;: {
+      &quot;position&quot;: [
+        3067,
+        -444.448,
+        1236
+      ],
+      &quot;target&quot;: [
+        3060,
+        -447.96799999999996,
+        1226
+      ],
+      &quot;fov&quot;: 48,
+      &quot;aspect&quot;: 0.5300546448087432,
+      &quot;near&quot;: 0.08,
+      &quot;far&quot;: 20000
+    },
+    &quot;objectPosition&quot;: [
+      3060,
+      -449.948,
+      1226
+    ],
+    &quot;renderer&quot;: {
+      &quot;dpr&quot;: 2,
+      &quot;shadow&quot;: 1,
+      &quot;toneMapping&quot;: 4,
+      &quot;info&quot;: {
+        &quot;frame&quot;: 17,
+        &quot;calls&quot;: 90,
+        &quot;triangles&quot;: 723974,
+        &quot;points&quot;: 0,
+        &quot;lines&quot;: 0
+      }
+    },
+    &quot;time&quot;: 6.9999999999999805
+  },
+  &quot;group&quot;: &quot;material-cloud&quot;,
+  &quot;sameCameraAndRenderSettings&quot;: true,
+  &quot;edgeMeanAbsoluteDifference&quot;: 0.234700685876852,
+  &quot;meanAbsolutePixelDifference&quot;: 0.05521314526881115,
+  &quot;changedPixelFraction&quot;: 0.0003617753929356093,
+  &quot;differenceImage&quot;: &quot;material-cloud-recovery-difference.png&quot;
+}</pre></details></article><article><h2>material-cloud-rest</h2><div class="grid"><section><h3>Reference</h3><p>Original reference A/B is visible in the user conversation. Original image bytes are not mounted here. This slot is explicitly incomplete; no generated replacement is used.</p></section><section><h3>Actual game</h3><img src="material-cloud-rest.png"></section><section><h3>Same-camera state difference</h3><img src="material-cloud-rest-difference.png"></section></div><details><summary>Camera, timestep, material measurements and hash</summary><pre>{
+  &quot;image&quot;: &quot;material-cloud-rest.png&quot;,
+  &quot;sha256&quot;: &quot;62e1bee320953148cce089f09562f2cfb8699d86abf8a48105cbb73e8691b6c0&quot;,
+  &quot;size&quot;: [
+    776,
+    1464
+  ],
+  &quot;meanRGB&quot;: [
+    171.17601913272492,
+    170.7134237155653,
+    173.4238643245451
+  ],
+  &quot;metadata&quot;: {
+    &quot;material&quot;: &quot;cloud&quot;,
+    &quot;solver&quot;: {
+      &quot;sleeping&quot;: true,
+      &quot;particles&quot;: 343,
+      &quot;constraints&quot;: 3150,
+      &quot;contacts&quot;: 0,
+      &quot;steps&quot;: 0,
+      &quot;time&quot;: 0,
+      &quot;volumeRatio&quot;: 1,
+      &quot;minTetRatio&quot;: 0.9999999999999998,
+      &quot;maxDeformation&quot;: 0,
+      &quot;maxStrain&quot;: 0,
+      &quot;damage&quot;: 0,
+      &quot;faults&quot;: 0,
+      &quot;limitedSteps&quot;: 0,
+      &quot;lastPhysicsMs&quot;: 0,
+      &quot;droppedTime&quot;: 0
+    },
+    &quot;camera&quot;: {
+      &quot;position&quot;: [
+        3067,
+        -444.448,
+        1236
+      ],
+      &quot;target&quot;: [
+        3060,
+        -447.96799999999996,
+        1226
+      ],
+      &quot;fov&quot;: 48,
+      &quot;aspect&quot;: 0.5300546448087432,
+      &quot;near&quot;: 0.08,
+      &quot;far&quot;: 20000
+    },
+    &quot;objectPosition&quot;: [
+      3060,
+      -449.948,
+      1226
+    ],
+    &quot;renderer&quot;: {
+      &quot;dpr&quot;: 2,
+      &quot;shadow&quot;: 1,
+      &quot;toneMapping&quot;: 4,
+      &quot;info&quot;: {
+        &quot;frame&quot;: 14,
+        &quot;calls&quot;: 90,
+        &quot;triangles&quot;: 723974,
+        &quot;points&quot;: 0,
+        &quot;lines&quot;: 0
+      }
+    },
+    &quot;time&quot;: 0
+  },
+  &quot;group&quot;: &quot;material-cloud&quot;,
+  &quot;sameCameraAndRenderSettings&quot;: true,
+  &quot;edgeMeanAbsoluteDifference&quot;: 0.0,
+  &quot;meanAbsolutePixelDifference&quot;: 0.0,
+  &quot;changedPixelFraction&quot;: 0.0,
+  &quot;differenceImage&quot;: &quot;material-cloud-rest-difference.png&quot;
+}</pre></details></article><article><h2>material-crunchy-hold</h2><div class="grid"><section><h3>Reference</h3><p>Original reference A/B is visible in the user conversation. Original image bytes are not mounted here. This slot is explicitly incomplete; no generated replacement is used.</p></section><section><h3>Actual game</h3><img src="material-crunchy-hold.png"></section><section><h3>Same-camera state difference</h3><img src="material-crunchy-hold-difference.png"></section></div><details><summary>Camera, timestep, material measurements and hash</summary><pre>{
+  &quot;image&quot;: &quot;material-crunchy-hold.png&quot;,
+  &quot;sha256&quot;: &quot;24ba1183cb51b704f1a07c619bbfceca56fcb041a6690d685a993be6e70fb5cb&quot;,
+  &quot;size&quot;: [
+    776,
+    1464
+  ],
+  &quot;meanRGB&quot;: [
+    158.72720991070926,
+    147.99771667793362,
+    160.01905966565263
+  ],
+  &quot;metadata&quot;: {
+    &quot;material&quot;: &quot;crunchy&quot;,
+    &quot;solver&quot;: {
+      &quot;sleeping&quot;: false,
+      &quot;particles&quot;: 343,
+      &quot;constraints&quot;: 3150,
+      &quot;contacts&quot;: 0,
+      &quot;steps&quot;: 180,
+      &quot;time&quot;: 2.9999999999999942,
+      &quot;volumeRatio&quot;: 0.9998927662694844,
+      &quot;minTetRatio&quot;: 0.9886453128303659,
+      &quot;maxDeformation&quot;: 0.020192375063495388,
+      &quot;maxStrain&quot;: 0.01286697014215792,
+      &quot;damage&quot;: 0.33962908387184143,
+      &quot;faults&quot;: 0,
+      &quot;limitedSteps&quot;: 0,
+      &quot;lastPhysicsMs&quot;: 1.0999999940395355,
+      &quot;droppedTime&quot;: 0
+    },
+    &quot;camera&quot;: {
+      &quot;position&quot;: [
+        3079,
+        -444.448,
+        1232
+      ],
+      &quot;target&quot;: [
+        3072,
+        -447.96799999999996,
+        1222
+      ],
+      &quot;fov&quot;: 48,
+      &quot;aspect&quot;: 0.5300546448087432,
+      &quot;near&quot;: 0.08,
+      &quot;far&quot;: 20000
+    },
+    &quot;objectPosition&quot;: [
+      3072,
+      -449.948,
+      1222
+    ],
+    &quot;renderer&quot;: {
+      &quot;dpr&quot;: 2,
+      &quot;shadow&quot;: 1,
+      &quot;toneMapping&quot;: 4,
+      &quot;info&quot;: {
+        &quot;frame&quot;: 24,
+        &quot;calls&quot;: 77,
+        &quot;triangles&quot;: 684814,
+        &quot;points&quot;: 0,
+        &quot;lines&quot;: 0
+      }
+    },
+    &quot;time&quot;: 2.9999999999999942
+  },
+  &quot;group&quot;: &quot;material-crunchy&quot;,
+  &quot;sameCameraAndRenderSettings&quot;: true,
+  &quot;edgeMeanAbsoluteDifference&quot;: 0.22165711321427897,
+  &quot;meanAbsolutePixelDifference&quot;: 0.05291397902465589,
+  &quot;changedPixelFraction&quot;: 0.0007437961241620191,
+  &quot;differenceImage&quot;: &quot;material-crunchy-hold-difference.png&quot;
+}</pre></details></article><article><h2>material-crunchy-press</h2><div class="grid"><section><h3>Reference</h3><p>Original reference A/B is visible in the user conversation. Original image bytes are not mounted here. This slot is explicitly incomplete; no generated replacement is used.</p></section><section><h3>Actual game</h3><img src="material-crunchy-press.png"></section><section><h3>Same-camera state difference</h3><img src="material-crunchy-press-difference.png"></section></div><details><summary>Camera, timestep, material measurements and hash</summary><pre>{
+  &quot;image&quot;: &quot;material-crunchy-press.png&quot;,
+  &quot;sha256&quot;: &quot;97ea432d261103319f23392a13fb6dcce0c5624570dd55c96cb1b647cb422228&quot;,
+  &quot;size&quot;: [
+    776,
+    1464
+  ],
+  &quot;meanRGB&quot;: [
+    158.83766583572756,
+    148.0448909568475,
+    160.08044441158245
+  ],
+  &quot;metadata&quot;: {
+    &quot;material&quot;: &quot;crunchy&quot;,
+    &quot;solver&quot;: {
+      &quot;sleeping&quot;: false,
+      &quot;particles&quot;: 343,
+      &quot;constraints&quot;: 3150,
+      &quot;contacts&quot;: 1,
+      &quot;steps&quot;: 120,
+      &quot;time&quot;: 1.9999999999999978,
+      &quot;volumeRatio&quot;: 0.9972324772547418,
+      &quot;minTetRatio&quot;: 0.7433156367584565,
+      &quot;maxDeformation&quot;: 0.3618873465905246,
+      &quot;maxStrain&quot;: 0.16525275194082042,
+      &quot;damage&quot;: 0.33962908387184143,
+      &quot;faults&quot;: 0,
+      &quot;limitedSteps&quot;: 0,
+      &quot;lastPhysicsMs&quot;: 1.0999999940395355,
+      &quot;droppedTime&quot;: 0
+    },
+    &quot;camera&quot;: {
+      &quot;position&quot;: [
+        3079,
+        -444.448,
+        1232
+      ],
+      &quot;target&quot;: [
+        3072,
+        -447.96799999999996,
+        1222
+      ],
+      &quot;fov&quot;: 48,
+      &quot;aspect&quot;: 0.5300546448087432,
+      &quot;near&quot;: 0.08,
+      &quot;far&quot;: 20000
+    },
+    &quot;objectPosition&quot;: [
+      3072,
+      -449.948,
+      1222
+    ],
+    &quot;renderer&quot;: {
+      &quot;dpr&quot;: 2,
+      &quot;shadow&quot;: 1,
+      &quot;toneMapping&quot;: 4,
+      &quot;info&quot;: {
+        &quot;frame&quot;: 23,
+        &quot;calls&quot;: 77,
+        &quot;triangles&quot;: 684814,
+        &quot;points&quot;: 0,
+        &quot;lines&quot;: 0
+      }
+    },
+    &quot;time&quot;: 1.9999999999999978
+  },
+  &quot;group&quot;: &quot;material-crunchy&quot;,
+  &quot;sameCameraAndRenderSettings&quot;: true,
+  &quot;edgeMeanAbsoluteDifference&quot;: 1.2250838567780218,
+  &quot;meanAbsolutePixelDifference&quot;: 0.893492502769797,
+  &quot;changedPixelFraction&quot;: 0.009863000676018252,
+  &quot;differenceImage&quot;: &quot;material-crunchy-press-difference.png&quot;
+}</pre></details></article><article><h2>material-crunchy-recovery</h2><div class="grid"><section><h3>Reference</h3><p>Original reference A/B is visible in the user conversation. Original image bytes are not mounted here. This slot is explicitly incomplete; no generated replacement is used.</p></section><section><h3>Actual game</h3><img src="material-crunchy-recovery.png"></section><section><h3>Same-camera state difference</h3><img src="material-crunchy-recovery-difference.png"></section></div><details><summary>Camera, timestep, material measurements and hash</summary><pre>{
+  &quot;image&quot;: &quot;material-crunchy-recovery.png&quot;,
+  &quot;sha256&quot;: &quot;2d658a2d175ea389e020a8cdbc881b19222c1b3c453c9095ed88fef0e45fcae7&quot;,
+  &quot;size&quot;: [
+    776,
+    1464
+  ],
+  &quot;meanRGB&quot;: [
+    158.72170141822997,
+    147.99871222043828,
+    160.01658093206018
+  ],
+  &quot;metadata&quot;: {
+    &quot;material&quot;: &quot;crunchy&quot;,
+    &quot;solver&quot;: {
+      &quot;sleeping&quot;: false,
+      &quot;particles&quot;: 343,
+      &quot;constraints&quot;: 3150,
+      &quot;contacts&quot;: 0,
+      &quot;steps&quot;: 420,
+      &quot;time&quot;: 6.9999999999999805,
+      &quot;volumeRatio&quot;: 0.9999998214460871,
+      &quot;minTetRatio&quot;: 0.9999809881129486,
+      &quot;maxDeformation&quot;: 3.3709218124037006e-05,
+      &quot;maxStrain&quot;: 2.057612037369474e-05,
+      &quot;damage&quot;: 0.33962908387184143,
+      &quot;faults&quot;: 0,
+      &quot;limitedSteps&quot;: 0,
+      &quot;lastPhysicsMs&quot;: 0.9000000059604645,
+      &quot;droppedTime&quot;: 0
+    },
+    &quot;camera&quot;: {
+      &quot;position&quot;: [
+        3079,
+        -444.448,
+        1232
+      ],
+      &quot;target&quot;: [
+        3072,
+        -447.96799999999996,
+        1222
+      ],
+      &quot;fov&quot;: 48,
+      &quot;aspect&quot;: 0.5300546448087432,
+      &quot;near&quot;: 0.08,
+      &quot;far&quot;: 20000
+    },
+    &quot;objectPosition&quot;: [
+      3072,
+      -449.948,
+      1222
+    ],
+    &quot;renderer&quot;: {
+      &quot;dpr&quot;: 2,
+      &quot;shadow&quot;: 1,
+      &quot;toneMapping&quot;: 4,
+      &quot;info&quot;: {
+        &quot;frame&quot;: 25,
+        &quot;calls&quot;: 77,
+        &quot;triangles&quot;: 684814,
+        &quot;points&quot;: 0,
+        &quot;lines&quot;: 0
+      }
+    },
+    &quot;time&quot;: 6.9999999999999805
+  },
+  &quot;group&quot;: &quot;material-crunchy&quot;,
+  &quot;sameCameraAndRenderSettings&quot;: true,
+  &quot;edgeMeanAbsoluteDifference&quot;: 0.0007860472649428201,
+  &quot;meanAbsolutePixelDifference&quot;: 0.0001032805663530693,
+  &quot;changedPixelFraction&quot;: 1.760464199200045e-06,
+  &quot;differenceImage&quot;: &quot;material-crunchy-recovery-difference.png&quot;
+}</pre></details></article><article><h2>material-crunchy-rest</h2><div class="grid"><section><h3>Reference</h3><p>Original reference A/B is visible in the user conversation. Original image bytes are not mounted here. This slot is explicitly incomplete; no generated replacement is used.</p></section><section><h3>Actual game</h3><img src="material-crunchy-rest.png"></section><section><h3>Same-camera state difference</h3><img src="material-crunchy-rest-difference.png"></section></div><details><summary>Camera, timestep, material measurements and hash</summary><pre>{
+  &quot;image&quot;: &quot;material-crunchy-rest.png&quot;,
+  &quot;sha256&quot;: &quot;2b0c45581260f1fedec867fce6a3e7291b103d53b26132a52cf201366015de8c&quot;,
+  &quot;size&quot;: [
+    776,
+    1464
+  ],
+  &quot;meanRGB&quot;: [
+    158.72167501126697,
+    147.9987069390457,
+    160.01656684834657
+  ],
+  &quot;metadata&quot;: {
+    &quot;material&quot;: &quot;crunchy&quot;,
+    &quot;solver&quot;: {
+      &quot;sleeping&quot;: true,
+      &quot;particles&quot;: 343,
+      &quot;constraints&quot;: 3150,
+      &quot;contacts&quot;: 0,
+      &quot;steps&quot;: 0,
+      &quot;time&quot;: 0,
+      &quot;volumeRatio&quot;: 1,
+      &quot;minTetRatio&quot;: 0.9999999999999998,
+      &quot;maxDeformation&quot;: 0,
+      &quot;maxStrain&quot;: 0,
+      &quot;damage&quot;: 0,
+      &quot;faults&quot;: 0,
+      &quot;limitedSteps&quot;: 0,
+      &quot;lastPhysicsMs&quot;: 0,
+      &quot;droppedTime&quot;: 0
+    },
+    &quot;camera&quot;: {
+      &quot;position&quot;: [
+        3079,
+        -444.448,
+        1232
+      ],
+      &quot;target&quot;: [
+        3072,
+        -447.96799999999996,
+        1222
+      ],
+      &quot;fov&quot;: 48,
+      &quot;aspect&quot;: 0.5300546448087432,
+      &quot;near&quot;: 0.08,
+      &quot;far&quot;: 20000
+    },
+    &quot;objectPosition&quot;: [
+      3072,
+      -449.948,
+      1222
+    ],
+    &quot;renderer&quot;: {
+      &quot;dpr&quot;: 2,
+      &quot;shadow&quot;: 1,
+      &quot;toneMapping&quot;: 4,
+      &quot;info&quot;: {
+        &quot;frame&quot;: 22,
+        &quot;calls&quot;: 77,
+        &quot;triangles&quot;: 684814,
+        &quot;points&quot;: 0,
+        &quot;lines&quot;: 0
+      }
+    },
+    &quot;time&quot;: 0
+  },
+  &quot;group&quot;: &quot;material-crunchy&quot;,
+  &quot;sameCameraAndRenderSettings&quot;: true,
+  &quot;edgeMeanAbsoluteDifference&quot;: 0.0,
+  &quot;meanAbsolutePixelDifference&quot;: 0.0,
+  &quot;changedPixelFraction&quot;: 0.0,
+  &quot;differenceImage&quot;: &quot;material-crunchy-rest-difference.png&quot;
+}</pre></details></article><article><h2>material-foam-hold</h2><div class="grid"><section><h3>Reference</h3><p>Original reference A/B is visible in the user conversation. Original image bytes are not mounted here. This slot is explicitly incomplete; no generated replacement is used.</p></section><section><h3>Actual game</h3><img src="material-foam-hold.png"></section><section><h3>Same-camera state difference</h3><img src="material-foam-hold-difference.png"></section></div><details><summary>Camera, timestep, material measurements and hash</summary><pre>{
+  &quot;image&quot;: &quot;material-foam-hold.png&quot;,
+  &quot;sha256&quot;: &quot;39ca1bc2e885d968cb37bb01c7ff451d4b334f083d5d6d4b45970601513f2a3e&quot;,
+  &quot;size&quot;: [
+    776,
+    1464
+  ],
+  &quot;meanRGB&quot;: [
+    195.47476990732918,
+    178.59605620810095,
+    176.1637302123824
+  ],
+  &quot;metadata&quot;: {
+    &quot;material&quot;: &quot;foam&quot;,
+    &quot;solver&quot;: {
+      &quot;sleeping&quot;: false,
+      &quot;particles&quot;: 343,
+      &quot;constraints&quot;: 3150,
+      &quot;contacts&quot;: 0,
+      &quot;steps&quot;: 180,
+      &quot;time&quot;: 2.9999999999999942,
+      &quot;volumeRatio&quot;: 0.954177845355229,
+      &quot;minTetRatio&quot;: 0.08151954794433296,
+      &quot;maxDeformation&quot;: 0.6067827469540031,
+      &quot;maxStrain&quot;: 16.849289369224802,
+      &quot;damage&quot;: 0,
+      &quot;faults&quot;: 0,
+      &quot;limitedSteps&quot;: 157,
+      &quot;lastPhysicsMs&quot;: 1.199999988079071,
+      &quot;droppedTime&quot;: 0
+    },
+    &quot;camera&quot;: {
+      &quot;position&quot;: [
+        3055,
+        -444.448,
+        1232
+      ],
+      &quot;target&quot;: [
+        3048,
+        -449.318,
+        1222
+      ],
+      &quot;fov&quot;: 48,
+      &quot;aspect&quot;: 0.5300546448087432,
+      &quot;near&quot;: 0.08,
+      &quot;far&quot;: 20000
+    },
+    &quot;objectPosition&quot;: [
+      3048,
+      -449.948,
+      1222
+    ],
+    &quot;renderer&quot;: {
+      &quot;dpr&quot;: 2,
+      &quot;shadow&quot;: 1,
+      &quot;toneMapping&quot;: 4,
+      &quot;info&quot;: {
+        &quot;frame&quot;: 20,
+        &quot;calls&quot;: 63,
+        &quot;triangles&quot;: 662086,
+        &quot;points&quot;: 0,
+        &quot;lines&quot;: 0
+      }
+    },
+    &quot;time&quot;: 2.9999999999999942
+  },
+  &quot;group&quot;: &quot;material-foam&quot;,
+  &quot;sameCameraAndRenderSettings&quot;: true,
+  &quot;edgeMeanAbsoluteDifference&quot;: 0.7840101144536459,
+  &quot;meanAbsolutePixelDifference&quot;: 0.4206775909338441,
+  &quot;changedPixelFraction&quot;: 0.0035306109514956904,
+  &quot;differenceImage&quot;: &quot;material-foam-hold-difference.png&quot;
+}</pre></details></article><article><h2>material-foam-press</h2><div class="grid"><section><h3>Reference</h3><p>Original reference A/B is visible in the user conversation. Original image bytes are not mounted here. This slot is explicitly incomplete; no generated replacement is used.</p></section><section><h3>Actual game</h3><img src="material-foam-press.png"></section><section><h3>Same-camera state difference</h3><img src="material-foam-press-difference.png"></section></div><details><summary>Camera, timestep, material measurements and hash</summary><pre>{
+  &quot;image&quot;: &quot;material-foam-press.png&quot;,
+  &quot;sha256&quot;: &quot;39ca1bc2e885d968cb37bb01c7ff451d4b334f083d5d6d4b45970601513f2a3e&quot;,
+  &quot;size&quot;: [
+    776,
+    1464
+  ],
+  &quot;meanRGB&quot;: [
+    195.47476990732918,
+    178.59605620810095,
+    176.1637302123824
+  ],
+  &quot;metadata&quot;: {
+    &quot;material&quot;: &quot;foam&quot;,
+    &quot;solver&quot;: {
+      &quot;sleeping&quot;: false,
+      &quot;particles&quot;: 343,
+      &quot;constraints&quot;: 3150,
+      &quot;contacts&quot;: 1,
+      &quot;steps&quot;: 120,
+      &quot;time&quot;: 1.9999999999999978,
+      &quot;volumeRatio&quot;: 0.954177845355229,
+      &quot;minTetRatio&quot;: 0.08151954794433296,
+      &quot;maxDeformation&quot;: 0.6067827469540031,
+      &quot;maxStrain&quot;: 18.288291766707005,
+      &quot;damage&quot;: 0,
+      &quot;faults&quot;: 0,
+      &quot;limitedSteps&quot;: 97,
+      &quot;lastPhysicsMs&quot;: 1.2999999821186066,
+      &quot;droppedTime&quot;: 0
+    },
+    &quot;camera&quot;: {
+      &quot;position&quot;: [
+        3055,
+        -444.448,
+        1232
+      ],
+      &quot;target&quot;: [
+        3048,
+        -449.318,
+        1222
+      ],
+      &quot;fov&quot;: 48,
+      &quot;aspect&quot;: 0.5300546448087432,
+      &quot;near&quot;: 0.08,
+      &quot;far&quot;: 20000
+    },
+    &quot;objectPosition&quot;: [
+      3048,
+      -449.948,
+      1222
+    ],
+    &quot;renderer&quot;: {
+      &quot;dpr&quot;: 2,
+      &quot;shadow&quot;: 1,
+      &quot;toneMapping&quot;: 4,
+      &quot;info&quot;: {
+        &quot;frame&quot;: 19,
+        &quot;calls&quot;: 63,
+        &quot;triangles&quot;: 662086,
+        &quot;points&quot;: 0,
+        &quot;lines&quot;: 0
+      }
+    },
+    &quot;time&quot;: 1.9999999999999978
+  },
+  &quot;group&quot;: &quot;material-foam&quot;,
+  &quot;sameCameraAndRenderSettings&quot;: true,
+  &quot;edgeMeanAbsoluteDifference&quot;: 0.7840101144536459,
+  &quot;meanAbsolutePixelDifference&quot;: 0.4206775909338441,
+  &quot;changedPixelFraction&quot;: 0.0035306109514956904,
+  &quot;differenceImage&quot;: &quot;material-foam-press-difference.png&quot;
+}</pre></details></article><article><h2>material-foam-recovery</h2><div class="grid"><section><h3>Reference</h3><p>Original reference A/B is visible in the user conversation. Original image bytes are not mounted here. This slot is explicitly incomplete; no generated replacement is used.</p></section><section><h3>Actual game</h3><img src="material-foam-recovery.png"></section><section><h3>Same-camera state difference</h3><img src="material-foam-recovery-difference.png"></section></div><details><summary>Camera, timestep, material measurements and hash</summary><pre>{
+  &quot;image&quot;: &quot;material-foam-recovery.png&quot;,
+  &quot;sha256&quot;: &quot;bb84f8293167a87d7fd86897f60819ad2d3a2888a637cbbc1c6919a6239a19ba&quot;,
+  &quot;size&quot;: [
+    776,
+    1464
+  ],
+  &quot;meanRGB&quot;: [
+    195.27483662892232,
+    178.38458220663625,
+    175.9931693989071
+  ],
+  &quot;metadata&quot;: {
+    &quot;material&quot;: &quot;foam&quot;,
+    &quot;solver&quot;: {
+      &quot;sleeping&quot;: false,
+      &quot;particles&quot;: 343,
+      &quot;constraints&quot;: 3150,
+      &quot;contacts&quot;: 0,
+      &quot;steps&quot;: 420,
+      &quot;time&quot;: 6.9999999999999805,
+      &quot;volumeRatio&quot;: 0.9714609711822133,
+      &quot;minTetRatio&quot;: 0.1744431340620809,
+      &quot;maxDeformation&quot;: 0.5586687486243767,
+      &quot;maxStrain&quot;: 0.014601526074385121,
+      &quot;damage&quot;: 0,
+      &quot;faults&quot;: 0,
+      &quot;limitedSteps&quot;: 361,
+      &quot;lastPhysicsMs&quot;: 1.0999999940395355,
+      &quot;droppedTime&quot;: 0
+    },
+    &quot;camera&quot;: {
+      &quot;position&quot;: [
+        3055,
+        -444.448,
+        1232
+      ],
+      &quot;target&quot;: [
+        3048,
+        -449.318,
+        1222
+      ],
+      &quot;fov&quot;: 48,
+      &quot;aspect&quot;: 0.5300546448087432,
+      &quot;near&quot;: 0.08,
+      &quot;far&quot;: 20000
+    },
+    &quot;objectPosition&quot;: [
+      3048,
+      -449.948,
+      1222
+    ],
+    &quot;renderer&quot;: {
+      &quot;dpr&quot;: 2,
+      &quot;shadow&quot;: 1,
+      &quot;toneMapping&quot;: 4,
+      &quot;info&quot;: {
+        &quot;frame&quot;: 21,
+        &quot;calls&quot;: 63,
+        &quot;triangles&quot;: 662086,
+        &quot;points&quot;: 0,
+        &quot;lines&quot;: 0
+      }
+    },
+    &quot;time&quot;: 6.9999999999999805
+  },
+  &quot;group&quot;: &quot;material-foam&quot;,
+  &quot;sameCameraAndRenderSettings&quot;: true,
+  &quot;edgeMeanAbsoluteDifference&quot;: 0.10569357594877284,
+  &quot;meanAbsolutePixelDifference&quot;: 0.16286318376429496,
+  &quot;changedPixelFraction&quot;: 0.0041934257224945076,
+  &quot;differenceImage&quot;: &quot;material-foam-recovery-difference.png&quot;
+}</pre></details></article><article><h2>material-foam-rest</h2><div class="grid"><section><h3>Reference</h3><p>Original reference A/B is visible in the user conversation. Original image bytes are not mounted here. This slot is explicitly incomplete; no generated replacement is used.</p></section><section><h3>Actual game</h3><img src="material-foam-rest.png"></section><section><h3>Same-camera state difference</h3><img src="material-foam-rest-difference.png"></section></div><details><summary>Camera, timestep, material measurements and hash</summary><pre>{
+  &quot;image&quot;: &quot;material-foam-rest.png&quot;,
+  &quot;sha256&quot;: &quot;ecc6caa2724eae1db6bf6564f81a439686d35f7306fce2a7fa6ad7eefb8cb504&quot;,
+  &quot;size&quot;: [
+    776,
+    1464
+  ],
+  &quot;meanRGB&quot;: [
+    195.3446170286181,
+    178.5750688341502,
+    176.14663170384767
+  ],
+  &quot;metadata&quot;: {
+    &quot;material&quot;: &quot;foam&quot;,
+    &quot;solver&quot;: {
+      &quot;sleeping&quot;: true,
+      &quot;particles&quot;: 343,
+      &quot;constraints&quot;: 3150,
+      &quot;contacts&quot;: 0,
+      &quot;steps&quot;: 0,
+      &quot;time&quot;: 0,
+      &quot;volumeRatio&quot;: 1,
+      &quot;minTetRatio&quot;: 0.9999999999999997,
+      &quot;maxDeformation&quot;: 0,
+      &quot;maxStrain&quot;: 0,
+      &quot;damage&quot;: 0,
+      &quot;faults&quot;: 0,
+      &quot;limitedSteps&quot;: 0,
+      &quot;lastPhysicsMs&quot;: 0,
+      &quot;droppedTime&quot;: 0
+    },
+    &quot;camera&quot;: {
+      &quot;position&quot;: [
+        3055,
+        -444.448,
+        1232
+      ],
+      &quot;target&quot;: [
+        3048,
+        -449.318,
+        1222
+      ],
+      &quot;fov&quot;: 48,
+      &quot;aspect&quot;: 0.5300546448087432,
+      &quot;near&quot;: 0.08,
+      &quot;far&quot;: 20000
+    },
+    &quot;objectPosition&quot;: [
+      3048,
+      -449.948,
+      1222
+    ],
+    &quot;renderer&quot;: {
+      &quot;dpr&quot;: 2,
+      &quot;shadow&quot;: 1,
+      &quot;toneMapping&quot;: 4,
+      &quot;info&quot;: {
+        &quot;frame&quot;: 18,
+        &quot;calls&quot;: 63,
+        &quot;triangles&quot;: 662086,
+        &quot;points&quot;: 0,
+        &quot;lines&quot;: 0
+      }
+    },
+    &quot;time&quot;: 0
+  },
+  &quot;group&quot;: &quot;material-foam&quot;,
+  &quot;sameCameraAndRenderSettings&quot;: true,
+  &quot;edgeMeanAbsoluteDifference&quot;: 0.0,
+  &quot;meanAbsolutePixelDifference&quot;: 0.0,
+  &quot;changedPixelFraction&quot;: 0.0,
+  &quot;differenceImage&quot;: &quot;material-foam-rest-difference.png&quot;
+}</pre></details></article><article><h2>material-jelly-hold</h2><div class="grid"><section><h3>Reference</h3><p>Original reference A/B is visible in the user conversation. Original image bytes are not mounted here. This slot is explicitly incomplete; no generated replacement is used.</p></section><section><h3>Actual game</h3><img src="material-jelly-hold.png"></section><section><h3>Same-camera state difference</h3><img src="material-jelly-hold-difference.png"></section></div><details><summary>Camera, timestep, material measurements and hash</summary><pre>{
+  &quot;image&quot;: &quot;material-jelly-hold.png&quot;,
+  &quot;sha256&quot;: &quot;3e6e30a500775492b7a9cb60d949e9c8552ac234abd45e5a0ca5fb951255c535&quot;,
+  &quot;size&quot;: [
+    776,
+    1464
+  ],
+  &quot;meanRGB&quot;: [
+    173.4614555165906,
+    160.55286585966988,
+    171.07560225480253
+  ],
+  &quot;metadata&quot;: {
+    &quot;material&quot;: &quot;jelly&quot;,
+    &quot;solver&quot;: {
+      &quot;sleeping&quot;: false,
+      &quot;particles&quot;: 343,
+      &quot;constraints&quot;: 3150,
+      &quot;contacts&quot;: 0,
+      &quot;steps&quot;: 180,
+      &quot;time&quot;: 2.9999999999999942,
+      &quot;volumeRatio&quot;: 1.000027442009018,
+      &quot;minTetRatio&quot;: 0.9997359174157467,
+      &quot;maxDeformation&quot;: 0.007925131150182459,
+      &quot;maxStrain&quot;: 0.0011343365581495905,
+      &quot;damage&quot;: 0,
+      &quot;faults&quot;: 0,
+      &quot;limitedSteps&quot;: 0,
+      &quot;lastPhysicsMs&quot;: 1.199999988079071,
+      &quot;droppedTime&quot;: 0
+    },
+    &quot;camera&quot;: {
+      &quot;position&quot;: [
+        3067,
+        -444.448,
+        1250
+      ],
+      &quot;target&quot;: [
+        3060,
+        -447.96799999999996,
+        1240
+      ],
+      &quot;fov&quot;: 48,
+      &quot;aspect&quot;: 0.5300546448087432,
+      &quot;near&quot;: 0.08,
+      &quot;far&quot;: 20000
+    },
+    &quot;objectPosition&quot;: [
+      3060,
+      -449.948,
+      1240
+    ],
+    &quot;renderer&quot;: {
+      &quot;dpr&quot;: 2,
+      &quot;shadow&quot;: 1,
+      &quot;toneMapping&quot;: 4,
+      &quot;info&quot;: {
+        &quot;frame&quot;: 4,
+        &quot;calls&quot;: 81,
+        &quot;triangles&quot;: 713590,
+        &quot;points&quot;: 0,
+        &quot;lines&quot;: 0
+      }
+    },
+    &quot;time&quot;: 2.9999999999999942
+  },
+  &quot;group&quot;: &quot;material-jelly&quot;,
+  &quot;sameCameraAndRenderSettings&quot;: true,
+  &quot;edgeMeanAbsoluteDifference&quot;: 0.4214639316094868,
+  &quot;meanAbsolutePixelDifference&quot;: 0.10047820075864271,
+  &quot;changedPixelFraction&quot;: 0.0020113303475860515,
+  &quot;differenceImage&quot;: &quot;material-jelly-hold-difference.png&quot;
+}</pre></details></article><article><h2>material-jelly-press</h2><div class="grid"><section><h3>Reference</h3><p>Original reference A/B is visible in the user conversation. Original image bytes are not mounted here. This slot is explicitly incomplete; no generated replacement is used.</p></section><section><h3>Actual game</h3><img src="material-jelly-press.png"></section><section><h3>Same-camera state difference</h3><img src="material-jelly-press-difference.png"></section></div><details><summary>Camera, timestep, material measurements and hash</summary><pre>{
+  &quot;image&quot;: &quot;material-jelly-press.png&quot;,
+  &quot;sha256&quot;: &quot;2d30d707c014be21d0193956089a85629d2715ff1a9d51ab7e096c458fcd4de0&quot;,
+  &quot;size&quot;: [
+    776,
+    1464
+  ],
+  &quot;meanRGB&quot;: [
+    173.90661881724972,
+    160.86415466030084,
+    171.3802787519013
+  ],
+  &quot;metadata&quot;: {
+    &quot;material&quot;: &quot;jelly&quot;,
+    &quot;solver&quot;: {
+      &quot;sleeping&quot;: false,
+      &quot;particles&quot;: 343,
+      &quot;constraints&quot;: 3150,
+      &quot;contacts&quot;: 1,
+      &quot;steps&quot;: 120,
+      &quot;time&quot;: 1.9999999999999978,
+      &quot;volumeRatio&quot;: 0.9978895259685803,
+      &quot;minTetRatio&quot;: 0.8388648310767413,
+      &quot;maxDeformation&quot;: 0.47767080594213035,
+      &quot;maxStrain&quot;: 0.3033158429372616,
+      &quot;damage&quot;: 0,
+      &quot;faults&quot;: 0,
+      &quot;limitedSteps&quot;: 0,
+      &quot;lastPhysicsMs&quot;: 1.100000023841858,
+      &quot;droppedTime&quot;: 0
+    },
+    &quot;camera&quot;: {
+      &quot;position&quot;: [
+        3067,
+        -444.448,
+        1250
+      ],
+      &quot;target&quot;: [
+        3060,
+        -447.96799999999996,
+        1240
+      ],
+      &quot;fov&quot;: 48,
+      &quot;aspect&quot;: 0.5300546448087432,
+      &quot;near&quot;: 0.08,
+      &quot;far&quot;: 20000
+    },
+    &quot;objectPosition&quot;: [
+      3060,
+      -449.948,
+      1240
+    ],
+    &quot;renderer&quot;: {
+      &quot;dpr&quot;: 2,
+      &quot;shadow&quot;: 1,
+      &quot;toneMapping&quot;: 4,
+      &quot;info&quot;: {
+        &quot;frame&quot;: 3,
+        &quot;calls&quot;: 81,
+        &quot;triangles&quot;: 713590,
+        &quot;points&quot;: 0,
+        &quot;lines&quot;: 0
+      }
+    },
+    &quot;time&quot;: 1.9999999999999978
+  },
+  &quot;group&quot;: &quot;material-jelly&quot;,
+  &quot;sameCameraAndRenderSettings&quot;: true,
+  &quot;edgeMeanAbsoluteDifference&quot;: 1.4299226686759432,
+  &quot;meanAbsolutePixelDifference&quot;: 1.8555753314367267,
+  &quot;changedPixelFraction&quot;: 0.03422694496084728,
+  &quot;differenceImage&quot;: &quot;material-jelly-press-difference.png&quot;
+}</pre></details></article><article><h2>material-jelly-recovery</h2><div class="grid"><section><h3>Reference</h3><p>Original reference A/B is visible in the user conversation. Original image bytes are not mounted here. This slot is explicitly incomplete; no generated replacement is used.</p></section><section><h3>Actual game</h3><img src="material-jelly-recovery.png"></section><section><h3>Same-camera state difference</h3><img src="material-jelly-recovery-difference.png"></section></div><details><summary>Camera, timestep, material measurements and hash</summary><pre>{
+  &quot;image&quot;: &quot;material-jelly-recovery.png&quot;,
+  &quot;sha256&quot;: &quot;af621b3c46ed0cba224b31d4c8df612b93a25842998ef488f13d8503acf40186&quot;,
+  &quot;size&quot;: [
+    776,
+    1464
+  ],
+  &quot;meanRGB&quot;: [
+    173.45502806179934,
+    160.5461937003549,
+    171.07143787673934
+  ],
+  &quot;metadata&quot;: {
+    &quot;material&quot;: &quot;jelly&quot;,
+    &quot;solver&quot;: {
+      &quot;sleeping&quot;: true,
+      &quot;particles&quot;: 343,
+      &quot;constraints&quot;: 3150,
+      &quot;contacts&quot;: 0,
+      &quot;steps&quot;: 400,
+      &quot;time&quot;: 6.666666666666648,
+      &quot;volumeRatio&quot;: 1,
+      &quot;minTetRatio&quot;: 0.9999999999999998,
+      &quot;maxDeformation&quot;: 0,
+      &quot;maxStrain&quot;: 3.7491653070968066e-07,
+      &quot;damage&quot;: 0,
+      &quot;faults&quot;: 0,
+      &quot;limitedSteps&quot;: 0,
+      &quot;lastPhysicsMs&quot;: 0,
+      &quot;droppedTime&quot;: 0
+    },
+    &quot;camera&quot;: {
+      &quot;position&quot;: [
+        3067,
+        -444.448,
+        1250
+      ],
+      &quot;target&quot;: [
+        3060,
+        -447.96799999999996,
+        1240
+      ],
+      &quot;fov&quot;: 48,
+      &quot;aspect&quot;: 0.5300546448087432,
+      &quot;near&quot;: 0.08,
+      &quot;far&quot;: 20000
+    },
+    &quot;objectPosition&quot;: [
+      3060,
+      -449.948,
+      1240
+    ],
+    &quot;renderer&quot;: {
+      &quot;dpr&quot;: 2,
+      &quot;shadow&quot;: 1,
+      &quot;toneMapping&quot;: 4,
+      &quot;info&quot;: {
+        &quot;frame&quot;: 5,
+        &quot;calls&quot;: 81,
+        &quot;triangles&quot;: 713590,
+        &quot;points&quot;: 0,
+        &quot;lines&quot;: 0
+      }
+    },
+    &quot;time&quot;: 6.666666666666648
+  },
+  &quot;group&quot;: &quot;material-jelly&quot;,
+  &quot;sameCameraAndRenderSettings&quot;: true,
+  &quot;edgeMeanAbsoluteDifference&quot;: 0.0,
+  &quot;meanAbsolutePixelDifference&quot;: 0.0,
+  &quot;changedPixelFraction&quot;: 0.0,
+  &quot;differenceImage&quot;: &quot;material-jelly-recovery-difference.png&quot;
+}</pre></details></article><article><h2>material-jelly-rest</h2><div class="grid"><section><h3>Reference</h3><p>Original reference A/B is visible in the user conversation. Original image bytes are not mounted here. This slot is explicitly incomplete; no generated replacement is used.</p></section><section><h3>Actual game</h3><img src="material-jelly-rest.png"></section><section><h3>Same-camera state difference</h3><img src="material-jelly-rest-difference.png"></section></div><details><summary>Camera, timestep, material measurements and hash</summary><pre>{
+  &quot;image&quot;: &quot;material-jelly-rest.png&quot;,
+  &quot;sha256&quot;: &quot;af621b3c46ed0cba224b31d4c8df612b93a25842998ef488f13d8503acf40186&quot;,
+  &quot;size&quot;: [
+    776,
+    1464
+  ],
+  &quot;meanRGB&quot;: [
+    173.45502806179934,
+    160.5461937003549,
+    171.07143787673934
+  ],
+  &quot;metadata&quot;: {
+    &quot;material&quot;: &quot;jelly&quot;,
+    &quot;solver&quot;: {
+      &quot;sleeping&quot;: true,
+      &quot;particles&quot;: 343,
+      &quot;constraints&quot;: 3150,
+      &quot;contacts&quot;: 0,
+      &quot;steps&quot;: 0,
+      &quot;time&quot;: 0,
+      &quot;volumeRatio&quot;: 1,
+      &quot;minTetRatio&quot;: 0.9999999999999998,
+      &quot;maxDeformation&quot;: 0,
+      &quot;maxStrain&quot;: 0,
+      &quot;damage&quot;: 0,
+      &quot;faults&quot;: 0,
+      &quot;limitedSteps&quot;: 0,
+      &quot;lastPhysicsMs&quot;: 0,
+      &quot;droppedTime&quot;: 0
+    },
+    &quot;camera&quot;: {
+      &quot;position&quot;: [
+        3067,
+        -444.448,
+        1250
+      ],
+      &quot;target&quot;: [
+        3060,
+        -447.96799999999996,
+        1240
+      ],
+      &quot;fov&quot;: 48,
+      &quot;aspect&quot;: 0.5300546448087432,
+      &quot;near&quot;: 0.08,
+      &quot;far&quot;: 20000
+    },
+    &quot;objectPosition&quot;: [
+      3060,
+      -449.948,
+      1240
+    ],
+    &quot;renderer&quot;: {
+      &quot;dpr&quot;: 2,
+      &quot;shadow&quot;: 1,
+      &quot;toneMapping&quot;: 4,
+      &quot;info&quot;: {
+        &quot;frame&quot;: 2,
+        &quot;calls&quot;: 81,
+        &quot;triangles&quot;: 713590,
+        &quot;points&quot;: 0,
+        &quot;lines&quot;: 0
+      }
+    },
+    &quot;time&quot;: 0
+  },
+  &quot;group&quot;: &quot;material-jelly&quot;,
+  &quot;sameCameraAndRenderSettings&quot;: true,
+  &quot;edgeMeanAbsoluteDifference&quot;: 0.0,
+  &quot;meanAbsolutePixelDifference&quot;: 0.0,
+  &quot;changedPixelFraction&quot;: 0.0,
+  &quot;differenceImage&quot;: &quot;material-jelly-rest-difference.png&quot;
+}</pre></details></article><article><h2>material-mochi-hold</h2><div class="grid"><section><h3>Reference</h3><p>Original reference A/B is visible in the user conversation. Original image bytes are not mounted here. This slot is explicitly incomplete; no generated replacement is used.</p></section><section><h3>Actual game</h3><img src="material-mochi-hold.png"></section><section><h3>Same-camera state difference</h3><img src="material-mochi-hold-difference.png"></section></div><details><summary>Camera, timestep, material measurements and hash</summary><pre>{
+  &quot;image&quot;: &quot;material-mochi-hold.png&quot;,
+  &quot;sha256&quot;: &quot;6e073a871ff8a8cdeeeda29235171450304c5c5c3004ed8ecb6dab306005b683&quot;,
+  &quot;size&quot;: [
+    776,
+    1464
+  ],
+  &quot;meanRGB&quot;: [
+    172.48780702495634,
+    172.0469031674272,
+    173.90948133203764
+  ],
+  &quot;metadata&quot;: {
+    &quot;material&quot;: &quot;mochi&quot;,
+    &quot;solver&quot;: {
+      &quot;sleeping&quot;: false,
+      &quot;particles&quot;: 343,
+      &quot;constraints&quot;: 3150,
+      &quot;contacts&quot;: 0,
+      &quot;steps&quot;: 180,
+      &quot;time&quot;: 2.9999999999999942,
+      &quot;volumeRatio&quot;: 0.9999996564845285,
+      &quot;minTetRatio&quot;: 0.9999970098824864,
+      &quot;maxDeformation&quot;: 4.722272420468315e-05,
+      &quot;maxStrain&quot;: 7.745650482368385e-06,
+      &quot;damage&quot;: 0,
+      &quot;faults&quot;: 0,
+      &quot;limitedSteps&quot;: 0,
+      &quot;lastPhysicsMs&quot;: 1.0999999940395355,
+      &quot;droppedTime&quot;: 0
+    },
+    &quot;camera&quot;: {
+      &quot;position&quot;: [
+        3067,
+        -444.448,
+        1222
+      ],
+      &quot;target&quot;: [
+        3060,
+        -447.96799999999996,
+        1212
+      ],
+      &quot;fov&quot;: 48,
+      &quot;aspect&quot;: 0.5300546448087432,
+      &quot;near&quot;: 0.08,
+      &quot;far&quot;: 20000
+    },
+    &quot;objectPosition&quot;: [
+      3060,
+      -449.948,
+      1212
+    ],
+    &quot;renderer&quot;: {
+      &quot;dpr&quot;: 2,
+      &quot;shadow&quot;: 1,
+      &quot;toneMapping&quot;: 4,
+      &quot;info&quot;: {
+        &quot;frame&quot;: 28,
+        &quot;calls&quot;: 63,
+        &quot;triangles&quot;: 665822,
+        &quot;points&quot;: 0,
+        &quot;lines&quot;: 0
+      }
+    },
+    &quot;time&quot;: 2.9999999999999942
+  },
+  &quot;group&quot;: &quot;material-mochi&quot;,
+  &quot;sameCameraAndRenderSettings&quot;: true,
+  &quot;edgeMeanAbsoluteDifference&quot;: 0.0025245056616528647,
+  &quot;meanAbsolutePixelDifference&quot;: 0.0002910634142677408,
+  &quot;changedPixelFraction&quot;: 1.760464199200045e-06,
+  &quot;differenceImage&quot;: &quot;material-mochi-hold-difference.png&quot;
+}</pre></details></article><article><h2>material-mochi-press</h2><div class="grid"><section><h3>Reference</h3><p>Original reference A/B is visible in the user conversation. Original image bytes are not mounted here. This slot is explicitly incomplete; no generated replacement is used.</p></section><section><h3>Actual game</h3><img src="material-mochi-press.png"></section><section><h3>Same-camera state difference</h3><img src="material-mochi-press-difference.png"></section></div><details><summary>Camera, timestep, material measurements and hash</summary><pre>{
+  &quot;image&quot;: &quot;material-mochi-press.png&quot;,
+  &quot;sha256&quot;: &quot;caee2d1395b47481b41f11404f332ca69f865dd1a187018d5dde9a687975d196&quot;,
+  &quot;size&quot;: [
+    776,
+    1464
+  ],
+  &quot;meanRGB&quot;: [
+    172.86826270350966,
+    172.43257246070644,
+    174.22905223649371
+  ],
+  &quot;metadata&quot;: {
+    &quot;material&quot;: &quot;mochi&quot;,
+    &quot;solver&quot;: {
+      &quot;sleeping&quot;: false,
+      &quot;particles&quot;: 343,
+      &quot;constraints&quot;: 3150,
+      &quot;contacts&quot;: 1,
+      &quot;steps&quot;: 120,
+      &quot;time&quot;: 1.9999999999999978,
+      &quot;volumeRatio&quot;: 0.997709538524003,
+      &quot;minTetRatio&quot;: 0.7806137278522021,
+      &quot;maxDeformation&quot;: 0.3698669372181134,
+      &quot;maxStrain&quot;: 0.2510371455582002,
+      &quot;damage&quot;: 0,
+      &quot;faults&quot;: 0,
+      &quot;limitedSteps&quot;: 0,
+      &quot;lastPhysicsMs&quot;: 1,
+      &quot;droppedTime&quot;: 0
+    },
+    &quot;camera&quot;: {
+      &quot;position&quot;: [
+        3067,
+        -444.448,
+        1222
+      ],
+      &quot;target&quot;: [
+        3060,
+        -447.96799999999996,
+        1212
+      ],
+      &quot;fov&quot;: 48,
+      &quot;aspect&quot;: 0.5300546448087432,
+      &quot;near&quot;: 0.08,
+      &quot;far&quot;: 20000
+    },
+    &quot;objectPosition&quot;: [
+      3060,
+      -449.948,
+      1212
+    ],
+    &quot;renderer&quot;: {
+      &quot;dpr&quot;: 2,
+      &quot;shadow&quot;: 1,
+      &quot;toneMapping&quot;: 4,
+      &quot;info&quot;: {
+        &quot;frame&quot;: 27,
+        &quot;calls&quot;: 63,
+        &quot;triangles&quot;: 665822,
+        &quot;points&quot;: 0,
+        &quot;lines&quot;: 0
+      }
+    },
+    &quot;time&quot;: 1.9999999999999978
+  },
+  &quot;group&quot;: &quot;material-mochi&quot;,
+  &quot;sameCameraAndRenderSettings&quot;: true,
+  &quot;edgeMeanAbsoluteDifference&quot;: 1.483694873997709,
+  &quot;meanAbsolutePixelDifference&quot;: 1.613030603909639,
+  &quot;changedPixelFraction&quot;: 0.025459833248831054,
+  &quot;differenceImage&quot;: &quot;material-mochi-press-difference.png&quot;
+}</pre></details></article><article><h2>material-mochi-recovery</h2><div class="grid"><section><h3>Reference</h3><p>Original reference A/B is visible in the user conversation. Original image bytes are not mounted here. This slot is explicitly incomplete; no generated replacement is used.</p></section><section><h3>Actual game</h3><img src="material-mochi-recovery.png"></section><section><h3>Same-camera state difference</h3><img src="material-mochi-recovery-difference.png"></section></div><details><summary>Camera, timestep, material measurements and hash</summary><pre>{
+  &quot;image&quot;: &quot;material-mochi-recovery.png&quot;,
+  &quot;sha256&quot;: &quot;a22ccc7e04b2378cb7719f28b9b440fba4d3cf60414c70a79a0556d37495f608&quot;,
+  &quot;size&quot;: [
+    776,
+    1464
+  ],
+  &quot;meanRGB&quot;: [
+    172.48783079122302,
+    172.04702023829643,
+    173.9095763971044
+  ],
+  &quot;metadata&quot;: {
+    &quot;material&quot;: &quot;mochi&quot;,
+    &quot;solver&quot;: {
+      &quot;sleeping&quot;: true,
+      &quot;particles&quot;: 343,
+      &quot;constraints&quot;: 3150,
+      &quot;contacts&quot;: 0,
+      &quot;steps&quot;: 232,
+      &quot;time&quot;: 3.866666666666658,
+      &quot;volumeRatio&quot;: 1,
+      &quot;minTetRatio&quot;: 0.9999999999999998,
+      &quot;maxDeformation&quot;: 0,
+      &quot;maxStrain&quot;: 4.364145953707841e-08,
+      &quot;damage&quot;: 0,
+      &quot;faults&quot;: 0,
+      &quot;limitedSteps&quot;: 0,
+      &quot;lastPhysicsMs&quot;: 0,
+      &quot;droppedTime&quot;: 0
+    },
+    &quot;camera&quot;: {
+      &quot;position&quot;: [
+        3067,
+        -444.448,
+        1222
+      ],
+      &quot;target&quot;: [
+        3060,
+        -447.96799999999996,
+        1212
+      ],
+      &quot;fov&quot;: 48,
+      &quot;aspect&quot;: 0.5300546448087432,
+      &quot;near&quot;: 0.08,
+      &quot;far&quot;: 20000
+    },
+    &quot;objectPosition&quot;: [
+      3060,
+      -449.948,
+      1212
+    ],
+    &quot;renderer&quot;: {
+      &quot;dpr&quot;: 2,
+      &quot;shadow&quot;: 1,
+      &quot;toneMapping&quot;: 4,
+      &quot;info&quot;: {
+        &quot;frame&quot;: 29,
+        &quot;calls&quot;: 63,
+        &quot;triangles&quot;: 665822,
+        &quot;points&quot;: 0,
+        &quot;lines&quot;: 0
+      }
+    },
+    &quot;time&quot;: 3.866666666666658
+  },
+  &quot;group&quot;: &quot;material-mochi&quot;,
+  &quot;sameCameraAndRenderSettings&quot;: true,
+  &quot;edgeMeanAbsoluteDifference&quot;: 0.0,
+  &quot;meanAbsolutePixelDifference&quot;: 0.0,
+  &quot;changedPixelFraction&quot;: 0.0,
+  &quot;differenceImage&quot;: &quot;material-mochi-recovery-difference.png&quot;
+}</pre></details></article><article><h2>material-mochi-rest</h2><div class="grid"><section><h3>Reference</h3><p>Original reference A/B is visible in the user conversation. Original image bytes are not mounted here. This slot is explicitly incomplete; no generated replacement is used.</p></section><section><h3>Actual game</h3><img src="material-mochi-rest.png"></section><section><h3>Same-camera state difference</h3><img src="material-mochi-rest-difference.png"></section></div><details><summary>Camera, timestep, material measurements and hash</summary><pre>{
+  &quot;image&quot;: &quot;material-mochi-rest.png&quot;,
+  &quot;sha256&quot;: &quot;a22ccc7e04b2378cb7719f28b9b440fba4d3cf60414c70a79a0556d37495f608&quot;,
+  &quot;size&quot;: [
+    776,
+    1464
+  ],
+  &quot;meanRGB&quot;: [
+    172.48783079122302,
+    172.04702023829643,
+    173.9095763971044
+  ],
+  &quot;metadata&quot;: {
+    &quot;material&quot;: &quot;mochi&quot;,
+    &quot;solver&quot;: {
+      &quot;sleeping&quot;: true,
+      &quot;particles&quot;: 343,
+      &quot;constraints&quot;: 3150,
+      &quot;contacts&quot;: 0,
+      &quot;steps&quot;: 0,
+      &quot;time&quot;: 0,
+      &quot;volumeRatio&quot;: 1,
+      &quot;minTetRatio&quot;: 0.9999999999999998,
+      &quot;maxDeformation&quot;: 0,
+      &quot;maxStrain&quot;: 0,
+      &quot;damage&quot;: 0,
+      &quot;faults&quot;: 0,
+      &quot;limitedSteps&quot;: 0,
+      &quot;lastPhysicsMs&quot;: 0,
+      &quot;droppedTime&quot;: 0
+    },
+    &quot;camera&quot;: {
+      &quot;position&quot;: [
+        3067,
+        -444.448,
+        1222
+      ],
+      &quot;target&quot;: [
+        3060,
+        -447.96799999999996,
+        1212
+      ],
+      &quot;fov&quot;: 48,
+      &quot;aspect&quot;: 0.5300546448087432,
+      &quot;near&quot;: 0.08,
+      &quot;far&quot;: 20000
+    },
+    &quot;objectPosition&quot;: [
+      3060,
+      -449.948,
+      1212
+    ],
+    &quot;renderer&quot;: {
+      &quot;dpr&quot;: 2,
+      &quot;shadow&quot;: 1,
+      &quot;toneMapping&quot;: 4,
+      &quot;info&quot;: {
+        &quot;frame&quot;: 26,
+        &quot;calls&quot;: 63,
+        &quot;triangles&quot;: 665822,
+        &quot;points&quot;: 0,
+        &quot;lines&quot;: 0
+      }
+    },
+    &quot;time&quot;: 0
+  },
+  &quot;group&quot;: &quot;material-mochi&quot;,
+  &quot;sameCameraAndRenderSettings&quot;: true,
+  &quot;edgeMeanAbsoluteDifference&quot;: 0.0,
+  &quot;meanAbsolutePixelDifference&quot;: 0.0,
+  &quot;changedPixelFraction&quot;: 0.0,
+  &quot;differenceImage&quot;: &quot;material-mochi-rest-difference.png&quot;
+}</pre></details></article><article><h2>material-slime-hold</h2><div class="grid"><section><h3>Reference</h3><p>Original reference A/B is visible in the user conversation. Original image bytes are not mounted here. This slot is explicitly incomplete; no generated replacement is used.</p></section><section><h3>Actual game</h3><img src="material-slime-hold.png"></section><section><h3>Same-camera state difference</h3><img src="material-slime-hold-difference.png"></section></div><details><summary>Camera, timestep, material measurements and hash</summary><pre>{
+  &quot;image&quot;: &quot;material-slime-hold.png&quot;,
+  &quot;sha256&quot;: &quot;e897b70b7d38a9b0ed04aba88b218699322a8e87c40abfb46b8d9d60eefed70e&quot;,
+  &quot;size&quot;: [
+    776,
+    1464
+  ],
+  &quot;meanRGB&quot;: [
+    146.30747299447918,
+    141.77781445411526,
+    162.11638868936961
+  ],
+  &quot;metadata&quot;: {
+    &quot;material&quot;: &quot;slime&quot;,
+    &quot;solver&quot;: {
+      &quot;sleeping&quot;: false,
+      &quot;particles&quot;: 343,
+      &quot;constraints&quot;: 3150,
+      &quot;contacts&quot;: 0,
+      &quot;steps&quot;: 180,
+      &quot;time&quot;: 2.9999999999999942,
+      &quot;volumeRatio&quot;: 0.9996493060407935,
+      &quot;minTetRatio&quot;: 0.9510486502780178,
+      &quot;maxDeformation&quot;: 0.11427699456334083,
+      &quot;maxStrain&quot;: 0.11811548603934635,
+      &quot;damage&quot;: 0,
+      &quot;faults&quot;: 0,
+      &quot;limitedSteps&quot;: 0,
+      &quot;lastPhysicsMs&quot;: 1.0999999940395355,
+      &quot;droppedTime&quot;: 0
+    },
+    &quot;camera&quot;: {
+      &quot;position&quot;: [
+        3079,
+        -444.448,
+        1246
+      ],
+      &quot;target&quot;: [
+        3072,
+        -447.96799999999996,
+        1236
+      ],
+      &quot;fov&quot;: 48,
+      &quot;aspect&quot;: 0.5300546448087432,
+      &quot;near&quot;: 0.08,
+      &quot;far&quot;: 20000
+    },
+    &quot;objectPosition&quot;: [
+      3072,
+      -449.948,
+      1236
+    ],
+    &quot;renderer&quot;: {
+      &quot;dpr&quot;: 2,
+      &quot;shadow&quot;: 1,
+      &quot;toneMapping&quot;: 4,
+      &quot;info&quot;: {
+        &quot;frame&quot;: 12,
+        &quot;calls&quot;: 90,
+        &quot;triangles&quot;: 722310,
+        &quot;points&quot;: 0,
+        &quot;lines&quot;: 0
+      }
+    },
+    &quot;time&quot;: 2.9999999999999942
+  },
+  &quot;group&quot;: &quot;material-slime&quot;,
+  &quot;sameCameraAndRenderSettings&quot;: true,
+  &quot;edgeMeanAbsoluteDifference&quot;: 0.6708430745685688,
+  &quot;meanAbsolutePixelDifference&quot;: 0.26016697416108014,
+  &quot;changedPixelFraction&quot;: 0.003197883217846882,
+  &quot;differenceImage&quot;: &quot;material-slime-hold-difference.png&quot;
+}</pre></details></article><article><h2>material-slime-press</h2><div class="grid"><section><h3>Reference</h3><p>Original reference A/B is visible in the user conversation. Original image bytes are not mounted here. This slot is explicitly incomplete; no generated replacement is used.</p></section><section><h3>Actual game</h3><img src="material-slime-press.png"></section><section><h3>Same-camera state difference</h3><img src="material-slime-press-difference.png"></section></div><details><summary>Camera, timestep, material measurements and hash</summary><pre>{
+  &quot;image&quot;: &quot;material-slime-press.png&quot;,
+  &quot;sha256&quot;: &quot;04f26a7e79aa038d26b4b6f236c3fd7d320b23f1258673252634760caef6b0a1&quot;,
+  &quot;size&quot;: [
+    776,
+    1464
+  ],
+  &quot;meanRGB&quot;: [
+    146.34526840037182,
+    141.77891386400765,
+    162.1716558222072
+  ],
+  &quot;metadata&quot;: {
+    &quot;material&quot;: &quot;slime&quot;,
+    &quot;solver&quot;: {
+      &quot;sleeping&quot;: false,
+      &quot;particles&quot;: 343,
+      &quot;constraints&quot;: 3150,
+      &quot;contacts&quot;: 1,
+      &quot;steps&quot;: 120,
+      &quot;time&quot;: 1.9999999999999978,
+      &quot;volumeRatio&quot;: 0.9982004131245088,
+      &quot;minTetRatio&quot;: 0.8489853837452099,
+      &quot;maxDeformation&quot;: 0.32210380508489517,
+      &quot;maxStrain&quot;: 0.10324106601887448,
+      &quot;damage&quot;: 0,
+      &quot;faults&quot;: 0,
+      &quot;limitedSteps&quot;: 0,
+      &quot;lastPhysicsMs&quot;: 1.0999999940395355,
+      &quot;droppedTime&quot;: 0
+    },
+    &quot;camera&quot;: {
+      &quot;position&quot;: [
+        3079,
+        -444.448,
+        1246
+      ],
+      &quot;target&quot;: [
+        3072,
+        -447.96799999999996,
+        1236
+      ],
+      &quot;fov&quot;: 48,
+      &quot;aspect&quot;: 0.5300546448087432,
+      &quot;near&quot;: 0.08,
+      &quot;far&quot;: 20000
+    },
+    &quot;objectPosition&quot;: [
+      3072,
+      -449.948,
+      1236
+    ],
+    &quot;renderer&quot;: {
+      &quot;dpr&quot;: 2,
+      &quot;shadow&quot;: 1,
+      &quot;toneMapping&quot;: 4,
+      &quot;info&quot;: {
+        &quot;frame&quot;: 11,
+        &quot;calls&quot;: 90,
+        &quot;triangles&quot;: 722310,
+        &quot;points&quot;: 0,
+        &quot;lines&quot;: 0
+      }
+    },
+    &quot;time&quot;: 1.9999999999999978
+  },
+  &quot;group&quot;: &quot;material-slime&quot;,
+  &quot;sameCameraAndRenderSettings&quot;: true,
+  &quot;edgeMeanAbsoluteDifference&quot;: 1.1998649137137813,
+  &quot;meanAbsolutePixelDifference&quot;: 0.9578137029838695,
+  &quot;changedPixelFraction&quot;: 0.011560968396146695,
+  &quot;differenceImage&quot;: &quot;material-slime-press-difference.png&quot;
+}</pre></details></article><article><h2>material-slime-recovery</h2><div class="grid"><section><h3>Reference</h3><p>Original reference A/B is visible in the user conversation. Original image bytes are not mounted here. This slot is explicitly incomplete; no generated replacement is used.</p></section><section><h3>Actual game</h3><img src="material-slime-recovery.png"></section><section><h3>Same-camera state difference</h3><img src="material-slime-recovery-difference.png"></section></div><details><summary>Camera, timestep, material measurements and hash</summary><pre>{
+  &quot;image&quot;: &quot;material-slime-recovery.png&quot;,
+  &quot;sha256&quot;: &quot;4d1d05d7250576f17b824d489118983da76a6224af2eed8ebff95ce2590791dc&quot;,
+  &quot;size&quot;: [
+    776,
+    1464
+  ],
+  &quot;meanRGB&quot;: [
+    146.31328868796123,
+    141.80124095121403,
+    162.1014757971382
+  ],
+  &quot;metadata&quot;: {
+    &quot;material&quot;: &quot;slime&quot;,
+    &quot;solver&quot;: {
+      &quot;sleeping&quot;: false,
+      &quot;particles&quot;: 343,
+      &quot;constraints&quot;: 3150,
+      &quot;contacts&quot;: 0,
+      &quot;steps&quot;: 420,
+      &quot;time&quot;: 6.9999999999999805,
+      &quot;volumeRatio&quot;: 0.9999042752652832,
+      &quot;minTetRatio&quot;: 0.9856957810952598,
+      &quot;maxDeformation&quot;: 0.03236111298650579,
+      &quot;maxStrain&quot;: 0.028991722189566325,
+      &quot;damage&quot;: 0,
+      &quot;faults&quot;: 0,
+      &quot;limitedSteps&quot;: 0,
+      &quot;lastPhysicsMs&quot;: 1.2000000178813934,
+      &quot;droppedTime&quot;: 0
+    },
+    &quot;camera&quot;: {
+      &quot;position&quot;: [
+        3079,
+        -444.448,
+        1246
+      ],
+      &quot;target&quot;: [
+        3072,
+        -447.96799999999996,
+        1236
+      ],
+      &quot;fov&quot;: 48,
+      &quot;aspect&quot;: 0.5300546448087432,
+      &quot;near&quot;: 0.08,
+      &quot;far&quot;: 20000
+    },
+    &quot;objectPosition&quot;: [
+      3072,
+      -449.948,
+      1236
+    ],
+    &quot;renderer&quot;: {
+      &quot;dpr&quot;: 2,
+      &quot;shadow&quot;: 1,
+      &quot;toneMapping&quot;: 4,
+      &quot;info&quot;: {
+        &quot;frame&quot;: 13,
+        &quot;calls&quot;: 90,
+        &quot;triangles&quot;: 722310,
+        &quot;points&quot;: 0,
+        &quot;lines&quot;: 0
+      }
+    },
+    &quot;time&quot;: 6.9999999999999805
+  },
+  &quot;group&quot;: &quot;material-slime&quot;,
+  &quot;sameCameraAndRenderSettings&quot;: true,
+  &quot;edgeMeanAbsoluteDifference&quot;: 0.32024926999417874,
+  &quot;meanAbsolutePixelDifference&quot;: 0.08068911610613487,
+  &quot;changedPixelFraction&quot;: 0.0011935947270576308,
+  &quot;differenceImage&quot;: &quot;material-slime-recovery-difference.png&quot;
+}</pre></details></article><article><h2>material-slime-rest</h2><div class="grid"><section><h3>Reference</h3><p>Original reference A/B is visible in the user conversation. Original image bytes are not mounted here. This slot is explicitly incomplete; no generated replacement is used.</p></section><section><h3>Actual game</h3><img src="material-slime-rest.png"></section><section><h3>Same-camera state difference</h3><img src="material-slime-rest-difference.png"></section></div><details><summary>Camera, timestep, material measurements and hash</summary><pre>{
+  &quot;image&quot;: &quot;material-slime-rest.png&quot;,
+  &quot;sha256&quot;: &quot;49f5ac8f63fd1276c422800bc4390c4b78ebdc88b2be0b572e974a263434ab11&quot;,
+  &quot;size&quot;: [
+    776,
+    1464
+  ],
+  &quot;meanRGB&quot;: [
+    146.3146970593206,
+    141.80997637457045,
+    162.0953176933694
+  ],
+  &quot;metadata&quot;: {
+    &quot;material&quot;: &quot;slime&quot;,
+    &quot;solver&quot;: {
+      &quot;sleeping&quot;: true,
+      &quot;particles&quot;: 343,
+      &quot;constraints&quot;: 3150,
+      &quot;contacts&quot;: 0,
+      &quot;steps&quot;: 0,
+      &quot;time&quot;: 0,
+      &quot;volumeRatio&quot;: 1,
+      &quot;minTetRatio&quot;: 0.9999999999999998,
+      &quot;maxDeformation&quot;: 0,
+      &quot;maxStrain&quot;: 0,
+      &quot;damage&quot;: 0,
+      &quot;faults&quot;: 0,
+      &quot;limitedSteps&quot;: 0,
+      &quot;lastPhysicsMs&quot;: 0,
+      &quot;droppedTime&quot;: 0
+    },
+    &quot;camera&quot;: {
+      &quot;position&quot;: [
+        3079,
+        -444.448,
+        1246
+      ],
+      &quot;target&quot;: [
+        3072,
+        -447.96799999999996,
+        1236
+      ],
+      &quot;fov&quot;: 48,
+      &quot;aspect&quot;: 0.5300546448087432,
+      &quot;near&quot;: 0.08,
+      &quot;far&quot;: 20000
+    },
+    &quot;objectPosition&quot;: [
+      3072,
+      -449.948,
+      1236
+    ],
+    &quot;renderer&quot;: {
+      &quot;dpr&quot;: 2,
+      &quot;shadow&quot;: 1,
+      &quot;toneMapping&quot;: 4,
+      &quot;info&quot;: {
+        &quot;frame&quot;: 10,
+        &quot;calls&quot;: 90,
+        &quot;triangles&quot;: 722310,
+        &quot;points&quot;: 0,
+        &quot;lines&quot;: 0
+      }
+    },
+    &quot;time&quot;: 0
+  },
+  &quot;group&quot;: &quot;material-slime&quot;,
+  &quot;sameCameraAndRenderSettings&quot;: true,
+  &quot;edgeMeanAbsoluteDifference&quot;: 0.0,
+  &quot;meanAbsolutePixelDifference&quot;: 0.0,
+  &quot;changedPixelFraction&quot;: 0.0,
+  &quot;differenceImage&quot;: &quot;material-slime-rest-difference.png&quot;
+}</pre></details></article>

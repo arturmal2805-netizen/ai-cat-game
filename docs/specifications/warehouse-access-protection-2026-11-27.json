@@ -7,14 +7,23 @@
     "public/warehouse-exterior.js",
     "public/mosasaur-water-probe-assets.js",
     "public/mosasaur-biome.js",
-    "public/mosasaur-expansion.js"
+    "public/mosasaur-expansion.js",
+    "public/mall-world.js",
+    "public/mall-runtime.js",
+    "public/resort-spa-world.js",
+    "public/resort-spa-invitations.js",
+    "public/waterfront-world.js",
+    "public/waterfront-runtime.js",
+    "public/leisure-runtime.js",
+    "public/app.js",
+    "public/chichi-manual.js"
   ],
   "frozenFiles": {
     "package-lock.json": "b3d16d1c9aa17089e38d9dd4805f4177e5e5beac1293c4898e7e8ec964a1ddbe",
     "package.json": "9802861e43b55082045938dfc6fe0197b3714b60daf28c6380527fcc43fa7165",
     "public/adoption.js": "a314764e03f44ad761a212698689b4bee8ed98ea26ba0b1c1070f03867545fee",
     "public/advanced-assets.js": "6c6cdbea1267119d6e43934dbfcae3905ee8d7de74f9e56eb5894fc5126e1d55",
-    "public/app.js": "695efbcd3f6146a72b44aa6e69060cb62afd5dee9ccf69cfdc92d4c5d395eff0",
+    "public/app.js": "a8aaf2d7bb3ceca0553f515f84ba91b14dd8a66de06c23cc37a3cef6401f8f68",
     "public/aquarium-assets.js": "0501e2a5c4e0764e3446d40b437755ca6076ac67f765ffa44cb1e49fa3b60575",
     "public/aquarium-biome.js": "8dfa75d910342f2c25f66526e333ee8b94106b5aac27d5d20a5d638112db18db",
     "public/aquarium-data.js": "92e9097d774ff682a4c276d085312d5094a88f720baf2e535315f97f06a66e73",
@@ -75,7 +84,7 @@
     "public/cat-wealth.js": "403839f28b653069cc49d82655a10bb77738a6e54b6738529c0d74f58e7b722e",
     "public/catalog-previews.js": "13c30d54db9a77acf4b38544903be6ca88a4ba797774cfd9e5c65bb67fa95bb5",
     "public/chichi-camera.js": "4fb07aa8c69ecd2211f4d397757a9cfdbb414ec3f9e21eabef9584bafe78c52c",
-    "public/chichi-manual.js": "8752291dada1c9a4f4fe0f5980cb23e670650ee7da4a328cf2f8e267e065b903",
+    "public/chichi-manual.js": "a8b8301e4643e16724de49c33200c7c18e75ed8b49d733ac72f7ffebf28812d9",
     "public/chichi-model.js": "a286b22eacca7813e1c6d59b3b672034b5f6b74ed7ac7c270390bdf71e96a59d",
     "public/chichi-sculpt.js": "9a3059bfad8189a1aacee15c07ced1496259f6f0d24fc7a7855559e41250a9c8",
     "public/chill-assets.js": "2568cf514919352fea4f0ea094aa6b1dfe7fca2158d57b89965213899b9ce0e8",
@@ -151,7 +160,7 @@
     "public/landscape-detail.js": "4289293bd097b473aefc62c8702c15475aa68f5a9797a85f15e06cdbd4ebf1e0",
     "public/legendary-assets.js": "5fbbf00eaf57cf54de03e11200ceace5777c9589e7c6e6b49009c15f69fcfc2a",
     "public/legendary-biome.js": "5ab17317a2239d9dd6c4f7852d8a58231364bf1ce9066dee2a5626292b712b0b",
-    "public/leisure-runtime.js": "3b7ed97a215a50dfe19db916599154e553a02fb67f1715be606aa80b8fbce444",
+    "public/leisure-runtime.js": "adad1ddfcac7e676aedebaf683604407988d34e8b6517ad5bdf26a4ff56a098d",
     "public/magic-bed-data.js": "57bbe56cfce742e4ed84599f9b04a9135c80da3ce1a8ca8331a3f303a66895eb",
     "public/magic-bed-harvest.js": "aa2e57c712c595737c51f8bb8ad3c0e16daa66f6dbe8201b495ea51c5ad4e756",
     "public/magic-bed-interaction.js": "b1a69b95169f1fff3793224eedf75e48e1b5e6d1156ec07a222452800eb67bda",
@@ -196,7 +205,7 @@
     "public/mall-reef-fit.js": "bd587e8fe76d0f66a2c3c21823fe9b15af9a02c675a7c56d5c6799a600de842e",
     "public/mall-room-light.js": "245a4a00bd1307508835e24a51396c10620317977b03feab4f3877cb79bd46b4",
     "public/mall-rooms.js": "3b792ac343e3185a5554ef43fca7b32da4a78cb4a26a575e08087f4ff2864f24",
-    "public/mall-runtime.js": "14379dfb403c4d77e71a5b031f4773d976f71c269ccb65fbe282d9e90373d206",
+    "public/mall-runtime.js": "59d52ebc084e8be2d41083dc9b376002297b06f04630ad9114668a537f35a1ca",
     "public/mall-signature-interiors.js": "a3d25c31327e326b6047efaaf62796b422700ff088fbb6449ac71b46de441129",
     "public/mall-storefront.js": "a4c19cb4c3b2cd9e0298f486c3e5df465ea148a91ef7a44704dac4db99fc84cd",
     "public/mall-surface-uv.js": "507285664b2fa0efda5d659d6671532d8693552e817b473d1d0c654c1926a387",
@@ -204,7 +213,7 @@
     "public/mall-system.js": "dc68ca900df6c86b8b85fb5ec9268bb2a52921ae625fe2e9fc2ae5f77225694d",
     "public/mall-ui.js": "9c13024a8e5896625b6d20979918e318136b5034293c39c51058c82bd0081bb3",
     "public/mall-walker.js": "864374c13c144356567e5671797984f8962a8def7c9bb9415f7328c8f4b6c719",
-    "public/mall-world.js": "3b4ed3aca3073fb758ffe471d2a0ce551a5bee2864bec729201557eb46159a36",
+    "public/mall-world.js": "ea9ab0493a9cfd54bbde277a1148228dce8f9046b365a36d6e0aff8525eafe0b",
     "public/manual-building-navigation.js": "a3f9ae3d5cc7345494c27c2bce93689473b042eceb4ca54818a13139993215b5",
     "public/matrix-cache.js": "765195b44047ca8920b4d409dc27dd158c2d6c9176d4041989e71b62e6f3e6c9",
     "public/meadow-cell-cache.js": "a05679ae7293d1709ace855148b5d8e5118b16811e603445ef41344f4f1edaa5",
@@ -302,7 +311,7 @@
     "public/resort-spa-garden-data.js": "7db42443d826130dbcb1b45ac717340529ea2d8707a8e91231ba9343a81e5cdf",
     "public/resort-spa-gardens.js": "304a8b9d87e89da3d07a193d2966e54fb8c916dfb50341fdc63c85e1ce7de192",
     "public/resort-spa-interiors.js": "4ea08bcf33898a9fe8a0bc4be48990599f1d85b849c4c92e35e012fa1d2edd19",
-    "public/resort-spa-invitations.js": "75f392bfe6acc9deb256c0b206c8c36075d03c7f84d0eb64b8e5f1c22a92261c",
+    "public/resort-spa-invitations.js": "043513aac1a043bb8049338ba95aa3a51596a08b3cf270cfe32b5acd2d748b2c",
     "public/resort-spa-layout-recovery.js": "78d6dfe5003db351f4d0e87a8bd4076d2d61eae9c513af301bd469b8cfb29b7a",
     "public/resort-spa-layout-v7.js": "26177a8697c05d256302472e5b1c5571e6e7e6c00909897a5d0f4ed69446c76b",
     "public/resort-spa-lift.js": "ad37b6fcec8da18d1be652d33759109ee04614695fff136a5f33b8456807a1ec",
@@ -340,7 +349,7 @@
     "public/resort-spa-water-quality.js": "1065e559360463572391343188f39cc1b629db46fb72de6e9b95514f34345dc3",
     "public/resort-spa-water-v11.js": "c4c83f508384b64d1396e2fb334350b236278e53225216f84aae4ffbd22fbd66",
     "public/resort-spa-water-v8.js": "474ca0600a2f94e224244a18183ab0729d304b940eafe1fbabed50c49e06eb97",
-    "public/resort-spa-world.js": "e371973670055125d7249cad4c66bb6787b9b3a67c15b92d1ed5bb8102c25b99",
+    "public/resort-spa-world.js": "4b775aacbd08c15aa3e3404d38c9820ccffa9d8685d3eed56763993f7d53ebdd",
     "public/retired-attractions.js": "bb01b32aac69a4ace7f3758525d76744db4095c94501370198ee3a3f684ad4ed",
     "public/ride-acting.js": "c5512870040dec16ef80546020a87474efbf49bcddbf8407c1d089cbb71c8c67",
     "public/ride-guests.js": "6bda50ec2c7933c3abd4b60235c9c47e59162067383b1bb73d194b9ec4ad0880",
@@ -424,9 +433,9 @@
     "public/waterfront-physics.js": "2b0c0cc2480e3954d083cd5e89a1d1dbd2d97a5023fd7e9de312b7d97a7d6200",
     "public/waterfront-primitives.js": "c51c5a696860c387a2be9b491880c0cfb102e48800e0fe620f2cf02f79af32c2",
     "public/waterfront-restaurant.js": "ece2f7dd7e8ae4343e80bd2419ae9f8607de20c2c69778ea33dd7a86f6ad198b",
-    "public/waterfront-runtime.js": "40acdb28e4ee3126741d98b8c1ac2a1a8902971b965c96978647fdab81546f33",
+    "public/waterfront-runtime.js": "89cba0d9599d2249da8d865acc2aef9386c63ba1e7b02afc58903df774c15169",
     "public/waterfront-trampoline.js": "ca59d8ddf2573514d5375f3ac6f6fbbeb731edfa4d9bd35debc859ee5951407a",
-    "public/waterfront-world.js": "55f901dc97b88ded01c708c8d6870097220236d31afcd68889230fdfcf552498",
+    "public/waterfront-world.js": "1a1ca9e0a635cdb1b9a7dcdec6773de14ecaf86cdcfd164c370597cf0d6594d6",
     "public/whale-assets.js": "d1d050c4bbc626e76e158a5c72b4534acf46dea87ac4c8260740fd7810c06ccf",
     "public/whale-diorama.js": "e3fd42c9cb44c4b0fd6ccb90896b8c7aa0569084732fe38b55d4c127c03c6887",
     "public/work-profile.js": "71f797a4e34a25d2b0b616554205e205243706a0a33ff5c76172066328edb87e",
@@ -479,5 +488,62 @@
     "server.mjs": "5ebceae99dd5c595d48b1db7e64b1002110d874d91d8a92849ebb35acb4419cd",
     "worker.mjs": "38ef06c3128c2bb1c995d6ed47188052fb9753dbbbfe27354a5e8a9ab67f10d7"
   },
-  "workerBoundary": "Move the renderer-only Warehouse builder import from shared expansion physics to the biome scene. Physics, saved coordinates and every existing geometry remain identical; workerd must never initialize the Meshopt renderer encoder."
+  "workerBoundary": "Move the renderer-only Warehouse builder import from shared expansion physics to the biome scene. Physics, saved coordinates and every existing geometry remain identical; workerd must never initialize the Meshopt renderer encoder.",
+  "explicitUserEvolution20261128": {
+    "file": "public/chichi-manual.js",
+    "request": "User explicitly requested Space jump for Chichi, 2026-11-28; ordinary manual jump added while venue transports keep priority.",
+    "previousSha256": "8752291dada1c9a4f4fe0f5980cb23e670650ee7da4a328cf2f8e267e065b903",
+    "newSha256": "a8b8301e4643e16724de49c33200c7c18e75ed8b49d733ac72f7ffebf28812d9",
+    "unchangedControllerSections": {
+      "camera": "a11fc450ac4f8614f696a0d0892e5fa1a1a20cfa6862b2ac13fe57dd1a0bf35d",
+      "walking": "7c887e22b693a20e82e750648896d61d8c341cb4522daa31017115d9a5065c42",
+      "obstacles": "581031ff553cce83571f0907e9126093b5ac552f5722697bd617707318b9d903"
+    },
+    "authorizationNote": "User explicitly requested ordinary Space jump. Exact current full file hash remains pinned in frozenFiles; original camera/walking/obstacle section hashes retained. Older Warehouse-only guards must recognize this authorized controller evolution."
+  },
+  "explicitUserTeleportV21": {
+    "request": "V21 explicitly authorizes command/transport integration while architecture, models, economics and save format stay protected.",
+    "files": [
+      {
+        "file": "public/mall-world.js",
+        "old": "3b4ed3aca3073fb758ffe471d2a0ce551a5bee2864bec729201557eb46159a36",
+        "new": "ea9ab0493a9cfd54bbde277a1148228dce8f9046b365a36d6e0aff8525eafe0b"
+      },
+      {
+        "file": "public/resort-spa-world.js",
+        "old": "e371973670055125d7249cad4c66bb6787b9b3a67c15b92d1ed5bb8102c25b99",
+        "new": "4b775aacbd08c15aa3e3404d38c9820ccffa9d8685d3eed56763993f7d53ebdd"
+      },
+      {
+        "file": "public/waterfront-world.js",
+        "old": "55f901dc97b88ded01c708c8d6870097220236d31afcd68889230fdfcf552498",
+        "new": "1a1ca9e0a635cdb1b9a7dcdec6773de14ecaf86cdcfd164c370597cf0d6594d6"
+      },
+      {
+        "file": "public/waterfront-runtime.js",
+        "old": "40acdb28e4ee3126741d98b8c1ac2a1a8902971b965c96978647fdab81546f33",
+        "new": "89cba0d9599d2249da8d865acc2aef9386c63ba1e7b02afc58903df774c15169"
+      },
+      {
+        "file": "public/mall-runtime.js",
+        "old": "14379dfb403c4d77e71a5b031f4773d976f71c269ccb65fbe282d9e90373d206",
+        "new": "59d52ebc084e8be2d41083dc9b376002297b06f04630ad9114668a537f35a1ca"
+      },
+      {
+        "file": "public/resort-spa-invitations.js",
+        "old": "75f392bfe6acc9deb256c0b206c8c36075d03c7f84d0eb64b8e5f1c22a92261c",
+        "new": "043513aac1a043bb8049338ba95aa3a51596a08b3cf270cfe32b5acd2d748b2c"
+      },
+      {
+        "file": "public/leisure-runtime.js",
+        "old": "3b7ed97a215a50dfe19db916599154e553a02fb67f1715be606aa80b8fbce444",
+        "new": "adad1ddfcac7e676aedebaf683604407988d34e8b6517ad5bdf26a4ff56a098d"
+      },
+      {
+        "file": "public/app.js",
+        "old": "695efbcd3f6146a72b44aa6e69060cb62afd5dee9ccf69cfdc92d4c5d395eff0",
+        "new": "a8aaf2d7bb3ceca0553f515f84ba91b14dd8a66de06c23cc37a3cef6401f8f68"
+      }
+    ]
+  }
 }

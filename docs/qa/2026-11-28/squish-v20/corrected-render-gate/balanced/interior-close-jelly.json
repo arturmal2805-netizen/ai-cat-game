@@ -1,0 +1,609 @@
+{
+  "camera": {
+    "position": [
+      3097,
+      -444.448,
+      1214
+    ],
+    "target": [
+      3090,
+      -447.948,
+      1204
+    ],
+    "fov": 48,
+    "aspect": 1.561764705882353,
+    "near": 0.08,
+    "far": 20000
+  },
+  "renderer": {
+    "dpr": 2,
+    "shadow": 1,
+    "toneMapping": 4,
+    "info": {
+      "frame": 19,
+      "calls": 126,
+      "triangles": 3744882,
+      "points": 320,
+      "lines": 0
+    }
+  },
+  "sceneTime": 7,
+  "reviewHour": 12,
+  "seed": 4419,
+  "sectorCount": 10,
+  "collectables": 2220,
+  "environments": [
+    {
+      "colour": 16777215,
+      "metalness": 0,
+      "emissive": 0,
+      "intensity": 1.8,
+      "inputMap": true,
+      "preparedMap": true,
+      "preparedMapping": 306,
+      "textureType": 1016
+    },
+    {
+      "colour": 5711683,
+      "metalness": 0,
+      "emissive": 0,
+      "intensity": 1.8,
+      "inputMap": true,
+      "preparedMap": true,
+      "preparedMapping": 306,
+      "textureType": 1016
+    },
+    {
+      "colour": 15787252,
+      "metalness": 0.02,
+      "emissive": 0,
+      "intensity": 1.8,
+      "inputMap": true,
+      "preparedMap": true,
+      "preparedMapping": 306,
+      "textureType": 1016
+    },
+    {
+      "colour": 16039795,
+      "metalness": 0.82,
+      "emissive": 9198629,
+      "intensity": 1.8,
+      "inputMap": true,
+      "preparedMap": true,
+      "preparedMapping": 306,
+      "textureType": 1016
+    },
+    {
+      "colour": 16765856,
+      "metalness": 0,
+      "emissive": 16759920,
+      "intensity": 1.8,
+      "inputMap": true,
+      "preparedMap": true,
+      "preparedMapping": 306,
+      "textureType": 1016
+    },
+    {
+      "colour": 16767097,
+      "metalness": 0,
+      "emissive": 0,
+      "intensity": 1.8,
+      "inputMap": true,
+      "preparedMap": true,
+      "preparedMapping": 306,
+      "textureType": 1016
+    },
+    {
+      "colour": 16751835,
+      "metalness": 0,
+      "emissive": 16737226,
+      "intensity": 1.8,
+      "inputMap": true,
+      "preparedMap": true,
+      "preparedMapping": 306,
+      "textureType": 1016
+    },
+    {
+      "colour": 16379383,
+      "metalness": 0,
+      "emissive": 0,
+      "intensity": 1.8,
+      "inputMap": true,
+      "preparedMap": true,
+      "preparedMapping": 306,
+      "textureType": 1016
+    },
+    {
+      "colour": 16760287,
+      "metalness": 0,
+      "emissive": 0,
+      "intensity": 1.8,
+      "inputMap": true,
+      "preparedMap": true,
+      "preparedMapping": 306,
+      "textureType": 1016
+    },
+    {
+      "colour": 16777215,
+      "inputMap": false,
+      "preparedMap": false
+    },
+    {
+      "colour": 16771567,
+      "metalness": 0,
+      "emissive": 0,
+      "intensity": 1.8,
+      "inputMap": true,
+      "preparedMap": true,
+      "preparedMapping": 306,
+      "textureType": 1016
+    },
+    {
+      "colour": 11373567,
+      "metalness": 0,
+      "emissive": 0,
+      "intensity": 1.8,
+      "inputMap": true,
+      "preparedMap": true,
+      "preparedMapping": 306,
+      "textureType": 1016
+    },
+    {
+      "colour": 16777215,
+      "inputMap": false,
+      "preparedMap": false
+    },
+    {
+      "colour": 16767471,
+      "metalness": 0,
+      "emissive": 0,
+      "intensity": 1.8,
+      "inputMap": true,
+      "preparedMap": true,
+      "preparedMapping": 306,
+      "textureType": 1016
+    },
+    {
+      "colour": 16777215,
+      "inputMap": false,
+      "preparedMap": false
+    },
+    {
+      "colour": 16767177,
+      "metalness": 0,
+      "emissive": 0,
+      "intensity": 1.8,
+      "inputMap": true,
+      "preparedMap": true,
+      "preparedMapping": 306,
+      "textureType": 1016
+    },
+    {
+      "colour": 16777215,
+      "inputMap": false,
+      "preparedMap": false
+    },
+    {
+      "colour": 16743376,
+      "metalness": 0,
+      "emissive": 0,
+      "intensity": 1.8,
+      "inputMap": true,
+      "preparedMap": true,
+      "preparedMapping": 306,
+      "textureType": 1016
+    },
+    {
+      "colour": 16777215,
+      "inputMap": false,
+      "preparedMap": false
+    },
+    {
+      "colour": 14459135,
+      "metalness": 0,
+      "emissive": 0,
+      "intensity": 1.8,
+      "inputMap": true,
+      "preparedMap": true,
+      "preparedMapping": 306,
+      "textureType": 1016
+    },
+    {
+      "colour": 16777215,
+      "inputMap": false,
+      "preparedMap": false
+    },
+    {
+      "colour": 8841712,
+      "metalness": 0,
+      "emissive": 0,
+      "intensity": 1.8,
+      "inputMap": true,
+      "preparedMap": true,
+      "preparedMapping": 306,
+      "textureType": 1016
+    },
+    {
+      "colour": 16777215,
+      "inputMap": false,
+      "preparedMap": false
+    },
+    {
+      "colour": 16758486,
+      "metalness": 0,
+      "emissive": 0,
+      "intensity": 1.8,
+      "inputMap": true,
+      "preparedMap": true,
+      "preparedMapping": 306,
+      "textureType": 1016
+    },
+    {
+      "colour": 16777215,
+      "inputMap": false,
+      "preparedMap": false
+    },
+    {
+      "colour": 14063049,
+      "metalness": 0,
+      "emissive": 0,
+      "intensity": 1.8,
+      "inputMap": true,
+      "preparedMap": true,
+      "preparedMapping": 306,
+      "textureType": 1016
+    },
+    {
+      "colour": 16777215,
+      "inputMap": false,
+      "preparedMap": false
+    },
+    {
+      "colour": 10414573,
+      "metalness": 0,
+      "emissive": 0,
+      "intensity": 1.8,
+      "inputMap": true,
+      "preparedMap": true,
+      "preparedMapping": 306,
+      "textureType": 1016
+    },
+    {
+      "colour": 16777215,
+      "inputMap": false,
+      "preparedMap": false
+    },
+    {
+      "colour": 11728127,
+      "metalness": 0.08,
+      "emissive": 0,
+      "intensity": 1.8,
+      "inputMap": true,
+      "preparedMap": true,
+      "preparedMapping": 306,
+      "textureType": 1016
+    },
+    {
+      "colour": 16777215,
+      "inputMap": false,
+      "preparedMap": false
+    },
+    {
+      "colour": 16777215,
+      "inputMap": false,
+      "preparedMap": false
+    },
+    {
+      "colour": 10710977,
+      "metalness": 0.18,
+      "emissive": 0,
+      "intensity": 1.8,
+      "inputMap": true,
+      "preparedMap": true,
+      "preparedMapping": 306,
+      "textureType": 1016
+    }
+  ],
+  "materials": [
+    {
+      "sector": "jelly",
+      "material": "jelly",
+      "solver": {
+        "sleeping": true,
+        "particles": 64,
+        "constraints": 441,
+        "contacts": 0,
+        "materialClass": "elastic-solid",
+        "materialId": "jelly",
+        "staticLoad": 0,
+        "impactEvents": 0,
+        "totalImpactImpulse": 0,
+        "accumulatedCreep": 0,
+        "plasticStrain": 0,
+        "plasticDisplacement": 0,
+        "dynamicContacts": [],
+        "steps": 0,
+        "time": 0,
+        "volumeRatio": 1,
+        "minTetRatio": 0.9999999999999998,
+        "maxDeformation": 0,
+        "maxStrain": 0,
+        "damage": 0,
+        "faults": 0,
+        "limitedSteps": 0,
+        "lastPhysicsMs": 0,
+        "droppedTime": 0
+      }
+    },
+    {
+      "sector": "butter",
+      "material": "butter",
+      "solver": {
+        "sleeping": true,
+        "particles": 64,
+        "constraints": 441,
+        "contacts": 0,
+        "materialClass": "elastoplastic-solid",
+        "materialId": "butter",
+        "staticLoad": 0,
+        "impactEvents": 0,
+        "totalImpactImpulse": 0,
+        "accumulatedCreep": 0,
+        "plasticStrain": 0,
+        "plasticDisplacement": 0,
+        "dynamicContacts": [],
+        "steps": 0,
+        "time": 0,
+        "volumeRatio": 1,
+        "minTetRatio": 0.9999999999999998,
+        "maxDeformation": 0,
+        "maxStrain": 0,
+        "damage": 0,
+        "faults": 0,
+        "limitedSteps": 0,
+        "lastPhysicsMs": 0,
+        "droppedTime": 0
+      }
+    },
+    {
+      "sector": "slime",
+      "material": "slime",
+      "solver": {
+        "sleeping": true,
+        "particles": 64,
+        "constraints": 441,
+        "contacts": 0,
+        "materialClass": "viscoplastic-solid",
+        "materialId": "slime-soft",
+        "staticLoad": 0,
+        "impactEvents": 0,
+        "totalImpactImpulse": 0,
+        "accumulatedCreep": 0,
+        "plasticStrain": 0,
+        "plasticDisplacement": 0,
+        "dynamicContacts": [],
+        "steps": 0,
+        "time": 0,
+        "volumeRatio": 1,
+        "minTetRatio": 0.9999999999999998,
+        "maxDeformation": 0,
+        "maxStrain": 0,
+        "damage": 0,
+        "faults": 0,
+        "limitedSteps": 0,
+        "lastPhysicsMs": 0,
+        "droppedTime": 0
+      }
+    },
+    {
+      "sector": "cloud",
+      "material": "cloud",
+      "solver": {
+        "sleeping": true,
+        "particles": 64,
+        "constraints": 441,
+        "contacts": 0,
+        "materialClass": "retarded-compressible-solid",
+        "materialId": "cloud",
+        "staticLoad": 0,
+        "impactEvents": 0,
+        "totalImpactImpulse": 0,
+        "accumulatedCreep": 0,
+        "plasticStrain": 0,
+        "plasticDisplacement": 0,
+        "dynamicContacts": [],
+        "steps": 0,
+        "time": 0,
+        "volumeRatio": 1,
+        "minTetRatio": 0.9999999999999998,
+        "maxDeformation": 0,
+        "maxStrain": 0,
+        "damage": 0,
+        "faults": 0,
+        "limitedSteps": 0,
+        "lastPhysicsMs": 0,
+        "droppedTime": 0
+      }
+    },
+    {
+      "sector": "giant",
+      "material": "giant",
+      "solver": {
+        "sleeping": true,
+        "particles": 180,
+        "constraints": 1509,
+        "contacts": 0,
+        "materialClass": "elastic-solid",
+        "materialId": "jelly",
+        "staticLoad": 0,
+        "impactEvents": 0,
+        "totalImpactImpulse": 0,
+        "accumulatedCreep": 0,
+        "plasticStrain": 0,
+        "plasticDisplacement": 0,
+        "dynamicContacts": [],
+        "steps": 0,
+        "time": 0,
+        "volumeRatio": 1,
+        "minTetRatio": 0.9999999999999997,
+        "maxDeformation": 0,
+        "maxStrain": 0,
+        "damage": 0,
+        "faults": 0,
+        "limitedSteps": 0,
+        "lastPhysicsMs": 0,
+        "droppedTime": 0
+      }
+    },
+    {
+      "sector": "crunchy",
+      "material": "crunchy",
+      "solver": {
+        "sleeping": true,
+        "particles": 64,
+        "constraints": 441,
+        "contacts": 0,
+        "materialClass": "granular-filled-solid",
+        "materialId": "crunchy",
+        "staticLoad": 0,
+        "impactEvents": 0,
+        "totalImpactImpulse": 0,
+        "accumulatedCreep": 0,
+        "plasticStrain": 0,
+        "plasticDisplacement": 0,
+        "dynamicContacts": [],
+        "steps": 0,
+        "time": 0,
+        "volumeRatio": 1,
+        "minTetRatio": 0.9999999999999998,
+        "maxDeformation": 0,
+        "maxStrain": 0,
+        "damage": 0,
+        "faults": 0,
+        "limitedSteps": 0,
+        "lastPhysicsMs": 0,
+        "droppedTime": 0
+      }
+    },
+    {
+      "sector": "collection",
+      "material": "mochi",
+      "solver": {
+        "sleeping": true,
+        "particles": 64,
+        "constraints": 441,
+        "contacts": 0,
+        "materialClass": "elastic-solid",
+        "materialId": "jelly",
+        "staticLoad": 0,
+        "impactEvents": 0,
+        "totalImpactImpulse": 0,
+        "accumulatedCreep": 0,
+        "plasticStrain": 0,
+        "plasticDisplacement": 0,
+        "dynamicContacts": [],
+        "steps": 0,
+        "time": 0,
+        "volumeRatio": 1,
+        "minTetRatio": 0.9999999999999998,
+        "maxDeformation": 0,
+        "maxStrain": 0,
+        "damage": 0,
+        "faults": 0,
+        "limitedSteps": 0,
+        "lastPhysicsMs": 0,
+        "droppedTime": 0
+      }
+    },
+    {
+      "sector": "mochi",
+      "material": "mochi",
+      "solver": {
+        "sleeping": true,
+        "particles": 64,
+        "constraints": 441,
+        "contacts": 0,
+        "materialClass": "elastic-solid",
+        "materialId": "jelly",
+        "staticLoad": 0,
+        "impactEvents": 0,
+        "totalImpactImpulse": 0,
+        "accumulatedCreep": 0,
+        "plasticStrain": 0,
+        "plasticDisplacement": 0,
+        "dynamicContacts": [],
+        "steps": 0,
+        "time": 0,
+        "volumeRatio": 1,
+        "minTetRatio": 0.9999999999999998,
+        "maxDeformation": 0,
+        "maxStrain": 0,
+        "damage": 0,
+        "faults": 0,
+        "limitedSteps": 0,
+        "lastPhysicsMs": 0,
+        "droppedTime": 0
+      }
+    },
+    {
+      "sector": "foam",
+      "material": "foam",
+      "solver": {
+        "sleeping": true,
+        "particles": 64,
+        "constraints": 441,
+        "contacts": 0,
+        "materialClass": "retarded-compressible-solid",
+        "materialId": "foam",
+        "staticLoad": 0,
+        "impactEvents": 0,
+        "totalImpactImpulse": 0,
+        "accumulatedCreep": 0,
+        "plasticStrain": 0,
+        "plasticDisplacement": 0,
+        "dynamicContacts": [],
+        "steps": 0,
+        "time": 0,
+        "volumeRatio": 1,
+        "minTetRatio": 0.9999999999999997,
+        "maxDeformation": 0,
+        "maxStrain": 0,
+        "damage": 0,
+        "faults": 0,
+        "limitedSteps": 0,
+        "lastPhysicsMs": 0,
+        "droppedTime": 0
+      }
+    },
+    {
+      "sector": "sensory",
+      "material": "foam",
+      "solver": {
+        "sleeping": true,
+        "particles": 64,
+        "constraints": 441,
+        "contacts": 0,
+        "materialClass": "retarded-compressible-solid",
+        "materialId": "foam",
+        "staticLoad": 0,
+        "impactEvents": 0,
+        "totalImpactImpulse": 0,
+        "accumulatedCreep": 0,
+        "plasticStrain": 0,
+        "plasticDisplacement": 0,
+        "dynamicContacts": [],
+        "steps": 0,
+        "time": 0,
+        "volumeRatio": 1,
+        "minTetRatio": 0.9999999999999997,
+        "maxDeformation": 0,
+        "maxStrain": 0,
+        "damage": 0,
+        "faults": 0,
+        "limitedSteps": 0,
+        "lastPhysicsMs": 0,
+        "droppedTime": 0
+      }
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "material": "butter",
+  "solver": {
+    "sleeping": false,
+    "particles": 343,
+    "constraints": 3150,
+    "contacts": 0,
+    "steps": 420,
+    "time": 6.9999999999999805,
+    "volumeRatio": 0.9997740749410357,
+    "minTetRatio": 0.9820386881479061,
+    "maxDeformation": 0.0443932278035742,
+    "maxStrain": 0.026490740096132503,
+    "damage": 0.598224401473999,
+    "faults": 0,
+    "limitedSteps": 0,
+    "lastPhysicsMs": 1.2000000178813934,
+    "droppedTime": 0
+  },
+  "camera": {
+    "position": [
+      3055,
+      -444.448,
+      1246
+    ],
+    "target": [
+      3048,
+      -447.96799999999996,
+      1236
+    ],
+    "fov": 48,
+    "aspect": 0.5300546448087432,
+    "near": 0.08,
+    "far": 20000
+  },
+  "objectPosition": [
+    3048,
+    -449.948,
+    1236
+  ],
+  "renderer": {
+    "dpr": 2,
+    "shadow": 1,
+    "toneMapping": 4,
+    "info": {
+      "frame": 9,
+      "calls": 71,
+      "triangles": 671722,
+      "points": 0,
+      "lines": 0
+    }
+  },
+  "time": 6.9999999999999805
+}

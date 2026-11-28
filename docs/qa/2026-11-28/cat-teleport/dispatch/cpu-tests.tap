@@ -1,0 +1,418 @@
+TAP version 13
+# Subtest: the hero and residents restore their actual last local coordinates through thirty saves, without changing money or owners
+ok 1 - the hero and residents restore their actual last local coordinates through thirty saves, without changing money or owners
+  ---
+  duration_ms: 1144.837945
+  type: 'test'
+  ...
+# Subtest: a new manual destination wins over the previous rendered position; temporary airborne rides do not overwrite a safe point
+ok 2 - a new manual destination wins over the previous rendered position; temporary airborne rides do not overwrite a safe point
+  ---
+  duration_ms: 2.776029
+  type: 'test'
+  ...
+# Subtest: cached clients omitting positions preserve them, and stale atomic positions cannot mix or overwrite a newer location
+ok 3 - cached clients omitting positions preserve them, and stale atomic positions cannot mix or overwrite a newer location
+  ---
+  duration_ms: 46.737335
+  type: 'test'
+  ...
+# Subtest: saving a venue kitten in the same island does not mark it released or detach it from its working stand
+ok 4 - saving a venue kitten in the same island does not mark it released or detach it from its working stand
+  ---
+  duration_ms: 330.388304
+  type: 'test'
+  ...
+# Subtest: a manual island command clears the previous saved shore even when the old actor is still on a transient ride
+ok 5 - a manual island command clears the previous saved shore even when the old actor is still on a transient ride
+  ---
+  duration_ms: 5.541523
+  type: 'test'
+  ...
+# Subtest: cloud merging cannot resurrect an old shore after recall or from a cached client omitting new locations
+ok 6 - cloud merging cannot resurrect an old shore after recall or from a cached client omitting new locations
+  ---
+  duration_ms: 85.17062
+  type: 'test'
+  ...
+# Subtest: recall stays on the requested island through cloud acknowledgements, completed-position saves and reloads
+ok 7 - recall stays on the requested island through cloud acknowledgements, completed-position saves and reloads
+  ---
+  duration_ms: 210.023987
+  type: 'test'
+  ...
+# Subtest: Chichi can save on a real unlocked bridge, keeps a valid legacy shore and reloads her exact body position
+ok 8 - Chichi can save on a real unlocked bridge, keeps a valid legacy shore and reloads her exact body position
+  ---
+  duration_ms: 56.092409
+  type: 'test'
+  ...
+# Subtest: instant transfer uses real points, supports negative floors, keeps safe snapshots and starts one activity
+ok 9 - instant transfer uses real points, supports negative floors, keeps safe snapshots and starts one activity
+  ---
+  duration_ms: 3.456517
+  type: 'test'
+  ...
+# Subtest: latest command wins across asynchronous preparation, cancellation and valid reload projection
+ok 10 - latest command wins across asynchronous preparation, cancellation and valid reload projection
+  ---
+  duration_ms: 8.904151
+  type: 'test'
+  ...
+# Subtest: group reservations and actual surface revalidation prevent overlaps and invalid arrivals
+ok 11 - group reservations and actual surface revalidation prevent overlaps and invalid arrivals
+  ---
+  duration_ms: 1.24932
+  type: 'test'
+  ...
+# Subtest: unsafe actor waits without moving; cancellation and disposal preserve visibility and release effects
+ok 12 - unsafe actor waits without moving; cancellation and disposal preserve visibility and release effects
+  ---
+  duration_ms: 0.738223
+  type: 'test'
+  ...
+# Subtest: portal pool has bounded shared buffers and no lights or per-frame particle uploads
+ok 13 - portal pool has bounded shared buffers and no lights or per-frame particle uploads
+  ---
+  duration_ms: 35.507091
+  type: 'test'
+  ...
+# Subtest: a command superseded before the microtask never starts its cold preparation
+ok 14 - a command superseded before the microtask never starts its cold preparation
+  ---
+  duration_ms: 0.474813
+  type: 'test'
+  ...
+# Subtest: a recall larger than the visual pool waits in bounded sequential portals with distinct physical slots
+ok 15 - a recall larger than the visual pool waits in bounded sequential portals with distinct physical slots
+  ---
+  duration_ms: 109.693085
+  type: 'test'
+  ...
+# Subtest: removing a dynamic destination cancels both pending and committed hops without starting its activity
+ok 16 - removing a dynamic destination cancels both pending and committed hops without starting its activity
+  ---
+  duration_ms: 0.605987
+  type: 'test'
+  ...
+# Subtest: a surface lost during portal opening fails after bounded wait and restores the valid origin
+ok 17 - a surface lost during portal opening fails after bounded wait and restores the valid origin
+  ---
+  duration_ms: 0.686116
+  type: 'test'
+  ...
+# Subtest: locked requests preserve the existing valid command and eligibility is checked again at commit
+ok 18 - locked requests preserve the existing valid command and eligibility is checked again at commit
+  ---
+  duration_ms: 0.774597
+  type: 'test'
+  ...
+# Subtest: a relocation observer can safely cancel without leaving the actor on its animated hop
+ok 19 - a relocation observer can safely cancel without leaving the actor on its animated hop
+  ---
+  duration_ms: 0.361485
+  type: 'test'
+  ...
+# Subtest: save/load during recall retains the island command and stores the actual supported floor after relocation
+ok 20 - save/load during recall retains the island command and stores the actual supported floor after relocation
+  ---
+  duration_ms: 547.751334
+  type: 'test'
+  ...
+# Subtest: third-person walking is camera-relative, diagonal-normalized and sweeps the full body before a thin wall
+ok 21 - third-person walking is camera-relative, diagonal-normalized and sweeps the full body before a thin wall
+  ---
+  duration_ms: 1.012639
+  type: 'test'
+  ...
+# Subtest: native ground heights are followed without stepping through a cliff and turning is independent of FPS
+ok 22 - native ground heights are followed without stepping through a cliff and turning is independent of FPS
+  ---
+  duration_ms: 4.62078
+  type: 'test'
+  ...
+# Subtest: an existing overlap can separate continuously but a clear body can never enter or cross the wall
+ok 23 - an existing overlap can separate continuously but a clear body can never enter or cross the wall
+  ---
+  duration_ms: 0.287536
+  type: 'test'
+  ...
+# Subtest: contact with an existing footprint permits tangent escape without increasing penetration
+ok 24 - contact with an existing footprint permits tangent escape without increasing penetration
+  ---
+  duration_ms: 0.247887
+  type: 'test'
+  ...
+# Subtest: AI-selected partners share the same itinerary while retaining separate professions and shifts
+ok 25 - AI-selected partners share the same itinerary while retaining separate professions and shifts
+  ---
+  duration_ms: 281.854463
+  type: 'test'
+  ...
+# Subtest: shared free-time reservations do not overlap, survive reload and advance only after each completed native restaurant visit
+ok 26 - shared free-time reservations do not overlap, survive reload and advance only after each completed native restaurant visit
+  ---
+  duration_ms: 229.758474
+  type: 'test'
+  ...
+# Subtest: work, player commands and loss of simulation ownership immediately release automatic visits
+ok 27 - work, player commands and loss of simulation ownership immediately release automatic visits
+  ---
+  duration_ms: 214.576511
+  type: 'test'
+  ...
+# Subtest: a working partner is not pulled out of their own job by the other cat’s outing
+ok 28 - a working partner is not pulled out of their own job by the other cat’s outing
+  ---
+  duration_ms: 49.345016
+  type: 'test'
+  ...
+# Subtest: removed venues and full queues do not strand a daily itinerary, and a completed partner is never charged twice
+ok 29 - removed venues and full queues do not strand a daily itinerary, and a completed partner is never charged twice
+  ---
+  duration_ms: 111.485163
+  type: 'test'
+  ...
+# Subtest: family spacing scales with actual body radii, including very large fluffy cats
+ok 30 - family spacing scales with actual body radii, including very large fluffy cats
+  ---
+  duration_ms: 0.246695
+  type: 'test'
+  ...
+# Subtest: invalid, duplicate, locked or unbuilt AI destinations fail validation without changing careers or money
+ok 31 - invalid, duplicate, locked or unbuilt AI destinations fail validation without changing careers or money
+  ---
+  duration_ms: 43.926745
+  type: 'test'
+  ...
+# Subtest: a paired venue kitten remains available when its counter is stored; gender and partner survive migration
+ok 32 - a paired venue kitten remains available when its counter is stored; gender and partner survive migration
+  ---
+  duration_ms: 144.514436
+  type: 'test'
+  ...
+# Subtest: concurrent family decisions share one introduction budget, including responses on adjacent days
+ok 33 - concurrent family decisions share one introduction budget, including responses on adjacent days
+  ---
+  duration_ms: 126.666086
+  type: 'test'
+  ...
+# Subtest: the daily AI batch preserves chosen professions while reserving valid shifts and never spawns an unowned car
+ok 34 - the daily AI batch preserves chosen professions while reserving valid shifts and never spawns an unowned car
+  ---
+  duration_ms: 28.595931
+  type: 'test'
+  ...
+# Subtest: storing a ride while its native visit is cancelled releases the reservation and advances safely
+ok 35 - storing a ride while its native visit is cancelled releases the reservation and advances safely
+  ---
+  duration_ms: 68.163483
+  type: 'test'
+  ...
+# Subtest: all 147 cats get a first leisure turn before repeat outings, with six concurrent reservations and varied daily priority
+ok 36 - all 147 cats get a first leisure turn before repeat outings, with six concurrent reservations and varied daily priority
+  ---
+  duration_ms: 1077.9341
+  type: 'test'
+  ...
+# Subtest: a couple waits for two free reservations instead of overflowing a six-cat leisure budget
+ok 37 - a couple waits for two free reservations instead of overflowing a six-cat leisure budget
+  ---
+  duration_ms: 21.653374
+  type: 'test'
+  ...
+# Subtest: an invalid AI career suggestion cannot reset a permanent profession or discard a valid new family and leisure plan
+ok 38 - an invalid AI career suggestion cannot reset a permanent profession or discard a valid new family and leisure plan
+  ---
+  duration_ms: 72.48171
+  type: 'test'
+  ...
+# Subtest: a phantom extra AI row is ignored only when all real cats have exactly one complete decision
+ok 39 - a phantom extra AI row is ignored only when all real cats have exactly one complete decision
+  ---
+  duration_ms: 68.623165
+  type: 'test'
+  ...
+# Subtest: recall includes free cats and respects assigned work, real sleep and builder work
+ok 40 - recall includes free cats and respects assigned work, real sleep and builder work
+  ---
+  duration_ms: 317.823653
+  type: 'test'
+  ...
+# Subtest: only invited cats get a saved destination; a sleeping Chichi and worker retain their places and rest
+ok 41 - only invited cats get a saved destination; a sleeping Chichi and worker retain their places and rest
+  ---
+  duration_ms: 11.020984
+  type: 'test'
+  ...
+# Subtest: the live selected list also preserves sleeping residents and becomes available after work
+ok 42 - the live selected list also preserves sleeping residents and becomes available after work
+  ---
+  duration_ms: 0.938159
+  type: 'test'
+  ...
+# Subtest: manual recall releases stale evening island and idle anchor without changing a profession, balance or history
+ok 43 - manual recall releases stale evening island and idle anchor without changing a profession, balance or history
+  ---
+  duration_ms: 0.173377
+  type: 'test'
+  ...
+# Subtest: a resident recall finishes at the giant park entrance in at most 18 seconds, continuously and exactly
+ok 44 - a resident recall finishes at the giant park entrance in at most 18 seconds, continuously and exactly
+  ---
+  duration_ms: 5.291093
+  type: 'test'
+  ...
+# Subtest: 64 arrivals reserve different clear spots by rest radius near the authored park gate
+ok 45 - 64 arrivals reserve different clear spots by rest radius near the authored park gate
+  ---
+  duration_ms: 151.288014
+  type: 'test'
+  ...
+# Subtest: a blocked tiny shore returns no landing rather than placing cats in water or another cat
+ok 46 - a blocked tiny shore returns no landing rather than placing cats in water or another cat
+  ---
+  duration_ms: 3.424239
+  type: 'test'
+  ...
+# Subtest: mall appends seven floors and real destinations to the existing AI catalogue
+ok 47 - mall appends seven floors and real destinations to the existing AI catalogue
+  ---
+  duration_ms: 397.177096
+  type: 'test'
+  ...
+# Subtest: existing private wallet buys once, retains its permanent receipt and exact inventory over two reloads
+ok 48 - existing private wallet buys once, retains its permanent receipt and exact inventory over two reloads
+  ---
+  duration_ms: 90.122329
+  type: 'test'
+  ...
+# Subtest: poor balance, unavailable ocean, stale sequence and repeated unique item fail without mutating the save
+ok 49 - poor balance, unavailable ocean, stale sequence and repeated unique item fail without mutating the save
+  ---
+  duration_ms: 15.618851
+  type: 'test'
+  ...
+# Subtest: eating consumes the purchased stock once, restores native needs and persists consumption
+ok 50 - eating consumes the purchased stock once, restores native needs and persists consumption
+  ---
+  duration_ms: 21.210409
+  type: 'test'
+  ...
+# Subtest: cached clients cannot erase a paid receipt or unknown product; racing same-wallet payments reject atomically
+ok 51 - cached clients cannot erase a paid receipt or unknown product; racing same-wallet payments reject atomically
+  ---
+  duration_ms: 74.221992
+  type: 'test'
+  ...
+# Subtest: all 34 destinations physically finish through their floor, private checkout, activity and original dry pier
+ok 52 - all 34 destinations physically finish through their floor, private checkout, activity and original dry pier
+  ---
+  duration_ms: 1904.501652
+  type: 'test'
+  ...
+# Subtest: six largest cats retain distinct waiting places, four-seat capacity, physical separation and finite return
+ok 53 - six largest cats retain distinct waiting places, four-seat capacity, physical separation and finite return
+  ---
+  duration_ms: 504.972409
+  type: 'test'
+  ...
+# Subtest: a checkpoint after paying or using a meal resumes the same goal without another debit or meal consumption
+ok 54 - a checkpoint after paying or using a meal resumes the same goal without another debit or meal consumption
+  ---
+  duration_ms: 143.546455
+  type: 'test'
+  ...
+# Subtest: failed durable intent cannot leave a running unrecorded visitor; failed consumption has one bounded attempt
+ok 55 - failed durable intent cannot leave a running unrecorded visitor; failed consumption has one bounded attempt
+  ---
+  duration_ms: 64.131022
+  type: 'test'
+  ...
+# Subtest: native arrival is handed over before the durable goal clears, including a subsequent visit
+ok 56 - native arrival is handed over before the durable goal clears, including a subsequent visit
+  ---
+  duration_ms: 88.72234
+  type: 'test'
+  ...
+# Subtest: detaching a manually moved visitor cannot overwrite the player drop with an old route position
+ok 57 - detaching a manually moved visitor cannot overwrite the player drop with an old route position
+  ---
+  duration_ms: 10.122726
+  type: 'test'
+  ...
+# Subtest: group invitation deduplicates free residents, bounds concurrent arrivals and never starts procedures or charges
+ok 58 - group invitation deduplicates free residents, bounds concurrent arrivals and never starts procedures or charges
+  ---
+  duration_ms: 14.809533
+  type: 'test'
+  ...
+# Subtest: arrival walks to a reserved dry point without teleporting, holds its supported dry floor until a new owner takes over
+ok 59 - arrival walks to a reserved dry point without teleporting, holds its supported dry floor until a new owner takes over
+  ---
+  duration_ms: 3.559519
+  type: 'test'
+  ...
+# Subtest: a reserved upper-floor arrival uses the stairs-aware navigator
+ok 60 - a reserved upper-floor arrival uses the stairs-aware navigator
+  ---
+  duration_ms: 0.299654
+  type: 'test'
+  ...
+# Subtest: accepted queued guests acquire their own hold immediately, but an actual new work claim still cancels it
+ok 61 - accepted queued guests acquire their own hold immediately, but an actual new work claim still cancels it
+  ---
+  duration_ms: 0.22273
+  type: 'test'
+  ...
+# Subtest: physical appointment returns, bills once, consumes once, reserves therapist and cleans station
+ok 62 - physical appointment returns, bills once, consumes once, reserves therapist and cleans station
+  ---
+  duration_ms: 36.079108
+  type: 'test'
+  ...
+# Subtest: resume uses durable paid ticket; failing effect retries same receipt without rebilling; paused time does not expire ownership
+ok 63 - resume uses durable paid ticket; failing effect retries same receipt without rebilling; paused time does not expire ownership
+  ---
+  duration_ms: 32.823978
+  type: 'test'
+  ...
+# Subtest: blocked full-body segment cannot start a walk or bill; cancellation releases seat and staff
+ok 64 - blocked full-body segment cannot start a walk or bill; cancellation releases seat and staff
+  ---
+  duration_ms: 1.039831
+  type: 'test'
+  ...
+# Subtest: a rejected real-wallet payment does not break the world loop or retain its therapist and booking
+ok 65 - a rejected real-wallet payment does not break the world loop or retain its therapist and booking
+  ---
+  duration_ms: 1.304895
+  type: 'test'
+  ...
+# Subtest: ordinary trampoline invitation grows every hop and then really dives, splashes, swims and climbs
+ok 66 - ordinary trampoline invitation grows every hop and then really dives, splashes, swims and climbs
+  ---
+  duration_ms: 1193.907591
+  type: 'test'
+  ...
+# Subtest: manual takeover remains owned through approach, airborne, return and water recovery
+ok 67 - manual takeover remains owned through approach, airborne, return and water recovery
+  ---
+  duration_ms: 418.609141
+  type: 'test'
+  ...
+# Subtest: first launch visibly loads the net, pins its perimeter and retains CPU contact
+ok 68 - first launch visibly loads the net, pins its perimeter and retains CPU contact
+  ---
+  duration_ms: 50.559834
+  type: 'test'
+  ...
+1..68
+# tests 68
+# suites 0
+# pass 68
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 6492.929321

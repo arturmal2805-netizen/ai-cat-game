@@ -1,0 +1,17 @@
+{
+  "manual": null,
+  "wanted": false,
+  "active": false,
+  "startFailure": null,
+  "ground": {
+    "y": -450.308,
+    "biome": "autumn"
+  },
+  "phase": "visit",
+  "paws": [],
+  "position": [
+    3075,
+    -450.308,
+    1224.866666666673
+  ]
+}

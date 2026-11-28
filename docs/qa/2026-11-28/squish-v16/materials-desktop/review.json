@@ -1,0 +1,55 @@
+{
+  "stage": "V16 seven basic material responses / desktop",
+  "referenceImage": null,
+  "ratings": {
+    "Visual Style": 35,
+    "Geometry": 55,
+    "Materials": 55,
+    "Lighting": 25,
+    "Squish Detail": 45,
+    "Physics Behavior": 75,
+    "Cat Interaction": null,
+    "Reference Fidelity": 40,
+    "Performance": null
+  },
+  "findings": [
+    {
+      "id": "SQ-05",
+      "severity": "ACCEPTED for basic recovery only",
+      "status": "RETESTED",
+      "actual": "Same-camera actual pointer frames distinguish jelly recovery, butter plastic fold, viscous slime, slowcloud and foam imprint. Full measured material-state result archived."
+    },
+    {
+      "id": "SQ-06",
+      "severity": "MAJOR",
+      "status": "OPEN",
+      "actual": "Cloud fleece looks like sharp paper spikes",
+      "expected": "RefB soft fluffy rounded fleece",
+      "cause": "Curved ribbons still silhouette as triangles at this scale",
+      "fix": "Rounded opaque fleece clusters with curved normals, then repeat actual cloud capture"
+    },
+    {
+      "id": "SQ-07",
+      "severity": "MAJOR",
+      "status": "OPEN",
+      "actual": "Foam dent is retained but lacks a detailed paw-shaped imprint",
+      "expected": "RefB palm and toe lobes",
+      "fix": "Dense local contact footprint field, preserve distinct held dents and native pressure shape"
+    },
+    {
+      "id": "SQ-08",
+      "severity": "OPEN next advanced stage",
+      "actual": "Butter damage measured but shell fracture not yet rendered; slime stretch/twist/merge/strands not yet validated; crunchy filler static",
+      "expected": "RefB full physical state sequences",
+      "fix": "Actual shell/core/pooled damage parts, viscoelastic strands/merge and filler feedback, per-effect native retest"
+    },
+    {
+      "id": "SQ-02",
+      "severity": "MAJOR",
+      "status": "OPEN interior/art stage",
+      "actual": "Plain white hall and flat lighting, far from referenceA",
+      "expected": "Dense gold/pastel/glass shelves/giants/pawdisplays/polishedfloor with warm reflections",
+      "fix": "Ten-zone interior and local materials/probe; preserve outside scene"
+    }
+  ]
+}

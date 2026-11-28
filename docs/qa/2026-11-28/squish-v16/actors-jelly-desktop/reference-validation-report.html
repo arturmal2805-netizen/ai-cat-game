@@ -1,0 +1,937 @@
+<!doctype html><meta charset="utf-8"><title>Warehouse reference validation</title><style>body{font:16px system-ui;background:#181323;color:#fff0e1;margin:24px}h1,h2{color:#efc678}.grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}img{width:100%}section{background:#31243e;padding:12px;border-radius:12px}pre{white-space:pre-wrap}.BLOCKER{color:#ff8c89}</style><h1>actors-jelly-desktop — actual game validation</h1><p>Reference → implementation → capture → comparison → correction → retest. No pixel-identity or hardware-FPS claim.</p><h2>Review findings</h2><pre>{
+  &quot;stage&quot;: &quot;actors-jelly-desktop&quot;,
+  &quot;referenceImage&quot;: null,
+  &quot;ratings&quot;: {
+    &quot;Cat Interaction&quot;: 78,
+    &quot;Physics Behavior&quot;: 80,
+    &quot;Visual Style&quot;: 46,
+    &quot;Reference Fidelity&quot;: 48,
+    &quot;Lighting&quot;: 35,
+    &quot;Performance&quot;: null
+  },
+  &quot;findings&quot;: [
+    {
+      &quot;id&quot;: &quot;SQ-13&quot;,
+      &quot;severity&quot;: &quot;ACCEPTED scoped native route/contact&quot;,
+      &quot;status&quot;: &quot;RETESTED&quot;,
+      &quot;actual&quot;: &quot;Real Chichi boards/enters/approaches/jumps, HappyBounce landing drives43N per paw, all measured skin contact errors&lt;.06m. 37 actual fixed-step frames/12fps=3.08s, MP4 and four full-DPR raw anchorframes; all37source PNG hashes/metadata retained. Original rig buffers unchanged in separate native tests.&quot;
+    },
+    {
+      &quot;id&quot;: &quot;SQ-14&quot;,
+      &quot;severity&quot;: &quot;MAJOR&quot;,
+      &quot;status&quot;: &quot;OPEN&quot;,
+      &quot;actual&quot;: &quot;Cloud body contact and full touch interactions need native proof; manual physical support, fourLODs, originalASMR and final rich art still open.&quot;
+    }
+  ]
+}</pre><article><h2>one-squish-native-knead</h2><div class="grid"><section><h3>Reference</h3><p>Original reference A/B is visible in the user conversation. Original image bytes are not mounted here. This slot is explicitly incomplete; no generated replacement is used.</p></section><section><h3>Actual game</h3><img src="one-squish-native-knead.png"></section><section><h3>Same-camera state difference</h3><p>Reference frame camera/settings mismatch or baseline absent; no misregistered difference reported.</p></section></div><details><summary>Camera, timestep, material measurements and hash</summary><pre>{
+  &quot;image&quot;: &quot;one-squish-native-knead.png&quot;,
+  &quot;sha256&quot;: &quot;586a7bb2996c0db15fa3aaad896176204ca2f50ff323b8d2769fedd8123bb303&quot;,
+  &quot;size&quot;: [
+    2124,
+    1360
+  ],
+  &quot;meanRGB&quot;: [
+    155.61222755345077,
+    117.13831353162735,
+    134.59239192145785
+  ],
+  &quot;metadata&quot;: {
+    &quot;solver&quot;: {
+      &quot;sleeping&quot;: false,
+      &quot;particles&quot;: 343,
+      &quot;constraints&quot;: 3150,
+      &quot;contacts&quot;: 4,
+      &quot;steps&quot;: 619,
+      &quot;time&quot;: 10.316666666666759,
+      &quot;volumeRatio&quot;: 0.9987880602091901,
+      &quot;minTetRatio&quot;: 0.8571541815052681,
+      &quot;maxDeformation&quot;: 0.25606035812359307,
+      &quot;maxStrain&quot;: 0.18929477109182422,
+      &quot;damage&quot;: 0,
+      &quot;faults&quot;: 0,
+      &quot;limitedSteps&quot;: 0,
+      &quot;lastPhysicsMs&quot;: 1.0999999940395355,
+      &quot;droppedTime&quot;: 0
+    },
+    &quot;camera&quot;: {
+      &quot;position&quot;: [
+        3097,
+        -443.948,
+        1214
+      ],
+      &quot;target&quot;: [
+        3090,
+        -446.948,
+        1204
+      ],
+      &quot;fov&quot;: 48,
+      &quot;aspect&quot;: 1.561764705882353,
+      &quot;near&quot;: 0.08,
+      &quot;far&quot;: 20000
+    },
+    &quot;renderer&quot;: {
+      &quot;dpr&quot;: 2,
+      &quot;shadow&quot;: 1,
+      &quot;toneMapping&quot;: 4,
+      &quot;info&quot;: {
+        &quot;frame&quot;: 44,
+        &quot;calls&quot;: 221,
+        &quot;triangles&quot;: 4419011,
+        &quot;points&quot;: 320,
+        &quot;lines&quot;: 0
+      }
+    },
+    &quot;time&quot;: 10.316666666666759,
+    &quot;sceneTime&quot;: 7,
+    &quot;reviewHour&quot;: 12,
+    &quot;seed&quot;: 4419,
+    &quot;nativePaws&quot;: [
+      {
+        &quot;id&quot;: &quot;chichi&quot;,
+        &quot;paw&quot;: 0,
+        &quot;point&quot;: [
+          3089.6787416138814,
+          -446.80569189994713,
+          1203.6499524789474
+        ],
+        &quot;surface&quot;: -446.80569189994713,
+        &quot;error&quot;: 0,
+        &quot;contact&quot;: true,
+        &quot;force&quot;: 38.29402607245382,
+        &quot;area&quot;: 0.035,
+        &quot;material&quot;: &quot;jelly&quot;
+      },
+      {
+        &quot;id&quot;: &quot;chichi&quot;,
+        &quot;paw&quot;: 1,
+        &quot;point&quot;: [
+          3089.810911121546,
+          -446.82369944706943,
+          1204.442029396251
+        ],
+        &quot;surface&quot;: -446.8236994470695,
+        &quot;error&quot;: 5.684341886080802e-14,
+        &quot;contact&quot;: true,
+        &quot;force&quot;: 38.29402607245382,
+        &quot;area&quot;: 0.035,
+        &quot;material&quot;: &quot;jelly&quot;
+      },
+      {
+        &quot;id&quot;: &quot;chichi&quot;,
+        &quot;paw&quot;: 2,
+        &quot;point&quot;: [
+          3090.230451046405,
+          -446.80718650051676,
+          1203.6045081418133
+        ],
+        &quot;surface&quot;: -446.80718650051676,
+        &quot;error&quot;: 0,
+        &quot;contact&quot;: true,
+        &quot;force&quot;: 38.29402607245382,
+        &quot;area&quot;: 0.035,
+        &quot;material&quot;: &quot;jelly&quot;
+      },
+      {
+        &quot;id&quot;: &quot;chichi&quot;,
+        &quot;paw&quot;: 3,
+        &quot;point&quot;: [
+          3090.274775171111,
+          -446.81511438553883,
+          1204.3779813811614
+        ],
+        &quot;surface&quot;: -446.81511438553883,
+        &quot;error&quot;: 0,
+        &quot;contact&quot;: true,
+        &quot;force&quot;: 43.530641245935,
+        &quot;area&quot;: 0.035,
+        &quot;material&quot;: &quot;jelly&quot;
+      }
+    ]
+  },
+  &quot;group&quot;: &quot;one-squish&quot;,
+  &quot;sameCameraAndRenderSettings&quot;: false,
+  &quot;comparisonSkippedReason&quot;: &quot;Reference frame camera/settings mismatch or baseline absent; no misregistered difference reported.&quot;
+}</pre></details></article><article><h2>one-squish-native-paws</h2><div class="grid"><section><h3>Reference</h3><p>Original reference A/B is visible in the user conversation. Original image bytes are not mounted here. This slot is explicitly incomplete; no generated replacement is used.</p></section><section><h3>Actual game</h3><img src="one-squish-native-paws.png"></section><section><h3>Same-camera state difference</h3><p>Reference frame camera/settings mismatch or baseline absent; no misregistered difference reported.</p></section></div><details><summary>Camera, timestep, material measurements and hash</summary><pre>{
+  &quot;image&quot;: &quot;one-squish-native-paws.png&quot;,
+  &quot;sha256&quot;: &quot;d1dc0bc411bb77b491baeba0155e5f1400acca52321b05cbfd6ff8ee5ea64d91&quot;,
+  &quot;size&quot;: [
+    2124,
+    1360
+  ],
+  &quot;meanRGB&quot;: [
+    155.62580695413757,
+    117.14087009803922,
+    134.60390564417858
+  ],
+  &quot;metadata&quot;: {
+    &quot;solver&quot;: {
+      &quot;sleeping&quot;: false,
+      &quot;particles&quot;: 343,
+      &quot;constraints&quot;: 3150,
+      &quot;contacts&quot;: 4,
+      &quot;steps&quot;: 427,
+      &quot;time&quot;: 7.116666666666647,
+      &quot;volumeRatio&quot;: 0.9987433108399462,
+      &quot;minTetRatio&quot;: 0.8291119338861164,
+      &quot;maxDeformation&quot;: 0.27303073110795306,
+      &quot;maxStrain&quot;: 0.24368840525312427,
+      &quot;damage&quot;: 0,
+      &quot;faults&quot;: 0,
+      &quot;limitedSteps&quot;: 0,
+      &quot;lastPhysicsMs&quot;: 1.0999999940395355,
+      &quot;droppedTime&quot;: 0
+    },
+    &quot;camera&quot;: {
+      &quot;position&quot;: [
+        3097,
+        -443.948,
+        1214
+      ],
+      &quot;target&quot;: [
+        3090,
+        -446.948,
+        1204
+      ],
+      &quot;fov&quot;: 48,
+      &quot;aspect&quot;: 1.561764705882353,
+      &quot;near&quot;: 0.08,
+      &quot;far&quot;: 20000
+    },
+    &quot;renderer&quot;: {
+      &quot;dpr&quot;: 2,
+      &quot;shadow&quot;: 1,
+      &quot;toneMapping&quot;: 4,
+      &quot;info&quot;: {
+        &quot;frame&quot;: 6,
+        &quot;calls&quot;: 221,
+        &quot;triangles&quot;: 4419011,
+        &quot;points&quot;: 320,
+        &quot;lines&quot;: 0
+      }
+    },
+    &quot;time&quot;: 7.116666666666647,
+    &quot;sceneTime&quot;: 7,
+    &quot;reviewHour&quot;: 12,
+    &quot;seed&quot;: 4419,
+    &quot;nativePaws&quot;: [
+      {
+        &quot;id&quot;: &quot;chichi&quot;,
+        &quot;paw&quot;: 0,
+        &quot;point&quot;: [
+          3089.6785456469997,
+          -446.8028450669803,
+          1203.6501324299334
+        ],
+        &quot;surface&quot;: -446.8028450669803,
+        &quot;error&quot;: 0,
+        &quot;contact&quot;: true,
+        &quot;force&quot;: 43,
+        &quot;area&quot;: 0.035,
+        &quot;material&quot;: &quot;jelly&quot;
+      },
+      {
+        &quot;id&quot;: &quot;chichi&quot;,
+        &quot;paw&quot;: 1,
+        &quot;point&quot;: [
+          3089.811158675831,
+          -446.8201208434253,
+          1204.442135211662
+        ],
+        &quot;surface&quot;: -446.82012084342523,
+        &quot;error&quot;: -5.684341886080802e-14,
+        &quot;contact&quot;: true,
+        &quot;force&quot;: 43,
+        &quot;area&quot;: 0.035,
+        &quot;material&quot;: &quot;jelly&quot;
+      },
+      {
+        &quot;id&quot;: &quot;chichi&quot;,
+        &quot;paw&quot;: 2,
+        &quot;point&quot;: [
+          3090.2302295454106,
+          -446.807041077363,
+          1203.604379157398
+        ],
+        &quot;surface&quot;: -446.807041077363,
+        &quot;error&quot;: 0,
+        &quot;contact&quot;: true,
+        &quot;force&quot;: 43,
+        &quot;area&quot;: 0.035,
+        &quot;material&quot;: &quot;jelly&quot;
+      },
+      {
+        &quot;id&quot;: &quot;chichi&quot;,
+        &quot;paw&quot;: 3,
+        &quot;point&quot;: [
+          3090.274986787494,
+          -446.81073726065927,
+          1204.3778274551526
+        ],
+        &quot;surface&quot;: -446.81073726065927,
+        &quot;error&quot;: 0,
+        &quot;contact&quot;: true,
+        &quot;force&quot;: 43,
+        &quot;area&quot;: 0.035,
+        &quot;material&quot;: &quot;jelly&quot;
+      }
+    ]
+  },
+  &quot;group&quot;: &quot;one-squish&quot;,
+  &quot;sameCameraAndRenderSettings&quot;: false,
+  &quot;comparisonSkippedReason&quot;: &quot;Reference frame camera/settings mismatch or baseline absent; no misregistered difference reported.&quot;
+}</pre></details></article><article><h2>one-squish-press</h2><div class="grid"><section><h3>Reference</h3><p>Original reference A/B is visible in the user conversation. Original image bytes are not mounted here. This slot is explicitly incomplete; no generated replacement is used.</p></section><section><h3>Actual game</h3><img src="one-squish-press.png"></section><section><h3>Same-camera state difference</h3><img src="one-squish-press-difference.png"></section></div><details><summary>Camera, timestep, material measurements and hash</summary><pre>{
+  &quot;image&quot;: &quot;one-squish-press.png&quot;,
+  &quot;sha256&quot;: &quot;9df87184a7bec332d807638b8ac0ef4723464c32e81612689f22dcafab633819&quot;,
+  &quot;size&quot;: [
+    2124,
+    1360
+  ],
+  &quot;meanRGB&quot;: [
+    161.7218978481223,
+    115.45110294117647,
+    131.5592777223884
+  ],
+  &quot;metadata&quot;: {
+    &quot;solver&quot;: {
+      &quot;sleeping&quot;: false,
+      &quot;particles&quot;: 343,
+      &quot;constraints&quot;: 3150,
+      &quot;contacts&quot;: 1,
+      &quot;steps&quot;: 60,
+      &quot;time&quot;: 1.0000000000000013,
+      &quot;volumeRatio&quot;: 0.9979070355219468,
+      &quot;minTetRatio&quot;: 0.8386917802271487,
+      &quot;maxDeformation&quot;: 0.4776042228807249,
+      &quot;maxStrain&quot;: 0.30341013007026396,
+      &quot;damage&quot;: 0,
+      &quot;faults&quot;: 0,
+      &quot;limitedSteps&quot;: 0,
+      &quot;lastPhysicsMs&quot;: 1.100000023841858,
+      &quot;droppedTime&quot;: 0
+    },
+    &quot;camera&quot;: {
+      &quot;position&quot;: [
+        3097,
+        -444.448,
+        1214
+      ],
+      &quot;target&quot;: [
+        3090,
+        -447.948,
+        1204
+      ],
+      &quot;fov&quot;: 48,
+      &quot;aspect&quot;: 1.561764705882353,
+      &quot;near&quot;: 0.08,
+      &quot;far&quot;: 20000
+    },
+    &quot;renderer&quot;: {
+      &quot;dpr&quot;: 2,
+      &quot;shadow&quot;: 1,
+      &quot;toneMapping&quot;: 4,
+      &quot;info&quot;: {
+        &quot;frame&quot;: 3,
+        &quot;calls&quot;: 127,
+        &quot;triangles&quot;: 3669364,
+        &quot;points&quot;: 320,
+        &quot;lines&quot;: 0
+      }
+    },
+    &quot;time&quot;: 1.0000000000000013,
+    &quot;sceneTime&quot;: 7,
+    &quot;reviewHour&quot;: 12,
+    &quot;seed&quot;: 4419,
+    &quot;nativePaws&quot;: []
+  },
+  &quot;group&quot;: &quot;one-squish&quot;,
+  &quot;sameCameraAndRenderSettings&quot;: true,
+  &quot;edgeMeanAbsoluteDifference&quot;: 0.48575673442635053,
+  &quot;meanAbsolutePixelDifference&quot;: 0.6063027353125808,
+  &quot;changedPixelFraction&quot;: 0.012442187326908164,
+  &quot;differenceImage&quot;: &quot;one-squish-press-difference.png&quot;
+}</pre></details></article><article><h2>one-squish-recovery</h2><div class="grid"><section><h3>Reference</h3><p>Original reference A/B is visible in the user conversation. Original image bytes are not mounted here. This slot is explicitly incomplete; no generated replacement is used.</p></section><section><h3>Actual game</h3><img src="one-squish-recovery.png"></section><section><h3>Same-camera state difference</h3><img src="one-squish-recovery-difference.png"></section></div><details><summary>Camera, timestep, material measurements and hash</summary><pre>{
+  &quot;image&quot;: &quot;one-squish-recovery.png&quot;,
+  &quot;sha256&quot;: &quot;0761a99352b429ff0de88a694050c2c5450ba0c447347f2233b601f2e706ac81&quot;,
+  &quot;size&quot;: [
+    2124,
+    1360
+  ],
+  &quot;meanRGB&quot;: [
+    161.56793993020938,
+    115.32512878032568,
+    131.43297953362136
+  ],
+  &quot;metadata&quot;: {
+    &quot;solver&quot;: {
+      &quot;sleeping&quot;: false,
+      &quot;particles&quot;: 343,
+      &quot;constraints&quot;: 3150,
+      &quot;contacts&quot;: 0,
+      &quot;steps&quot;: 252,
+      &quot;time&quot;: 4.19999999999999,
+      &quot;volumeRatio&quot;: 1.0000000957769133,
+      &quot;minTetRatio&quot;: 0.9999978492763956,
+      &quot;maxDeformation&quot;: 6.739936989258723e-05,
+      &quot;maxStrain&quot;: 7.673552246956206e-06,
+      &quot;damage&quot;: 0,
+      &quot;faults&quot;: 0,
+      &quot;limitedSteps&quot;: 0,
+      &quot;lastPhysicsMs&quot;: 1,
+      &quot;droppedTime&quot;: 0
+    },
+    &quot;camera&quot;: {
+      &quot;position&quot;: [
+        3097,
+        -444.448,
+        1214
+      ],
+      &quot;target&quot;: [
+        3090,
+        -447.948,
+        1204
+      ],
+      &quot;fov&quot;: 48,
+      &quot;aspect&quot;: 1.561764705882353,
+      &quot;near&quot;: 0.08,
+      &quot;far&quot;: 20000
+    },
+    &quot;renderer&quot;: {
+      &quot;dpr&quot;: 2,
+      &quot;shadow&quot;: 1,
+      &quot;toneMapping&quot;: 4,
+      &quot;info&quot;: {
+        &quot;frame&quot;: 5,
+        &quot;calls&quot;: 127,
+        &quot;triangles&quot;: 3669364,
+        &quot;points&quot;: 320,
+        &quot;lines&quot;: 0
+      }
+    },
+    &quot;time&quot;: 4.19999999999999,
+    &quot;sceneTime&quot;: 7,
+    &quot;reviewHour&quot;: 12,
+    &quot;seed&quot;: 4419,
+    &quot;nativePaws&quot;: []
+  },
+  &quot;group&quot;: &quot;one-squish&quot;,
+  &quot;sameCameraAndRenderSettings&quot;: true,
+  &quot;edgeMeanAbsoluteDifference&quot;: 0.002240500720062036,
+  &quot;meanAbsolutePixelDifference&quot;: 0.0003120268823160149,
+  &quot;changedPixelFraction&quot;: 3.4618367120859643e-06,
+  &quot;differenceImage&quot;: &quot;one-squish-recovery-difference.png&quot;
+}</pre></details></article><article><h2>one-squish-release</h2><div class="grid"><section><h3>Reference</h3><p>Original reference A/B is visible in the user conversation. Original image bytes are not mounted here. This slot is explicitly incomplete; no generated replacement is used.</p></section><section><h3>Actual game</h3><img src="one-squish-release.png"></section><section><h3>Same-camera state difference</h3><img src="one-squish-release-difference.png"></section></div><details><summary>Camera, timestep, material measurements and hash</summary><pre>{
+  &quot;image&quot;: &quot;one-squish-release.png&quot;,
+  &quot;sha256&quot;: &quot;8dc399f05bb0825daa5e873ab2fe2d5006e95061615fae5d86242d723f56b8c8&quot;,
+  &quot;size&quot;: [
+    2124,
+    1360
+  ],
+  &quot;meanRGB&quot;: [
+    161.59364268306192,
+    115.34618921014733,
+    131.45311115265315
+  ],
+  &quot;metadata&quot;: {
+    &quot;solver&quot;: {
+      &quot;sleeping&quot;: false,
+      &quot;particles&quot;: 343,
+      &quot;constraints&quot;: 3150,
+      &quot;contacts&quot;: 0,
+      &quot;steps&quot;: 72,
+      &quot;time&quot;: 1.2000000000000006,
+      &quot;volumeRatio&quot;: 1.0000391507044248,
+      &quot;minTetRatio&quot;: 0.9967874491760698,
+      &quot;maxDeformation&quot;: 0.05701968556897119,
+      &quot;maxStrain&quot;: 0.02379402444152088,
+      &quot;damage&quot;: 0,
+      &quot;faults&quot;: 0,
+      &quot;limitedSteps&quot;: 0,
+      &quot;lastPhysicsMs&quot;: 1,
+      &quot;droppedTime&quot;: 0
+    },
+    &quot;camera&quot;: {
+      &quot;position&quot;: [
+        3097,
+        -444.448,
+        1214
+      ],
+      &quot;target&quot;: [
+        3090,
+        -447.948,
+        1204
+      ],
+      &quot;fov&quot;: 48,
+      &quot;aspect&quot;: 1.561764705882353,
+      &quot;near&quot;: 0.08,
+      &quot;far&quot;: 20000
+    },
+    &quot;renderer&quot;: {
+      &quot;dpr&quot;: 2,
+      &quot;shadow&quot;: 1,
+      &quot;toneMapping&quot;: 4,
+      &quot;info&quot;: {
+        &quot;frame&quot;: 4,
+        &quot;calls&quot;: 127,
+        &quot;triangles&quot;: 3669364,
+        &quot;points&quot;: 320,
+        &quot;lines&quot;: 0
+      }
+    },
+    &quot;time&quot;: 1.2000000000000006,
+    &quot;sceneTime&quot;: 7,
+    &quot;reviewHour&quot;: 12,
+    &quot;seed&quot;: 4419,
+    &quot;nativePaws&quot;: []
+  },
+  &quot;group&quot;: &quot;one-squish&quot;,
+  &quot;sameCameraAndRenderSettings&quot;: true,
+  &quot;edgeMeanAbsoluteDifference&quot;: 0.4374666509730069,
+  &quot;meanAbsolutePixelDifference&quot;: 0.2589579640707507,
+  &quot;changedPixelFraction&quot;: 0.0054603550459731915,
+  &quot;differenceImage&quot;: &quot;one-squish-release-difference.png&quot;
+}</pre></details></article><article><h2>one-squish-rest</h2><div class="grid"><section><h3>Reference</h3><p>Original reference A/B is visible in the user conversation. Original image bytes are not mounted here. This slot is explicitly incomplete; no generated replacement is used.</p></section><section><h3>Actual game</h3><img src="one-squish-rest.png"></section><section><h3>Same-camera state difference</h3><img src="one-squish-rest-difference.png"></section></div><details><summary>Camera, timestep, material measurements and hash</summary><pre>{
+  &quot;image&quot;: &quot;one-squish-rest.png&quot;,
+  &quot;sha256&quot;: &quot;3e5f19704ae481cf299087e3ee176248014c408719a9b39c1fef6cb1ceb66b3c&quot;,
+  &quot;size&quot;: [
+    2124,
+    1360
+  ],
+  &quot;meanRGB&quot;: [
+    161.56793923784204,
+    115.32511597152985,
+    131.43297987980503
+  ],
+  &quot;metadata&quot;: {
+    &quot;solver&quot;: {
+      &quot;sleeping&quot;: true,
+      &quot;particles&quot;: 343,
+      &quot;constraints&quot;: 3150,
+      &quot;contacts&quot;: 0,
+      &quot;steps&quot;: 0,
+      &quot;time&quot;: 0,
+      &quot;volumeRatio&quot;: 1,
+      &quot;minTetRatio&quot;: 0.9999999999999998,
+      &quot;maxDeformation&quot;: 0,
+      &quot;maxStrain&quot;: 0,
+      &quot;damage&quot;: 0,
+      &quot;faults&quot;: 0,
+      &quot;limitedSteps&quot;: 0,
+      &quot;lastPhysicsMs&quot;: 0,
+      &quot;droppedTime&quot;: 0
+    },
+    &quot;camera&quot;: {
+      &quot;position&quot;: [
+        3097,
+        -444.448,
+        1214
+      ],
+      &quot;target&quot;: [
+        3090,
+        -447.948,
+        1204
+      ],
+      &quot;fov&quot;: 48,
+      &quot;aspect&quot;: 1.561764705882353,
+      &quot;near&quot;: 0.08,
+      &quot;far&quot;: 20000
+    },
+    &quot;renderer&quot;: {
+      &quot;dpr&quot;: 2,
+      &quot;shadow&quot;: 1,
+      &quot;toneMapping&quot;: 4,
+      &quot;info&quot;: {
+        &quot;frame&quot;: 2,
+        &quot;calls&quot;: 127,
+        &quot;triangles&quot;: 3669364,
+        &quot;points&quot;: 320,
+        &quot;lines&quot;: 0
+      }
+    },
+    &quot;time&quot;: 0,
+    &quot;sceneTime&quot;: 7,
+    &quot;reviewHour&quot;: 12,
+    &quot;seed&quot;: 4419,
+    &quot;nativePaws&quot;: []
+  },
+  &quot;group&quot;: &quot;one-squish&quot;,
+  &quot;sameCameraAndRenderSettings&quot;: true,
+  &quot;edgeMeanAbsoluteDifference&quot;: 0.0,
+  &quot;meanAbsolutePixelDifference&quot;: 0.0,
+  &quot;changedPixelFraction&quot;: 0.0,
+  &quot;differenceImage&quot;: &quot;one-squish-rest-difference.png&quot;
+}</pre></details></article><article><h2>sequence-native-000</h2><div class="grid"><section><h3>Reference</h3><p>Original reference A/B is visible in the user conversation. Original image bytes are not mounted here. This slot is explicitly incomplete; no generated replacement is used.</p></section><section><h3>Actual game</h3><img src="sequence-native-000.png"></section><section><h3>Same-camera state difference</h3><p>Reference frame camera/settings mismatch or baseline absent; no misregistered difference reported.</p></section></div><details><summary>Camera, timestep, material measurements and hash</summary><pre>{
+  &quot;image&quot;: &quot;sequence-native-000.png&quot;,
+  &quot;sha256&quot;: &quot;d1dc0bc411bb77b491baeba0155e5f1400acca52321b05cbfd6ff8ee5ea64d91&quot;,
+  &quot;size&quot;: [
+    2124,
+    1360
+  ],
+  &quot;meanRGB&quot;: [
+    155.62580695413757,
+    117.14087009803922,
+    134.60390564417858
+  ],
+  &quot;metadata&quot;: {
+    &quot;solver&quot;: {
+      &quot;sleeping&quot;: false,
+      &quot;particles&quot;: 343,
+      &quot;constraints&quot;: 3150,
+      &quot;contacts&quot;: 4,
+      &quot;steps&quot;: 427,
+      &quot;time&quot;: 7.116666666666647,
+      &quot;volumeRatio&quot;: 0.9987433108399462,
+      &quot;minTetRatio&quot;: 0.8291119338861164,
+      &quot;maxDeformation&quot;: 0.27303073110795306,
+      &quot;maxStrain&quot;: 0.24368840525312427,
+      &quot;damage&quot;: 0,
+      &quot;faults&quot;: 0,
+      &quot;limitedSteps&quot;: 0,
+      &quot;lastPhysicsMs&quot;: 1.0999999940395355,
+      &quot;droppedTime&quot;: 0
+    },
+    &quot;camera&quot;: {
+      &quot;position&quot;: [
+        3097,
+        -443.948,
+        1214
+      ],
+      &quot;target&quot;: [
+        3090,
+        -446.948,
+        1204
+      ],
+      &quot;fov&quot;: 48,
+      &quot;aspect&quot;: 1.561764705882353,
+      &quot;near&quot;: 0.08,
+      &quot;far&quot;: 20000
+    },
+    &quot;renderer&quot;: {
+      &quot;dpr&quot;: 2,
+      &quot;shadow&quot;: 1,
+      &quot;toneMapping&quot;: 4,
+      &quot;info&quot;: {
+        &quot;frame&quot;: 7,
+        &quot;calls&quot;: 221,
+        &quot;triangles&quot;: 4419011,
+        &quot;points&quot;: 320,
+        &quot;lines&quot;: 0
+      }
+    },
+    &quot;time&quot;: 7.116666666666647,
+    &quot;sceneTime&quot;: 7,
+    &quot;reviewHour&quot;: 12,
+    &quot;seed&quot;: 4419,
+    &quot;nativePaws&quot;: [
+      {
+        &quot;id&quot;: &quot;chichi&quot;,
+        &quot;paw&quot;: 0,
+        &quot;point&quot;: [
+          3089.6785456469997,
+          -446.8028450669803,
+          1203.6501324299334
+        ],
+        &quot;surface&quot;: -446.8028450669803,
+        &quot;error&quot;: 0,
+        &quot;contact&quot;: true,
+        &quot;force&quot;: 43,
+        &quot;area&quot;: 0.035,
+        &quot;material&quot;: &quot;jelly&quot;
+      },
+      {
+        &quot;id&quot;: &quot;chichi&quot;,
+        &quot;paw&quot;: 1,
+        &quot;point&quot;: [
+          3089.811158675831,
+          -446.8201208434253,
+          1204.442135211662
+        ],
+        &quot;surface&quot;: -446.82012084342523,
+        &quot;error&quot;: -5.684341886080802e-14,
+        &quot;contact&quot;: true,
+        &quot;force&quot;: 43,
+        &quot;area&quot;: 0.035,
+        &quot;material&quot;: &quot;jelly&quot;
+      },
+      {
+        &quot;id&quot;: &quot;chichi&quot;,
+        &quot;paw&quot;: 2,
+        &quot;point&quot;: [
+          3090.2302295454106,
+          -446.807041077363,
+          1203.604379157398
+        ],
+        &quot;surface&quot;: -446.807041077363,
+        &quot;error&quot;: 0,
+        &quot;contact&quot;: true,
+        &quot;force&quot;: 43,
+        &quot;area&quot;: 0.035,
+        &quot;material&quot;: &quot;jelly&quot;
+      },
+      {
+        &quot;id&quot;: &quot;chichi&quot;,
+        &quot;paw&quot;: 3,
+        &quot;point&quot;: [
+          3090.274986787494,
+          -446.81073726065927,
+          1204.3778274551526
+        ],
+        &quot;surface&quot;: -446.81073726065927,
+        &quot;error&quot;: 0,
+        &quot;contact&quot;: true,
+        &quot;force&quot;: 43,
+        &quot;area&quot;: 0.035,
+        &quot;material&quot;: &quot;jelly&quot;
+      }
+    ]
+  },
+  &quot;group&quot;: &quot;one-squish&quot;,
+  &quot;sameCameraAndRenderSettings&quot;: false,
+  &quot;comparisonSkippedReason&quot;: &quot;Reference frame camera/settings mismatch or baseline absent; no misregistered difference reported.&quot;
+}</pre></details></article><article><h2>sequence-native-012</h2><div class="grid"><section><h3>Reference</h3><p>Original reference A/B is visible in the user conversation. Original image bytes are not mounted here. This slot is explicitly incomplete; no generated replacement is used.</p></section><section><h3>Actual game</h3><img src="sequence-native-012.png"></section><section><h3>Same-camera state difference</h3><p>Reference frame camera/settings mismatch or baseline absent; no misregistered difference reported.</p></section></div><details><summary>Camera, timestep, material measurements and hash</summary><pre>{
+  &quot;image&quot;: &quot;sequence-native-012.png&quot;,
+  &quot;sha256&quot;: &quot;06b981847795fcc944c1bc623e2cef67d880d45841f27e93700b50d8b28a2851&quot;,
+  &quot;size&quot;: [
+    2124,
+    1360
+  ],
+  &quot;meanRGB&quot;: [
+    155.6604609781766,
+    117.12275188323918,
+    134.62679911653927
+  ],
+  &quot;metadata&quot;: {
+    &quot;solver&quot;: {
+      &quot;sleeping&quot;: false,
+      &quot;particles&quot;: 343,
+      &quot;constraints&quot;: 3150,
+      &quot;contacts&quot;: 0,
+      &quot;steps&quot;: 487,
+      &quot;time&quot;: 8.11666666666665,
+      &quot;volumeRatio&quot;: 1.0000801890739577,
+      &quot;minTetRatio&quot;: 0.9985418919339628,
+      &quot;maxDeformation&quot;: 0.02896064696935656,
+      &quot;maxStrain&quot;: 0.010193596873530709,
+      &quot;damage&quot;: 0,
+      &quot;faults&quot;: 0,
+      &quot;limitedSteps&quot;: 0,
+      &quot;lastPhysicsMs&quot;: 0.8999999761581421,
+      &quot;droppedTime&quot;: 0
+    },
+    &quot;camera&quot;: {
+      &quot;position&quot;: [
+        3097,
+        -443.948,
+        1214
+      ],
+      &quot;target&quot;: [
+        3090,
+        -446.948,
+        1204
+      ],
+      &quot;fov&quot;: 48,
+      &quot;aspect&quot;: 1.561764705882353,
+      &quot;near&quot;: 0.08,
+      &quot;far&quot;: 20000
+    },
+    &quot;renderer&quot;: {
+      &quot;dpr&quot;: 2,
+      &quot;shadow&quot;: 1,
+      &quot;toneMapping&quot;: 4,
+      &quot;info&quot;: {
+        &quot;frame&quot;: 19,
+        &quot;calls&quot;: 221,
+        &quot;triangles&quot;: 4419011,
+        &quot;points&quot;: 320,
+        &quot;lines&quot;: 0
+      }
+    },
+    &quot;time&quot;: 8.11666666666665,
+    &quot;sceneTime&quot;: 7,
+    &quot;reviewHour&quot;: 12,
+    &quot;seed&quot;: 4419,
+    &quot;nativePaws&quot;: []
+  },
+  &quot;group&quot;: &quot;one-squish&quot;,
+  &quot;sameCameraAndRenderSettings&quot;: false,
+  &quot;comparisonSkippedReason&quot;: &quot;Reference frame camera/settings mismatch or baseline absent; no misregistered difference reported.&quot;
+}</pre></details></article><article><h2>sequence-native-024</h2><div class="grid"><section><h3>Reference</h3><p>Original reference A/B is visible in the user conversation. Original image bytes are not mounted here. This slot is explicitly incomplete; no generated replacement is used.</p></section><section><h3>Actual game</h3><img src="sequence-native-024.png"></section><section><h3>Same-camera state difference</h3><p>Reference frame camera/settings mismatch or baseline absent; no misregistered difference reported.</p></section></div><details><summary>Camera, timestep, material measurements and hash</summary><pre>{
+  &quot;image&quot;: &quot;sequence-native-024.png&quot;,
+  &quot;sha256&quot;: &quot;882f3eb4b30dcca7d833cb3451b02ca4bfb4c37e5b482959ddf07afdeacbabe4&quot;,
+  &quot;size&quot;: [
+    2124,
+    1360
+  ],
+  &quot;meanRGB&quot;: [
+    155.68099070843027,
+    117.13197421624017,
+    134.64061357593886
+  ],
+  &quot;metadata&quot;: {
+    &quot;solver&quot;: {
+      &quot;sleeping&quot;: false,
+      &quot;particles&quot;: 343,
+      &quot;constraints&quot;: 3150,
+      &quot;contacts&quot;: 0,
+      &quot;steps&quot;: 547,
+      &quot;time&quot;: 9.1166666666667,
+      &quot;volumeRatio&quot;: 1.000055348679386,
+      &quot;minTetRatio&quot;: 0.9995349407039997,
+      &quot;maxDeformation&quot;: 0.008726119513988573,
+      &quot;maxStrain&quot;: 0.0021320855395779727,
+      &quot;damage&quot;: 0,
+      &quot;faults&quot;: 0,
+      &quot;limitedSteps&quot;: 0,
+      &quot;lastPhysicsMs&quot;: 0.9000000059604645,
+      &quot;droppedTime&quot;: 0
+    },
+    &quot;camera&quot;: {
+      &quot;position&quot;: [
+        3097,
+        -443.948,
+        1214
+      ],
+      &quot;target&quot;: [
+        3090,
+        -446.948,
+        1204
+      ],
+      &quot;fov&quot;: 48,
+      &quot;aspect&quot;: 1.561764705882353,
+      &quot;near&quot;: 0.08,
+      &quot;far&quot;: 20000
+    },
+    &quot;renderer&quot;: {
+      &quot;dpr&quot;: 2,
+      &quot;shadow&quot;: 1,
+      &quot;toneMapping&quot;: 4,
+      &quot;info&quot;: {
+        &quot;frame&quot;: 31,
+        &quot;calls&quot;: 221,
+        &quot;triangles&quot;: 4419011,
+        &quot;points&quot;: 320,
+        &quot;lines&quot;: 0
+      }
+    },
+    &quot;time&quot;: 9.1166666666667,
+    &quot;sceneTime&quot;: 7,
+    &quot;reviewHour&quot;: 12,
+    &quot;seed&quot;: 4419,
+    &quot;nativePaws&quot;: []
+  },
+  &quot;group&quot;: &quot;one-squish&quot;,
+  &quot;sameCameraAndRenderSettings&quot;: false,
+  &quot;comparisonSkippedReason&quot;: &quot;Reference frame camera/settings mismatch or baseline absent; no misregistered difference reported.&quot;
+}</pre></details></article><article><h2>sequence-native-036</h2><div class="grid"><section><h3>Reference</h3><p>Original reference A/B is visible in the user conversation. Original image bytes are not mounted here. This slot is explicitly incomplete; no generated replacement is used.</p></section><section><h3>Actual game</h3><img src="sequence-native-036.png"></section><section><h3>Same-camera state difference</h3><p>Reference frame camera/settings mismatch or baseline absent; no misregistered difference reported.</p></section></div><details><summary>Camera, timestep, material measurements and hash</summary><pre>{
+  &quot;image&quot;: &quot;sequence-native-036.png&quot;,
+  &quot;sha256&quot;: &quot;d6bf5877c1503098640e4ba4c4e8eff0260f21f2dffed26889916624fd9601bf&quot;,
+  &quot;size&quot;: [
+    2124,
+    1360
+  ],
+  &quot;meanRGB&quot;: [
+    155.66942851999556,
+    117.16040593497286,
+    134.642683408109
+  ],
+  &quot;metadata&quot;: {
+    &quot;solver&quot;: {
+      &quot;sleeping&quot;: false,
+      &quot;particles&quot;: 343,
+      &quot;constraints&quot;: 3150,
+      &quot;contacts&quot;: 3,
+      &quot;steps&quot;: 607,
+      &quot;time&quot;: 10.116666666666749,
+      &quot;volumeRatio&quot;: 0.9998446416592109,
+      &quot;minTetRatio&quot;: 0.9670290921319377,
+      &quot;maxDeformation&quot;: 0.07177622331717923,
+      &quot;maxStrain&quot;: 0.048523070747445135,
+      &quot;damage&quot;: 0,
+      &quot;faults&quot;: 0,
+      &quot;limitedSteps&quot;: 0,
+      &quot;lastPhysicsMs&quot;: 1,
+      &quot;droppedTime&quot;: 0
+    },
+    &quot;camera&quot;: {
+      &quot;position&quot;: [
+        3097,
+        -443.948,
+        1214
+      ],
+      &quot;target&quot;: [
+        3090,
+        -446.948,
+        1204
+      ],
+      &quot;fov&quot;: 48,
+      &quot;aspect&quot;: 1.561764705882353,
+      &quot;near&quot;: 0.08,
+      &quot;far&quot;: 20000
+    },
+    &quot;renderer&quot;: {
+      &quot;dpr&quot;: 2,
+      &quot;shadow&quot;: 1,
+      &quot;toneMapping&quot;: 4,
+      &quot;info&quot;: {
+        &quot;frame&quot;: 43,
+        &quot;calls&quot;: 221,
+        &quot;triangles&quot;: 4419011,
+        &quot;points&quot;: 320,
+        &quot;lines&quot;: 0
+      }
+    },
+    &quot;time&quot;: 10.116666666666749,
+    &quot;sceneTime&quot;: 7,
+    &quot;reviewHour&quot;: 12,
+    &quot;seed&quot;: 4419,
+    &quot;nativePaws&quot;: [
+      {
+        &quot;id&quot;: &quot;chichi&quot;,
+        &quot;paw&quot;: 0,
+        &quot;point&quot;: [
+          3089.678741613218,
+          -446.7305081310458,
+          1203.6499524795556
+        ],
+        &quot;surface&quot;: -446.7305081310457,
+        &quot;error&quot;: -5.684341886080802e-14,
+        &quot;contact&quot;: true,
+        &quot;force&quot;: 22.000780576692364,
+        &quot;area&quot;: 0.035,
+        &quot;material&quot;: &quot;jelly&quot;
+      },
+      {
+        &quot;id&quot;: &quot;chichi&quot;,
+        &quot;paw&quot;: 1,
+        &quot;point&quot;: [
+          3089.810911122383,
+          -446.72622364518105,
+          1204.4420293966093
+        ],
+        &quot;surface&quot;: -446.72622364518105,
+        &quot;error&quot;: 0,
+        &quot;contact&quot;: true,
+        &quot;force&quot;: 22.000780576692364,
+        &quot;area&quot;: 0.035,
+        &quot;material&quot;: &quot;jelly&quot;
+      },
+      {
+        &quot;id&quot;: &quot;chichi&quot;,
+        &quot;paw&quot;: 2,
+        &quot;point&quot;: [
+          3090.230451045655,
+          -446.7271699578194,
+          1203.6045081413768
+        ],
+        &quot;surface&quot;: -446.72716995781946,
+        &quot;error&quot;: 5.684341886080802e-14,
+        &quot;contact&quot;: true,
+        &quot;force&quot;: 22.000780576692364,
+        &quot;area&quot;: 0.035,
+        &quot;material&quot;: &quot;jelly&quot;
+      }
+    ]
+  },
+  &quot;group&quot;: &quot;one-squish&quot;,
+  &quot;sameCameraAndRenderSettings&quot;: false,
+  &quot;comparisonSkippedReason&quot;: &quot;Reference frame camera/settings mismatch or baseline absent; no misregistered difference reported.&quot;
+}</pre></details></article>

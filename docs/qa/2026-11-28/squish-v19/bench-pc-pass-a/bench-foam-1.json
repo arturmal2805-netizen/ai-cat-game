@@ -1,0 +1,418 @@
+{
+  "renderFinishMs": 2918.9000000059605,
+  "bench": {
+    "seed": 4419,
+    "fixedStep": 0.016666666666666666,
+    "steps": 120,
+    "time": 1.9999999999999978,
+    "selected": "foam",
+    "playing": false,
+    "nativePaws": [
+      {
+        "id": "v19-test-native",
+        "paw": 0,
+        "point": [
+          3039.678741614422,
+          -446.88531208804056,
+          1074.6499524784506
+        ],
+        "surface": -446.8853120880405,
+        "error": -5.684341886080802e-14,
+        "contact": true,
+        "force": 22.636743823068574,
+        "area": 0.035,
+        "material": "foam"
+      },
+      {
+        "id": "v19-test-native",
+        "paw": 1,
+        "point": [
+          3039.812379800661,
+          -446.9048165031668,
+          1075.4566672052847
+        ],
+        "surface": -446.9048165031668,
+        "error": 0,
+        "contact": true,
+        "force": 22.636743823068574,
+        "area": 0.035,
+        "material": "foam"
+      },
+      {
+        "id": "v19-test-native",
+        "paw": 2,
+        "point": [
+          3040.230451047016,
+          -446.91006781834415,
+          1074.6045081421696
+        ],
+        "surface": -446.9100678183441,
+        "error": -5.684341886080802e-14,
+        "contact": true,
+        "force": 22.636743823068574,
+        "area": 0.035,
+        "material": "foam"
+      },
+      {
+        "id": "v19-test-native",
+        "paw": 3,
+        "point": [
+          3040.2762431082,
+          -446.8923122952279,
+          1075.3926117944181
+        ],
+        "surface": -446.8923122952279,
+        "error": 0,
+        "contact": true,
+        "force": 22.636743823068574,
+        "area": 0.035,
+        "material": "foam"
+      }
+    ],
+    "nativeActor": "original createCat factory; isolated temporary test actor, not player replacement",
+    "materials": [
+      {
+        "material": "foam",
+        "contacts": [
+          {
+            "id": "v19-test-native:paw:0",
+            "point": [
+              3039.678741614422,
+              -446.8853120880405,
+              1074.6499524784506
+            ],
+            "normal": [
+              0.128739557942806,
+              0.9869008563505957,
+              -0.0972256445345166
+            ],
+            "force": 22.636743823068574,
+            "supportShare": 0.25,
+            "duration": 1.0000000000000013,
+            "radius": 0.65,
+            "footprintRadius": 0.18999037105401387,
+            "penetration": 0.05292702807605565,
+            "depth": 0.20242792044253655,
+            "compressionRatio": 0.06199716360249886,
+            "collider": "543608e4-29ad-4e9e-85fd-f00e87d7b3d5",
+            "kind": "paw"
+          },
+          {
+            "id": "v19-test-native:paw:2",
+            "point": [
+              3040.230451047016,
+              -446.9100678183441,
+              1074.6045081421696
+            ],
+            "normal": [
+              -0.18343601443366814,
+              0.9765851166418813,
+              -0.11239545614594121
+            ],
+            "force": 22.636743823068574,
+            "supportShare": 0.25,
+            "duration": 1.0000000000000013,
+            "radius": 0.65,
+            "footprintRadius": 0.18999037105401387,
+            "penetration": 0.029325121490728634,
+            "depth": 0.22832949081429277,
+            "compressionRatio": 0.06990544962725338,
+            "collider": "543608e4-29ad-4e9e-85fd-f00e87d7b3d5",
+            "kind": "paw"
+          },
+          {
+            "id": "v19-test-native:paw:1",
+            "point": [
+              3039.812379800661,
+              -446.9048165031668,
+              1075.4566672052847
+            ],
+            "normal": [
+              0.16014064584275223,
+              0.9820430536715743,
+              0.09973171152886065
+            ],
+            "force": 22.636743823068574,
+            "supportShare": 0.25,
+            "duration": 0.8166666666666675,
+            "radius": 0.65,
+            "footprintRadius": 0.18999037105401387,
+            "penetration": 0.03491024180999602,
+            "depth": 0.21663232406851396,
+            "compressionRatio": 0.06645538765702125,
+            "collider": "543608e4-29ad-4e9e-85fd-f00e87d7b3d5",
+            "kind": "paw"
+          },
+          {
+            "id": "v19-test-native:paw:3",
+            "point": [
+              3040.2762431082,
+              -446.8923122952279,
+              1075.3926117944181
+            ],
+            "normal": [
+              -0.14528496380336822,
+              0.9845336299108701,
+              0.09790715432071273
+            ],
+            "force": 22.636743823068574,
+            "supportShare": 0.25,
+            "duration": 0.8166666666666675,
+            "radius": 0.65,
+            "footprintRadius": 0.18999037105401387,
+            "penetration": 0.047345413935545366,
+            "depth": 0.20774641831598206,
+            "compressionRatio": 0.06365883620760802,
+            "collider": "543608e4-29ad-4e9e-85fd-f00e87d7b3d5",
+            "kind": "paw"
+          }
+        ],
+        "activePaws": 4,
+        "supportForce": 90.5469752922743,
+        "meanContactDepth": 0.21378403841033133,
+        "maxContactDepth": 0.22832949081429277,
+        "maxVertexDisplacement": 0.306654507829187,
+        "renderedBodyVolume": 35.90682349982257,
+        "renderedBodyVolumeRatio": 0.9798219237974586,
+        "volumeMethod": "signed triangles of the actual main body; giant overlapping primitives are not a union-volume measurement",
+        "meshUpdated": true,
+        "activeNodes": 18,
+        "stiffness": 5,
+        "compliance": 0.008,
+        "timestep": 0.016666666666666666,
+        "meshVersion": 66,
+        "colliderGeometry": "3e7d076d-d4c7-49a4-8984-9ad2af0d0d38",
+        "colliderFollowsRender": true,
+        "recoveryActive": false,
+        "solver": {
+          "sleeping": false,
+          "particles": 343,
+          "constraints": 3150,
+          "contacts": 4,
+          "steps": 61,
+          "time": 1.016666666666668,
+          "volumeRatio": 0.9933413701591107,
+          "minTetRatio": 0.6327957701209772,
+          "maxDeformation": 0.31063142615979195,
+          "maxStrain": 0.12415812394260442,
+          "damage": 0,
+          "faults": 0,
+          "limitedSteps": 0,
+          "lastPhysicsMs": 1.0999999940395355,
+          "droppedTime": 0
+        },
+        "lod": "HERO",
+        "units": "game metres/seconds; force calibrated to an effective game mass, not laboratory measurements"
+      },
+      {
+        "material": "jelly",
+        "contacts": [],
+        "activePaws": 0,
+        "supportForce": 0,
+        "meanContactDepth": 0,
+        "maxContactDepth": 0,
+        "maxVertexDisplacement": 0,
+        "renderedBodyVolume": 36.64627482579677,
+        "renderedBodyVolumeRatio": 1,
+        "volumeMethod": "signed triangles of the actual main body; giant overlapping primitives are not a union-volume measurement",
+        "meshUpdated": true,
+        "activeNodes": 0,
+        "stiffness": 5,
+        "compliance": 0.02,
+        "timestep": 0.016666666666666666,
+        "meshVersion": 5,
+        "colliderGeometry": "5ac5d8a3-abc6-4754-bf47-08831479acd4",
+        "colliderFollowsRender": true,
+        "recoveryActive": false,
+        "solver": {
+          "sleeping": true,
+          "particles": 64,
+          "constraints": 441,
+          "contacts": 0,
+          "steps": 0,
+          "time": 0,
+          "volumeRatio": 1,
+          "minTetRatio": 0.9999999999999998,
+          "maxDeformation": 0,
+          "maxStrain": 0,
+          "damage": 0,
+          "faults": 0,
+          "limitedSteps": 0,
+          "lastPhysicsMs": 0,
+          "droppedTime": 0
+        },
+        "lod": "ACTIVE",
+        "units": "game metres/seconds; force calibrated to an effective game mass, not laboratory measurements"
+      },
+      {
+        "material": "slime",
+        "contacts": [],
+        "activePaws": 0,
+        "supportForce": 0,
+        "meanContactDepth": 0,
+        "maxContactDepth": 0,
+        "maxVertexDisplacement": 0,
+        "renderedBodyVolume": 36.64627482579677,
+        "renderedBodyVolumeRatio": 1,
+        "volumeMethod": "signed triangles of the actual main body; giant overlapping primitives are not a union-volume measurement",
+        "meshUpdated": true,
+        "activeNodes": 0,
+        "stiffness": 6,
+        "compliance": 0.004,
+        "timestep": 0.016666666666666666,
+        "meshVersion": 5,
+        "colliderGeometry": "e339f964-4f5c-49f0-9c80-f1783db89060",
+        "colliderFollowsRender": true,
+        "recoveryActive": false,
+        "solver": {
+          "sleeping": true,
+          "particles": 64,
+          "constraints": 441,
+          "contacts": 0,
+          "steps": 0,
+          "time": 0,
+          "volumeRatio": 1,
+          "minTetRatio": 0.9999999999999998,
+          "maxDeformation": 0,
+          "maxStrain": 0,
+          "damage": 0,
+          "faults": 0,
+          "limitedSteps": 0,
+          "lastPhysicsMs": 0,
+          "droppedTime": 0
+        },
+        "lod": "ACTIVE",
+        "units": "game metres/seconds; force calibrated to an effective game mass, not laboratory measurements"
+      },
+      {
+        "material": "butter",
+        "contacts": [],
+        "activePaws": 0,
+        "supportForce": 0,
+        "meanContactDepth": 0,
+        "maxContactDepth": 0,
+        "maxVertexDisplacement": 0,
+        "renderedBodyVolume": 36.64627482579677,
+        "renderedBodyVolumeRatio": 1,
+        "volumeMethod": "signed triangles of the actual main body; giant overlapping primitives are not a union-volume measurement",
+        "meshUpdated": true,
+        "activeNodes": 0,
+        "stiffness": 13,
+        "compliance": 0.0018,
+        "timestep": 0.016666666666666666,
+        "meshVersion": 5,
+        "colliderGeometry": "fcfecab5-78c2-4b86-93d1-8c4d03fcab8b",
+        "colliderFollowsRender": true,
+        "recoveryActive": false,
+        "solver": {
+          "sleeping": true,
+          "particles": 64,
+          "constraints": 441,
+          "contacts": 0,
+          "steps": 0,
+          "time": 0,
+          "volumeRatio": 1,
+          "minTetRatio": 0.9999999999999998,
+          "maxDeformation": 0,
+          "maxStrain": 0,
+          "damage": 0,
+          "faults": 0,
+          "limitedSteps": 0,
+          "lastPhysicsMs": 0,
+          "droppedTime": 0
+        },
+        "lod": "ACTIVE",
+        "units": "game metres/seconds; force calibrated to an effective game mass, not laboratory measurements"
+      },
+      {
+        "material": "cloud",
+        "contacts": [],
+        "activePaws": 0,
+        "supportForce": 0,
+        "meanContactDepth": 0,
+        "maxContactDepth": 0,
+        "maxVertexDisplacement": 0,
+        "renderedBodyVolume": 36.64627482579677,
+        "renderedBodyVolumeRatio": 1,
+        "volumeMethod": "signed triangles of the actual main body; giant overlapping primitives are not a union-volume measurement",
+        "meshUpdated": true,
+        "activeNodes": 0,
+        "stiffness": 3,
+        "compliance": 0.006,
+        "timestep": 0.016666666666666666,
+        "meshVersion": 5,
+        "colliderGeometry": "f869bfac-6642-4909-9716-c35bdab4de66",
+        "colliderFollowsRender": true,
+        "recoveryActive": false,
+        "solver": {
+          "sleeping": true,
+          "particles": 64,
+          "constraints": 441,
+          "contacts": 0,
+          "steps": 0,
+          "time": 0,
+          "volumeRatio": 1,
+          "minTetRatio": 0.9999999999999998,
+          "maxDeformation": 0,
+          "maxStrain": 0,
+          "damage": 0,
+          "faults": 0,
+          "limitedSteps": 0,
+          "lastPhysicsMs": 0,
+          "droppedTime": 0
+        },
+        "lod": "ACTIVE",
+        "units": "game metres/seconds; force calibrated to an effective game mass, not laboratory measurements"
+      }
+    ]
+  },
+  "material": "foam",
+  "solver": {
+    "sleeping": false,
+    "particles": 343,
+    "constraints": 3150,
+    "contacts": 4,
+    "steps": 61,
+    "time": 1.016666666666668,
+    "volumeRatio": 0.9933413701591107,
+    "minTetRatio": 0.6327957701209772,
+    "maxDeformation": 0.31063142615979195,
+    "maxStrain": 0.12415812394260442,
+    "damage": 0,
+    "faults": 0,
+    "limitedSteps": 0,
+    "lastPhysicsMs": 1.0999999940395355,
+    "droppedTime": 0
+  },
+  "effects": {},
+  "camera": {
+    "position": [
+      3046,
+      -444.14799999999997,
+      1084
+    ],
+    "target": [
+      3040,
+      -447.548,
+      1075
+    ],
+    "fov": 48,
+    "aspect": 1.561764705882353
+  },
+  "renderer": {
+    "dpr": 2,
+    "shadow": 1,
+    "toneMapping": 4,
+    "info": {
+      "frame": 3,
+      "calls": 157,
+      "triangles": 4261881,
+      "points": 0,
+      "lines": 0
+    }
+  },
+  "sceneTime": 7,
+  "reviewHour": 12,
+  "seed": 4419,
+  "state": "PAW PRESS"
+}

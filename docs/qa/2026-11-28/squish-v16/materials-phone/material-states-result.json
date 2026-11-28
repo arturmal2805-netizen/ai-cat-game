@@ -1,0 +1,1578 @@
+{
+  "passed": true,
+  "desktop": false,
+  "frames": [
+    {
+      "id": "jelly",
+      "state": "rest",
+      "material": "jelly",
+      "solver": {
+        "sleeping": true,
+        "particles": 343,
+        "constraints": 3150,
+        "contacts": 0,
+        "steps": 0,
+        "time": 0,
+        "volumeRatio": 1,
+        "minTetRatio": 0.9999999999999998,
+        "maxDeformation": 0,
+        "maxStrain": 0,
+        "damage": 0,
+        "faults": 0,
+        "limitedSteps": 0,
+        "lastPhysicsMs": 0,
+        "droppedTime": 0
+      },
+      "camera": {
+        "position": [
+          3067,
+          -444.448,
+          1250
+        ],
+        "target": [
+          3060,
+          -447.96799999999996,
+          1240
+        ],
+        "fov": 48,
+        "aspect": 0.5300546448087432,
+        "near": 0.08,
+        "far": 20000
+      },
+      "objectPosition": [
+        3060,
+        -449.948,
+        1240
+      ],
+      "renderer": {
+        "dpr": 2,
+        "shadow": 1,
+        "toneMapping": 4,
+        "info": {
+          "frame": 2,
+          "calls": 81,
+          "triangles": 713590,
+          "points": 0,
+          "lines": 0
+        }
+      },
+      "time": 0
+    },
+    {
+      "id": "jelly",
+      "state": "press",
+      "material": "jelly",
+      "solver": {
+        "sleeping": false,
+        "particles": 343,
+        "constraints": 3150,
+        "contacts": 1,
+        "steps": 120,
+        "time": 1.9999999999999978,
+        "volumeRatio": 0.9978895259685803,
+        "minTetRatio": 0.8388648310767413,
+        "maxDeformation": 0.47767080594213035,
+        "maxStrain": 0.3033158429372616,
+        "damage": 0,
+        "faults": 0,
+        "limitedSteps": 0,
+        "lastPhysicsMs": 1.100000023841858,
+        "droppedTime": 0
+      },
+      "camera": {
+        "position": [
+          3067,
+          -444.448,
+          1250
+        ],
+        "target": [
+          3060,
+          -447.96799999999996,
+          1240
+        ],
+        "fov": 48,
+        "aspect": 0.5300546448087432,
+        "near": 0.08,
+        "far": 20000
+      },
+      "objectPosition": [
+        3060,
+        -449.948,
+        1240
+      ],
+      "renderer": {
+        "dpr": 2,
+        "shadow": 1,
+        "toneMapping": 4,
+        "info": {
+          "frame": 3,
+          "calls": 81,
+          "triangles": 713590,
+          "points": 0,
+          "lines": 0
+        }
+      },
+      "time": 1.9999999999999978
+    },
+    {
+      "id": "jelly",
+      "state": "hold",
+      "material": "jelly",
+      "solver": {
+        "sleeping": false,
+        "particles": 343,
+        "constraints": 3150,
+        "contacts": 0,
+        "steps": 180,
+        "time": 2.9999999999999942,
+        "volumeRatio": 1.000027442009018,
+        "minTetRatio": 0.9997359174157467,
+        "maxDeformation": 0.007925131150182459,
+        "maxStrain": 0.0011343365581495905,
+        "damage": 0,
+        "faults": 0,
+        "limitedSteps": 0,
+        "lastPhysicsMs": 1.199999988079071,
+        "droppedTime": 0
+      },
+      "camera": {
+        "position": [
+          3067,
+          -444.448,
+          1250
+        ],
+        "target": [
+          3060,
+          -447.96799999999996,
+          1240
+        ],
+        "fov": 48,
+        "aspect": 0.5300546448087432,
+        "near": 0.08,
+        "far": 20000
+      },
+      "objectPosition": [
+        3060,
+        -449.948,
+        1240
+      ],
+      "renderer": {
+        "dpr": 2,
+        "shadow": 1,
+        "toneMapping": 4,
+        "info": {
+          "frame": 4,
+          "calls": 81,
+          "triangles": 713590,
+          "points": 0,
+          "lines": 0
+        }
+      },
+      "time": 2.9999999999999942
+    },
+    {
+      "id": "jelly",
+      "state": "recovery",
+      "material": "jelly",
+      "solver": {
+        "sleeping": true,
+        "particles": 343,
+        "constraints": 3150,
+        "contacts": 0,
+        "steps": 400,
+        "time": 6.666666666666648,
+        "volumeRatio": 1,
+        "minTetRatio": 0.9999999999999998,
+        "maxDeformation": 0,
+        "maxStrain": 3.7491653070968066e-7,
+        "damage": 0,
+        "faults": 0,
+        "limitedSteps": 0,
+        "lastPhysicsMs": 0,
+        "droppedTime": 0
+      },
+      "camera": {
+        "position": [
+          3067,
+          -444.448,
+          1250
+        ],
+        "target": [
+          3060,
+          -447.96799999999996,
+          1240
+        ],
+        "fov": 48,
+        "aspect": 0.5300546448087432,
+        "near": 0.08,
+        "far": 20000
+      },
+      "objectPosition": [
+        3060,
+        -449.948,
+        1240
+      ],
+      "renderer": {
+        "dpr": 2,
+        "shadow": 1,
+        "toneMapping": 4,
+        "info": {
+          "frame": 5,
+          "calls": 81,
+          "triangles": 713590,
+          "points": 0,
+          "lines": 0
+        }
+      },
+      "time": 6.666666666666648
+    },
+    {
+      "id": "butter",
+      "state": "rest",
+      "material": "butter",
+      "solver": {
+        "sleeping": true,
+        "particles": 343,
+        "constraints": 3150,
+        "contacts": 0,
+        "steps": 0,
+        "time": 0,
+        "volumeRatio": 1,
+        "minTetRatio": 0.9999999999999998,
+        "maxDeformation": 0,
+        "maxStrain": 0,
+        "damage": 0,
+        "faults": 0,
+        "limitedSteps": 0,
+        "lastPhysicsMs": 0,
+        "droppedTime": 0
+      },
+      "camera": {
+        "position": [
+          3055,
+          -444.448,
+          1246
+        ],
+        "target": [
+          3048,
+          -447.96799999999996,
+          1236
+        ],
+        "fov": 48,
+        "aspect": 0.5300546448087432,
+        "near": 0.08,
+        "far": 20000
+      },
+      "objectPosition": [
+        3048,
+        -449.948,
+        1236
+      ],
+      "renderer": {
+        "dpr": 2,
+        "shadow": 1,
+        "toneMapping": 4,
+        "info": {
+          "frame": 6,
+          "calls": 71,
+          "triangles": 671722,
+          "points": 0,
+          "lines": 0
+        }
+      },
+      "time": 0
+    },
+    {
+      "id": "butter",
+      "state": "press",
+      "material": "butter",
+      "solver": {
+        "sleeping": false,
+        "particles": 343,
+        "constraints": 3150,
+        "contacts": 1,
+        "steps": 120,
+        "time": 1.9999999999999978,
+        "volumeRatio": 0.9963973303938358,
+        "minTetRatio": 0.7257829160344349,
+        "maxDeformation": 0.45066091576539397,
+        "maxStrain": 0.16387936638982856,
+        "damage": 0.598224401473999,
+        "faults": 0,
+        "limitedSteps": 0,
+        "lastPhysicsMs": 1.0999999940395355,
+        "droppedTime": 0
+      },
+      "camera": {
+        "position": [
+          3055,
+          -444.448,
+          1246
+        ],
+        "target": [
+          3048,
+          -447.96799999999996,
+          1236
+        ],
+        "fov": 48,
+        "aspect": 0.5300546448087432,
+        "near": 0.08,
+        "far": 20000
+      },
+      "objectPosition": [
+        3048,
+        -449.948,
+        1236
+      ],
+      "renderer": {
+        "dpr": 2,
+        "shadow": 1,
+        "toneMapping": 4,
+        "info": {
+          "frame": 7,
+          "calls": 71,
+          "triangles": 671722,
+          "points": 0,
+          "lines": 0
+        }
+      },
+      "time": 1.9999999999999978
+    },
+    {
+      "id": "butter",
+      "state": "hold",
+      "material": "butter",
+      "solver": {
+        "sleeping": false,
+        "particles": 343,
+        "constraints": 3150,
+        "contacts": 0,
+        "steps": 180,
+        "time": 2.9999999999999942,
+        "volumeRatio": 0.9988347731040625,
+        "minTetRatio": 0.9105887437840189,
+        "maxDeformation": 0.2139553719793662,
+        "maxStrain": 0.15942108641318573,
+        "damage": 0.598224401473999,
+        "faults": 0,
+        "limitedSteps": 0,
+        "lastPhysicsMs": 1.5999999940395355,
+        "droppedTime": 0
+      },
+      "camera": {
+        "position": [
+          3055,
+          -444.448,
+          1246
+        ],
+        "target": [
+          3048,
+          -447.96799999999996,
+          1236
+        ],
+        "fov": 48,
+        "aspect": 0.5300546448087432,
+        "near": 0.08,
+        "far": 20000
+      },
+      "objectPosition": [
+        3048,
+        -449.948,
+        1236
+      ],
+      "renderer": {
+        "dpr": 2,
+        "shadow": 1,
+        "toneMapping": 4,
+        "info": {
+          "frame": 8,
+          "calls": 71,
+          "triangles": 671722,
+          "points": 0,
+          "lines": 0
+        }
+      },
+      "time": 2.9999999999999942
+    },
+    {
+      "id": "butter",
+      "state": "recovery",
+      "material": "butter",
+      "solver": {
+        "sleeping": false,
+        "particles": 343,
+        "constraints": 3150,
+        "contacts": 0,
+        "steps": 420,
+        "time": 6.9999999999999805,
+        "volumeRatio": 0.9997740749410357,
+        "minTetRatio": 0.9820386881479061,
+        "maxDeformation": 0.0443932278035742,
+        "maxStrain": 0.026490740096132503,
+        "damage": 0.598224401473999,
+        "faults": 0,
+        "limitedSteps": 0,
+        "lastPhysicsMs": 1.2000000178813934,
+        "droppedTime": 0
+      },
+      "camera": {
+        "position": [
+          3055,
+          -444.448,
+          1246
+        ],
+        "target": [
+          3048,
+          -447.96799999999996,
+          1236
+        ],
+        "fov": 48,
+        "aspect": 0.5300546448087432,
+        "near": 0.08,
+        "far": 20000
+      },
+      "objectPosition": [
+        3048,
+        -449.948,
+        1236
+      ],
+      "renderer": {
+        "dpr": 2,
+        "shadow": 1,
+        "toneMapping": 4,
+        "info": {
+          "frame": 9,
+          "calls": 71,
+          "triangles": 671722,
+          "points": 0,
+          "lines": 0
+        }
+      },
+      "time": 6.9999999999999805
+    },
+    {
+      "id": "slime",
+      "state": "rest",
+      "material": "slime",
+      "solver": {
+        "sleeping": true,
+        "particles": 343,
+        "constraints": 3150,
+        "contacts": 0,
+        "steps": 0,
+        "time": 0,
+        "volumeRatio": 1,
+        "minTetRatio": 0.9999999999999998,
+        "maxDeformation": 0,
+        "maxStrain": 0,
+        "damage": 0,
+        "faults": 0,
+        "limitedSteps": 0,
+        "lastPhysicsMs": 0,
+        "droppedTime": 0
+      },
+      "camera": {
+        "position": [
+          3079,
+          -444.448,
+          1246
+        ],
+        "target": [
+          3072,
+          -447.96799999999996,
+          1236
+        ],
+        "fov": 48,
+        "aspect": 0.5300546448087432,
+        "near": 0.08,
+        "far": 20000
+      },
+      "objectPosition": [
+        3072,
+        -449.948,
+        1236
+      ],
+      "renderer": {
+        "dpr": 2,
+        "shadow": 1,
+        "toneMapping": 4,
+        "info": {
+          "frame": 10,
+          "calls": 90,
+          "triangles": 722310,
+          "points": 0,
+          "lines": 0
+        }
+      },
+      "time": 0
+    },
+    {
+      "id": "slime",
+      "state": "press",
+      "material": "slime",
+      "solver": {
+        "sleeping": false,
+        "particles": 343,
+        "constraints": 3150,
+        "contacts": 1,
+        "steps": 120,
+        "time": 1.9999999999999978,
+        "volumeRatio": 0.9982004131245088,
+        "minTetRatio": 0.8489853837452099,
+        "maxDeformation": 0.32210380508489517,
+        "maxStrain": 0.10324106601887448,
+        "damage": 0,
+        "faults": 0,
+        "limitedSteps": 0,
+        "lastPhysicsMs": 1.0999999940395355,
+        "droppedTime": 0
+      },
+      "camera": {
+        "position": [
+          3079,
+          -444.448,
+          1246
+        ],
+        "target": [
+          3072,
+          -447.96799999999996,
+          1236
+        ],
+        "fov": 48,
+        "aspect": 0.5300546448087432,
+        "near": 0.08,
+        "far": 20000
+      },
+      "objectPosition": [
+        3072,
+        -449.948,
+        1236
+      ],
+      "renderer": {
+        "dpr": 2,
+        "shadow": 1,
+        "toneMapping": 4,
+        "info": {
+          "frame": 11,
+          "calls": 90,
+          "triangles": 722310,
+          "points": 0,
+          "lines": 0
+        }
+      },
+      "time": 1.9999999999999978
+    },
+    {
+      "id": "slime",
+      "state": "hold",
+      "material": "slime",
+      "solver": {
+        "sleeping": false,
+        "particles": 343,
+        "constraints": 3150,
+        "contacts": 0,
+        "steps": 180,
+        "time": 2.9999999999999942,
+        "volumeRatio": 0.9996493060407935,
+        "minTetRatio": 0.9510486502780178,
+        "maxDeformation": 0.11427699456334083,
+        "maxStrain": 0.11811548603934635,
+        "damage": 0,
+        "faults": 0,
+        "limitedSteps": 0,
+        "lastPhysicsMs": 1.0999999940395355,
+        "droppedTime": 0
+      },
+      "camera": {
+        "position": [
+          3079,
+          -444.448,
+          1246
+        ],
+        "target": [
+          3072,
+          -447.96799999999996,
+          1236
+        ],
+        "fov": 48,
+        "aspect": 0.5300546448087432,
+        "near": 0.08,
+        "far": 20000
+      },
+      "objectPosition": [
+        3072,
+        -449.948,
+        1236
+      ],
+      "renderer": {
+        "dpr": 2,
+        "shadow": 1,
+        "toneMapping": 4,
+        "info": {
+          "frame": 12,
+          "calls": 90,
+          "triangles": 722310,
+          "points": 0,
+          "lines": 0
+        }
+      },
+      "time": 2.9999999999999942
+    },
+    {
+      "id": "slime",
+      "state": "recovery",
+      "material": "slime",
+      "solver": {
+        "sleeping": false,
+        "particles": 343,
+        "constraints": 3150,
+        "contacts": 0,
+        "steps": 420,
+        "time": 6.9999999999999805,
+        "volumeRatio": 0.9999042752652832,
+        "minTetRatio": 0.9856957810952598,
+        "maxDeformation": 0.03236111298650579,
+        "maxStrain": 0.028991722189566325,
+        "damage": 0,
+        "faults": 0,
+        "limitedSteps": 0,
+        "lastPhysicsMs": 1.2000000178813934,
+        "droppedTime": 0
+      },
+      "camera": {
+        "position": [
+          3079,
+          -444.448,
+          1246
+        ],
+        "target": [
+          3072,
+          -447.96799999999996,
+          1236
+        ],
+        "fov": 48,
+        "aspect": 0.5300546448087432,
+        "near": 0.08,
+        "far": 20000
+      },
+      "objectPosition": [
+        3072,
+        -449.948,
+        1236
+      ],
+      "renderer": {
+        "dpr": 2,
+        "shadow": 1,
+        "toneMapping": 4,
+        "info": {
+          "frame": 13,
+          "calls": 90,
+          "triangles": 722310,
+          "points": 0,
+          "lines": 0
+        }
+      },
+      "time": 6.9999999999999805
+    },
+    {
+      "id": "cloud",
+      "state": "rest",
+      "material": "cloud",
+      "solver": {
+        "sleeping": true,
+        "particles": 343,
+        "constraints": 3150,
+        "contacts": 0,
+        "steps": 0,
+        "time": 0,
+        "volumeRatio": 1,
+        "minTetRatio": 0.9999999999999998,
+        "maxDeformation": 0,
+        "maxStrain": 0,
+        "damage": 0,
+        "faults": 0,
+        "limitedSteps": 0,
+        "lastPhysicsMs": 0,
+        "droppedTime": 0
+      },
+      "camera": {
+        "position": [
+          3067,
+          -444.448,
+          1236
+        ],
+        "target": [
+          3060,
+          -447.96799999999996,
+          1226
+        ],
+        "fov": 48,
+        "aspect": 0.5300546448087432,
+        "near": 0.08,
+        "far": 20000
+      },
+      "objectPosition": [
+        3060,
+        -449.948,
+        1226
+      ],
+      "renderer": {
+        "dpr": 2,
+        "shadow": 1,
+        "toneMapping": 4,
+        "info": {
+          "frame": 14,
+          "calls": 90,
+          "triangles": 723974,
+          "points": 0,
+          "lines": 0
+        }
+      },
+      "time": 0
+    },
+    {
+      "id": "cloud",
+      "state": "press",
+      "material": "cloud",
+      "solver": {
+        "sleeping": false,
+        "particles": 343,
+        "constraints": 3150,
+        "contacts": 1,
+        "steps": 120,
+        "time": 1.9999999999999978,
+        "volumeRatio": 0.9935511234792775,
+        "minTetRatio": 0.4469035311660141,
+        "maxDeformation": 0.5268137058774646,
+        "maxStrain": 0.15827771829363074,
+        "damage": 0,
+        "faults": 0,
+        "limitedSteps": 0,
+        "lastPhysicsMs": 1.199999988079071,
+        "droppedTime": 0
+      },
+      "camera": {
+        "position": [
+          3067,
+          -444.448,
+          1236
+        ],
+        "target": [
+          3060,
+          -447.96799999999996,
+          1226
+        ],
+        "fov": 48,
+        "aspect": 0.5300546448087432,
+        "near": 0.08,
+        "far": 20000
+      },
+      "objectPosition": [
+        3060,
+        -449.948,
+        1226
+      ],
+      "renderer": {
+        "dpr": 2,
+        "shadow": 1,
+        "toneMapping": 4,
+        "info": {
+          "frame": 15,
+          "calls": 90,
+          "triangles": 723974,
+          "points": 0,
+          "lines": 0
+        }
+      },
+      "time": 1.9999999999999978
+    },
+    {
+      "id": "cloud",
+      "state": "hold",
+      "material": "cloud",
+      "solver": {
+        "sleeping": false,
+        "particles": 343,
+        "constraints": 3150,
+        "contacts": 0,
+        "steps": 180,
+        "time": 2.9999999999999942,
+        "volumeRatio": 0.9979683834474812,
+        "minTetRatio": 0.7835973232229198,
+        "maxDeformation": 0.18436943026039906,
+        "maxStrain": 0.0009481333203644546,
+        "damage": 0,
+        "faults": 0,
+        "limitedSteps": 0,
+        "lastPhysicsMs": 1,
+        "droppedTime": 0
+      },
+      "camera": {
+        "position": [
+          3067,
+          -444.448,
+          1236
+        ],
+        "target": [
+          3060,
+          -447.96799999999996,
+          1226
+        ],
+        "fov": 48,
+        "aspect": 0.5300546448087432,
+        "near": 0.08,
+        "far": 20000
+      },
+      "objectPosition": [
+        3060,
+        -449.948,
+        1226
+      ],
+      "renderer": {
+        "dpr": 2,
+        "shadow": 1,
+        "toneMapping": 4,
+        "info": {
+          "frame": 16,
+          "calls": 90,
+          "triangles": 723974,
+          "points": 0,
+          "lines": 0
+        }
+      },
+      "time": 2.9999999999999942
+    },
+    {
+      "id": "cloud",
+      "state": "recovery",
+      "material": "cloud",
+      "solver": {
+        "sleeping": false,
+        "particles": 343,
+        "constraints": 3150,
+        "contacts": 0,
+        "steps": 420,
+        "time": 6.9999999999999805,
+        "volumeRatio": 0.9998762966038943,
+        "minTetRatio": 0.9868424372738293,
+        "maxDeformation": 0.011211237582934134,
+        "maxStrain": 0.000059806218612002866,
+        "damage": 0,
+        "faults": 0,
+        "limitedSteps": 0,
+        "lastPhysicsMs": 1,
+        "droppedTime": 0
+      },
+      "camera": {
+        "position": [
+          3067,
+          -444.448,
+          1236
+        ],
+        "target": [
+          3060,
+          -447.96799999999996,
+          1226
+        ],
+        "fov": 48,
+        "aspect": 0.5300546448087432,
+        "near": 0.08,
+        "far": 20000
+      },
+      "objectPosition": [
+        3060,
+        -449.948,
+        1226
+      ],
+      "renderer": {
+        "dpr": 2,
+        "shadow": 1,
+        "toneMapping": 4,
+        "info": {
+          "frame": 17,
+          "calls": 90,
+          "triangles": 723974,
+          "points": 0,
+          "lines": 0
+        }
+      },
+      "time": 6.9999999999999805
+    },
+    {
+      "id": "foam",
+      "state": "rest",
+      "material": "foam",
+      "solver": {
+        "sleeping": true,
+        "particles": 343,
+        "constraints": 3150,
+        "contacts": 0,
+        "steps": 0,
+        "time": 0,
+        "volumeRatio": 1,
+        "minTetRatio": 0.9999999999999997,
+        "maxDeformation": 0,
+        "maxStrain": 0,
+        "damage": 0,
+        "faults": 0,
+        "limitedSteps": 0,
+        "lastPhysicsMs": 0,
+        "droppedTime": 0
+      },
+      "camera": {
+        "position": [
+          3055,
+          -444.448,
+          1232
+        ],
+        "target": [
+          3048,
+          -449.318,
+          1222
+        ],
+        "fov": 48,
+        "aspect": 0.5300546448087432,
+        "near": 0.08,
+        "far": 20000
+      },
+      "objectPosition": [
+        3048,
+        -449.948,
+        1222
+      ],
+      "renderer": {
+        "dpr": 2,
+        "shadow": 1,
+        "toneMapping": 4,
+        "info": {
+          "frame": 18,
+          "calls": 63,
+          "triangles": 662086,
+          "points": 0,
+          "lines": 0
+        }
+      },
+      "time": 0
+    },
+    {
+      "id": "foam",
+      "state": "press",
+      "material": "foam",
+      "solver": {
+        "sleeping": false,
+        "particles": 343,
+        "constraints": 3150,
+        "contacts": 1,
+        "steps": 120,
+        "time": 1.9999999999999978,
+        "volumeRatio": 0.954177845355229,
+        "minTetRatio": 0.08151954794433296,
+        "maxDeformation": 0.6067827469540031,
+        "maxStrain": 18.288291766707005,
+        "damage": 0,
+        "faults": 0,
+        "limitedSteps": 97,
+        "lastPhysicsMs": 1.2999999821186066,
+        "droppedTime": 0
+      },
+      "camera": {
+        "position": [
+          3055,
+          -444.448,
+          1232
+        ],
+        "target": [
+          3048,
+          -449.318,
+          1222
+        ],
+        "fov": 48,
+        "aspect": 0.5300546448087432,
+        "near": 0.08,
+        "far": 20000
+      },
+      "objectPosition": [
+        3048,
+        -449.948,
+        1222
+      ],
+      "renderer": {
+        "dpr": 2,
+        "shadow": 1,
+        "toneMapping": 4,
+        "info": {
+          "frame": 19,
+          "calls": 63,
+          "triangles": 662086,
+          "points": 0,
+          "lines": 0
+        }
+      },
+      "time": 1.9999999999999978
+    },
+    {
+      "id": "foam",
+      "state": "hold",
+      "material": "foam",
+      "solver": {
+        "sleeping": false,
+        "particles": 343,
+        "constraints": 3150,
+        "contacts": 0,
+        "steps": 180,
+        "time": 2.9999999999999942,
+        "volumeRatio": 0.954177845355229,
+        "minTetRatio": 0.08151954794433296,
+        "maxDeformation": 0.6067827469540031,
+        "maxStrain": 16.849289369224802,
+        "damage": 0,
+        "faults": 0,
+        "limitedSteps": 157,
+        "lastPhysicsMs": 1.199999988079071,
+        "droppedTime": 0
+      },
+      "camera": {
+        "position": [
+          3055,
+          -444.448,
+          1232
+        ],
+        "target": [
+          3048,
+          -449.318,
+          1222
+        ],
+        "fov": 48,
+        "aspect": 0.5300546448087432,
+        "near": 0.08,
+        "far": 20000
+      },
+      "objectPosition": [
+        3048,
+        -449.948,
+        1222
+      ],
+      "renderer": {
+        "dpr": 2,
+        "shadow": 1,
+        "toneMapping": 4,
+        "info": {
+          "frame": 20,
+          "calls": 63,
+          "triangles": 662086,
+          "points": 0,
+          "lines": 0
+        }
+      },
+      "time": 2.9999999999999942
+    },
+    {
+      "id": "foam",
+      "state": "recovery",
+      "material": "foam",
+      "solver": {
+        "sleeping": false,
+        "particles": 343,
+        "constraints": 3150,
+        "contacts": 0,
+        "steps": 420,
+        "time": 6.9999999999999805,
+        "volumeRatio": 0.9714609711822133,
+        "minTetRatio": 0.1744431340620809,
+        "maxDeformation": 0.5586687486243767,
+        "maxStrain": 0.014601526074385121,
+        "damage": 0,
+        "faults": 0,
+        "limitedSteps": 361,
+        "lastPhysicsMs": 1.0999999940395355,
+        "droppedTime": 0
+      },
+      "camera": {
+        "position": [
+          3055,
+          -444.448,
+          1232
+        ],
+        "target": [
+          3048,
+          -449.318,
+          1222
+        ],
+        "fov": 48,
+        "aspect": 0.5300546448087432,
+        "near": 0.08,
+        "far": 20000
+      },
+      "objectPosition": [
+        3048,
+        -449.948,
+        1222
+      ],
+      "renderer": {
+        "dpr": 2,
+        "shadow": 1,
+        "toneMapping": 4,
+        "info": {
+          "frame": 21,
+          "calls": 63,
+          "triangles": 662086,
+          "points": 0,
+          "lines": 0
+        }
+      },
+      "time": 6.9999999999999805
+    },
+    {
+      "id": "crunchy",
+      "state": "rest",
+      "material": "crunchy",
+      "solver": {
+        "sleeping": true,
+        "particles": 343,
+        "constraints": 3150,
+        "contacts": 0,
+        "steps": 0,
+        "time": 0,
+        "volumeRatio": 1,
+        "minTetRatio": 0.9999999999999998,
+        "maxDeformation": 0,
+        "maxStrain": 0,
+        "damage": 0,
+        "faults": 0,
+        "limitedSteps": 0,
+        "lastPhysicsMs": 0,
+        "droppedTime": 0
+      },
+      "camera": {
+        "position": [
+          3079,
+          -444.448,
+          1232
+        ],
+        "target": [
+          3072,
+          -447.96799999999996,
+          1222
+        ],
+        "fov": 48,
+        "aspect": 0.5300546448087432,
+        "near": 0.08,
+        "far": 20000
+      },
+      "objectPosition": [
+        3072,
+        -449.948,
+        1222
+      ],
+      "renderer": {
+        "dpr": 2,
+        "shadow": 1,
+        "toneMapping": 4,
+        "info": {
+          "frame": 22,
+          "calls": 77,
+          "triangles": 684814,
+          "points": 0,
+          "lines": 0
+        }
+      },
+      "time": 0
+    },
+    {
+      "id": "crunchy",
+      "state": "press",
+      "material": "crunchy",
+      "solver": {
+        "sleeping": false,
+        "particles": 343,
+        "constraints": 3150,
+        "contacts": 1,
+        "steps": 120,
+        "time": 1.9999999999999978,
+        "volumeRatio": 0.9972324772547418,
+        "minTetRatio": 0.7433156367584565,
+        "maxDeformation": 0.3618873465905246,
+        "maxStrain": 0.16525275194082042,
+        "damage": 0.33962908387184143,
+        "faults": 0,
+        "limitedSteps": 0,
+        "lastPhysicsMs": 1.0999999940395355,
+        "droppedTime": 0
+      },
+      "camera": {
+        "position": [
+          3079,
+          -444.448,
+          1232
+        ],
+        "target": [
+          3072,
+          -447.96799999999996,
+          1222
+        ],
+        "fov": 48,
+        "aspect": 0.5300546448087432,
+        "near": 0.08,
+        "far": 20000
+      },
+      "objectPosition": [
+        3072,
+        -449.948,
+        1222
+      ],
+      "renderer": {
+        "dpr": 2,
+        "shadow": 1,
+        "toneMapping": 4,
+        "info": {
+          "frame": 23,
+          "calls": 77,
+          "triangles": 684814,
+          "points": 0,
+          "lines": 0
+        }
+      },
+      "time": 1.9999999999999978
+    },
+    {
+      "id": "crunchy",
+      "state": "hold",
+      "material": "crunchy",
+      "solver": {
+        "sleeping": false,
+        "particles": 343,
+        "constraints": 3150,
+        "contacts": 0,
+        "steps": 180,
+        "time": 2.9999999999999942,
+        "volumeRatio": 0.9998927662694844,
+        "minTetRatio": 0.9886453128303659,
+        "maxDeformation": 0.020192375063495388,
+        "maxStrain": 0.01286697014215792,
+        "damage": 0.33962908387184143,
+        "faults": 0,
+        "limitedSteps": 0,
+        "lastPhysicsMs": 1.0999999940395355,
+        "droppedTime": 0
+      },
+      "camera": {
+        "position": [
+          3079,
+          -444.448,
+          1232
+        ],
+        "target": [
+          3072,
+          -447.96799999999996,
+          1222
+        ],
+        "fov": 48,
+        "aspect": 0.5300546448087432,
+        "near": 0.08,
+        "far": 20000
+      },
+      "objectPosition": [
+        3072,
+        -449.948,
+        1222
+      ],
+      "renderer": {
+        "dpr": 2,
+        "shadow": 1,
+        "toneMapping": 4,
+        "info": {
+          "frame": 24,
+          "calls": 77,
+          "triangles": 684814,
+          "points": 0,
+          "lines": 0
+        }
+      },
+      "time": 2.9999999999999942
+    },
+    {
+      "id": "crunchy",
+      "state": "recovery",
+      "material": "crunchy",
+      "solver": {
+        "sleeping": false,
+        "particles": 343,
+        "constraints": 3150,
+        "contacts": 0,
+        "steps": 420,
+        "time": 6.9999999999999805,
+        "volumeRatio": 0.9999998214460871,
+        "minTetRatio": 0.9999809881129486,
+        "maxDeformation": 0.000033709218124037006,
+        "maxStrain": 0.00002057612037369474,
+        "damage": 0.33962908387184143,
+        "faults": 0,
+        "limitedSteps": 0,
+        "lastPhysicsMs": 0.9000000059604645,
+        "droppedTime": 0
+      },
+      "camera": {
+        "position": [
+          3079,
+          -444.448,
+          1232
+        ],
+        "target": [
+          3072,
+          -447.96799999999996,
+          1222
+        ],
+        "fov": 48,
+        "aspect": 0.5300546448087432,
+        "near": 0.08,
+        "far": 20000
+      },
+      "objectPosition": [
+        3072,
+        -449.948,
+        1222
+      ],
+      "renderer": {
+        "dpr": 2,
+        "shadow": 1,
+        "toneMapping": 4,
+        "info": {
+          "frame": 25,
+          "calls": 77,
+          "triangles": 684814,
+          "points": 0,
+          "lines": 0
+        }
+      },
+      "time": 6.9999999999999805
+    },
+    {
+      "id": "mochi",
+      "state": "rest",
+      "material": "mochi",
+      "solver": {
+        "sleeping": true,
+        "particles": 343,
+        "constraints": 3150,
+        "contacts": 0,
+        "steps": 0,
+        "time": 0,
+        "volumeRatio": 1,
+        "minTetRatio": 0.9999999999999998,
+        "maxDeformation": 0,
+        "maxStrain": 0,
+        "damage": 0,
+        "faults": 0,
+        "limitedSteps": 0,
+        "lastPhysicsMs": 0,
+        "droppedTime": 0
+      },
+      "camera": {
+        "position": [
+          3067,
+          -444.448,
+          1222
+        ],
+        "target": [
+          3060,
+          -447.96799999999996,
+          1212
+        ],
+        "fov": 48,
+        "aspect": 0.5300546448087432,
+        "near": 0.08,
+        "far": 20000
+      },
+      "objectPosition": [
+        3060,
+        -449.948,
+        1212
+      ],
+      "renderer": {
+        "dpr": 2,
+        "shadow": 1,
+        "toneMapping": 4,
+        "info": {
+          "frame": 26,
+          "calls": 63,
+          "triangles": 665822,
+          "points": 0,
+          "lines": 0
+        }
+      },
+      "time": 0
+    },
+    {
+      "id": "mochi",
+      "state": "press",
+      "material": "mochi",
+      "solver": {
+        "sleeping": false,
+        "particles": 343,
+        "constraints": 3150,
+        "contacts": 1,
+        "steps": 120,
+        "time": 1.9999999999999978,
+        "volumeRatio": 0.997709538524003,
+        "minTetRatio": 0.7806137278522021,
+        "maxDeformation": 0.3698669372181134,
+        "maxStrain": 0.2510371455582002,
+        "damage": 0,
+        "faults": 0,
+        "limitedSteps": 0,
+        "lastPhysicsMs": 1,
+        "droppedTime": 0
+      },
+      "camera": {
+        "position": [
+          3067,
+          -444.448,
+          1222
+        ],
+        "target": [
+          3060,
+          -447.96799999999996,
+          1212
+        ],
+        "fov": 48,
+        "aspect": 0.5300546448087432,
+        "near": 0.08,
+        "far": 20000
+      },
+      "objectPosition": [
+        3060,
+        -449.948,
+        1212
+      ],
+      "renderer": {
+        "dpr": 2,
+        "shadow": 1,
+        "toneMapping": 4,
+        "info": {
+          "frame": 27,
+          "calls": 63,
+          "triangles": 665822,
+          "points": 0,
+          "lines": 0
+        }
+      },
+      "time": 1.9999999999999978
+    },
+    {
+      "id": "mochi",
+      "state": "hold",
+      "material": "mochi",
+      "solver": {
+        "sleeping": false,
+        "particles": 343,
+        "constraints": 3150,
+        "contacts": 0,
+        "steps": 180,
+        "time": 2.9999999999999942,
+        "volumeRatio": 0.9999996564845285,
+        "minTetRatio": 0.9999970098824864,
+        "maxDeformation": 0.00004722272420468315,
+        "maxStrain": 0.000007745650482368385,
+        "damage": 0,
+        "faults": 0,
+        "limitedSteps": 0,
+        "lastPhysicsMs": 1.0999999940395355,
+        "droppedTime": 0
+      },
+      "camera": {
+        "position": [
+          3067,
+          -444.448,
+          1222
+        ],
+        "target": [
+          3060,
+          -447.96799999999996,
+          1212
+        ],
+        "fov": 48,
+        "aspect": 0.5300546448087432,
+        "near": 0.08,
+        "far": 20000
+      },
+      "objectPosition": [
+        3060,
+        -449.948,
+        1212
+      ],
+      "renderer": {
+        "dpr": 2,
+        "shadow": 1,
+        "toneMapping": 4,
+        "info": {
+          "frame": 28,
+          "calls": 63,
+          "triangles": 665822,
+          "points": 0,
+          "lines": 0
+        }
+      },
+      "time": 2.9999999999999942
+    },
+    {
+      "id": "mochi",
+      "state": "recovery",
+      "material": "mochi",
+      "solver": {
+        "sleeping": true,
+        "particles": 343,
+        "constraints": 3150,
+        "contacts": 0,
+        "steps": 232,
+        "time": 3.866666666666658,
+        "volumeRatio": 1,
+        "minTetRatio": 0.9999999999999998,
+        "maxDeformation": 0,
+        "maxStrain": 4.364145953707841e-8,
+        "damage": 0,
+        "faults": 0,
+        "limitedSteps": 0,
+        "lastPhysicsMs": 0,
+        "droppedTime": 0
+      },
+      "camera": {
+        "position": [
+          3067,
+          -444.448,
+          1222
+        ],
+        "target": [
+          3060,
+          -447.96799999999996,
+          1212
+        ],
+        "fov": 48,
+        "aspect": 0.5300546448087432,
+        "near": 0.08,
+        "far": 20000
+      },
+      "objectPosition": [
+        3060,
+        -449.948,
+        1212
+      ],
+      "renderer": {
+        "dpr": 2,
+        "shadow": 1,
+        "toneMapping": 4,
+        "info": {
+          "frame": 29,
+          "calls": 63,
+          "triangles": 665822,
+          "points": 0,
+          "lines": 0
+        }
+      },
+      "time": 3.866666666666658
+    }
+  ],
+  "errors": [],
+  "httpErrors": [],
+  "paidInferenceCalled": false,
+  "scope": "Material rest/press/recovery stage. Fracture, strands, merge and final rich interior are separate OPEN stages."
+}

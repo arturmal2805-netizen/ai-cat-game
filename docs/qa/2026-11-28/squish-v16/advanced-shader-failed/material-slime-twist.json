@@ -1,0 +1,79 @@
+{
+  "material": "slime",
+  "solver": {
+    "sleeping": false,
+    "particles": 343,
+    "constraints": 3150,
+    "contacts": 1,
+    "steps": 121,
+    "time": 2.0166666666666644,
+    "volumeRatio": 0.9999955952976095,
+    "minTetRatio": 0.6757205867287347,
+    "maxDeformation": 0.49891082335897297,
+    "maxStrain": 0.16693548200229708,
+    "damage": 0,
+    "faults": 0,
+    "limitedSteps": 0,
+    "lastPhysicsMs": 1.7999999821186066,
+    "droppedTime": 0
+  },
+  "filaments": {
+    "active": 3,
+    "tears": 0,
+    "filaments": [
+      {
+        "length": 0.871147323366826,
+        "radius": 0.06,
+        "restLength": 1.2255196457911774,
+        "finite": true
+      },
+      {
+        "length": 0.8895043471510014,
+        "radius": 0.06,
+        "restLength": 1.2438975245220196,
+        "finite": true
+      },
+      {
+        "length": 0.907930783811119,
+        "radius": 0.06,
+        "restLength": 1.2623247208241957,
+        "finite": true
+      }
+    ]
+  },
+  "coalescence": {
+    "phase": "rest",
+    "centres": [
+      0.32,
+      0.68
+    ],
+    "components": 2,
+    "volumeProxyRatio": 1.0223463687150838,
+    "isolation": 78.84375,
+    "vertices": 2832,
+    "updates": 2,
+    "approximation": "Two overdamped centres with volume-normalized implicit surface; not full fluid simulation."
+  },
+  "camera": {
+    "position": [
+      3079,
+      -444.448,
+      1246
+    ],
+    "target": [
+      3072,
+      -447.948,
+      1236
+    ],
+    "fov": 48,
+    "aspect": 1.561764705882353,
+    "near": 0.08,
+    "far": 20000
+  },
+  "renderer": {
+    "dpr": 2,
+    "shadow": 1,
+    "toneMapping": 4
+  },
+  "time": 2.0166666666666644
+}

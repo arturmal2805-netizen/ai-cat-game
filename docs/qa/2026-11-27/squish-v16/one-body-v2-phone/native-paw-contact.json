@@ -1,0 +1,81 @@
+{
+  "state": {
+    "phase": "visit",
+    "squish": "AlternatingKnead",
+    "paws": [
+      {
+        "id": "chichi",
+        "paw": 0,
+        "point": [
+          3060.284706991715,
+          -446.7130616208079,
+          1240.3803710642458
+        ],
+        "surface": -446.7130616208079,
+        "error": 0,
+        "contact": true,
+        "force": 22,
+        "area": 0.035,
+        "material": "jelly"
+      },
+      {
+        "id": "chichi",
+        "paw": 1,
+        "point": [
+          3060.232273527207,
+          -446.7180130591288,
+          1239.5839699122487
+        ],
+        "surface": -446.7180130591288,
+        "error": 0,
+        "contact": true,
+        "force": 22,
+        "area": 0.035,
+        "material": "jelly"
+      },
+      {
+        "id": "chichi",
+        "paw": 2,
+        "point": [
+          3059.7312169449033,
+          -446.7109891488905,
+          1240.3705093304814
+        ],
+        "surface": -446.7109891488905,
+        "error": 0,
+        "contact": true,
+        "force": 22,
+        "area": 0.035,
+        "material": "jelly"
+      },
+      {
+        "id": "chichi",
+        "paw": 3,
+        "point": [
+          3059.764332733564,
+          -446.7170215688917,
+          1239.6013828582554
+        ],
+        "surface": -446.7170215688917,
+        "error": 0,
+        "contact": true,
+        "force": 22,
+        "area": 0.035,
+        "material": "jelly"
+      }
+    ],
+    "position": [
+      3060,
+      -446.70228579382825,
+      1240
+    ]
+  },
+  "phases": [
+    "boarding",
+    "outbound",
+    "leaving-boat",
+    "airlock-in",
+    "lobby-walk",
+    "visit"
+  ]
+}

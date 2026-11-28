@@ -1,0 +1,88 @@
+{
+  "solver": {
+    "sleeping": false,
+    "particles": 343,
+    "constraints": 3150,
+    "contacts": 0,
+    "steps": 252,
+    "time": 4.19999999999999,
+    "volumeRatio": 1.000000153943298,
+    "minTetRatio": 0.999996304647768,
+    "maxDeformation": 0.0001188851943912134,
+    "maxStrain": 0.000013631980000574437,
+    "damage": 0,
+    "faults": 0,
+    "limitedSteps": 0,
+    "lastPhysicsMs": 1.0999999940395355,
+    "droppedTime": 0
+  },
+  "camera": {
+    "position": [
+      3097,
+      -444.448,
+      1214
+    ],
+    "target": [
+      3090,
+      -447.948,
+      1204
+    ],
+    "fov": 48,
+    "aspect": 0.5300546448087432,
+    "near": 0.08,
+    "far": 20000
+  },
+  "renderer": {
+    "dpr": 2,
+    "shadow": 1,
+    "toneMapping": 4,
+    "info": {
+      "frame": 5,
+      "calls": 97,
+      "triangles": 3589438,
+      "points": 0,
+      "lines": 0
+    }
+  },
+  "time": 4.19999999999999,
+  "sceneTime": 7,
+  "reviewHour": 12,
+  "seed": 4419,
+  "nativePaws": [],
+  "contactMeasurements": {
+    "material": "jelly",
+    "contacts": [],
+    "activePaws": 0,
+    "supportForce": 0,
+    "meanContactDepth": 0,
+    "maxContactDepth": 0,
+    "maxVertexDisplacement": 0.00006740587001859144,
+    "activeNodes": 0,
+    "stiffness": 5,
+    "compliance": 0.02,
+    "timestep": 0.016666666666666666,
+    "meshVersion": 255,
+    "colliderGeometry": "234779c0-121f-4507-be7e-90d5b0b49c36",
+    "colliderFollowsRender": true,
+    "recoveryActive": true,
+    "solver": {
+      "sleeping": false,
+      "particles": 343,
+      "constraints": 3150,
+      "contacts": 0,
+      "steps": 252,
+      "time": 4.19999999999999,
+      "volumeRatio": 1.000000153943298,
+      "minTetRatio": 0.999996304647768,
+      "maxDeformation": 0.0001188851943912134,
+      "maxStrain": 0.000013631980000574437,
+      "damage": 0,
+      "faults": 0,
+      "limitedSteps": 0,
+      "lastPhysicsMs": 1.0999999940395355,
+      "droppedTime": 0
+    },
+    "lod": "HERO",
+    "units": "game metres/seconds; force calibrated to an effective game mass, not laboratory measurements"
+  }
+}

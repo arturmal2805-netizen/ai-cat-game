@@ -1,0 +1,3 @@
+# FAILED advanced shader validation,66b4fd5
+
+Actual pointer ran all Butter/slime/coalescence assertions but final GLerror guard caught malformed shader prefix: crackGLSL lacked newline before #define STANDARD. Rind absent in actual photos: do NOT claim cracking complete. Fragment selection fix DID create fragments; preserved screenshots show the native result. Slime strands had inward triangle winding and looked like dark fans; correct winding and require actual frame review. Merge node/actual rendered topology2→1→2 passed but whole attempt is FAILED. A separate unitfixture incorrectly expected no fragment after1s of already-fracturing high load: change initial phase to explicitly gentle strain, preserving threshold/strongphase and all assertions.
