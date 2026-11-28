@@ -1,0 +1,19 @@
+{
+  "gain": 5,
+  "uniformGain": 5,
+  "preparedMap": {
+    "width": 336,
+    "height": 256,
+    "depth": 1
+  },
+  "inputMap": {
+    "width": 256,
+    "height": 128,
+    "maximum": 21.686748504638672
+  },
+  "camera": [
+    3097,
+    -444.448,
+    1214
+  ]
+}

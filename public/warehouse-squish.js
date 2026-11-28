@@ -30,14 +30,18 @@ export function* warehouseSquishSteps(origin) {
   root.position.set(origin.x + p.x, p.y, origin.z + p.z);
   const gold = new T.MeshStandardMaterial({
       color: 0xeec278,
-      metalness: 0.65,
+      envMap: art.userData.environment,
+      envMapIntensity:1.5,
+      metalness: 0.82,
       roughness: 0.23,
       emissive: 0xc98a39,
       emissiveIntensity: 0.2,
     }),
     pink = new T.MeshStandardMaterial({
       color: 0xffc9e8,
-      roughness: 0.3,
+      envMap: art.userData.environment,
+      envMapIntensity:1.2,
+      roughness: 0.24,
       emissive: 0xff9dd0,
       emissiveIntensity: 0.18,
     }),

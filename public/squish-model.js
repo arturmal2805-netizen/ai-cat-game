@@ -11,7 +11,7 @@ import * as T from "three";
 import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
 import { SquishSoftBody } from "./squish-soft-body.js";
 const colours = {
-  jelly: 0xff75c9,
+  jelly: 0xff4eae,
   butter: 0xffd479,
   slime: 0x9d7aff,
   cloud: 0xffd5ee,
@@ -38,7 +38,7 @@ export function squishSurfaceMaterial(type) {
       sheen: matte ? 0.8 : 0,
       sheenColor: new T.Color(0xffe0ee),
       emissive: colours[type] || colours.jelly,
-      emissiveIntensity: matte ? 0.1 : type === "jelly" ? 0.065 : 0.18,
+      emissiveIntensity: matte ? 0.1 : type === "jelly" ? 0.025 : 0.18,
       transparent: ["jelly", "slime", "crunchy"].includes(type),
       opacity:
         type === "jelly"
@@ -76,7 +76,7 @@ export function squishSurfaceMaterial(type) {
         `#include <normal_fragment_begin>
         float jellyView=clamp(abs(dot(normal,normalize(vViewPosition))),0.,1.);
         float jellyThickness=4.2*jellyView;
-        diffuseColor.rgb*=exp(-vec3(.015,.08,.035)*jellyThickness);
+        diffuseColor.rgb*=exp(-vec3(.02,.18,.07)*jellyThickness);
         diffuseColor.a=mix(.58,.94,1.-exp(-jellyThickness*.65));`,
       );
     }
@@ -340,12 +340,17 @@ export function createSquishToy({
     inclusions.forEach((g) => g.dispose());
     attach(
       g,
-      new T.MeshStandardMaterial({
+      new T.MeshPhysicalMaterial({
         color: 0xffe3f7,
-        roughness: 0.16,
-        metalness: 0.3,
+        roughness: 0.06,
+        metalness: 0,
+        clearcoat:1,
+        clearcoatRoughness:.04,
+        transparent:true,
+        opacity:.55,
+        depthWrite:false,
         emissive: 0xe4a2ff,
-        emissiveIntensity: 0.4,
+        emissiveIntensity: 0.04,
       }),
       "Floating jelly inclusions · same deformation",
     );

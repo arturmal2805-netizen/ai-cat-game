@@ -1,0 +1,8 @@
+{
+  "sha256": "176efffebe7aae154df34ba8f40f334b7bd0f013f31d8b8c2fb60a921ba19d13",
+  "baseline": null,
+  "node": "v22.23.5",
+  "head": "fb3860a0f395a96f86e8cd8c7e065441bbb93f90",
+  "dirty": " M public/squish-environment.js\n M scripts/check-aquarium.cjs\n?? scripts/__pycache__/\n",
+  "sourceOverlay": "source-HEAD.patch"
+}

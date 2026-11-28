@@ -1,0 +1,8 @@
+{
+  "sha256": "63241ade5820ebfa92efc501356b35c16badbfcd0105fcbd4241c4e02d18cbf1",
+  "baseline": null,
+  "node": "v22.23.5",
+  "head": "bf76349804a7a05286431f6edc80457672b17ac9",
+  "dirty": " M scripts/check-aquarium.cjs\n?? scripts/__pycache__/\n",
+  "sourceOverlay": "source-HEAD.patch"
+}
