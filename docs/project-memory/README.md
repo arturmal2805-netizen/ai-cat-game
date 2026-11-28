@@ -8,6 +8,7 @@
 - [Грунт/растительность](standards/terrain-vegetation.md).
 - [ТРЦ](standards/mall.md).
 - [Управление/камеры](standards/controls-camera.md).
+- [Squish Warehouse V16 + V17](standards/squish-warehouse-v16.md): scoped physics/interior and repeated real reference QA.
 - [V12: общая лагуна и далёкий Warehouse](standards/island-warehouse-v12.md).
 - [Подводный SPA](standards/underwater-spa.md).
 - [Waterfront V14: ресторан и прыжки от Чичи](standards/waterfront-v14.md).
