@@ -30,8 +30,8 @@ let crackChart = null,
 function retainCrackChart() {
   chartOwners++;
   if (crackChart) return crackChart;
-  const width = 128,
-    height = 128,
+  const width = 256,
+    height = 256,
     cells = 9,
     data = new Uint8Array(width * height * 4),
     hash = (x, y, k) => {
@@ -67,7 +67,9 @@ function retainCrackChart() {
           } else second = Math.min(second, d);
         }
       const i = (y * width + x) * 4;
-      data[i] = Math.min(255, Math.round((second - first) * 255));
+      data[i] = Math.round(
+        (1 - T.MathUtils.smoothstep(second - first, 0.035, 0.11)) * 255,
+      );
       data[i + 1] = Math.round(id * 255);
       data[i + 2] = Math.round(first * 180);
       data[i + 3] = 255;
@@ -123,7 +125,7 @@ export function createButterShell({ root, solver, body, attach }) {
     shader.fragmentShader = shader.fragmentShader.replace(
       "#include <color_fragment>",
       `#include <color_fragment>
- vec2 cell=texture2D(uButterCracks,vButterUV*vec2(3.,2.)).rg;float crack=(1.-smoothstep(.012,.032,cell.x))*smoothstep(.12,.42,vButterDamage);if(vButterDamage>.8&&cell.y>.36&&cell.x>.019)discard;diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.40,.19,.052),crack*.83);
+ vec2 cell=texture2D(uButterCracks,vButterUV*vec2(3.,2.)).rg;float crack=cell.x*smoothstep(.12,.42,vButterDamage);if(vButterDamage>.8&&cell.y>.36&&cell.x<.45)discard;diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.40,.19,.052),crack*.83);
  `,
     );
     shader.fragmentShader = shader.fragmentShader.replace(
@@ -181,11 +183,26 @@ export function createButterShell({ root, solver, body, attach }) {
     to = new T.Vector3(),
     delta = new T.Vector3(),
     ray = new T.Raycaster();
+  const patchPoints = new Float32Array(24 * 3);
   let last = -1,
     clock = 0,
     detached = 0,
     cracked = 0;
   function spawn(i) {
+    if (detached >= 24) return false;
+    const source = shell.geometry.attributes.position,
+      x = source.getX(i),
+      y = source.getY(i),
+      z = source.getZ(i);
+    for (let k = 0; k < detached; k++)
+      if (
+        Math.hypot(
+          x - patchPoints[k * 3],
+          y - patchPoints[k * 3 + 1],
+          z - patchPoints[k * 3 + 2],
+        ) < 0.18
+      )
+        return false;
     const f = pool.find((f) => !f.active);
     if (!f) return false;
     f.active = true;
@@ -201,6 +218,9 @@ export function createButterShell({ root, solver, body, attach }) {
       );
     f.rotation.set(i * 0.3, i * 0.13, i * 0.7);
     f.spin.set(Math.sin(i) * 3, Math.cos(i) * 2, 0.4);
+    patchPoints[detached * 3] = x;
+    patchPoints[detached * 3 + 1] = y;
+    patchPoints[detached * 3 + 2] = z;
     detached++;
     return true;
   }
@@ -219,7 +239,7 @@ export function createButterShell({ root, solver, body, attach }) {
         );
         damage[i] = d;
         if (d > 0.2) cracked++;
-        if (d > 0.83 && !consumed[i] && i % 23 === 0) {
+        if (d > 0.83 && !consumed[i]) {
           if (spawn(i)) consumed[i] = 1;
         }
         if (d < 0.1) consumed[i] = 0;
@@ -297,6 +317,7 @@ export function createButterShell({ root, solver, body, attach }) {
     get diagnostics() {
       return {
         crackedVertices: cracked,
+        maxSurfaceDamage: Math.max(...damage),
         detached,
         activeFragments: pool.filter((f) => f.active).length,
       };

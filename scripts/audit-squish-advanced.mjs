@@ -119,7 +119,7 @@ export async function auditSquishAdvanced({
     pointer = null;
   };
   const frames = [];
-  const shot = async (id, state) => {
+  const shot = async (id, state, group = id) => {
     const r = await page.evaluate((id) => {
       const q = __lagoonQA,
         t = q
@@ -156,7 +156,7 @@ export async function auditSquishAdvanced({
         time: t.userData.solver.time,
       };
     }, id);
-    const file = `material-${id}-${state}`;
+    const file = `material-${group}-${state}`;
     await writeFile(join(review, file + ".png"), Buffer.from(r.raw, "base64"));
     delete r.raw;
     await writeFile(join(review, file + ".json"), JSON.stringify(r, null, 2));
@@ -192,6 +192,7 @@ export async function auditSquishAdvanced({
   await activate("[data-squish-reset]");
   await page.locator("[data-squish-pressure]").focus();
   await page.keyboard.press("Home");
+  for (let i = 0; i < 12; i++) await page.keyboard.press("ArrowRight");
   await shot("slime", "rest");
   await activate('[data-squish-mode="stretch"]');
   const start = await point("slime", [0.3, 2.4, 1.7]),
@@ -224,16 +225,16 @@ export async function auditSquishAdvanced({
   await activate('[data-squish-mode="camera"]');
   await camera("slime", [-3.7, 3.2, 7.3], [-3.7, 0.9, 2.9]);
   await activate("[data-squish-reset]");
-  const separate = await shot("slime", "separate");
+  const separate = await shot("slime", "rest", "slimeMerge");
   assert.equal(separate.coalescence.components, 2);
   await activate("[data-squish-merge]");
   await step(240);
-  const merged = await shot("slime", "merged");
+  const merged = await shot("slime", "merged", "slimeMerge");
   assert.equal(merged.coalescence.components, 1);
   assert(Math.abs(merged.coalescence.volumeProxyRatio - 1) < 0.1);
   await activate("[data-squish-split]");
   await step(240);
-  const split = await shot("slime", "split");
+  const split = await shot("slime", "split", "slimeMerge");
   assert.equal(split.coalescence.components, 2);
   await cdp?.detach();
   assert.deepEqual(errors, []);

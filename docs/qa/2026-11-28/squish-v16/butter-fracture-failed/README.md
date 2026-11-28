@@ -1,0 +1,3 @@
+# FAILED advanced Butter native, dc6ad9c
+
+Real press/strongrangeinput gave positive volumes, node and surface damage1, but detached0. Independent exact camera/ray/native-gesture Node reproduction found10 actual rind vertices above .83 threshold, none at every23rd index. Sparse vertex-index sampling incorrectly missed the small damaged patch. Fix: actual damaged vertices plus spatial separation and24fixedslots, no index modulus. Crack distance filtering also made the thin mask hard to see; bake antialiased crack coverage rather than sampling an undersized distance texture. Keep all physical thresholds and require actual detached fragments on repeat native run. Later slime/merge stages NOT RUN; no false pass.
