@@ -24,16 +24,28 @@ export function squishSurfaceMaterial(type) {
   const matte = ["cloud", "foam", "giant"].includes(type),
     m = new T.MeshPhysicalMaterial({
       color: colours[type] || colours.jelly,
-      roughness: matte ? 0.86 : type === "butter" ? 0.33 : 0.15,
+      roughness: matte
+        ? 0.86
+        : type === "butter"
+          ? 0.33
+          : type === "jelly"
+            ? 0.085
+            : 0.15,
       metalness: 0,
       clearcoat: matte ? 0 : 1,
-      clearcoatRoughness: 0.14,
+      clearcoatRoughness: type === "jelly" ? 0.055 : 0.14,
+      ior: type === "jelly" ? 1.38 : 1.5,
       sheen: matte ? 0.8 : 0,
       sheenColor: new T.Color(0xffe0ee),
       emissive: colours[type] || colours.jelly,
-      emissiveIntensity: matte ? 0.1 : 0.18,
+      emissiveIntensity: matte ? 0.1 : type === "jelly" ? 0.065 : 0.18,
       transparent: ["jelly", "slime", "crunchy"].includes(type),
-      opacity: ["jelly", "slime", "crunchy"].includes(type) ? 0.68 : 1,
+      opacity:
+        type === "jelly"
+          ? 0.88
+          : ["slime", "crunchy"].includes(type)
+            ? 0.68
+            : 1,
       depthWrite: true,
     });
   m.onBeforeCompile = (s) => {
@@ -55,6 +67,19 @@ export function squishSurfaceMaterial(type) {
         "#include <normal_fragment_begin>\nnormal=normalize(normal+vec3(woolNap*.025,woolUnder*.012,0.));",
       );
     }
+    if (type === "jelly") {
+      // Convex-thickness absorption approximation uses the existing PBR probe.
+      // No screen transmission/refraction target, global lighting or renderer
+      // setting changes. Bubbles are actual volume-bound internal geometry.
+      s.fragmentShader = s.fragmentShader.replace(
+        "#include <normal_fragment_begin>",
+        `#include <normal_fragment_begin>
+        float jellyView=clamp(abs(dot(normal,normalize(vViewPosition))),0.,1.);
+        float jellyThickness=4.2*jellyView;
+        diffuseColor.rgb*=exp(-vec3(.015,.08,.035)*jellyThickness);
+        diffuseColor.a=mix(.58,.94,1.-exp(-jellyThickness*.65));`,
+      );
+    }
     s.fragmentShader = s.fragmentShader.replace(
       "#include <fog_fragment>",
       T.ShaderChunk.fog_fragment.replace(
@@ -63,7 +88,7 @@ export function squishSurfaceMaterial(type) {
       ),
     );
   };
-  m.customProgramCacheKey = () => "warehouse-local-squish-pbr-v2-" + type;
+  m.customProgramCacheKey = () => "warehouse-local-squish-pbr-v3-" + type;
   return m;
 }
 // A new toy prop, never a replacement for an approved live cat mesh.
@@ -105,7 +130,11 @@ export function createSquishToy({
     ? giantCatGeometry(size)
     : pad
       ? new T.BoxGeometry(size[0], size[1], size[2], 64, 10, 64)
-      : new T.SphereGeometry(1, 48, 32);
+      : new T.SphereGeometry(
+          1,
+          ["jelly", "slime"].includes(material) ? 96 : 48,
+          ["jelly", "slime"].includes(material) ? 64 : 32,
+        );
   if (pad) {
     const a = body.attributes.position,
       r = 0.27;
@@ -447,6 +476,34 @@ export function createSquishToy({
     },
     surface,
     surfaceInfo,
+    restPoint(hit) {
+      const n = meshes.indexOf(hit.object),
+        face = hit.face;
+      if (n < 0 || !face) return root.worldToLocal(hit.point.clone());
+      const geometry = meshes[n].geometry,
+        position = geometry.attributes.position;
+      const local = hit.object.worldToLocal(hit.point.clone());
+      const weights = T.Triangle.getBarycoord(
+        local,
+        new T.Vector3().fromBufferAttribute(position, face.a),
+        new T.Vector3().fromBufferAttribute(position, face.b),
+        new T.Vector3().fromBufferAttribute(position, face.c),
+        new T.Vector3(),
+      );
+      if (!weights) return root.worldToLocal(hit.point.clone());
+      const base = sources[n],
+        point = new T.Vector3();
+      for (const [i, w] of [
+        [face.a, weights.x],
+        [face.b, weights.y],
+        [face.c, weights.z],
+      ])
+        point.addScaledVector(
+          new T.Vector3(base[i * 3], base[i * 3 + 1], base[i * 3 + 2]),
+          w,
+        );
+      return point;
+    },
     material,
     physicsLOD,
     gpuBindings,

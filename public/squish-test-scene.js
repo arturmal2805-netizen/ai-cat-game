@@ -32,7 +32,7 @@ export function createSquishTestScene({
     toy.traverse((o) => {
       if (o.isMesh && o.material.isMeshStandardMaterial) {
         o.material.envMap = environment;
-        o.material.envMapIntensity = 1.05;
+        o.material.envMapIntensity = material === "jelly" ? 1.5 : 1.05;
       }
     });
     root.add(toy);
@@ -136,13 +136,12 @@ export function createSquishTestScene({
     }
     if (selected === "slime" && time >= 1 && time < 5) {
       const twist = time >= 3,
-        angle = (time - 3) * 1.5;
+        angle = Math.max(0, time - 3) * 0.65;
       s.setContact("test-grip", {
         kind: twist ? "twist" : "stretch",
         point: [0.8, 3.1, 0.4],
-        displacement: twist
-          ? [Math.sin(angle) * 1.4, 1.3, Math.cos(angle) * 1.4]
-          : [0.6, (time - 1) * 0.9, 0.3],
+        displacement: [0.6, Math.min(1.5, (time - 1) * 0.75), 0.3],
+        twist: twist ? angle : 0,
         force: 100,
         radius: 1.1,
         duration: time - 1,

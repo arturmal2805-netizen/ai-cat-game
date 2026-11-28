@@ -100,7 +100,10 @@ export function createSquishPlayer({ canvas, camera, getInterior, container }) {
       stop(e);
       local.copy(hit.point);
       toy.worldToLocal(local);
-      normal.copy(hit.face.normal).applyMatrix3(new T.Matrix3().getNormalMatrix(hit.object.matrixWorld)).normalize();
+      normal
+        .copy(hit.face.normal)
+        .applyMatrix3(new T.Matrix3().getNormalMatrix(hit.object.matrixWorld))
+        .normalize();
       plane.setFromNormalAndCoplanarPoint(
         camera.getWorldDirection(target),
         hit.point,
@@ -116,7 +119,8 @@ export function createSquishPlayer({ canvas, camera, getInterior, container }) {
       active = {
         toy,
         pointer: e.pointerId,
-        point: local.clone(),
+        point: toy.userData.restPoint(hit),
+        grabLocal: local.clone(),
         normal: normal.clone(),
         startX: e.clientX,
         startY: e.clientY,
@@ -132,14 +136,15 @@ export function createSquishPlayer({ canvas, camera, getInterior, container }) {
     active.lastEvent = { clientX: e.clientX, clientY: e.clientY };
     const a = active,
       solver = a.toy.userData.solver,
-      displacement = new T.Vector3();
+      displacement = local.copy(a.grabLocal).sub(a.point).clone();
+    let twist = 0;
     if (mode === "press" || mode === "hold" || mode === "knead") {
       const depth =
         mode === "knead"
           ? (0.45 + 0.25 * Math.sin(a.age * 6)) *
             (Number(pressure.value) / 0.85)
           : Number(pressure.value);
-      displacement.copy(a.normal).multiplyScalar(-depth);
+      displacement.addScaledVector(a.normal, -depth);
     } else if (mode === "stretch" || mode === "drag") {
       cast(e);
       if (ray.ray.intersectPlane(plane, hitPoint))
@@ -148,22 +153,16 @@ export function createSquishPlayer({ canvas, camera, getInterior, container }) {
           .sub(a.point)
           .clampLength(0, solver.profile.maximumDeformation);
       if (mode === "drag") {
+        displacement
+          .copy(a.toy.worldToLocal(hitPoint.clone()))
+          .sub(a.grabLocal);
         displacement.addScaledVector(a.normal, -displacement.dot(a.normal));
+        displacement.add(a.grabLocal).sub(a.point);
         displacement.addScaledVector(a.normal, -0.2);
       }
     } else {
-      const angle = T.MathUtils.clamp(
-          (e.clientX - a.startX) * 0.008,
-          -1.1,
-          1.1,
-        ),
-        dx = a.point.x,
-        dz = a.point.z;
-      displacement.set(
-        Math.cos(angle) * dx - Math.sin(angle) * dz - dx,
-        -0.3,
-        Math.sin(angle) * dx + Math.cos(angle) * dz - dz,
-      );
+      twist = T.MathUtils.clamp((e.clientX - a.startX) * 0.008, -1.1, 1.1);
+      displacement.addScaledVector(a.normal, -0.3);
     }
     solver.setContact("player", {
       kind: mode,
@@ -173,6 +172,7 @@ export function createSquishPlayer({ canvas, camera, getInterior, container }) {
       radius: solver.profile.interactionRadius,
       force: 100 * (Number(pressure.value) / 0.85),
       duration: a.age,
+      twist,
     });
   }
   canvas.addEventListener(

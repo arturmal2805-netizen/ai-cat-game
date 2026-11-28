@@ -1804,3 +1804,22 @@ Cloud broad sinking/recovery work. Slime twist has an abrupt trajectory/tear
 MAJOR; true angular contact constraint/rest-space grip correction next. Merge
 remains explicitly approximate. Phone/full videos/final reference polish and
 remaining core/debug/performance/save/release stages are still open.
+
+## Pass B — rest-space grip, true angular constraint and new Jelly target
+
+Implemented local angular contact with viscous filtering around the measured
+grip normal, rather than translating/rotating the whole object. Pointer anchors
+use barycentrics of the actual deformed triangle mapped to its original rest
+positions; press/drag/stretch keep initial deformation when re-grabbing. Slime
+test trajectory is continuous through stretch→twist, with genuine angular load.
+Unit opposite-node torsion, rotated deformed rest-anchor picking and no arbitrary
+thread tear all PASS.58 targeted tests PASS at this checkpoint. Native rerun pending.
+
+New user inline Jelly image documented in
+`specifications/warehouse-jelly-inline-reference-2026-11-28.md`: owned PBR material
+now glossy with existing IBL, convex absorption approximation, smoother96×64
+Jelly/Slime body, existing internal bubbles/face. No new refraction/framebuffer
+target or changes to global lighting/camera/venues. Actual native material/GL
+proof next; do not mark visual acceptance from code alone. Measured reference
+load/release test: Jelly peak0.47766m, real opposite overshoot0.08134m, maximum
+displacement0.00879m at1s and0.000222m at2s (art-tuned physics, not lab constants).

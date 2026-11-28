@@ -195,6 +195,7 @@ export function createSquishCatContacts() {
             displacement: [0, -0.5, 0],
             radius: 1,
             force: 8.5 * 9.81,
+            targetCompressionRatio: 0.17,
           });
           keys.push(key);
           diagnostic.push({
@@ -283,6 +284,7 @@ export function createSquishCatContacts() {
           duration: p.contactAge,
           penetration: Math.max(0, target - p.point.y),
           supportShare: 1 / Math.max(1, supports),
+          targetCompressionRatio: (v.acting.impact || 0) > 2 ? 0.25 : 0.075,
           velocity: velocity.toArray(),
         });
         keys.push(key);

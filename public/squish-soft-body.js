@@ -149,6 +149,8 @@ export class SquishSoftBody {
       duration = 0,
       penetration = 0,
       supportShare = 0,
+      twist = 0,
+      targetCompressionRatio = 0,
     } = {},
   ) {
     if (
@@ -165,8 +167,13 @@ export class SquishSoftBody {
         duration,
         penetration,
         supportShare,
+        twist,
+        targetCompressionRatio,
       ].every(Number.isFinite)
     )
+      return false;
+    const normalLength = Math.hypot(...normal);
+    if (normal.length !== 3 || point.length !== 3 || normalLength < 1e-8)
       return false;
     if (!this.contacts.has(id) && this.contacts.size >= 16) return false;
     this.onBeforeContact?.();
@@ -177,6 +184,7 @@ export class SquishSoftBody {
       velocity: new Float64Array(3),
       filtered: new Float64Array(3),
       torn: false,
+      filteredTwist: 0,
     };
     c.kind = kind;
     c.footprintRadius = clamp(footprintRadius, 0, 1);
@@ -184,9 +192,12 @@ export class SquishSoftBody {
     c.duration = Math.max(0, duration);
     c.penetration = Math.max(0, penetration);
     c.supportShare = clamp(supportShare, 0, 1);
+    c.twist = clamp(twist, -1.4, 1.4);
+    // A review target, not a direct scale/deformation command.
+    c.targetCompressionRatio = clamp(targetCompressionRatio, 0, 0.5);
     c.pressureDepth = Math.max(0, -displacement[1]);
     c.point.set(point);
-    c.normal.set(normal);
+    for (let k = 0; k < 3; k++) c.normal[k] = normal[k] / normalLength;
     c.velocity.set(velocity);
     const n = Math.hypot(...displacement),
       s =
@@ -279,6 +290,10 @@ export class SquishSoftBody {
         s = Number.isFinite(rate) ? 1 - Math.exp(-rate * dt) : 1;
       for (let k = 0; k < 3; k++)
         c.filtered[k] += (c.displacement[k] - c.filtered[k]) * s;
+      c.filteredTwist += (c.twist - c.filteredTwist) * s;
+      const angle = c.filteredTwist / (1 + m.twistResistance);
+      c.twistCos = Math.cos(angle);
+      c.twistSin = Math.sin(angle);
     }
     for (let e = 0, t = 0; e < this.edges.length; e += 3, t++) {
       const a = this.edges[e] * 3,
@@ -404,9 +419,34 @@ export class SquishSoftBody {
               (1 - r2 / 4) ** 2 *
               clamp(c.force / 70, 0, 2);
             total += influence;
-            gx += c.filtered[0] * influence;
-            gy += c.filtered[1] * influence;
-            gz += c.filtered[2] * influence;
+            // A local angular contact rotates the material's offset vectors
+            // around the actual grip normal, not the object/whole scene.
+            let tx = 0,
+              ty = 0,
+              tz = 0;
+            if (Math.abs(c.filteredTwist) > 1e-5) {
+              const cosine = c.twistCos,
+                sine = c.twistSin,
+                nx = c.normal[0],
+                ny = c.normal[1],
+                nz = c.normal[2],
+                dot = nx * dx + ny * dy + nz * dz;
+              tx =
+                dx * (cosine - 1) +
+                (ny * dz - nz * dy) * sine +
+                nx * dot * (1 - cosine);
+              ty =
+                dy * (cosine - 1) +
+                (nz * dx - nx * dz) * sine +
+                ny * dot * (1 - cosine);
+              tz =
+                dz * (cosine - 1) +
+                (nx * dy - ny * dx) * sine +
+                nz * dot * (1 - cosine);
+            }
+            gx += (c.filtered[0] + tx) * influence;
+            gy += (c.filtered[1] + ty) * influence;
+            gz += (c.filtered[2] + tz) * influence;
           }
           this.contactField[i] = Math.max(
             this.contactField[i],

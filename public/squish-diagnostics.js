@@ -68,12 +68,17 @@ export function measureSquish(toy) {
         depth / Math.max(0.001, u.restSurfaceHeight(local.x, local.z)),
       collider: hit.collider,
       kind: c.kind,
+      twist: c.twist,
+      targetCompressionRatio: c.targetCompressionRatio || null,
+      velocity: Array.from(c.velocity),
     });
   }
   return {
     material: u.material,
     contacts,
-    activePaws: contacts.filter((c) => c.kind === "paw").length,
+    activePaws: contacts.filter(
+      (c) => c.kind === "paw" || c.id.includes(":paw:"),
+    ).length,
     supportForce: contacts.reduce((sum, c) => sum + c.force, 0),
     meanContactDepth: sumDepth / Math.max(1, contacts.length),
     maxContactDepth: Math.max(0, ...contacts.map((c) => c.depth)),

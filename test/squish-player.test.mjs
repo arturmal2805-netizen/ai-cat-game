@@ -78,7 +78,12 @@ test("six scoped player actions hold/release real contacts and leave ordinary ca
       assert(c.duration >= 0.25);
       assert.equal(c.kind, mode);
       assert(c.displacement.every(Number.isFinite));
-      if (mode === "drag" || mode === "stretch" || mode === "twist")
+      if (mode === "twist")
+        assert(
+          Math.abs(c.twist) > 0.2,
+          "actual angular constraint at the local grip",
+        );
+      if (mode === "drag" || mode === "stretch")
         assert(
           Math.hypot(c.displacement[0], c.displacement[2]) > 0.02,
           mode + " changes actual local constraint",

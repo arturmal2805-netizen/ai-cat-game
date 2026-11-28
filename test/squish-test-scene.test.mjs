@@ -43,6 +43,16 @@ test("developer bench keeps five real cat-head materials, deterministic states, 
       );
       assert(u.solver.position.every(Number.isFinite));
       assert(u.solver.diagnostics().minTetRatio > 0);
+      if (material === "slime") {
+        bench.advanceFixed(162);
+        assert.equal(
+          u.filaments.diagnostics.tears,
+          0,
+          "continuous stretch to twist does not arbitrarily tear the grip",
+        );
+        assert(Math.abs(u.solver.contacts.get("test-grip").twist) > 0.5);
+        assert(u.filaments.diagnostics.active > 0);
+      }
       assert.deepEqual(
         bench.actor.userData.body.geometry.attributes.position.array,
         source,

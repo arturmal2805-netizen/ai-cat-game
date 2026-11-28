@@ -63,7 +63,7 @@ export function* warehouseSquishSteps(origin) {
       for (const m of Array.isArray(o.material) ? o.material : [o.material])
         if (m.isMeshStandardMaterial) {
           m.envMap = art.userData.environment;
-          m.envMapIntensity = 1.05;
+          m.envMapIntensity = d.material === "jelly" ? 1.5 : 1.05;
           m.needsUpdate = true;
         }
     });

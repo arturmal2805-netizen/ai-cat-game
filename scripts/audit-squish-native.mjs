@@ -64,6 +64,14 @@ export async function auditRelease({
       return {
         raw: q.renderer.domElement.toDataURL("image/png").split(",")[1],
         solver: s.diagnostics(),
+        surfaceMaterial: {
+          roughness: t.userData.meshes[0].material.roughness,
+          opacity: t.userData.meshes[0].material.opacity,
+          clearcoat: t.userData.meshes[0].material.clearcoat,
+          clearcoatRoughness: t.userData.meshes[0].material.clearcoatRoughness,
+          ior: t.userData.meshes[0].material.ior,
+          envMapIntensity: t.userData.meshes[0].material.envMapIntensity,
+        },
         camera: {
           position: q.camera.position.toArray(),
           target: q.look.toArray(),
@@ -533,5 +541,9 @@ export async function auditRelease({
       "./audit-squish-materials.mjs"
     );
     await auditSquishMaterials({ page, review, errors, httpErrors, desktop });
+  }
+  if (process.env.CHICHI_SQUISH_AFTER_BENCH) {
+    const { auditSquishBench } = await import("./audit-squish-bench.mjs");
+    await auditSquishBench({ page, review, errors, httpErrors, desktop });
   }
 }
