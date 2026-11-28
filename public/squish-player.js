@@ -100,7 +100,7 @@ export function createSquishPlayer({ canvas, camera, getInterior, container }) {
       stop(e);
       local.copy(hit.point);
       toy.worldToLocal(local);
-      normal.copy(hit.face.normal).transformDirection(hit.object.matrixWorld);
+      normal.copy(hit.face.normal).applyMatrix3(new T.Matrix3().getNormalMatrix(hit.object.matrixWorld)).normalize();
       plane.setFromNormalAndCoplanarPoint(
         camera.getWorldDirection(target),
         hit.point,

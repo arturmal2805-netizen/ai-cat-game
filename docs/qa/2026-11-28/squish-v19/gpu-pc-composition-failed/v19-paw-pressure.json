@@ -1,0 +1,242 @@
+{
+  "solver": {
+    "sleeping": false,
+    "particles": 343,
+    "constraints": 3150,
+    "contacts": 4,
+    "steps": 845,
+    "time": 14.083333333333613,
+    "volumeRatio": 1.008526967893648,
+    "minTetRatio": 0.3219908632136635,
+    "maxDeformation": 0.43854499480219433,
+    "maxStrain": 0.5290568560195258,
+    "damage": 0,
+    "faults": 0,
+    "limitedSteps": 0,
+    "lastPhysicsMs": 2.300000011920929,
+    "droppedTime": 0
+  },
+  "camera": {
+    "position": [
+      3037,
+      -443.948,
+      1214
+    ],
+    "target": [
+      3030,
+      -446.948,
+      1204
+    ],
+    "fov": 48,
+    "aspect": 1.561764705882353,
+    "near": 0.08,
+    "far": 20000
+  },
+  "renderer": {
+    "dpr": 2,
+    "shadow": 1,
+    "toneMapping": 4,
+    "info": {
+      "frame": 14,
+      "calls": 277,
+      "triangles": 4491589,
+      "points": 320,
+      "lines": 0
+    }
+  },
+  "time": 14.083333333333613,
+  "sceneTime": 7,
+  "reviewHour": 12,
+  "seed": 4419,
+  "nativePaws": [
+    {
+      "id": "chichi",
+      "paw": 0,
+      "point": [
+        3029.6787416144225,
+        -447.02143361944786,
+        1203.6499524784506
+      ],
+      "surface": -447.0214336194478,
+      "error": -5.684341886080802e-14,
+      "contact": true,
+      "force": 20.84625,
+      "area": 0.035,
+      "material": "cloud"
+    },
+    {
+      "id": "chichi",
+      "paw": 1,
+      "point": [
+        3029.8109111208623,
+        -446.98845072448466,
+        1204.442029395959
+      ],
+      "surface": -446.98845072448466,
+      "error": 0,
+      "contact": true,
+      "force": 20.84625,
+      "area": 0.035,
+      "material": "cloud"
+    },
+    {
+      "id": "chichi",
+      "paw": 2,
+      "point": [
+        3030.2304510470162,
+        -446.9985623175907,
+        1203.6045081421698
+      ],
+      "surface": -446.99856231759065,
+      "error": -5.684341886080802e-14,
+      "contact": true,
+      "force": 20.84625,
+      "area": 0.035,
+      "material": "cloud"
+    },
+    {
+      "id": "chichi",
+      "paw": 3,
+      "point": [
+        3030.2747751705265,
+        -446.9613294326276,
+        1204.3779813815859
+      ],
+      "surface": -446.9613294326276,
+      "error": 0,
+      "contact": true,
+      "force": 20.84625,
+      "area": 0.035,
+      "material": "cloud"
+    }
+  ],
+  "contactMeasurements": {
+    "material": "cloud",
+    "contacts": [
+      {
+        "id": "chichi:paw:0",
+        "point": [
+          3029.6787416144225,
+          -447.0214336194478,
+          1203.6499524784506
+        ],
+        "normal": [
+          -0.12578965013038235,
+          0.985291031757112,
+          -0.11566566759017997
+        ],
+        "force": 20.84625,
+        "supportShare": 0.25,
+        "duration": 0.06666666666662786,
+        "radius": 0.65,
+        "footprintRadius": 0.18999037105401387,
+        "penetration": 0,
+        "depth": 0.33854945184987484,
+        "compressionRatio": 0.10368681211557938,
+        "collider": "cf983d38-0bfa-440a-9b3b-d37a4696e27d",
+        "kind": "paw"
+      },
+      {
+        "id": "chichi:paw:1",
+        "point": [
+          3029.8109111208623,
+          -446.98845072448466,
+          1204.442029395959
+        ],
+        "normal": [
+          0.1760673265543843,
+          0.9764106728304105,
+          0.12498997760963522
+        ],
+        "force": 20.84625,
+        "supportShare": 0.25,
+        "duration": 0.06666666666662786,
+        "radius": 0.65,
+        "footprintRadius": 0.18999037105401387,
+        "penetration": 0,
+        "depth": 0.3024462611250809,
+        "compressionRatio": 0.0927181713548809,
+        "collider": "cf983d38-0bfa-440a-9b3b-d37a4696e27d",
+        "kind": "paw"
+      },
+      {
+        "id": "chichi:paw:2",
+        "point": [
+          3030.2304510470162,
+          -446.99856231759065,
+          1203.6045081421698
+        ],
+        "normal": [
+          -0.08211666613920379,
+          0.9856048623299314,
+          -0.14778331601970446
+        ],
+        "force": 20.84625,
+        "supportShare": 0.25,
+        "duration": 0.06666666666662786,
+        "radius": 0.65,
+        "footprintRadius": 0.18999037105401387,
+        "penetration": 0,
+        "depth": 0.3168239900608594,
+        "compressionRatio": 0.09699896145223846,
+        "collider": "cf983d38-0bfa-440a-9b3b-d37a4696e27d",
+        "kind": "paw"
+      },
+      {
+        "id": "chichi:paw:3",
+        "point": [
+          3030.2747751705265,
+          -446.9613294326276,
+          1204.3779813815859
+        ],
+        "normal": [
+          -0.12924920234165221,
+          0.9895459855196104,
+          -0.06397957671061645
+        ],
+        "force": 20.84625,
+        "supportShare": 0.25,
+        "duration": 0.06666666666662786,
+        "radius": 0.65,
+        "footprintRadius": 0.18999037105401387,
+        "penetration": 0,
+        "depth": 0.2788053333102245,
+        "compressionRatio": 0.08537969404457889,
+        "collider": "cf983d38-0bfa-440a-9b3b-d37a4696e27d",
+        "kind": "paw"
+      }
+    ],
+    "activePaws": 4,
+    "supportForce": 83.385,
+    "meanContactDepth": 0.3091562590865099,
+    "maxContactDepth": 0.33854945184987484,
+    "maxVertexDisplacement": 0.4080227497276669,
+    "activeNodes": 18,
+    "stiffness": 3,
+    "compliance": 0.006,
+    "timestep": 0.016666666666666666,
+    "meshVersion": 848,
+    "colliderGeometry": "6747ca66-46bf-49cf-96b0-cf546ae9f460",
+    "colliderFollowsRender": true,
+    "recoveryActive": false,
+    "solver": {
+      "sleeping": false,
+      "particles": 343,
+      "constraints": 3150,
+      "contacts": 4,
+      "steps": 845,
+      "time": 14.083333333333613,
+      "volumeRatio": 1.008526967893648,
+      "minTetRatio": 0.3219908632136635,
+      "maxDeformation": 0.43854499480219433,
+      "maxStrain": 0.5290568560195258,
+      "damage": 0,
+      "faults": 0,
+      "limitedSteps": 0,
+      "lastPhysicsMs": 2.300000011920929,
+      "droppedTime": 0
+    },
+    "lod": "HERO",
+    "units": "game metres/seconds; force calibrated to an effective game mass, not laboratory measurements"
+  }
+}

@@ -1,0 +1,126 @@
+{
+  "solver": {
+    "sleeping": false,
+    "particles": 343,
+    "constraints": 3150,
+    "contacts": 1,
+    "steps": 20,
+    "time": 0.3333333333333333,
+    "volumeRatio": 0.9889801432679692,
+    "minTetRatio": 0.885660589952725,
+    "maxDeformation": 0.22480457313005184,
+    "maxStrain": 0.1333448581372717,
+    "damage": 0,
+    "faults": 0,
+    "limitedSteps": 0,
+    "lastPhysicsMs": 1.0999999940395355,
+    "droppedTime": 0
+  },
+  "camera": {
+    "position": [
+      3037,
+      -443.948,
+      1214
+    ],
+    "target": [
+      3030,
+      -446.948,
+      1204
+    ],
+    "fov": 48,
+    "aspect": 1.561764705882353,
+    "near": 0.08,
+    "far": 20000
+  },
+  "renderer": {
+    "dpr": 2,
+    "shadow": 1,
+    "toneMapping": 4,
+    "info": {
+      "frame": 13,
+      "calls": 277,
+      "triangles": 4491589,
+      "points": 320,
+      "lines": 0
+    }
+  },
+  "time": 0.3333333333333333,
+  "sceneTime": 7,
+  "reviewHour": 12,
+  "seed": 4419,
+  "nativePaws": [
+    {
+      "id": "chichi",
+      "kind": "body",
+      "point": [
+        3029.8769354140986,
+        -446.8633011276904,
+        1203.9026934294293
+      ],
+      "surface": -446.8633011276904,
+      "error": 0,
+      "force": 83.385,
+      "material": "cloud"
+    }
+  ],
+  "contactMeasurements": {
+    "material": "cloud",
+    "contacts": [
+      {
+        "id": "chichi:body",
+        "point": [
+          3029.8769354140986,
+          -446.8633011276904,
+          1203.9026934294293
+        ],
+        "normal": [
+          0.028546368338877248,
+          0.9992058022981358,
+          0.027800530721549425
+        ],
+        "force": 83.385,
+        "supportShare": 0,
+        "duration": 0,
+        "radius": 1,
+        "footprintRadius": 0,
+        "penetration": 0,
+        "depth": 0.21165802282406254,
+        "compressionRatio": 0.06420968043130619,
+        "collider": "cf983d38-0bfa-440a-9b3b-d37a4696e27d",
+        "kind": "body"
+      }
+    ],
+    "activePaws": 0,
+    "supportForce": 83.385,
+    "meanContactDepth": 0.21165802282406254,
+    "maxContactDepth": 0.21165802282406254,
+    "maxVertexDisplacement": 0.2224440387105465,
+    "activeNodes": 48,
+    "stiffness": 3,
+    "compliance": 0.006,
+    "timestep": 0.016666666666666666,
+    "meshVersion": 23,
+    "colliderGeometry": "6747ca66-46bf-49cf-96b0-cf546ae9f460",
+    "colliderFollowsRender": true,
+    "recoveryActive": false,
+    "solver": {
+      "sleeping": false,
+      "particles": 343,
+      "constraints": 3150,
+      "contacts": 1,
+      "steps": 20,
+      "time": 0.3333333333333333,
+      "volumeRatio": 0.9889801432679692,
+      "minTetRatio": 0.885660589952725,
+      "maxDeformation": 0.22480457313005184,
+      "maxStrain": 0.1333448581372717,
+      "damage": 0,
+      "faults": 0,
+      "limitedSteps": 0,
+      "lastPhysicsMs": 1.0999999940395355,
+      "droppedTime": 0
+    },
+    "lod": "HERO",
+    "units": "game metres/seconds; force calibrated to an effective game mass, not laboratory measurements"
+  }
+}

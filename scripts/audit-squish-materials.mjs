@@ -31,7 +31,7 @@ export async function auditSquishMaterials({
     const q = __lagoonQA;
     q.manualFrames = true;
     q.drawPaused = true;
-    q.testNow = performance.now();
+    q.testNow = Math.max(q.testNow || 0, performance.now());
   });
   const step = (n) =>
     page.evaluate((n) => {
@@ -121,6 +121,10 @@ export async function auditSquishMaterials({
       q.step((q.testNow += 100));
       q.manualStepping = false;
     }, id);
+    const cameraError = await page.evaluate(() => {
+      const q=__lagoonQA;return q.camera.position.distanceTo(new q.THREE.Vector3(...q.oceanReviewCamera.eye));
+    });
+    assert(cameraError < 1e-6, id+" actual camera matches the requested material view: "+cameraError);
     await shot(id, "rest");
     await activate('[data-squish-mode="press"]');
     const position = await page.evaluate((id) => {
