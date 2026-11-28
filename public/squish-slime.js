@@ -112,7 +112,7 @@ export function createSlimeFilaments({ root, solver, material }) {
       for (let k = 0; k < sides; k++) {
         const a = j * sides + k,
           b = j * sides + ((k + 1) % sides);
-        idx.push(a, b, a + sides, b, b + sides, a + sides);
+        idx.push(a, a + sides, b, b, a + sides, b + sides);
       }
     g.setAttribute(
       "position",
@@ -151,7 +151,8 @@ export function createSlimeFilaments({ root, solver, material }) {
         p[next + 1] - p[previous + 1],
         p[next + 2] - p[previous + 2],
       ).normalize();
-      right.crossVectors(t, axis);
+      if (j === 0) right.crossVectors(t, axis);
+      else right.addScaledVector(t, -right.dot(t));
       if (right.lengthSq() < 0.001) right.set(1, 0, 0);
       right.normalize();
       up.crossVectors(right, t).normalize();

@@ -15,13 +15,19 @@ test("actual butter rind accumulates local cracks and sheds bounded physical fra
   assert(toy.children.some((m) => m.name.includes("exposed core")));
   s.setContact("paw", {
     point: [0, 2.6, 1.9],
-    displacement: [0, -0.2, -1],
+    displacement: [0, -0.1, -0.65],
     radius: 0.95,
-    force: 160,
+    force: 80,
   });
   tick(toy, 60);
   assert(toy.userData.butter.diagnostics.crackedVertices > 0);
   assert.equal(toy.userData.butter.diagnostics.detached, 0);
+  s.setContact("paw", {
+    point: [0, 2.6, 1.9],
+    displacement: [0, -0.2, -1],
+    radius: 0.95,
+    force: 160,
+  });
   tick(toy, 180);
   assert(toy.userData.butter.diagnostics.detached > 0);
   const pool = toy.children.find((m) => m.isInstancedMesh);
@@ -104,5 +110,39 @@ test("two actual implicit slime surfaces coalesce and separate with approximatel
   tick(toy, 240);
   assert.equal(m.diagnostics.components, 2);
   assert(Math.abs(m.diagnostics.volumeProxyRatio - 1) < 0.1);
+  toy.userData.dispose();
+});
+
+test("actual filament triangles have outward winding and continuous radial frames", () => {
+  const toy = createSquishToy({ material: "slime" }),
+    s = toy.userData.solver;
+  s.setContact("grip", {
+    kind: "stretch",
+    point: [0, 2.8, 1],
+    displacement: [0.7, 0.5, 0.3],
+    force: 90,
+  });
+  tick(toy, 20);
+  const mesh = toy.children.find((m) => m.name === "Slime physical filament 0"),
+    g = mesh.geometry,
+    p = g.attributes.position,
+    n = g.attributes.normal,
+    index = g.index.array,
+    a = new T.Vector3(),
+    b = new T.Vector3(),
+    c = new T.Vector3(),
+    normal = new T.Vector3();
+  let good = 0;
+  for (let i = 0; i < index.length; i += 3) {
+    a.fromBufferAttribute(p, index[i]);
+    b.fromBufferAttribute(p, index[i + 1]).sub(a);
+    c.fromBufferAttribute(p, index[i + 2]).sub(a);
+    normal.fromBufferAttribute(n, index[i]);
+    if (b.cross(c).dot(normal) > 0) good++;
+  }
+  assert(
+    (good / index.length) * 3 > 0.9,
+    "tube surfaces face outward rather than showing dark inside-out fans",
+  );
   toy.userData.dispose();
 });

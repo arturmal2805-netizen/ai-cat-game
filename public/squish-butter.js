@@ -121,7 +121,7 @@ export function createButterShell({ root, solver, body, attach }) {
       "#include <begin_vertex>",
       "#include <begin_vertex>\nvButterDamage=squishDamage;vButterUV=uv;",
     );
-    shader.fragmentShader = crackGLSL + shader.fragmentShader;
+    shader.fragmentShader = crackGLSL + "\n" + shader.fragmentShader;
     shader.fragmentShader = shader.fragmentShader.replace(
       "#include <color_fragment>",
       `#include <color_fragment>
@@ -140,7 +140,8 @@ export function createButterShell({ root, solver, body, attach }) {
       ),
     );
   };
-  material.customProgramCacheKey = () => "warehouse-strain-butter-shell-v1";
+  material.customProgramCacheKey = () =>
+    "warehouse-strain-butter-shell-v2-coverage";
   const shell = attach(
     g,
     material,

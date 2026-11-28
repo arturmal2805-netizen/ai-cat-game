@@ -161,6 +161,7 @@ export async function auditSquishAdvanced({
     delete r.raw;
     await writeFile(join(review, file + ".json"), JSON.stringify(r, null, 2));
     frames.push({ state, ...r });
+    assert.deepEqual(errors, [], "GL/material errors before accepting " + file);
     console.log("SQUISH_ADVANCED_FRAME", id, state);
     return r;
   };
