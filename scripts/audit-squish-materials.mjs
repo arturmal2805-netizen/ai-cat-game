@@ -108,9 +108,11 @@ export async function auditSquishMaterials({
         sy = t.userData.solver.size[1];
       q.oceanReviewCamera = {
         eye:
-          id === "foam"
-            ? [p.x + 2, p.y + 7, p.z + 4.5]
-            : [p.x + 7, p.y + 5.5, p.z + 10],
+          id === "giant"
+            ? [p.x + 16, p.y + 14, p.z + 23]
+            : id === "foam"
+              ? [p.x + 2, p.y + 7, p.z + 4.5]
+              : [p.x + 7, p.y + 5.5, p.z + 10],
         target: [p.x, p.y + sy * 0.45, p.z],
         fov: 48,
         far: 20000,

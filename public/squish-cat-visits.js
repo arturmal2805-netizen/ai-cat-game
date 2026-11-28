@@ -60,7 +60,9 @@ export function createSquishCatVisits({ getInterior, origin }) {
       if (owned.size >= 4) return false;
       const toy =
         interior.userData.toys.find(
-          (t) => t.userData.material === v.squishMaterialWanted,
+          (t) =>
+            (t.userData.sectorId || t.userData.material) ===
+            v.squishMaterialWanted,
         ) || interior.userData.toys[0];
       s = { toy, phase: "approach", age: 0 };
       owned.set(v.id, s);

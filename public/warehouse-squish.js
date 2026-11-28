@@ -1,4 +1,6 @@
 import * as T from "three";
+import { SQUISH_SECTORS } from "./squish-interior-layout.js";
+import { squishInteriorArtSteps } from "./squish-interior-art.js";
 import { WAREHOUSE as W } from "./mosasaur-expansion-data.js";
 import { WAREHOUSE_ACCESS as A } from "./warehouse-access-data.js";
 import { createSquishToy } from "./squish-model.js";
@@ -8,22 +10,20 @@ export const SQUISH_PROTOTYPE_ANCHOR = Object.freeze({
   z: W.z + W.depth / 2 - 70,
 });
 export const SQUISH_DEMONSTRATORS = Object.freeze(
-  [
-    { id: "jelly", name: "Jelly Squish", x: 0, z: 0 },
-    { id: "butter", name: "Butter Kingdom", x: -12, z: -4 },
-    { id: "slime", name: "Slime Lab", x: 12, z: -4 },
-    { id: "cloud", name: "Cloud Paradise", x: 0, z: -14 },
-    { id: "foam", name: "Memory Foam", x: -12, z: -18 },
-    { id: "crunchy", name: "Crunchy Squish", x: 12, z: -18 },
-    { id: "mochi", name: "Mochi Stretch", x: 0, z: -28 },
-    { id: "giant", name: "Giant Squish Cat", x: 0, z: -45 },
-  ].map(Object.freeze),
+  [...SQUISH_SECTORS].sort((a,b)=>Number(b.id === "jelly")-Number(a.id === "jelly")).map((d) =>
+    Object.freeze({
+      ...d,
+      material:
+        d.id === "collection" ? "mochi" : d.id === "sensory" ? "foam" : d.id,
+    }),
+  ),
 );
-// Material demonstrators precede the full ten-sector interior. They use the
-// existing floor/shell and a shared static podium palette, not new buildings.
+// Ten logical sectors share the existing shell, entry and safe floor.
 export function* warehouseSquishSteps(origin) {
   const root = new T.Group();
   root.name = "Squish Warehouse · interior";
+  const art = yield* squishInteriorArtSteps();
+  root.add(art);
   const p = SQUISH_PROTOTYPE_ANCHOR;
   root.position.set(origin.x + p.x, p.y, origin.z + p.z);
   const gold = new T.MeshStandardMaterial({
@@ -54,13 +54,25 @@ export function* warehouseSquishSteps(origin) {
       mesh.castShadow = mesh.receiveShadow = true;
       root.add(mesh);
     }
-    const toy = createSquishToy({ material: d.id });
+    const toy = createSquishToy({ material: d.material });
+    toy.userData.sectorId = d.id;
+    toy.traverse((o) => {
+      if (!o.isMesh) return;
+      for (const m of Array.isArray(o.material) ? o.material : [o.material])
+        if (m.isMeshStandardMaterial) {
+          m.envMap = art.userData.environment;
+          m.envMapIntensity = 1.05;
+          m.needsUpdate = true;
+        }
+    });
     toy.position.set(d.x, 0, d.z);
     root.add(toy);
     toys.push(toy);
   }
   root.userData = {
     toys,
+    art,
+    sectors: SQUISH_SECTORS,
     scratch: new T.Vector3(),
     update(dt) {
       for (const t of toys) {
@@ -70,6 +82,7 @@ export function* warehouseSquishSteps(origin) {
     },
     dispose() {
       for (const t of toys) t.userData.dispose();
+      art.userData.dispose();
       podium.dispose();
       top.dispose();
       gold.dispose();

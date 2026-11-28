@@ -140,10 +140,33 @@ export function createWarehouseWorld({
     () => {
       squishPlayer.release();
       interior?.userData.toys
-        .find((t) => t.userData.material === selectedMaterial)
+        .find(
+          (t) =>
+            (t.userData.sectorId || t.userData.material) === selectedMaterial,
+        )
         ?.userData.reset();
     },
     "squishReset",
+  );
+  button(
+    "Огляд усього залу",
+    async () => {
+      if (await openInterior())
+        onInteriorCamera({
+          eye: [
+            SQUISH_PROTOTYPE_ANCHOR.x + 90,
+            SQUISH_PROTOTYPE_ANCHOR.y + 59,
+            SQUISH_PROTOTYPE_ANCHOR.z + 28,
+          ],
+          target: [
+            SQUISH_PROTOTYPE_ANCHOR.x,
+            SQUISH_PROTOTYPE_ANCHOR.y + 9,
+            SQUISH_PROTOTYPE_ANCHOR.z - 62,
+          ],
+          fov: 60,
+        });
+    },
+    "squishOverview",
   );
   const seat = new T.Vector3();
   for (const d of SQUISH_DEMONSTRATORS) {
