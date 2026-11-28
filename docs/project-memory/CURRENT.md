@@ -150,41 +150,60 @@ regression and visual arrival polish remain OPEN. Current coordinator safely
 waits while Warehouse already owns a cat; do not pretend immediate exit works.
 Full present source is WIP, no V20/V21/V22 publication.
 
-## Active continuation — 2026-11-28
+## Active continuation — 2026-11-28 16:05UTC
 
-User explicitly requested parallel work. Isolated V22 agent at
-`/workspace/chichi-v22-dynamic`, branch `codex/v22-dynamic-materials`, implementing
-constitutive local creep/static load versus queued velocity impact and CPU
-regressions. V21 dispatch agent `/workspace/chichi-v21-dispatch-completion`, branch
-`codex/v21-dispatch-completion`, finishing recall/moveResident/generic preparation
-and cancellation. Both based on f1abf006; not yet integrated or published.
-V20 decoration agent failed due its usage limit without making changes; parent
-continues actual material investigation. Do not claim its decoration exists.
+User explicitly authorized parallel work. Parent `/workspace/chichi-squish-v16`
+branch codex/warehouse-squish-v16 remote-verified bf76349804a7a05286431f6edc80457672b17ac9;
+local HEADfb3860a0 integrates V22 temporal audit + QA regression (pending next push).
+No main publication; published remains541293e6.
 
-Parent uncommitted files: leisure-runtime/world instantDispatch (removes redundant
-1–7s preliminary flight before portal), Warehouse teleportVisit returns operation
-and invite awaits `.result`, Waterfront deferred manual handoff at real arrival.
-Do not lose these while integrating isolated branches.
+Integrated V22 agent075c3ca4 -> parente646a6b: local material-node retarded creep/
+plastic histories in original volumetric cage; profiles for all5classes/3Slime
+modes; actual static skinned paw/body weight separate from queued one-shot landing
+impulse; state retained across LOD; debug history graph. Main pink remains Jelly.
+Integrated V21 agent783a723+7c848dc -> ea5dec9+d9850d9: recall/resident drop/generic
+cold preparation under latest-operation token, dynamic registry, safe save projection,
+arrival followed-camera rebase and deferred greeting. Parent Warehouse await.result,
+Waterfront manual handoff on real arrival and leisure instantDispatch retained.
+**Parent combined94/94targeted tests PASS**, /workspace/qa/v22-v21-integrated-tests.log.
+Full npmtest currently execsession5287, /workspace/qa/v22-full-tests.log; CPU.
+V22 native temporal audit integrated701fbe7 -> fb3860a, no native run yet.
 
-V20 BEFORE native11 views and Pass1 native14 views PASS (GL/HTTP clear), all actual
-unchanged UI cameras plus3 explicit developer close-ups,2220collectibles. Outside
-artifacts `/workspace/qa/squish-v20-before`, `.../squish-v20-before-close`,
-`.../squish-v20-pass1`, `.../squish-v20-pass1-upper-softboxes`. Pass1 upper HDR/fluted
-podium boxes/ivory floor/metal/shelf trim/sign sizes applied to parent sources.
-Artistically still insufficient, main pink material/floor/metal remain flat.
-Owned HDR probe gain0/1.5/5/15 native sweep completed at
-`/workspace/qa/squish-v20-light-probe-bounded`: gain uniforms are real yet images
-nearly identical. Investigating actual GPU PMREM content before adding more art.
-No claim of reference parity, no overridegain15 production proof.
+V22 is a constitutive baseline, NOT full38-section acceptance: scalar vertical
+node creep not full3Dfluid, ultra displaced-contact-volume artistic proxy, native
+limb wrapping/immersion calibration/automatic body transition/COM weight transfer/
+full9-stage sticky exit/audio/AI/nativePC+phone temporal clips remain OPEN.
 
-Current ONE GPU audit: exec session10951, output
-`/workspace/qa/squish-v20-map-readback`, log same path+.log. Additional tiny owned
-render-target readback exists ONLY in diagnostic harness to inspect prepared HDR
-texture. Production still owns same single static HDR/PMREM slot. Freeze public,
-build and harness while running. Parent owns GPU; agents CPU only.
+Critical QA correction: old check-aquarium renderer.render pause wrapper suppressed
+ALL nested Three PMREM conversion renders AND diagnostic map readback. Actual Three
+CPU reproduction confirmed all17passes blocked and untouched texture cached.
+Production wrappers do not show this bug. Do NOT call blackmap a production cause.
+Old `/workspace/qa/squish-v20-before*`, pass1, upper-softboxes, light-probe-bounded
+are REJECTED lighting acceptance evidence (geometry/anchors remain valid). Preserved
+remote source+images under docs/qa/2026-11-28/squish-v20/pass1; REVIEW correction added.
+Corrected gate only pauses exactmain scene/camera; actual fresh native readback
+`/workspace/qa/squish-v20-real-ibl` PASS, preparedmap maximum255/mean115.47.
+That real HDR candidate badly OVEREXPOSED ivoryshelves/Jelly: reviewed actual frames,
+not accepted. Need rebalance owned environment before final native comparison.
 
-Pending: inspect real map readback, fix only Warehouse material root cause;
-archive native stage evidence and remote checkpoint; integrate V21/V22 with
-parent async fixes retained; refresh exact frozen-file manifest hashes for
-explicit V21 changes; targeted/native/all-suite/Node22 build, normal release PR,
-actual successful deploy/pages and live fullSHA checks. Published stays541293e.
+Current ONE GPU execsession52913: /workspace/qa/squish-v20-balanced-ibl(.log).
+Actual3developer close views, same cameras/seed4419/hour12/DPR2. Source owned HDR now
+lower background/narrower softboxes (max9) in public/squish-environment.js (UNCOMMITTED).
+Check-aquarium now uses tested createQaRenderGate helper and tracks only mainframes
+(UNCOMMITTED). Freeze source/build/harness until ends. Current root no other GPU.
+
+Parallel decor task assigned existingv21_remaining_dispatch agent, CPU only, isolated
+/workspace/chichi-v21-dispatch-completion: NEW squish-interior-decor.js callback-based
+batched packages/rare jars/plants/flowers/banners, <=4newmats/<100ktriangles, all2220
+placements/anchors/shell preserved. Do not overwrite parent art. Original v20agent
+usage-limited with zero changes. V22 agent is done; remote commits075c3ca/701fbe7.
+
+Next: inspect balanced realframes, integrate staticdecor, rerenderALL10sameUIcameras;
+run real temporal audit CHICHI_SQUISH_STAGE=bench CHICHI_SQUISH_TEMPORAL=1
+CHICHI_PROFILE_QUERY=squishTest=1 (actualnativecat/startTemporal times0/.2/.5/1/2/4/6/10
+plusrelease, strictactualpaws/support/rigbyte/assertions). No nativePASSclaimed.
+Then real generic/group/hero/cold-save portalQA with fixedrendergate, protectionpins,
+all-suite/Node22build/nativePC+touch/all19/exterior/economy checks; normal releasePR,
+actualdeploy/pagesSUCCESS +HTTP/WorkerfullSHA. Keep all41V19+V20/V21/V22 requirements.
+Never stage scripts/__pycache__. Sparse docsqa paths may disappear aftercherry-pick;
+add exactpaths via git sparse-checkoutadd, usegitadd--sparse. No reset originals.
