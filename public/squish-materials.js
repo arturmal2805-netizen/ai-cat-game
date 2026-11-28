@@ -74,6 +74,7 @@ export const SQUISH_MATERIALS = Object.freeze({
     soundProfile: "cloud",
   }),
   foam: material("foam", {
+    interactionRadius: 1.2,
     elasticity: 5,
     damping: 24,
     compliance: 0.008,
