@@ -150,15 +150,41 @@ regression and visual arrival polish remain OPEN. Current coordinator safely
 waits while Warehouse already owns a cat; do not pretend immediate exit works.
 Full present source is WIP, no V20/V21/V22 publication.
 
-Current **ONE GPU audit running**: exec5950, `/workspace/qa/squish-v20-before.log`,
-output `/workspace/qa/squish-v20-before`, CHICHI_SQUISH_STAGE=interior desktop.
-It captures real BEFORE art all10existing sectors and overview at exact f1abf00,
-using unchanged actual UI cameras. Freeze public/build/harness until it finishes.
-After baseline, apply independent prepared Pass1 files OUTSIDE source:
-`/workspace/qa/squish-environment-v20.js` (new HDRmodule ->public/squish-environment.js)
-and `/workspace/qa/squish-interior-art-v20-draft.js` (modified existing art; imports
-new module). These are NEW V20drafts, not older stale replacements. Syntax checked.
-Owned static softbox/ocean/champagne HDR replaces same env slot, ivory pearl
-floor/materials, richer existing shelf metal/LED trims and fluted side podiums,
-no exterior/anchors/physics/other venue edits. Main source art still OLD until
-explicit copy. Need real AFTER same camera before calling improvement.
+## Active continuation — 2026-11-28
+
+User explicitly requested parallel work. Isolated V22 agent at
+`/workspace/chichi-v22-dynamic`, branch `codex/v22-dynamic-materials`, implementing
+constitutive local creep/static load versus queued velocity impact and CPU
+regressions. V21 dispatch agent `/workspace/chichi-v21-dispatch-completion`, branch
+`codex/v21-dispatch-completion`, finishing recall/moveResident/generic preparation
+and cancellation. Both based on f1abf006; not yet integrated or published.
+V20 decoration agent failed due its usage limit without making changes; parent
+continues actual material investigation. Do not claim its decoration exists.
+
+Parent uncommitted files: leisure-runtime/world instantDispatch (removes redundant
+1–7s preliminary flight before portal), Warehouse teleportVisit returns operation
+and invite awaits `.result`, Waterfront deferred manual handoff at real arrival.
+Do not lose these while integrating isolated branches.
+
+V20 BEFORE native11 views and Pass1 native14 views PASS (GL/HTTP clear), all actual
+unchanged UI cameras plus3 explicit developer close-ups,2220collectibles. Outside
+artifacts `/workspace/qa/squish-v20-before`, `.../squish-v20-before-close`,
+`.../squish-v20-pass1`, `.../squish-v20-pass1-upper-softboxes`. Pass1 upper HDR/fluted
+podium boxes/ivory floor/metal/shelf trim/sign sizes applied to parent sources.
+Artistically still insufficient, main pink material/floor/metal remain flat.
+Owned HDR probe gain0/1.5/5/15 native sweep completed at
+`/workspace/qa/squish-v20-light-probe-bounded`: gain uniforms are real yet images
+nearly identical. Investigating actual GPU PMREM content before adding more art.
+No claim of reference parity, no overridegain15 production proof.
+
+Current ONE GPU audit: exec session10951, output
+`/workspace/qa/squish-v20-map-readback`, log same path+.log. Additional tiny owned
+render-target readback exists ONLY in diagnostic harness to inspect prepared HDR
+texture. Production still owns same single static HDR/PMREM slot. Freeze public,
+build and harness while running. Parent owns GPU; agents CPU only.
+
+Pending: inspect real map readback, fix only Warehouse material root cause;
+archive native stage evidence and remote checkpoint; integrate V21/V22 with
+parent async fixes retained; refresh exact frozen-file manifest hashes for
+explicit V21 changes; targeted/native/all-suite/Node22 build, normal release PR,
+actual successful deploy/pages and live fullSHA checks. Published stays541293e.
