@@ -9,6 +9,10 @@ export async function auditSquishBench({
   httpErrors,
   desktop,
 }) {
+  if (process.env.CHICHI_SQUISH_TEMPORAL) {
+    const { auditSquishTemporal } = await import("./audit-squish-temporal.mjs");
+    return auditSquishTemporal({ page, review, errors, httpErrors, desktop });
+  }
   const activate = (s) =>
     desktop ? page.locator(s).click() : page.locator(s).tap();
   await page.evaluate(() => {
