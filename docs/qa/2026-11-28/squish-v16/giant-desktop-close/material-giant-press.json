@@ -1,0 +1,57 @@
+{
+  "material": "giant",
+  "solver": {
+    "sleeping": false,
+    "particles": 1089,
+    "constraints": 11208,
+    "contacts": 1,
+    "steps": 120,
+    "time": 1.9999999999999978,
+    "volumeRatio": 1.0001028644872099,
+    "minTetRatio": 0.8888343353410638,
+    "maxDeformation": 0.5254847207106647,
+    "maxStrain": 0.14828708610723026,
+    "damage": 0,
+    "faults": 0,
+    "limitedSteps": 0,
+    "lastPhysicsMs": 3.7000000178813934,
+    "droppedTime": 0
+  },
+  "sceneTime": 7,
+  "reviewHour": 12,
+  "seed": 4419,
+  "camera": {
+    "position": [
+      3067,
+      -444.448,
+      1205
+    ],
+    "target": [
+      3060,
+      -445.89799999999997,
+      1195
+    ],
+    "fov": 48,
+    "aspect": 1.561764705882353,
+    "near": 0.08,
+    "far": 20000
+  },
+  "objectPosition": [
+    3060,
+    -449.948,
+    1195
+  ],
+  "renderer": {
+    "dpr": 2,
+    "shadow": 1,
+    "toneMapping": 4,
+    "info": {
+      "frame": 3,
+      "calls": 237,
+      "triangles": 850240,
+      "points": 320,
+      "lines": 0
+    }
+  },
+  "time": 1.9999999999999978
+}

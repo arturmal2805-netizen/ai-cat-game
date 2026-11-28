@@ -1,0 +1,113 @@
+{
+  "solver": {
+    "sleeping": false,
+    "particles": 343,
+    "constraints": 3150,
+    "contacts": 4,
+    "steps": 619,
+    "time": 10.316666666666759,
+    "volumeRatio": 0.9987880602091901,
+    "minTetRatio": 0.8571541815052681,
+    "maxDeformation": 0.25606035812359307,
+    "maxStrain": 0.18929477109182422,
+    "damage": 0,
+    "faults": 0,
+    "limitedSteps": 0,
+    "lastPhysicsMs": 1.0999999940395355,
+    "droppedTime": 0
+  },
+  "camera": {
+    "position": [
+      3097,
+      -443.948,
+      1214
+    ],
+    "target": [
+      3090,
+      -446.948,
+      1204
+    ],
+    "fov": 48,
+    "aspect": 1.561764705882353,
+    "near": 0.08,
+    "far": 20000
+  },
+  "renderer": {
+    "dpr": 2,
+    "shadow": 1,
+    "toneMapping": 4,
+    "info": {
+      "frame": 44,
+      "calls": 221,
+      "triangles": 4419011,
+      "points": 320,
+      "lines": 0
+    }
+  },
+  "time": 10.316666666666759,
+  "sceneTime": 7,
+  "reviewHour": 12,
+  "seed": 4419,
+  "nativePaws": [
+    {
+      "id": "chichi",
+      "paw": 0,
+      "point": [
+        3089.6787416138814,
+        -446.80569189994713,
+        1203.6499524789474
+      ],
+      "surface": -446.80569189994713,
+      "error": 0,
+      "contact": true,
+      "force": 38.29402607245382,
+      "area": 0.035,
+      "material": "jelly"
+    },
+    {
+      "id": "chichi",
+      "paw": 1,
+      "point": [
+        3089.810911121546,
+        -446.82369944706943,
+        1204.442029396251
+      ],
+      "surface": -446.8236994470695,
+      "error": 5.684341886080802e-14,
+      "contact": true,
+      "force": 38.29402607245382,
+      "area": 0.035,
+      "material": "jelly"
+    },
+    {
+      "id": "chichi",
+      "paw": 2,
+      "point": [
+        3090.230451046405,
+        -446.80718650051676,
+        1203.6045081418133
+      ],
+      "surface": -446.80718650051676,
+      "error": 0,
+      "contact": true,
+      "force": 38.29402607245382,
+      "area": 0.035,
+      "material": "jelly"
+    },
+    {
+      "id": "chichi",
+      "paw": 3,
+      "point": [
+        3090.274775171111,
+        -446.81511438553883,
+        1204.3779813811614
+      ],
+      "surface": -446.81511438553883,
+      "error": 0,
+      "contact": true,
+      "force": 43.530641245935,
+      "area": 0.035,
+      "material": "jelly"
+    }
+  ]
+}

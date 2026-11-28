@@ -1,0 +1,27 @@
+{
+  "stage": "interior-phone-v2",
+  "referenceImage": null,
+  "ratings": {
+    "Visual Style": 45,
+    "Reference Fidelity": 46,
+    "Geometry": 62,
+    "Materials": 60,
+    "Lighting": 34,
+    "Physics Behavior": null,
+    "Performance": null
+  },
+  "findings": [
+    {
+      "id": "SQ-11",
+      "severity": "MAJOR",
+      "status": "OPEN",
+      "actual": "All 11 real coarse-touch camera paths PASS; warmer metal/fog correction and portrait fit retested. Still sparse compared with reference A; curved counters/soft exhibits/lighting/giants/manual/LOD/audio and final actor videos remain open."
+    },
+    {
+      "id": "SQ-12",
+      "severity": "MAJOR",
+      "status": "OPEN",
+      "actual": "Final visual density/lighting, four resource LODs, actor choreography/manual support and final 3\u20135s sequences still required. Original reference bytes unmounted, no fabricated substitute."
+    }
+  ]
+}

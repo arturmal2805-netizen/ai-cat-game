@@ -1,0 +1,960 @@
+{
+  "schema": 17,
+  "stage": "actors-jelly-desktop",
+  "reference": "Original user reference A/interior and B/material states, immutable inline conversation images",
+  "referenceFileAvailable": false,
+  "conceptArtPixelScore": null,
+  "review": {
+    "stage": "actors-jelly-desktop",
+    "referenceImage": null,
+    "ratings": {
+      "Cat Interaction": 78,
+      "Physics Behavior": 80,
+      "Visual Style": 46,
+      "Reference Fidelity": 48,
+      "Lighting": 35,
+      "Performance": null
+    },
+    "findings": [
+      {
+        "id": "SQ-13",
+        "severity": "ACCEPTED scoped native route/contact",
+        "status": "RETESTED",
+        "actual": "Real Chichi boards/enters/approaches/jumps, HappyBounce landing drives43N per paw, all measured skin contact errors<.06m. 37 actual fixed-step frames/12fps=3.08s, MP4 and four full-DPR raw anchorframes; all37source PNG hashes/metadata retained. Original rig buffers unchanged in separate native tests."
+      },
+      {
+        "id": "SQ-14",
+        "severity": "MAJOR",
+        "status": "OPEN",
+        "actual": "Cloud body contact and full touch interactions need native proof; manual physical support, fourLODs, originalASMR and final rich art still open."
+      }
+    ]
+  },
+  "frames": [
+    {
+      "image": "one-squish-native-knead.png",
+      "sha256": "586a7bb2996c0db15fa3aaad896176204ca2f50ff323b8d2769fedd8123bb303",
+      "size": [
+        2124,
+        1360
+      ],
+      "meanRGB": [
+        155.61222755345077,
+        117.13831353162735,
+        134.59239192145785
+      ],
+      "metadata": {
+        "solver": {
+          "sleeping": false,
+          "particles": 343,
+          "constraints": 3150,
+          "contacts": 4,
+          "steps": 619,
+          "time": 10.316666666666759,
+          "volumeRatio": 0.9987880602091901,
+          "minTetRatio": 0.8571541815052681,
+          "maxDeformation": 0.25606035812359307,
+          "maxStrain": 0.18929477109182422,
+          "damage": 0,
+          "faults": 0,
+          "limitedSteps": 0,
+          "lastPhysicsMs": 1.0999999940395355,
+          "droppedTime": 0
+        },
+        "camera": {
+          "position": [
+            3097,
+            -443.948,
+            1214
+          ],
+          "target": [
+            3090,
+            -446.948,
+            1204
+          ],
+          "fov": 48,
+          "aspect": 1.561764705882353,
+          "near": 0.08,
+          "far": 20000
+        },
+        "renderer": {
+          "dpr": 2,
+          "shadow": 1,
+          "toneMapping": 4,
+          "info": {
+            "frame": 44,
+            "calls": 221,
+            "triangles": 4419011,
+            "points": 320,
+            "lines": 0
+          }
+        },
+        "time": 10.316666666666759,
+        "sceneTime": 7,
+        "reviewHour": 12,
+        "seed": 4419,
+        "nativePaws": [
+          {
+            "id": "chichi",
+            "paw": 0,
+            "point": [
+              3089.6787416138814,
+              -446.80569189994713,
+              1203.6499524789474
+            ],
+            "surface": -446.80569189994713,
+            "error": 0,
+            "contact": true,
+            "force": 38.29402607245382,
+            "area": 0.035,
+            "material": "jelly"
+          },
+          {
+            "id": "chichi",
+            "paw": 1,
+            "point": [
+              3089.810911121546,
+              -446.82369944706943,
+              1204.442029396251
+            ],
+            "surface": -446.8236994470695,
+            "error": 5.684341886080802e-14,
+            "contact": true,
+            "force": 38.29402607245382,
+            "area": 0.035,
+            "material": "jelly"
+          },
+          {
+            "id": "chichi",
+            "paw": 2,
+            "point": [
+              3090.230451046405,
+              -446.80718650051676,
+              1203.6045081418133
+            ],
+            "surface": -446.80718650051676,
+            "error": 0,
+            "contact": true,
+            "force": 38.29402607245382,
+            "area": 0.035,
+            "material": "jelly"
+          },
+          {
+            "id": "chichi",
+            "paw": 3,
+            "point": [
+              3090.274775171111,
+              -446.81511438553883,
+              1204.3779813811614
+            ],
+            "surface": -446.81511438553883,
+            "error": 0,
+            "contact": true,
+            "force": 43.530641245935,
+            "area": 0.035,
+            "material": "jelly"
+          }
+        ]
+      },
+      "group": "one-squish",
+      "sameCameraAndRenderSettings": false,
+      "comparisonSkippedReason": "Reference frame camera/settings mismatch or baseline absent; no misregistered difference reported."
+    },
+    {
+      "image": "one-squish-native-paws.png",
+      "sha256": "d1dc0bc411bb77b491baeba0155e5f1400acca52321b05cbfd6ff8ee5ea64d91",
+      "size": [
+        2124,
+        1360
+      ],
+      "meanRGB": [
+        155.62580695413757,
+        117.14087009803922,
+        134.60390564417858
+      ],
+      "metadata": {
+        "solver": {
+          "sleeping": false,
+          "particles": 343,
+          "constraints": 3150,
+          "contacts": 4,
+          "steps": 427,
+          "time": 7.116666666666647,
+          "volumeRatio": 0.9987433108399462,
+          "minTetRatio": 0.8291119338861164,
+          "maxDeformation": 0.27303073110795306,
+          "maxStrain": 0.24368840525312427,
+          "damage": 0,
+          "faults": 0,
+          "limitedSteps": 0,
+          "lastPhysicsMs": 1.0999999940395355,
+          "droppedTime": 0
+        },
+        "camera": {
+          "position": [
+            3097,
+            -443.948,
+            1214
+          ],
+          "target": [
+            3090,
+            -446.948,
+            1204
+          ],
+          "fov": 48,
+          "aspect": 1.561764705882353,
+          "near": 0.08,
+          "far": 20000
+        },
+        "renderer": {
+          "dpr": 2,
+          "shadow": 1,
+          "toneMapping": 4,
+          "info": {
+            "frame": 6,
+            "calls": 221,
+            "triangles": 4419011,
+            "points": 320,
+            "lines": 0
+          }
+        },
+        "time": 7.116666666666647,
+        "sceneTime": 7,
+        "reviewHour": 12,
+        "seed": 4419,
+        "nativePaws": [
+          {
+            "id": "chichi",
+            "paw": 0,
+            "point": [
+              3089.6785456469997,
+              -446.8028450669803,
+              1203.6501324299334
+            ],
+            "surface": -446.8028450669803,
+            "error": 0,
+            "contact": true,
+            "force": 43,
+            "area": 0.035,
+            "material": "jelly"
+          },
+          {
+            "id": "chichi",
+            "paw": 1,
+            "point": [
+              3089.811158675831,
+              -446.8201208434253,
+              1204.442135211662
+            ],
+            "surface": -446.82012084342523,
+            "error": -5.684341886080802e-14,
+            "contact": true,
+            "force": 43,
+            "area": 0.035,
+            "material": "jelly"
+          },
+          {
+            "id": "chichi",
+            "paw": 2,
+            "point": [
+              3090.2302295454106,
+              -446.807041077363,
+              1203.604379157398
+            ],
+            "surface": -446.807041077363,
+            "error": 0,
+            "contact": true,
+            "force": 43,
+            "area": 0.035,
+            "material": "jelly"
+          },
+          {
+            "id": "chichi",
+            "paw": 3,
+            "point": [
+              3090.274986787494,
+              -446.81073726065927,
+              1204.3778274551526
+            ],
+            "surface": -446.81073726065927,
+            "error": 0,
+            "contact": true,
+            "force": 43,
+            "area": 0.035,
+            "material": "jelly"
+          }
+        ]
+      },
+      "group": "one-squish",
+      "sameCameraAndRenderSettings": false,
+      "comparisonSkippedReason": "Reference frame camera/settings mismatch or baseline absent; no misregistered difference reported."
+    },
+    {
+      "image": "one-squish-press.png",
+      "sha256": "9df87184a7bec332d807638b8ac0ef4723464c32e81612689f22dcafab633819",
+      "size": [
+        2124,
+        1360
+      ],
+      "meanRGB": [
+        161.7218978481223,
+        115.45110294117647,
+        131.5592777223884
+      ],
+      "metadata": {
+        "solver": {
+          "sleeping": false,
+          "particles": 343,
+          "constraints": 3150,
+          "contacts": 1,
+          "steps": 60,
+          "time": 1.0000000000000013,
+          "volumeRatio": 0.9979070355219468,
+          "minTetRatio": 0.8386917802271487,
+          "maxDeformation": 0.4776042228807249,
+          "maxStrain": 0.30341013007026396,
+          "damage": 0,
+          "faults": 0,
+          "limitedSteps": 0,
+          "lastPhysicsMs": 1.100000023841858,
+          "droppedTime": 0
+        },
+        "camera": {
+          "position": [
+            3097,
+            -444.448,
+            1214
+          ],
+          "target": [
+            3090,
+            -447.948,
+            1204
+          ],
+          "fov": 48,
+          "aspect": 1.561764705882353,
+          "near": 0.08,
+          "far": 20000
+        },
+        "renderer": {
+          "dpr": 2,
+          "shadow": 1,
+          "toneMapping": 4,
+          "info": {
+            "frame": 3,
+            "calls": 127,
+            "triangles": 3669364,
+            "points": 320,
+            "lines": 0
+          }
+        },
+        "time": 1.0000000000000013,
+        "sceneTime": 7,
+        "reviewHour": 12,
+        "seed": 4419,
+        "nativePaws": []
+      },
+      "group": "one-squish",
+      "sameCameraAndRenderSettings": true,
+      "edgeMeanAbsoluteDifference": 0.48575673442635053,
+      "meanAbsolutePixelDifference": 0.6063027353125808,
+      "changedPixelFraction": 0.012442187326908164,
+      "differenceImage": "one-squish-press-difference.png"
+    },
+    {
+      "image": "one-squish-recovery.png",
+      "sha256": "0761a99352b429ff0de88a694050c2c5450ba0c447347f2233b601f2e706ac81",
+      "size": [
+        2124,
+        1360
+      ],
+      "meanRGB": [
+        161.56793993020938,
+        115.32512878032568,
+        131.43297953362136
+      ],
+      "metadata": {
+        "solver": {
+          "sleeping": false,
+          "particles": 343,
+          "constraints": 3150,
+          "contacts": 0,
+          "steps": 252,
+          "time": 4.19999999999999,
+          "volumeRatio": 1.0000000957769133,
+          "minTetRatio": 0.9999978492763956,
+          "maxDeformation": 6.739936989258723e-05,
+          "maxStrain": 7.673552246956206e-06,
+          "damage": 0,
+          "faults": 0,
+          "limitedSteps": 0,
+          "lastPhysicsMs": 1,
+          "droppedTime": 0
+        },
+        "camera": {
+          "position": [
+            3097,
+            -444.448,
+            1214
+          ],
+          "target": [
+            3090,
+            -447.948,
+            1204
+          ],
+          "fov": 48,
+          "aspect": 1.561764705882353,
+          "near": 0.08,
+          "far": 20000
+        },
+        "renderer": {
+          "dpr": 2,
+          "shadow": 1,
+          "toneMapping": 4,
+          "info": {
+            "frame": 5,
+            "calls": 127,
+            "triangles": 3669364,
+            "points": 320,
+            "lines": 0
+          }
+        },
+        "time": 4.19999999999999,
+        "sceneTime": 7,
+        "reviewHour": 12,
+        "seed": 4419,
+        "nativePaws": []
+      },
+      "group": "one-squish",
+      "sameCameraAndRenderSettings": true,
+      "edgeMeanAbsoluteDifference": 0.002240500720062036,
+      "meanAbsolutePixelDifference": 0.0003120268823160149,
+      "changedPixelFraction": 3.4618367120859643e-06,
+      "differenceImage": "one-squish-recovery-difference.png"
+    },
+    {
+      "image": "one-squish-release.png",
+      "sha256": "8dc399f05bb0825daa5e873ab2fe2d5006e95061615fae5d86242d723f56b8c8",
+      "size": [
+        2124,
+        1360
+      ],
+      "meanRGB": [
+        161.59364268306192,
+        115.34618921014733,
+        131.45311115265315
+      ],
+      "metadata": {
+        "solver": {
+          "sleeping": false,
+          "particles": 343,
+          "constraints": 3150,
+          "contacts": 0,
+          "steps": 72,
+          "time": 1.2000000000000006,
+          "volumeRatio": 1.0000391507044248,
+          "minTetRatio": 0.9967874491760698,
+          "maxDeformation": 0.05701968556897119,
+          "maxStrain": 0.02379402444152088,
+          "damage": 0,
+          "faults": 0,
+          "limitedSteps": 0,
+          "lastPhysicsMs": 1,
+          "droppedTime": 0
+        },
+        "camera": {
+          "position": [
+            3097,
+            -444.448,
+            1214
+          ],
+          "target": [
+            3090,
+            -447.948,
+            1204
+          ],
+          "fov": 48,
+          "aspect": 1.561764705882353,
+          "near": 0.08,
+          "far": 20000
+        },
+        "renderer": {
+          "dpr": 2,
+          "shadow": 1,
+          "toneMapping": 4,
+          "info": {
+            "frame": 4,
+            "calls": 127,
+            "triangles": 3669364,
+            "points": 320,
+            "lines": 0
+          }
+        },
+        "time": 1.2000000000000006,
+        "sceneTime": 7,
+        "reviewHour": 12,
+        "seed": 4419,
+        "nativePaws": []
+      },
+      "group": "one-squish",
+      "sameCameraAndRenderSettings": true,
+      "edgeMeanAbsoluteDifference": 0.4374666509730069,
+      "meanAbsolutePixelDifference": 0.2589579640707507,
+      "changedPixelFraction": 0.0054603550459731915,
+      "differenceImage": "one-squish-release-difference.png"
+    },
+    {
+      "image": "one-squish-rest.png",
+      "sha256": "3e5f19704ae481cf299087e3ee176248014c408719a9b39c1fef6cb1ceb66b3c",
+      "size": [
+        2124,
+        1360
+      ],
+      "meanRGB": [
+        161.56793923784204,
+        115.32511597152985,
+        131.43297987980503
+      ],
+      "metadata": {
+        "solver": {
+          "sleeping": true,
+          "particles": 343,
+          "constraints": 3150,
+          "contacts": 0,
+          "steps": 0,
+          "time": 0,
+          "volumeRatio": 1,
+          "minTetRatio": 0.9999999999999998,
+          "maxDeformation": 0,
+          "maxStrain": 0,
+          "damage": 0,
+          "faults": 0,
+          "limitedSteps": 0,
+          "lastPhysicsMs": 0,
+          "droppedTime": 0
+        },
+        "camera": {
+          "position": [
+            3097,
+            -444.448,
+            1214
+          ],
+          "target": [
+            3090,
+            -447.948,
+            1204
+          ],
+          "fov": 48,
+          "aspect": 1.561764705882353,
+          "near": 0.08,
+          "far": 20000
+        },
+        "renderer": {
+          "dpr": 2,
+          "shadow": 1,
+          "toneMapping": 4,
+          "info": {
+            "frame": 2,
+            "calls": 127,
+            "triangles": 3669364,
+            "points": 320,
+            "lines": 0
+          }
+        },
+        "time": 0,
+        "sceneTime": 7,
+        "reviewHour": 12,
+        "seed": 4419,
+        "nativePaws": []
+      },
+      "group": "one-squish",
+      "sameCameraAndRenderSettings": true,
+      "edgeMeanAbsoluteDifference": 0.0,
+      "meanAbsolutePixelDifference": 0.0,
+      "changedPixelFraction": 0.0,
+      "differenceImage": "one-squish-rest-difference.png"
+    },
+    {
+      "image": "sequence-native-000.png",
+      "sha256": "d1dc0bc411bb77b491baeba0155e5f1400acca52321b05cbfd6ff8ee5ea64d91",
+      "size": [
+        2124,
+        1360
+      ],
+      "meanRGB": [
+        155.62580695413757,
+        117.14087009803922,
+        134.60390564417858
+      ],
+      "metadata": {
+        "solver": {
+          "sleeping": false,
+          "particles": 343,
+          "constraints": 3150,
+          "contacts": 4,
+          "steps": 427,
+          "time": 7.116666666666647,
+          "volumeRatio": 0.9987433108399462,
+          "minTetRatio": 0.8291119338861164,
+          "maxDeformation": 0.27303073110795306,
+          "maxStrain": 0.24368840525312427,
+          "damage": 0,
+          "faults": 0,
+          "limitedSteps": 0,
+          "lastPhysicsMs": 1.0999999940395355,
+          "droppedTime": 0
+        },
+        "camera": {
+          "position": [
+            3097,
+            -443.948,
+            1214
+          ],
+          "target": [
+            3090,
+            -446.948,
+            1204
+          ],
+          "fov": 48,
+          "aspect": 1.561764705882353,
+          "near": 0.08,
+          "far": 20000
+        },
+        "renderer": {
+          "dpr": 2,
+          "shadow": 1,
+          "toneMapping": 4,
+          "info": {
+            "frame": 7,
+            "calls": 221,
+            "triangles": 4419011,
+            "points": 320,
+            "lines": 0
+          }
+        },
+        "time": 7.116666666666647,
+        "sceneTime": 7,
+        "reviewHour": 12,
+        "seed": 4419,
+        "nativePaws": [
+          {
+            "id": "chichi",
+            "paw": 0,
+            "point": [
+              3089.6785456469997,
+              -446.8028450669803,
+              1203.6501324299334
+            ],
+            "surface": -446.8028450669803,
+            "error": 0,
+            "contact": true,
+            "force": 43,
+            "area": 0.035,
+            "material": "jelly"
+          },
+          {
+            "id": "chichi",
+            "paw": 1,
+            "point": [
+              3089.811158675831,
+              -446.8201208434253,
+              1204.442135211662
+            ],
+            "surface": -446.82012084342523,
+            "error": -5.684341886080802e-14,
+            "contact": true,
+            "force": 43,
+            "area": 0.035,
+            "material": "jelly"
+          },
+          {
+            "id": "chichi",
+            "paw": 2,
+            "point": [
+              3090.2302295454106,
+              -446.807041077363,
+              1203.604379157398
+            ],
+            "surface": -446.807041077363,
+            "error": 0,
+            "contact": true,
+            "force": 43,
+            "area": 0.035,
+            "material": "jelly"
+          },
+          {
+            "id": "chichi",
+            "paw": 3,
+            "point": [
+              3090.274986787494,
+              -446.81073726065927,
+              1204.3778274551526
+            ],
+            "surface": -446.81073726065927,
+            "error": 0,
+            "contact": true,
+            "force": 43,
+            "area": 0.035,
+            "material": "jelly"
+          }
+        ]
+      },
+      "group": "one-squish",
+      "sameCameraAndRenderSettings": false,
+      "comparisonSkippedReason": "Reference frame camera/settings mismatch or baseline absent; no misregistered difference reported."
+    },
+    {
+      "image": "sequence-native-012.png",
+      "sha256": "06b981847795fcc944c1bc623e2cef67d880d45841f27e93700b50d8b28a2851",
+      "size": [
+        2124,
+        1360
+      ],
+      "meanRGB": [
+        155.6604609781766,
+        117.12275188323918,
+        134.62679911653927
+      ],
+      "metadata": {
+        "solver": {
+          "sleeping": false,
+          "particles": 343,
+          "constraints": 3150,
+          "contacts": 0,
+          "steps": 487,
+          "time": 8.11666666666665,
+          "volumeRatio": 1.0000801890739577,
+          "minTetRatio": 0.9985418919339628,
+          "maxDeformation": 0.02896064696935656,
+          "maxStrain": 0.010193596873530709,
+          "damage": 0,
+          "faults": 0,
+          "limitedSteps": 0,
+          "lastPhysicsMs": 0.8999999761581421,
+          "droppedTime": 0
+        },
+        "camera": {
+          "position": [
+            3097,
+            -443.948,
+            1214
+          ],
+          "target": [
+            3090,
+            -446.948,
+            1204
+          ],
+          "fov": 48,
+          "aspect": 1.561764705882353,
+          "near": 0.08,
+          "far": 20000
+        },
+        "renderer": {
+          "dpr": 2,
+          "shadow": 1,
+          "toneMapping": 4,
+          "info": {
+            "frame": 19,
+            "calls": 221,
+            "triangles": 4419011,
+            "points": 320,
+            "lines": 0
+          }
+        },
+        "time": 8.11666666666665,
+        "sceneTime": 7,
+        "reviewHour": 12,
+        "seed": 4419,
+        "nativePaws": []
+      },
+      "group": "one-squish",
+      "sameCameraAndRenderSettings": false,
+      "comparisonSkippedReason": "Reference frame camera/settings mismatch or baseline absent; no misregistered difference reported."
+    },
+    {
+      "image": "sequence-native-024.png",
+      "sha256": "882f3eb4b30dcca7d833cb3451b02ca4bfb4c37e5b482959ddf07afdeacbabe4",
+      "size": [
+        2124,
+        1360
+      ],
+      "meanRGB": [
+        155.68099070843027,
+        117.13197421624017,
+        134.64061357593886
+      ],
+      "metadata": {
+        "solver": {
+          "sleeping": false,
+          "particles": 343,
+          "constraints": 3150,
+          "contacts": 0,
+          "steps": 547,
+          "time": 9.1166666666667,
+          "volumeRatio": 1.000055348679386,
+          "minTetRatio": 0.9995349407039997,
+          "maxDeformation": 0.008726119513988573,
+          "maxStrain": 0.0021320855395779727,
+          "damage": 0,
+          "faults": 0,
+          "limitedSteps": 0,
+          "lastPhysicsMs": 0.9000000059604645,
+          "droppedTime": 0
+        },
+        "camera": {
+          "position": [
+            3097,
+            -443.948,
+            1214
+          ],
+          "target": [
+            3090,
+            -446.948,
+            1204
+          ],
+          "fov": 48,
+          "aspect": 1.561764705882353,
+          "near": 0.08,
+          "far": 20000
+        },
+        "renderer": {
+          "dpr": 2,
+          "shadow": 1,
+          "toneMapping": 4,
+          "info": {
+            "frame": 31,
+            "calls": 221,
+            "triangles": 4419011,
+            "points": 320,
+            "lines": 0
+          }
+        },
+        "time": 9.1166666666667,
+        "sceneTime": 7,
+        "reviewHour": 12,
+        "seed": 4419,
+        "nativePaws": []
+      },
+      "group": "one-squish",
+      "sameCameraAndRenderSettings": false,
+      "comparisonSkippedReason": "Reference frame camera/settings mismatch or baseline absent; no misregistered difference reported."
+    },
+    {
+      "image": "sequence-native-036.png",
+      "sha256": "d6bf5877c1503098640e4ba4c4e8eff0260f21f2dffed26889916624fd9601bf",
+      "size": [
+        2124,
+        1360
+      ],
+      "meanRGB": [
+        155.66942851999556,
+        117.16040593497286,
+        134.642683408109
+      ],
+      "metadata": {
+        "solver": {
+          "sleeping": false,
+          "particles": 343,
+          "constraints": 3150,
+          "contacts": 3,
+          "steps": 607,
+          "time": 10.116666666666749,
+          "volumeRatio": 0.9998446416592109,
+          "minTetRatio": 0.9670290921319377,
+          "maxDeformation": 0.07177622331717923,
+          "maxStrain": 0.048523070747445135,
+          "damage": 0,
+          "faults": 0,
+          "limitedSteps": 0,
+          "lastPhysicsMs": 1,
+          "droppedTime": 0
+        },
+        "camera": {
+          "position": [
+            3097,
+            -443.948,
+            1214
+          ],
+          "target": [
+            3090,
+            -446.948,
+            1204
+          ],
+          "fov": 48,
+          "aspect": 1.561764705882353,
+          "near": 0.08,
+          "far": 20000
+        },
+        "renderer": {
+          "dpr": 2,
+          "shadow": 1,
+          "toneMapping": 4,
+          "info": {
+            "frame": 43,
+            "calls": 221,
+            "triangles": 4419011,
+            "points": 320,
+            "lines": 0
+          }
+        },
+        "time": 10.116666666666749,
+        "sceneTime": 7,
+        "reviewHour": 12,
+        "seed": 4419,
+        "nativePaws": [
+          {
+            "id": "chichi",
+            "paw": 0,
+            "point": [
+              3089.678741613218,
+              -446.7305081310458,
+              1203.6499524795556
+            ],
+            "surface": -446.7305081310457,
+            "error": -5.684341886080802e-14,
+            "contact": true,
+            "force": 22.000780576692364,
+            "area": 0.035,
+            "material": "jelly"
+          },
+          {
+            "id": "chichi",
+            "paw": 1,
+            "point": [
+              3089.810911122383,
+              -446.72622364518105,
+              1204.4420293966093
+            ],
+            "surface": -446.72622364518105,
+            "error": 0,
+            "contact": true,
+            "force": 22.000780576692364,
+            "area": 0.035,
+            "material": "jelly"
+          },
+          {
+            "id": "chichi",
+            "paw": 2,
+            "point": [
+              3090.230451045655,
+              -446.7271699578194,
+              1203.6045081413768
+            ],
+            "surface": -446.72716995781946,
+            "error": 5.684341886080802e-14,
+            "contact": true,
+            "force": 22.000780576692364,
+            "area": 0.035,
+            "material": "jelly"
+          }
+        ]
+      },
+      "group": "one-squish",
+      "sameCameraAndRenderSettings": false,
+      "comparisonSkippedReason": "Reference frame camera/settings mismatch or baseline absent; no misregistered difference reported."
+    }
+  ],
+  "caveats": [
+    "Differences between rest and press show real state changes, not fidelity to artwork.",
+    "Software Chromium timings are not measurements of a physical user phone/Mac."
+  ]
+}

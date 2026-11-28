@@ -1,0 +1,247 @@
+{
+  "camera": {
+    "position": [
+      3038.0000095654877,
+      -443.94799999999975,
+      1161.0000027008443
+    ],
+    "target": [
+      3030.0000095654877,
+      -447.94799999999975,
+      1150.0000027008443
+    ],
+    "fov": 48.0089516951099,
+    "aspect": 1.561764705882353,
+    "near": 0.08,
+    "far": 3500
+  },
+  "renderer": {
+    "dpr": 2,
+    "shadow": 1,
+    "toneMapping": 4,
+    "info": {
+      "frame": 10,
+      "calls": 84,
+      "triangles": 3545678,
+      "points": 0,
+      "lines": 0
+    }
+  },
+  "sceneTime": 7,
+  "reviewHour": 12,
+  "seed": 4419,
+  "sectorCount": 10,
+  "collectables": 2220,
+  "materials": [
+    {
+      "sector": "jelly",
+      "material": "jelly",
+      "solver": {
+        "sleeping": true,
+        "particles": 343,
+        "constraints": 3150,
+        "contacts": 0,
+        "steps": 0,
+        "time": 0,
+        "volumeRatio": 1,
+        "minTetRatio": 0.9999999999999998,
+        "maxDeformation": 0,
+        "maxStrain": 0,
+        "damage": 0,
+        "faults": 0,
+        "limitedSteps": 0,
+        "lastPhysicsMs": 0,
+        "droppedTime": 0
+      }
+    },
+    {
+      "sector": "butter",
+      "material": "butter",
+      "solver": {
+        "sleeping": true,
+        "particles": 343,
+        "constraints": 3150,
+        "contacts": 0,
+        "steps": 0,
+        "time": 0,
+        "volumeRatio": 1,
+        "minTetRatio": 0.9999999999999998,
+        "maxDeformation": 0,
+        "maxStrain": 0,
+        "damage": 0,
+        "faults": 0,
+        "limitedSteps": 0,
+        "lastPhysicsMs": 0,
+        "droppedTime": 0
+      }
+    },
+    {
+      "sector": "slime",
+      "material": "slime",
+      "solver": {
+        "sleeping": true,
+        "particles": 343,
+        "constraints": 3150,
+        "contacts": 0,
+        "steps": 0,
+        "time": 0,
+        "volumeRatio": 1,
+        "minTetRatio": 0.9999999999999998,
+        "maxDeformation": 0,
+        "maxStrain": 0,
+        "damage": 0,
+        "faults": 0,
+        "limitedSteps": 0,
+        "lastPhysicsMs": 0,
+        "droppedTime": 0
+      }
+    },
+    {
+      "sector": "cloud",
+      "material": "cloud",
+      "solver": {
+        "sleeping": true,
+        "particles": 343,
+        "constraints": 3150,
+        "contacts": 0,
+        "steps": 0,
+        "time": 0,
+        "volumeRatio": 1,
+        "minTetRatio": 0.9999999999999998,
+        "maxDeformation": 0,
+        "maxStrain": 0,
+        "damage": 0,
+        "faults": 0,
+        "limitedSteps": 0,
+        "lastPhysicsMs": 0,
+        "droppedTime": 0
+      }
+    },
+    {
+      "sector": "giant",
+      "material": "giant",
+      "solver": {
+        "sleeping": true,
+        "particles": 1089,
+        "constraints": 11208,
+        "contacts": 0,
+        "steps": 0,
+        "time": 0,
+        "volumeRatio": 1,
+        "minTetRatio": 0.9999999999999997,
+        "maxDeformation": 0,
+        "maxStrain": 0,
+        "damage": 0,
+        "faults": 0,
+        "limitedSteps": 0,
+        "lastPhysicsMs": 0,
+        "droppedTime": 0
+      }
+    },
+    {
+      "sector": "crunchy",
+      "material": "crunchy",
+      "solver": {
+        "sleeping": true,
+        "particles": 343,
+        "constraints": 3150,
+        "contacts": 0,
+        "steps": 0,
+        "time": 0,
+        "volumeRatio": 1,
+        "minTetRatio": 0.9999999999999998,
+        "maxDeformation": 0,
+        "maxStrain": 0,
+        "damage": 0,
+        "faults": 0,
+        "limitedSteps": 0,
+        "lastPhysicsMs": 0,
+        "droppedTime": 0
+      }
+    },
+    {
+      "sector": "collection",
+      "material": "mochi",
+      "solver": {
+        "sleeping": true,
+        "particles": 343,
+        "constraints": 3150,
+        "contacts": 0,
+        "steps": 0,
+        "time": 0,
+        "volumeRatio": 1,
+        "minTetRatio": 0.9999999999999998,
+        "maxDeformation": 0,
+        "maxStrain": 0,
+        "damage": 0,
+        "faults": 0,
+        "limitedSteps": 0,
+        "lastPhysicsMs": 0,
+        "droppedTime": 0
+      }
+    },
+    {
+      "sector": "mochi",
+      "material": "mochi",
+      "solver": {
+        "sleeping": true,
+        "particles": 343,
+        "constraints": 3150,
+        "contacts": 0,
+        "steps": 0,
+        "time": 0,
+        "volumeRatio": 1,
+        "minTetRatio": 0.9999999999999998,
+        "maxDeformation": 0,
+        "maxStrain": 0,
+        "damage": 0,
+        "faults": 0,
+        "limitedSteps": 0,
+        "lastPhysicsMs": 0,
+        "droppedTime": 0
+      }
+    },
+    {
+      "sector": "foam",
+      "material": "foam",
+      "solver": {
+        "sleeping": true,
+        "particles": 343,
+        "constraints": 3150,
+        "contacts": 0,
+        "steps": 0,
+        "time": 0,
+        "volumeRatio": 1,
+        "minTetRatio": 0.9999999999999997,
+        "maxDeformation": 0,
+        "maxStrain": 0,
+        "damage": 0,
+        "faults": 0,
+        "limitedSteps": 0,
+        "lastPhysicsMs": 0,
+        "droppedTime": 0
+      }
+    },
+    {
+      "sector": "sensory",
+      "material": "foam",
+      "solver": {
+        "sleeping": true,
+        "particles": 343,
+        "constraints": 3150,
+        "contacts": 0,
+        "steps": 0,
+        "time": 0,
+        "volumeRatio": 1,
+        "minTetRatio": 0.9999999999999997,
+        "maxDeformation": 0,
+        "maxStrain": 0,
+        "damage": 0,
+        "faults": 0,
+        "limitedSteps": 0,
+        "lastPhysicsMs": 0,
+        "droppedTime": 0
+      }
+    }
+  ]
+}

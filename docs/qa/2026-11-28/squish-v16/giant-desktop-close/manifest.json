@@ -1,0 +1,33 @@
+{
+  "testedSource": "2596fea3a98208ed2f6eb646eb42aa16e1b2180b",
+  "status": "Scoped input/render PASS; visual acceptance OPEN",
+  "notes": "Real giant press/hold/recovery PASS, positive tetrahedra/0 faults. Helper still used close7m camera and cropped ears: overview art rejected, fixed later.",
+  "files": {
+    "material-giant-recovery-difference.png": "e2d44339919444f5b25a2d3e66301dbe00e910686545d7a6310b37a56e2fe3eb",
+    "audit-squish-materials.mjs": "b52d22c0f83e91b480dc51e799df0d3910b5d2379db54230e83dd5c7f0290a89",
+    "reference-validation-report.html": "2e21414c7bf3971cc5d73dca7422d1122c0dd0fdfef6bffc0fb8674257f0b3b9",
+    "check-aquarium.cjs": "06b6288128c5b214e419ecbad84d25ca3b3c9f233f727d43de0d5dd21b1374bb",
+    "review.json": "e0d99ad4c6eb826c9bffe7b884e781253b0eb0af26f2674d603e5dfe23b92ddb",
+    "native.log": "d6f74cc2dec85f98d865c09b1dbe5c73614406baa0024743bff5ecea9ab77e1f",
+    "qa-build.json": "fd1994822643fad6e61f0622065ca6f934f747acb3a97d642a6c07cf0886df90",
+    "material-giant-recovery.png": "8f0916259cf66cb2fd9dc58e40e9dd0c0273d145020e906b593a587b10169cec",
+    "material-giant-hold.json": "c8446b1cc46e2f3408bd3ae2300a9444940d96404016ddf8f89279b3c2a290ca",
+    "material-states-result.json": "5c3c4f3b26aa1339a25e15e23cde59386d4648d4d94efafefc049f0e13eebf25",
+    "source-cached.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "material-giant-hold.png": "fcb6e28bb03dfb6d04ad8885c8aaf2663440615f195205e719364545747e790f",
+    "material-giant-press.json": "fc6b2faf2c38c3a6206a726bdf203f3ab3567175a36a31e66bb2625ada0ad99f",
+    "material-giant-rest-difference.png": "ba0d456408f3eb821349904f54810463d2c016db8b9110270b533c0ea040c9ff",
+    "material-giant-rest.png": "1e1912d83b30c1f27af5b3c76c442c8a71cb96fe2b430d2d9df1cdc44595ef71",
+    "material-giant-recovery.json": "be5ab55237e7643be9db3e34ed581740d125253b9208656d40a308f8a13f2bc0",
+    "material-giant-press-difference.png": "3acdddde53bd7feee1dfd1c16ff2b95f2e31654a5191a5f066798edd5b91e5e9",
+    "qa-app.js.gz": "2bbd5016c2058d72e390e8f56a96211345f0127bb315772193057f321d5e4a6b",
+    "source-HEAD.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "material-giant-hold-difference.png": "c74ca30d52ada8e8bd7ab8c93ad7e55448fa350c9ad285cb6125995f9c7dbbd2",
+    "material-giant-press.png": "ad2447d74c0817603da8bacf48871f5ad1e5a64c0342e8d5fef7b1dcb08dcc6c",
+    "material-giant-rest.json": "b7cf7d9eddeeab50c3630805e56013d2991e3e5e20d715482f736fe8a24907e4",
+    "source-files.json": "bbf92ebb5309d92a391a04641329f3f3ddbbf9828814b8c1a3a8d831e6ae6886",
+    "source-status.txt": "4224c30e6213b81fbe557cfda279f16ebd75bd1d72c1e3f324dcb6b416404dbb",
+    "reference-validation-report.json": "8ebcab70df443a024c53bd281e7597beddadce98e8671ffd1b4ab9fa916ad8ab",
+    "exact-public-sources.tar.gz": "f4f0fee0b749be34b078a61dac8df4dd16d823a8be8ab8bf6758c0d02a7236db"
+  }
+}

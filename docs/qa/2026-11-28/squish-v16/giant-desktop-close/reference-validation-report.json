@@ -1,0 +1,344 @@
+{
+  "schema": 17,
+  "stage": "giant-desktop-close",
+  "reference": "Original user reference A/interior and B/material states, immutable inline conversation images",
+  "referenceFileAvailable": false,
+  "conceptArtPixelScore": null,
+  "review": {
+    "stage": "giant-desktop-close",
+    "referenceImage": null,
+    "ratings": {
+      "Visual Style": 45,
+      "Reference Fidelity": 46,
+      "Geometry": 62,
+      "Materials": 60,
+      "Lighting": 34,
+      "Physics Behavior": 77,
+      "Performance": null
+    },
+    "findings": [
+      {
+        "id": "SQ-11",
+        "severity": "MAJOR",
+        "status": "OPEN",
+        "actual": "Real giant press/hold/recovery PASS, positive tetrahedra/0 faults. Helper still used close7m camera and cropped ears: overview art rejected, fixed later."
+      },
+      {
+        "id": "SQ-12",
+        "severity": "MAJOR",
+        "status": "OPEN",
+        "actual": "Final visual density/lighting, four resource LODs, actor choreography/manual support and final 3\u20135s sequences still required. Original reference bytes unmounted, no fabricated substitute."
+      }
+    ]
+  },
+  "frames": [
+    {
+      "image": "material-giant-hold.png",
+      "sha256": "fcb6e28bb03dfb6d04ad8885c8aaf2663440615f195205e719364545747e790f",
+      "size": [
+        2124,
+        1360
+      ],
+      "meanRGB": [
+        159.44603377367898,
+        161.86048694195193,
+        161.62709510357814
+      ],
+      "metadata": {
+        "material": "giant",
+        "solver": {
+          "sleeping": false,
+          "particles": 1089,
+          "constraints": 11208,
+          "contacts": 0,
+          "steps": 180,
+          "time": 2.9999999999999942,
+          "volumeRatio": 1.0000201991415283,
+          "minTetRatio": 0.9997493329216927,
+          "maxDeformation": 0.006762963123974911,
+          "maxStrain": 0.0008701605572829828,
+          "damage": 0,
+          "faults": 0,
+          "limitedSteps": 0,
+          "lastPhysicsMs": 3.800000011920929,
+          "droppedTime": 0
+        },
+        "sceneTime": 7,
+        "reviewHour": 12,
+        "seed": 4419,
+        "camera": {
+          "position": [
+            3067,
+            -444.448,
+            1205
+          ],
+          "target": [
+            3060,
+            -445.89799999999997,
+            1195
+          ],
+          "fov": 48,
+          "aspect": 1.561764705882353,
+          "near": 0.08,
+          "far": 20000
+        },
+        "objectPosition": [
+          3060,
+          -449.948,
+          1195
+        ],
+        "renderer": {
+          "dpr": 2,
+          "shadow": 1,
+          "toneMapping": 4,
+          "info": {
+            "frame": 4,
+            "calls": 237,
+            "triangles": 850240,
+            "points": 320,
+            "lines": 0
+          }
+        },
+        "time": 2.9999999999999942
+      },
+      "group": "material-giant",
+      "sameCameraAndRenderSettings": true,
+      "edgeMeanAbsoluteDifference": 0.23586243584062627,
+      "meanAbsolutePixelDifference": 0.052567067316568815,
+      "changedPixelFraction": 0.0008966157084302648,
+      "differenceImage": "material-giant-hold-difference.png"
+    },
+    {
+      "image": "material-giant-press.png",
+      "sha256": "ad2447d74c0817603da8bacf48871f5ad1e5a64c0342e8d5fef7b1dcb08dcc6c",
+      "size": [
+        2124,
+        1360
+      ],
+      "meanRGB": [
+        159.34803090727817,
+        161.97033205937743,
+        161.77504154204055
+      ],
+      "metadata": {
+        "material": "giant",
+        "solver": {
+          "sleeping": false,
+          "particles": 1089,
+          "constraints": 11208,
+          "contacts": 1,
+          "steps": 120,
+          "time": 1.9999999999999978,
+          "volumeRatio": 1.0001028644872099,
+          "minTetRatio": 0.8888343353410638,
+          "maxDeformation": 0.5254847207106647,
+          "maxStrain": 0.14828708610723026,
+          "damage": 0,
+          "faults": 0,
+          "limitedSteps": 0,
+          "lastPhysicsMs": 3.7000000178813934,
+          "droppedTime": 0
+        },
+        "sceneTime": 7,
+        "reviewHour": 12,
+        "seed": 4419,
+        "camera": {
+          "position": [
+            3067,
+            -444.448,
+            1205
+          ],
+          "target": [
+            3060,
+            -445.89799999999997,
+            1195
+          ],
+          "fov": 48,
+          "aspect": 1.561764705882353,
+          "near": 0.08,
+          "far": 20000
+        },
+        "objectPosition": [
+          3060,
+          -449.948,
+          1195
+        ],
+        "renderer": {
+          "dpr": 2,
+          "shadow": 1,
+          "toneMapping": 4,
+          "info": {
+            "frame": 3,
+            "calls": 237,
+            "triangles": 850240,
+            "points": 320,
+            "lines": 0
+          }
+        },
+        "time": 1.9999999999999978
+      },
+      "group": "material-giant",
+      "sameCameraAndRenderSettings": true,
+      "edgeMeanAbsoluteDifference": 1.2631549795059267,
+      "meanAbsolutePixelDifference": 2.2123947601639524,
+      "changedPixelFraction": 0.030133903844023487,
+      "differenceImage": "material-giant-press-difference.png"
+    },
+    {
+      "image": "material-giant-recovery.png",
+      "sha256": "8f0916259cf66cb2fd9dc58e40e9dd0c0273d145020e906b593a587b10169cec",
+      "size": [
+        2124,
+        1360
+      ],
+      "meanRGB": [
+        159.4522051899856,
+        161.85039984214023,
+        161.61740196078432
+      ],
+      "metadata": {
+        "material": "giant",
+        "solver": {
+          "sleeping": true,
+          "particles": 1089,
+          "constraints": 11208,
+          "contacts": 0,
+          "steps": 414,
+          "time": 6.899999999999981,
+          "volumeRatio": 1,
+          "minTetRatio": 0.9999999999999997,
+          "maxDeformation": 0,
+          "maxStrain": 1.9468042861742813e-07,
+          "damage": 0,
+          "faults": 0,
+          "limitedSteps": 0,
+          "lastPhysicsMs": 0,
+          "droppedTime": 0
+        },
+        "sceneTime": 7,
+        "reviewHour": 12,
+        "seed": 4419,
+        "camera": {
+          "position": [
+            3067,
+            -444.448,
+            1205
+          ],
+          "target": [
+            3060,
+            -445.89799999999997,
+            1195
+          ],
+          "fov": 48,
+          "aspect": 1.561764705882353,
+          "near": 0.08,
+          "far": 20000
+        },
+        "objectPosition": [
+          3060,
+          -449.948,
+          1195
+        ],
+        "renderer": {
+          "dpr": 2,
+          "shadow": 1,
+          "toneMapping": 4,
+          "info": {
+            "frame": 5,
+            "calls": 237,
+            "triangles": 850240,
+            "points": 320,
+            "lines": 0
+          }
+        },
+        "time": 6.899999999999981
+      },
+      "group": "material-giant",
+      "sameCameraAndRenderSettings": true,
+      "edgeMeanAbsoluteDifference": 0.005804346220597467,
+      "meanAbsolutePixelDifference": 0.001631563642406115,
+      "changedPixelFraction": 0.0,
+      "differenceImage": "material-giant-recovery-difference.png"
+    },
+    {
+      "image": "material-giant-rest.png",
+      "sha256": "1e1912d83b30c1f27af5b3c76c442c8a71cb96fe2b430d2d9df1cdc44595ef71",
+      "size": [
+        2124,
+        1360
+      ],
+      "meanRGB": [
+        159.45219515065912,
+        161.8477840783206,
+        161.61513307300322
+      ],
+      "metadata": {
+        "material": "giant",
+        "solver": {
+          "sleeping": true,
+          "particles": 1089,
+          "constraints": 11208,
+          "contacts": 0,
+          "steps": 0,
+          "time": 0,
+          "volumeRatio": 1,
+          "minTetRatio": 0.9999999999999997,
+          "maxDeformation": 0,
+          "maxStrain": 0,
+          "damage": 0,
+          "faults": 0,
+          "limitedSteps": 0,
+          "lastPhysicsMs": 0,
+          "droppedTime": 0
+        },
+        "sceneTime": 7,
+        "reviewHour": 12,
+        "seed": 4419,
+        "camera": {
+          "position": [
+            3067,
+            -444.448,
+            1205
+          ],
+          "target": [
+            3060,
+            -445.89799999999997,
+            1195
+          ],
+          "fov": 48,
+          "aspect": 1.561764705882353,
+          "near": 0.08,
+          "far": 20000
+        },
+        "objectPosition": [
+          3060,
+          -449.948,
+          1195
+        ],
+        "renderer": {
+          "dpr": 2,
+          "shadow": 1,
+          "toneMapping": 4,
+          "info": {
+            "frame": 2,
+            "calls": 355,
+            "triangles": 1086692,
+            "points": 320,
+            "lines": 0
+          }
+        },
+        "time": 0
+      },
+      "group": "material-giant",
+      "sameCameraAndRenderSettings": true,
+      "edgeMeanAbsoluteDifference": 0.0,
+      "meanAbsolutePixelDifference": 0.0,
+      "changedPixelFraction": 0.0,
+      "differenceImage": "material-giant-rest-difference.png"
+    }
+  ],
+  "caveats": [
+    "Differences between rest and press show real state changes, not fidelity to artwork.",
+    "Software Chromium timings are not measurements of a physical user phone/Mac."
+  ]
+}

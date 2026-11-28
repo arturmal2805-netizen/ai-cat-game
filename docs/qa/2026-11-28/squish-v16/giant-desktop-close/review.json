@@ -1,0 +1,27 @@
+{
+  "stage": "giant-desktop-close",
+  "referenceImage": null,
+  "ratings": {
+    "Visual Style": 45,
+    "Reference Fidelity": 46,
+    "Geometry": 62,
+    "Materials": 60,
+    "Lighting": 34,
+    "Physics Behavior": 77,
+    "Performance": null
+  },
+  "findings": [
+    {
+      "id": "SQ-11",
+      "severity": "MAJOR",
+      "status": "OPEN",
+      "actual": "Real giant press/hold/recovery PASS, positive tetrahedra/0 faults. Helper still used close7m camera and cropped ears: overview art rejected, fixed later."
+    },
+    {
+      "id": "SQ-12",
+      "severity": "MAJOR",
+      "status": "OPEN",
+      "actual": "Final visual density/lighting, four resource LODs, actor choreography/manual support and final 3\u20135s sequences still required. Original reference bytes unmounted, no fabricated substitute."
+    }
+  ]
+}

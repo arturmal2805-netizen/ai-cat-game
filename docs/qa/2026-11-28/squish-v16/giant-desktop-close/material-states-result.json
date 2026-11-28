@@ -1,0 +1,246 @@
+{
+  "passed": true,
+  "desktop": true,
+  "frames": [
+    {
+      "id": "giant",
+      "state": "rest",
+      "material": "giant",
+      "solver": {
+        "sleeping": true,
+        "particles": 1089,
+        "constraints": 11208,
+        "contacts": 0,
+        "steps": 0,
+        "time": 0,
+        "volumeRatio": 1,
+        "minTetRatio": 0.9999999999999997,
+        "maxDeformation": 0,
+        "maxStrain": 0,
+        "damage": 0,
+        "faults": 0,
+        "limitedSteps": 0,
+        "lastPhysicsMs": 0,
+        "droppedTime": 0
+      },
+      "sceneTime": 7,
+      "reviewHour": 12,
+      "seed": 4419,
+      "camera": {
+        "position": [
+          3067,
+          -444.448,
+          1205
+        ],
+        "target": [
+          3060,
+          -445.89799999999997,
+          1195
+        ],
+        "fov": 48,
+        "aspect": 1.561764705882353,
+        "near": 0.08,
+        "far": 20000
+      },
+      "objectPosition": [
+        3060,
+        -449.948,
+        1195
+      ],
+      "renderer": {
+        "dpr": 2,
+        "shadow": 1,
+        "toneMapping": 4,
+        "info": {
+          "frame": 2,
+          "calls": 355,
+          "triangles": 1086692,
+          "points": 320,
+          "lines": 0
+        }
+      },
+      "time": 0
+    },
+    {
+      "id": "giant",
+      "state": "press",
+      "material": "giant",
+      "solver": {
+        "sleeping": false,
+        "particles": 1089,
+        "constraints": 11208,
+        "contacts": 1,
+        "steps": 120,
+        "time": 1.9999999999999978,
+        "volumeRatio": 1.0001028644872099,
+        "minTetRatio": 0.8888343353410638,
+        "maxDeformation": 0.5254847207106647,
+        "maxStrain": 0.14828708610723026,
+        "damage": 0,
+        "faults": 0,
+        "limitedSteps": 0,
+        "lastPhysicsMs": 3.7000000178813934,
+        "droppedTime": 0
+      },
+      "sceneTime": 7,
+      "reviewHour": 12,
+      "seed": 4419,
+      "camera": {
+        "position": [
+          3067,
+          -444.448,
+          1205
+        ],
+        "target": [
+          3060,
+          -445.89799999999997,
+          1195
+        ],
+        "fov": 48,
+        "aspect": 1.561764705882353,
+        "near": 0.08,
+        "far": 20000
+      },
+      "objectPosition": [
+        3060,
+        -449.948,
+        1195
+      ],
+      "renderer": {
+        "dpr": 2,
+        "shadow": 1,
+        "toneMapping": 4,
+        "info": {
+          "frame": 3,
+          "calls": 237,
+          "triangles": 850240,
+          "points": 320,
+          "lines": 0
+        }
+      },
+      "time": 1.9999999999999978
+    },
+    {
+      "id": "giant",
+      "state": "hold",
+      "material": "giant",
+      "solver": {
+        "sleeping": false,
+        "particles": 1089,
+        "constraints": 11208,
+        "contacts": 0,
+        "steps": 180,
+        "time": 2.9999999999999942,
+        "volumeRatio": 1.0000201991415283,
+        "minTetRatio": 0.9997493329216927,
+        "maxDeformation": 0.006762963123974911,
+        "maxStrain": 0.0008701605572829828,
+        "damage": 0,
+        "faults": 0,
+        "limitedSteps": 0,
+        "lastPhysicsMs": 3.800000011920929,
+        "droppedTime": 0
+      },
+      "sceneTime": 7,
+      "reviewHour": 12,
+      "seed": 4419,
+      "camera": {
+        "position": [
+          3067,
+          -444.448,
+          1205
+        ],
+        "target": [
+          3060,
+          -445.89799999999997,
+          1195
+        ],
+        "fov": 48,
+        "aspect": 1.561764705882353,
+        "near": 0.08,
+        "far": 20000
+      },
+      "objectPosition": [
+        3060,
+        -449.948,
+        1195
+      ],
+      "renderer": {
+        "dpr": 2,
+        "shadow": 1,
+        "toneMapping": 4,
+        "info": {
+          "frame": 4,
+          "calls": 237,
+          "triangles": 850240,
+          "points": 320,
+          "lines": 0
+        }
+      },
+      "time": 2.9999999999999942
+    },
+    {
+      "id": "giant",
+      "state": "recovery",
+      "material": "giant",
+      "solver": {
+        "sleeping": true,
+        "particles": 1089,
+        "constraints": 11208,
+        "contacts": 0,
+        "steps": 414,
+        "time": 6.899999999999981,
+        "volumeRatio": 1,
+        "minTetRatio": 0.9999999999999997,
+        "maxDeformation": 0,
+        "maxStrain": 1.9468042861742813e-7,
+        "damage": 0,
+        "faults": 0,
+        "limitedSteps": 0,
+        "lastPhysicsMs": 0,
+        "droppedTime": 0
+      },
+      "sceneTime": 7,
+      "reviewHour": 12,
+      "seed": 4419,
+      "camera": {
+        "position": [
+          3067,
+          -444.448,
+          1205
+        ],
+        "target": [
+          3060,
+          -445.89799999999997,
+          1195
+        ],
+        "fov": 48,
+        "aspect": 1.561764705882353,
+        "near": 0.08,
+        "far": 20000
+      },
+      "objectPosition": [
+        3060,
+        -449.948,
+        1195
+      ],
+      "renderer": {
+        "dpr": 2,
+        "shadow": 1,
+        "toneMapping": 4,
+        "info": {
+          "frame": 5,
+          "calls": 237,
+          "triangles": 850240,
+          "points": 320,
+          "lines": 0
+        }
+      },
+      "time": 6.899999999999981
+    }
+  ],
+  "errors": [],
+  "httpErrors": [],
+  "paidInferenceCalled": false,
+  "scope": "Material rest/press/recovery stage. Fracture, strands, merge and final rich interior are separate OPEN stages."
+}

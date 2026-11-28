@@ -1,0 +1,2909 @@
+<!doctype html><meta charset="utf-8"><title>Warehouse reference validation</title><style>body{font:16px system-ui;background:#181323;color:#fff0e1;margin:24px}h1,h2{color:#efc678}.grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}img{width:100%}section{background:#31243e;padding:12px;border-radius:12px}pre{white-space:pre-wrap}.BLOCKER{color:#ff8c89}</style><h1>interior-desktop-v1 — actual game validation</h1><p>Reference → implementation → capture → comparison → correction → retest. No pixel-identity or hardware-FPS claim.</p><h2>Review findings</h2><pre>{
+  &quot;stage&quot;: &quot;interior-desktop-v1&quot;,
+  &quot;referenceImage&quot;: null,
+  &quot;ratings&quot;: {
+    &quot;Visual Style&quot;: 45,
+    &quot;Reference Fidelity&quot;: 46,
+    &quot;Geometry&quot;: 62,
+    &quot;Materials&quot;: 60,
+    &quot;Lighting&quot;: 34,
+    &quot;Physics Behavior&quot;: null,
+    &quot;Performance&quot;: null
+  },
+  &quot;findings&quot;: [
+    {
+      &quot;id&quot;: &quot;SQ-11&quot;,
+      &quot;severity&quot;: &quot;MAJOR&quot;,
+      &quot;status&quot;: &quot;OPEN&quot;,
+      &quot;actual&quot;: &quot;All 11 real UI camera paths + GL/HTTP checks PASS. Actual reference review REJECTS cold sparse prototype/poor metal/fog and clipped signs. No full art approval.&quot;
+    },
+    {
+      &quot;id&quot;: &quot;SQ-12&quot;,
+      &quot;severity&quot;: &quot;MAJOR&quot;,
+      &quot;status&quot;: &quot;OPEN&quot;,
+      &quot;actual&quot;: &quot;Final visual density/lighting, four resource LODs, actor choreography/manual support and final 3\u20135s sequences still required. Original reference bytes unmounted, no fabricated substitute.&quot;
+    }
+  ]
+}</pre><article><h2>interior-butter</h2><div class="grid"><section><h3>Reference</h3><p>Original reference A/B is visible in the user conversation. Original image bytes are not mounted here. This slot is explicitly incomplete; no generated replacement is used.</p></section><section><h3>Actual game</h3><img src="interior-butter.png"></section><section><h3>Same-camera state difference</h3><p>Reference frame camera/settings mismatch or baseline absent; no misregistered difference reported.</p></section></div><details><summary>Camera, timestep, material measurements and hash</summary><pre>{
+  &quot;image&quot;: &quot;interior-butter.png&quot;,
+  &quot;sha256&quot;: &quot;d0073063ffd0bbc501abba814605728ac0704ebecb5f735ddd9b804164cd096c&quot;,
+  &quot;size&quot;: [
+    2124,
+    1360
+  ],
+  &quot;meanRGB&quot;: [
+    158.63378475684058,
+    143.09550653594772,
+    112.75943558214246
+  ],
+  &quot;metadata&quot;: {
+    &quot;camera&quot;: {
+      &quot;position&quot;: [
+        3038.0000111594068,
+        -443.9479953205776,
+        1243.0000046252082
+      ],
+      &quot;target&quot;: [
+        3030.0000033760552,
+        -447.94799921225325,
+        1231.9999939231002
+      ],
+      &quot;fov&quot;: 48.0089516951099,
+      &quot;aspect&quot;: 1.561764705882353,
+      &quot;near&quot;: 0.08,
+      &quot;far&quot;: 3500
+    },
+    &quot;renderer&quot;: {
+      &quot;dpr&quot;: 2,
+      &quot;shadow&quot;: 1,
+      &quot;toneMapping&quot;: 4,
+      &quot;info&quot;: {
+        &quot;frame&quot;: 3,
+        &quot;calls&quot;: 117,
+        &quot;triangles&quot;: 3631212,
+        &quot;points&quot;: 0,
+        &quot;lines&quot;: 0
+      }
+    },
+    &quot;sceneTime&quot;: 7,
+    &quot;reviewHour&quot;: 12,
+    &quot;seed&quot;: 4419,
+    &quot;sectorCount&quot;: 10,
+    &quot;collectables&quot;: 2220,
+    &quot;materials&quot;: [
+      {
+        &quot;sector&quot;: &quot;jelly&quot;,
+        &quot;material&quot;: &quot;jelly&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;butter&quot;,
+        &quot;material&quot;: &quot;butter&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;slime&quot;,
+        &quot;material&quot;: &quot;slime&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;cloud&quot;,
+        &quot;material&quot;: &quot;cloud&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;giant&quot;,
+        &quot;material&quot;: &quot;giant&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 1089,
+          &quot;constraints&quot;: 11208,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999997,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;crunchy&quot;,
+        &quot;material&quot;: &quot;crunchy&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;collection&quot;,
+        &quot;material&quot;: &quot;mochi&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;mochi&quot;,
+        &quot;material&quot;: &quot;mochi&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;foam&quot;,
+        &quot;material&quot;: &quot;foam&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999997,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;sensory&quot;,
+        &quot;material&quot;: &quot;foam&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999997,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      }
+    ]
+  },
+  &quot;group&quot;: &quot;one-squish&quot;,
+  &quot;sameCameraAndRenderSettings&quot;: false,
+  &quot;comparisonSkippedReason&quot;: &quot;Reference frame camera/settings mismatch or baseline absent; no misregistered difference reported.&quot;
+}</pre></details></article><article><h2>interior-cloud</h2><div class="grid"><section><h3>Reference</h3><p>Original reference A/B is visible in the user conversation. Original image bytes are not mounted here. This slot is explicitly incomplete; no generated replacement is used.</p></section><section><h3>Actual game</h3><img src="interior-cloud.png"></section><section><h3>Same-camera state difference</h3><p>Reference frame camera/settings mismatch or baseline absent; no misregistered difference reported.</p></section></div><details><summary>Camera, timestep, material measurements and hash</summary><pre>{
+  &quot;image&quot;: &quot;interior-cloud.png&quot;,
+  &quot;sha256&quot;: &quot;cca8b1d03cae41dc340dcecbfae2dda6afe7806d02018309fed70b32500399b3&quot;,
+  &quot;size&quot;: [
+    2124,
+    1360
+  ],
+  &quot;meanRGB&quot;: [
+    157.21852498061372,
+    143.76462314445553,
+    142.03632020604852
+  ],
+  &quot;metadata&quot;: {
+    &quot;camera&quot;: {
+      &quot;position&quot;: [
+        3038.0000067521096,
+        -443.94799999999975,
+        1215.000003150985
+      ],
+      &quot;target&quot;: [
+        3030.0000067521096,
+        -447.94799999999975,
+        1204.000003150985
+      ],
+      &quot;fov&quot;: 48.0089516951099,
+      &quot;aspect&quot;: 1.561764705882353,
+      &quot;near&quot;: 0.08,
+      &quot;far&quot;: 3500
+    },
+    &quot;renderer&quot;: {
+      &quot;dpr&quot;: 2,
+      &quot;shadow&quot;: 1,
+      &quot;toneMapping&quot;: 4,
+      &quot;info&quot;: {
+        &quot;frame&quot;: 5,
+        &quot;calls&quot;: 107,
+        &quot;triangles&quot;: 3613618,
+        &quot;points&quot;: 0,
+        &quot;lines&quot;: 0
+      }
+    },
+    &quot;sceneTime&quot;: 7,
+    &quot;reviewHour&quot;: 12,
+    &quot;seed&quot;: 4419,
+    &quot;sectorCount&quot;: 10,
+    &quot;collectables&quot;: 2220,
+    &quot;materials&quot;: [
+      {
+        &quot;sector&quot;: &quot;jelly&quot;,
+        &quot;material&quot;: &quot;jelly&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;butter&quot;,
+        &quot;material&quot;: &quot;butter&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;slime&quot;,
+        &quot;material&quot;: &quot;slime&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;cloud&quot;,
+        &quot;material&quot;: &quot;cloud&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;giant&quot;,
+        &quot;material&quot;: &quot;giant&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 1089,
+          &quot;constraints&quot;: 11208,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999997,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;crunchy&quot;,
+        &quot;material&quot;: &quot;crunchy&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;collection&quot;,
+        &quot;material&quot;: &quot;mochi&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;mochi&quot;,
+        &quot;material&quot;: &quot;mochi&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;foam&quot;,
+        &quot;material&quot;: &quot;foam&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999997,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;sensory&quot;,
+        &quot;material&quot;: &quot;foam&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999997,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      }
+    ]
+  },
+  &quot;group&quot;: &quot;one-squish&quot;,
+  &quot;sameCameraAndRenderSettings&quot;: false,
+  &quot;comparisonSkippedReason&quot;: &quot;Reference frame camera/settings mismatch or baseline absent; no misregistered difference reported.&quot;
+}</pre></details></article><article><h2>interior-collection</h2><div class="grid"><section><h3>Reference</h3><p>Original reference A/B is visible in the user conversation. Original image bytes are not mounted here. This slot is explicitly incomplete; no generated replacement is used.</p></section><section><h3>Actual game</h3><img src="interior-collection.png"></section><section><h3>Same-camera state difference</h3><p>Reference frame camera/settings mismatch or baseline absent; no misregistered difference reported.</p></section></div><details><summary>Camera, timestep, material measurements and hash</summary><pre>{
+  &quot;image&quot;: &quot;interior-collection.png&quot;,
+  &quot;sha256&quot;: &quot;e1b14cae271f96c6ebda6e21dc8df96402d814f0af55066cec4311e8b7633f29&quot;,
+  &quot;size&quot;: [
+    2124,
+    1360
+  ],
+  &quot;meanRGB&quot;: [
+    134.50447580868504,
+    146.6881674421181,
+    144.37615936911487
+  ],
+  &quot;metadata&quot;: {
+    &quot;camera&quot;: {
+      &quot;position&quot;: [
+        3122.9999876211314,
+        -443.94799999999975,
+        1185.000000000001
+      ],
+      &quot;target&quot;: [
+        3114.9999876211314,
+        -447.94799999999975,
+        1174.000000000001
+      ],
+      &quot;fov&quot;: 48.0089516951099,
+      &quot;aspect&quot;: 1.561764705882353,
+      &quot;near&quot;: 0.08,
+      &quot;far&quot;: 3500
+    },
+    &quot;renderer&quot;: {
+      &quot;dpr&quot;: 2,
+      &quot;shadow&quot;: 1,
+      &quot;toneMapping&quot;: 4,
+      &quot;info&quot;: {
+        &quot;frame&quot;: 9,
+        &quot;calls&quot;: 106,
+        &quot;triangles&quot;: 3610912,
+        &quot;points&quot;: 0,
+        &quot;lines&quot;: 0
+      }
+    },
+    &quot;sceneTime&quot;: 7,
+    &quot;reviewHour&quot;: 12,
+    &quot;seed&quot;: 4419,
+    &quot;sectorCount&quot;: 10,
+    &quot;collectables&quot;: 2220,
+    &quot;materials&quot;: [
+      {
+        &quot;sector&quot;: &quot;jelly&quot;,
+        &quot;material&quot;: &quot;jelly&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;butter&quot;,
+        &quot;material&quot;: &quot;butter&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;slime&quot;,
+        &quot;material&quot;: &quot;slime&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;cloud&quot;,
+        &quot;material&quot;: &quot;cloud&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;giant&quot;,
+        &quot;material&quot;: &quot;giant&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 1089,
+          &quot;constraints&quot;: 11208,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999997,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;crunchy&quot;,
+        &quot;material&quot;: &quot;crunchy&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;collection&quot;,
+        &quot;material&quot;: &quot;mochi&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;mochi&quot;,
+        &quot;material&quot;: &quot;mochi&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;foam&quot;,
+        &quot;material&quot;: &quot;foam&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999997,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;sensory&quot;,
+        &quot;material&quot;: &quot;foam&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999997,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      }
+    ]
+  },
+  &quot;group&quot;: &quot;one-squish&quot;,
+  &quot;sameCameraAndRenderSettings&quot;: false,
+  &quot;comparisonSkippedReason&quot;: &quot;Reference frame camera/settings mismatch or baseline absent; no misregistered difference reported.&quot;
+}</pre></details></article><article><h2>interior-crunchy</h2><div class="grid"><section><h3>Reference</h3><p>Original reference A/B is visible in the user conversation. Original image bytes are not mounted here. This slot is explicitly incomplete; no generated replacement is used.</p></section><section><h3>Actual game</h3><img src="interior-crunchy.png"></section><section><h3>Same-camera state difference</h3><p>Reference frame camera/settings mismatch or baseline absent; no misregistered difference reported.</p></section></div><details><summary>Camera, timestep, material measurements and hash</summary><pre>{
+  &quot;image&quot;: &quot;interior-crunchy.png&quot;,
+  &quot;sha256&quot;: &quot;5038f078176eff8e479ed949b5a26e7bdb697a516ee4a9c629163d7e34939a88&quot;,
+  &quot;size&quot;: [
+    2124,
+    1360
+  ],
+  &quot;meanRGB&quot;: [
+    152.44401517669215,
+    134.04535179184668,
+    150.0294356513792
+  ],
+  &quot;metadata&quot;: {
+    &quot;camera&quot;: {
+      &quot;position&quot;: [
+        3013.00000956549,
+        -443.9479999999997,
+        1185.000003376055
+      ],
+      &quot;target&quot;: [
+        3005.00000956549,
+        -447.94799999999975,
+        1174.0000033760548
+      ],
+      &quot;fov&quot;: 48.0089516951099,
+      &quot;aspect&quot;: 1.561764705882353,
+      &quot;near&quot;: 0.08,
+      &quot;far&quot;: 3500
+    },
+    &quot;renderer&quot;: {
+      &quot;dpr&quot;: 2,
+      &quot;shadow&quot;: 1,
+      &quot;toneMapping&quot;: 4,
+      &quot;info&quot;: {
+        &quot;frame&quot;: 8,
+        &quot;calls&quot;: 85,
+        &quot;triangles&quot;: 3577932,
+        &quot;points&quot;: 0,
+        &quot;lines&quot;: 0
+      }
+    },
+    &quot;sceneTime&quot;: 7,
+    &quot;reviewHour&quot;: 12,
+    &quot;seed&quot;: 4419,
+    &quot;sectorCount&quot;: 10,
+    &quot;collectables&quot;: 2220,
+    &quot;materials&quot;: [
+      {
+        &quot;sector&quot;: &quot;jelly&quot;,
+        &quot;material&quot;: &quot;jelly&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;butter&quot;,
+        &quot;material&quot;: &quot;butter&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;slime&quot;,
+        &quot;material&quot;: &quot;slime&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;cloud&quot;,
+        &quot;material&quot;: &quot;cloud&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;giant&quot;,
+        &quot;material&quot;: &quot;giant&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 1089,
+          &quot;constraints&quot;: 11208,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999997,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;crunchy&quot;,
+        &quot;material&quot;: &quot;crunchy&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;collection&quot;,
+        &quot;material&quot;: &quot;mochi&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;mochi&quot;,
+        &quot;material&quot;: &quot;mochi&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;foam&quot;,
+        &quot;material&quot;: &quot;foam&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999997,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;sensory&quot;,
+        &quot;material&quot;: &quot;foam&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999997,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      }
+    ]
+  },
+  &quot;group&quot;: &quot;one-squish&quot;,
+  &quot;sameCameraAndRenderSettings&quot;: false,
+  &quot;comparisonSkippedReason&quot;: &quot;Reference frame camera/settings mismatch or baseline absent; no misregistered difference reported.&quot;
+}</pre></details></article><article><h2>interior-foam</h2><div class="grid"><section><h3>Reference</h3><p>Original reference A/B is visible in the user conversation. Original image bytes are not mounted here. This slot is explicitly incomplete; no generated replacement is used.</p></section><section><h3>Actual game</h3><img src="interior-foam.png"></section><section><h3>Same-camera state difference</h3><p>Reference frame camera/settings mismatch or baseline absent; no misregistered difference reported.</p></section></div><details><summary>Camera, timestep, material measurements and hash</summary><pre>{
+  &quot;image&quot;: &quot;interior-foam.png&quot;,
+  &quot;sha256&quot;: &quot;6de77507352bc0cef981bfbf4321534937ab59e54090cd6b0d74088decd9eafe&quot;,
+  &quot;size&quot;: [
+    2124,
+    1360
+  ],
+  &quot;meanRGB&quot;: [
+    143.56256404397917,
+    123.09720456685498,
+    132.74457737897418
+  ],
+  &quot;metadata&quot;: {
+    &quot;camera&quot;: {
+      &quot;position&quot;: [
+        3097.999993247891,
+        -443.94799999999975,
+        1161.000000000001
+      ],
+      &quot;target&quot;: [
+        3089.999993247891,
+        -447.94799999999975,
+        1150.000000000001
+      ],
+      &quot;fov&quot;: 48.0089516951099,
+      &quot;aspect&quot;: 1.561764705882353,
+      &quot;near&quot;: 0.08,
+      &quot;far&quot;: 3500
+    },
+    &quot;renderer&quot;: {
+      &quot;dpr&quot;: 2,
+      &quot;shadow&quot;: 1,
+      &quot;toneMapping&quot;: 4,
+      &quot;info&quot;: {
+        &quot;frame&quot;: 11,
+        &quot;calls&quot;: 87,
+        &quot;triangles&quot;: 3602692,
+        &quot;points&quot;: 0,
+        &quot;lines&quot;: 0
+      }
+    },
+    &quot;sceneTime&quot;: 7,
+    &quot;reviewHour&quot;: 12,
+    &quot;seed&quot;: 4419,
+    &quot;sectorCount&quot;: 10,
+    &quot;collectables&quot;: 2220,
+    &quot;materials&quot;: [
+      {
+        &quot;sector&quot;: &quot;jelly&quot;,
+        &quot;material&quot;: &quot;jelly&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;butter&quot;,
+        &quot;material&quot;: &quot;butter&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;slime&quot;,
+        &quot;material&quot;: &quot;slime&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;cloud&quot;,
+        &quot;material&quot;: &quot;cloud&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;giant&quot;,
+        &quot;material&quot;: &quot;giant&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 1089,
+          &quot;constraints&quot;: 11208,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999997,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;crunchy&quot;,
+        &quot;material&quot;: &quot;crunchy&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;collection&quot;,
+        &quot;material&quot;: &quot;mochi&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;mochi&quot;,
+        &quot;material&quot;: &quot;mochi&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;foam&quot;,
+        &quot;material&quot;: &quot;foam&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999997,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;sensory&quot;,
+        &quot;material&quot;: &quot;foam&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999997,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      }
+    ]
+  },
+  &quot;group&quot;: &quot;one-squish&quot;,
+  &quot;sameCameraAndRenderSettings&quot;: false,
+  &quot;comparisonSkippedReason&quot;: &quot;Reference frame camera/settings mismatch or baseline absent; no misregistered difference reported.&quot;
+}</pre></details></article><article><h2>interior-giant</h2><div class="grid"><section><h3>Reference</h3><p>Original reference A/B is visible in the user conversation. Original image bytes are not mounted here. This slot is explicitly incomplete; no generated replacement is used.</p></section><section><h3>Actual game</h3><img src="interior-giant.png"></section><section><h3>Same-camera state difference</h3><p>Reference frame camera/settings mismatch or baseline absent; no misregistered difference reported.</p></section></div><details><summary>Camera, timestep, material measurements and hash</summary><pre>{
+  &quot;image&quot;: &quot;interior-giant.png&quot;,
+  &quot;sha256&quot;: &quot;c8fa4096445bd18655b8cdb64e983f1cb2f34f3f48ec5f36ac29dc3c35944e58&quot;,
+  &quot;size&quot;: [
+    2124,
+    1360
+  ],
+  &quot;meanRGB&quot;: [
+    158.84533517503047,
+    150.48522453472916,
+    151.64438628558767
+  ],
+  &quot;metadata&quot;: {
+    &quot;camera&quot;: {
+      &quot;position&quot;: [
+        3075.9999956682154,
+        -436.94800076266824,
+        1201.0000016048555
+      ],
+      &quot;target&quot;: [
+        3059.999996623945,
+        -445.9480002250703,
+        1177.0000030384501
+      ],
+      &quot;fov&quot;: 48.0089516951099,
+      &quot;aspect&quot;: 1.561764705882353,
+      &quot;near&quot;: 0.08,
+      &quot;far&quot;: 3500
+    },
+    &quot;renderer&quot;: {
+      &quot;dpr&quot;: 2,
+      &quot;shadow&quot;: 1,
+      &quot;toneMapping&quot;: 4,
+      &quot;info&quot;: {
+        &quot;frame&quot;: 6,
+        &quot;calls&quot;: 101,
+        &quot;triangles&quot;: 3606914,
+        &quot;points&quot;: 0,
+        &quot;lines&quot;: 0
+      }
+    },
+    &quot;sceneTime&quot;: 7,
+    &quot;reviewHour&quot;: 12,
+    &quot;seed&quot;: 4419,
+    &quot;sectorCount&quot;: 10,
+    &quot;collectables&quot;: 2220,
+    &quot;materials&quot;: [
+      {
+        &quot;sector&quot;: &quot;jelly&quot;,
+        &quot;material&quot;: &quot;jelly&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;butter&quot;,
+        &quot;material&quot;: &quot;butter&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;slime&quot;,
+        &quot;material&quot;: &quot;slime&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;cloud&quot;,
+        &quot;material&quot;: &quot;cloud&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;giant&quot;,
+        &quot;material&quot;: &quot;giant&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 1089,
+          &quot;constraints&quot;: 11208,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999997,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;crunchy&quot;,
+        &quot;material&quot;: &quot;crunchy&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;collection&quot;,
+        &quot;material&quot;: &quot;mochi&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;mochi&quot;,
+        &quot;material&quot;: &quot;mochi&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;foam&quot;,
+        &quot;material&quot;: &quot;foam&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999997,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;sensory&quot;,
+        &quot;material&quot;: &quot;foam&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999997,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      }
+    ]
+  },
+  &quot;group&quot;: &quot;one-squish&quot;,
+  &quot;sameCameraAndRenderSettings&quot;: false,
+  &quot;comparisonSkippedReason&quot;: &quot;Reference frame camera/settings mismatch or baseline absent; no misregistered difference reported.&quot;
+}</pre></details></article><article><h2>interior-jelly</h2><div class="grid"><section><h3>Reference</h3><p>Original reference A/B is visible in the user conversation. Original image bytes are not mounted here. This slot is explicitly incomplete; no generated replacement is used.</p></section><section><h3>Actual game</h3><img src="interior-jelly.png"></section><section><h3>Same-camera state difference</h3><p>Reference frame camera/settings mismatch or baseline absent; no misregistered difference reported.</p></section></div><details><summary>Camera, timestep, material measurements and hash</summary><pre>{
+  &quot;image&quot;: &quot;interior-jelly.png&quot;,
+  &quot;sha256&quot;: &quot;396670a7cad8f3914eccc8eb92ee156a35ad89ac590dc505206ce7bbf6e7eacb&quot;,
+  &quot;size&quot;: [
+    2124,
+    1360
+  ],
+  &quot;meanRGB&quot;: [
+    156.72026316882685,
+    113.06521684945164,
+    132.61115923064142
+  ],
+  &quot;metadata&quot;: {
+    &quot;camera&quot;: {
+      &quot;position&quot;: [
+        3097.9999976424006,
+        -443.9479992657016,
+        1214.9999983619282
+      ],
+      &quot;target&quot;: [
+        3089.9999966239443,
+        -447.9479997749297,
+        1203.9999969615508
+      ],
+      &quot;fov&quot;: 48.0089516951099,
+      &quot;aspect&quot;: 1.561764705882353,
+      &quot;near&quot;: 0.08,
+      &quot;far&quot;: 3500
+    },
+    &quot;renderer&quot;: {
+      &quot;dpr&quot;: 2,
+      &quot;shadow&quot;: 1,
+      &quot;toneMapping&quot;: 4,
+      &quot;info&quot;: {
+        &quot;frame&quot;: 7,
+        &quot;calls&quot;: 126,
+        &quot;triangles&quot;: 3666420,
+        &quot;points&quot;: 0,
+        &quot;lines&quot;: 0
+      }
+    },
+    &quot;sceneTime&quot;: 7,
+    &quot;reviewHour&quot;: 12,
+    &quot;seed&quot;: 4419,
+    &quot;sectorCount&quot;: 10,
+    &quot;collectables&quot;: 2220,
+    &quot;materials&quot;: [
+      {
+        &quot;sector&quot;: &quot;jelly&quot;,
+        &quot;material&quot;: &quot;jelly&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;butter&quot;,
+        &quot;material&quot;: &quot;butter&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;slime&quot;,
+        &quot;material&quot;: &quot;slime&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;cloud&quot;,
+        &quot;material&quot;: &quot;cloud&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;giant&quot;,
+        &quot;material&quot;: &quot;giant&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 1089,
+          &quot;constraints&quot;: 11208,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999997,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;crunchy&quot;,
+        &quot;material&quot;: &quot;crunchy&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;collection&quot;,
+        &quot;material&quot;: &quot;mochi&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;mochi&quot;,
+        &quot;material&quot;: &quot;mochi&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;foam&quot;,
+        &quot;material&quot;: &quot;foam&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999997,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;sensory&quot;,
+        &quot;material&quot;: &quot;foam&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999997,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      }
+    ]
+  },
+  &quot;group&quot;: &quot;one-squish&quot;,
+  &quot;sameCameraAndRenderSettings&quot;: false,
+  &quot;comparisonSkippedReason&quot;: &quot;Reference frame camera/settings mismatch or baseline absent; no misregistered difference reported.&quot;
+}</pre></details></article><article><h2>interior-mochi</h2><div class="grid"><section><h3>Reference</h3><p>Original reference A/B is visible in the user conversation. Original image bytes are not mounted here. This slot is explicitly incomplete; no generated replacement is used.</p></section><section><h3>Actual game</h3><img src="interior-mochi.png"></section><section><h3>Same-camera state difference</h3><p>Reference frame camera/settings mismatch or baseline absent; no misregistered difference reported.</p></section></div><details><summary>Camera, timestep, material measurements and hash</summary><pre>{
+  &quot;image&quot;: &quot;interior-mochi.png&quot;,
+  &quot;sha256&quot;: &quot;9d0365538ab184e96f8a69e3b52ad0bbf208b83aec8aadc4960177458c3b6d06&quot;,
+  &quot;size&quot;: [
+    2124,
+    1360
+  ],
+  &quot;meanRGB&quot;: [
+    159.053123961449,
+    144.10302356818434,
+    145.45708949540267
+  ],
+  &quot;metadata&quot;: {
+    &quot;camera&quot;: {
+      &quot;position&quot;: [
+        3038.0000095654877,
+        -443.94799999999975,
+        1161.0000027008443
+      ],
+      &quot;target&quot;: [
+        3030.0000095654877,
+        -447.94799999999975,
+        1150.0000027008443
+      ],
+      &quot;fov&quot;: 48.0089516951099,
+      &quot;aspect&quot;: 1.561764705882353,
+      &quot;near&quot;: 0.08,
+      &quot;far&quot;: 3500
+    },
+    &quot;renderer&quot;: {
+      &quot;dpr&quot;: 2,
+      &quot;shadow&quot;: 1,
+      &quot;toneMapping&quot;: 4,
+      &quot;info&quot;: {
+        &quot;frame&quot;: 10,
+        &quot;calls&quot;: 84,
+        &quot;triangles&quot;: 3545678,
+        &quot;points&quot;: 0,
+        &quot;lines&quot;: 0
+      }
+    },
+    &quot;sceneTime&quot;: 7,
+    &quot;reviewHour&quot;: 12,
+    &quot;seed&quot;: 4419,
+    &quot;sectorCount&quot;: 10,
+    &quot;collectables&quot;: 2220,
+    &quot;materials&quot;: [
+      {
+        &quot;sector&quot;: &quot;jelly&quot;,
+        &quot;material&quot;: &quot;jelly&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;butter&quot;,
+        &quot;material&quot;: &quot;butter&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;slime&quot;,
+        &quot;material&quot;: &quot;slime&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;cloud&quot;,
+        &quot;material&quot;: &quot;cloud&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;giant&quot;,
+        &quot;material&quot;: &quot;giant&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 1089,
+          &quot;constraints&quot;: 11208,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999997,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;crunchy&quot;,
+        &quot;material&quot;: &quot;crunchy&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;collection&quot;,
+        &quot;material&quot;: &quot;mochi&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;mochi&quot;,
+        &quot;material&quot;: &quot;mochi&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;foam&quot;,
+        &quot;material&quot;: &quot;foam&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999997,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;sensory&quot;,
+        &quot;material&quot;: &quot;foam&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999997,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      }
+    ]
+  },
+  &quot;group&quot;: &quot;one-squish&quot;,
+  &quot;sameCameraAndRenderSettings&quot;: false,
+  &quot;comparisonSkippedReason&quot;: &quot;Reference frame camera/settings mismatch or baseline absent; no misregistered difference reported.&quot;
+}</pre></details></article><article><h2>interior-overview</h2><div class="grid"><section><h3>Reference</h3><p>Original reference A/B is visible in the user conversation. Original image bytes are not mounted here. This slot is explicitly incomplete; no generated replacement is used.</p></section><section><h3>Actual game</h3><img src="interior-overview.png"></section><section><h3>Same-camera state difference</h3><p>Reference frame camera/settings mismatch or baseline absent; no misregistered difference reported.</p></section></div><details><summary>Camera, timestep, material measurements and hash</summary><pre>{
+  &quot;image&quot;: &quot;interior-overview.png&quot;,
+  &quot;sha256&quot;: &quot;c47d203890e937a346ece1cd9b74470298f339fceeb0c81dbbb5bd14ca3000c4&quot;,
+  &quot;size&quot;: [
+    2124,
+    1360
+  ],
+  &quot;meanRGB&quot;: [
+    133.58987274288248,
+    162.96754978121191,
+    169.91296596322144
+  ],
+  &quot;metadata&quot;: {
+    &quot;camera&quot;: {
+      &quot;position&quot;: [
+        3150.0000840058183,
+        -390.9479499123149,
+        1268.0000778121973
+      ],
+      &quot;target&quot;: [
+        3060.000002157111,
+        -440.94799538381915,
+        1177.9999959634897
+      ],
+      &quot;fov&quot;: 59.990175823678946,
+      &quot;aspect&quot;: 1.561764705882353,
+      &quot;near&quot;: 0.08,
+      &quot;far&quot;: 3700
+    },
+    &quot;renderer&quot;: {
+      &quot;dpr&quot;: 2,
+      &quot;shadow&quot;: 1,
+      &quot;toneMapping&quot;: 4,
+      &quot;info&quot;: {
+        &quot;frame&quot;: 2,
+        &quot;calls&quot;: 854,
+        &quot;triangles&quot;: 5558029,
+        &quot;points&quot;: 740,
+        &quot;lines&quot;: 0
+      }
+    },
+    &quot;sceneTime&quot;: 7,
+    &quot;reviewHour&quot;: 12,
+    &quot;seed&quot;: 4419,
+    &quot;sectorCount&quot;: 10,
+    &quot;collectables&quot;: 2220,
+    &quot;materials&quot;: [
+      {
+        &quot;sector&quot;: &quot;jelly&quot;,
+        &quot;material&quot;: &quot;jelly&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;butter&quot;,
+        &quot;material&quot;: &quot;butter&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;slime&quot;,
+        &quot;material&quot;: &quot;slime&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;cloud&quot;,
+        &quot;material&quot;: &quot;cloud&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;giant&quot;,
+        &quot;material&quot;: &quot;giant&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 1089,
+          &quot;constraints&quot;: 11208,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999997,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;crunchy&quot;,
+        &quot;material&quot;: &quot;crunchy&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;collection&quot;,
+        &quot;material&quot;: &quot;mochi&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;mochi&quot;,
+        &quot;material&quot;: &quot;mochi&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;foam&quot;,
+        &quot;material&quot;: &quot;foam&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999997,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;sensory&quot;,
+        &quot;material&quot;: &quot;foam&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999997,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      }
+    ]
+  },
+  &quot;group&quot;: &quot;one-squish&quot;,
+  &quot;sameCameraAndRenderSettings&quot;: false,
+  &quot;comparisonSkippedReason&quot;: &quot;Reference frame camera/settings mismatch or baseline absent; no misregistered difference reported.&quot;
+}</pre></details></article><article><h2>interior-sensory</h2><div class="grid"><section><h3>Reference</h3><p>Original reference A/B is visible in the user conversation. Original image bytes are not mounted here. This slot is explicitly incomplete; no generated replacement is used.</p></section><section><h3>Actual game</h3><img src="interior-sensory.png"></section><section><h3>Same-camera state difference</h3><p>Reference frame camera/settings mismatch or baseline absent; no misregistered difference reported.</p></section></div><details><summary>Camera, timestep, material measurements and hash</summary><pre>{
+  &quot;image&quot;: &quot;interior-sensory.png&quot;,
+  &quot;sha256&quot;: &quot;0d1e90cfdc6cd21d109e11fa12647ef0d35fe560d3abd6ef4959f71356a00bf9&quot;,
+  &quot;size&quot;: [
+    2124,
+    1360
+  ],
+  &quot;meanRGB&quot;: [
+    142.350202171264,
+    152.5364264844356,
+    150.33089896975738
+  ],
+  &quot;metadata&quot;: {
+    &quot;camera&quot;: {
+      &quot;position&quot;: [
+        3068.000003376055,
+        -443.94799999999975,
+        1137.0000027008443
+      ],
+      &quot;target&quot;: [
+        3060.000003376055,
+        -447.94799999999975,
+        1126.0000027008443
+      ],
+      &quot;fov&quot;: 48.0089516951099,
+      &quot;aspect&quot;: 1.561764705882353,
+      &quot;near&quot;: 0.08,
+      &quot;far&quot;: 3500
+    },
+    &quot;renderer&quot;: {
+      &quot;dpr&quot;: 2,
+      &quot;shadow&quot;: 1,
+      &quot;toneMapping&quot;: 4,
+      &quot;info&quot;: {
+        &quot;frame&quot;: 12,
+        &quot;calls&quot;: 79,
+        &quot;triangles&quot;: 3575968,
+        &quot;points&quot;: 0,
+        &quot;lines&quot;: 0
+      }
+    },
+    &quot;sceneTime&quot;: 7,
+    &quot;reviewHour&quot;: 12,
+    &quot;seed&quot;: 4419,
+    &quot;sectorCount&quot;: 10,
+    &quot;collectables&quot;: 2220,
+    &quot;materials&quot;: [
+      {
+        &quot;sector&quot;: &quot;jelly&quot;,
+        &quot;material&quot;: &quot;jelly&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;butter&quot;,
+        &quot;material&quot;: &quot;butter&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;slime&quot;,
+        &quot;material&quot;: &quot;slime&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;cloud&quot;,
+        &quot;material&quot;: &quot;cloud&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;giant&quot;,
+        &quot;material&quot;: &quot;giant&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 1089,
+          &quot;constraints&quot;: 11208,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999997,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;crunchy&quot;,
+        &quot;material&quot;: &quot;crunchy&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;collection&quot;,
+        &quot;material&quot;: &quot;mochi&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;mochi&quot;,
+        &quot;material&quot;: &quot;mochi&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;foam&quot;,
+        &quot;material&quot;: &quot;foam&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999997,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;sensory&quot;,
+        &quot;material&quot;: &quot;foam&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999997,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      }
+    ]
+  },
+  &quot;group&quot;: &quot;one-squish&quot;,
+  &quot;sameCameraAndRenderSettings&quot;: false,
+  &quot;comparisonSkippedReason&quot;: &quot;Reference frame camera/settings mismatch or baseline absent; no misregistered difference reported.&quot;
+}</pre></details></article><article><h2>interior-slime</h2><div class="grid"><section><h3>Reference</h3><p>Original reference A/B is visible in the user conversation. Original image bytes are not mounted here. This slot is explicitly incomplete; no generated replacement is used.</p></section><section><h3>Actual game</h3><img src="interior-slime.png"></section><section><h3>Same-camera state difference</h3><p>Reference frame camera/settings mismatch or baseline absent; no misregistered difference reported.</p></section></div><details><summary>Camera, timestep, material measurements and hash</summary><pre>{
+  &quot;image&quot;: &quot;interior-slime.png&quot;,
+  &quot;sha256&quot;: &quot;0b7afdbb80bcf5cb49c8cacfc767013f7d41c42116a75aae75714a903c0f9cab&quot;,
+  &quot;size&quot;: [
+    2124,
+    1360
+  ],
+  &quot;meanRGB&quot;: [
+    134.39173867287028,
+    112.08600379417304,
+    138.06809675141244
+  ],
+  &quot;metadata&quot;: {
+    &quot;camera&quot;: {
+      &quot;position&quot;: [
+        3097.9999932478904,
+        -443.9479999999993,
+        1243.0000000000002
+      ],
+      &quot;target&quot;: [
+        3089.9999932478895,
+        -447.94799999999975,
+        1231.999999999999
+      ],
+      &quot;fov&quot;: 48.0089516951099,
+      &quot;aspect&quot;: 1.561764705882353,
+      &quot;near&quot;: 0.08,
+      &quot;far&quot;: 3500
+    },
+    &quot;renderer&quot;: {
+      &quot;dpr&quot;: 2,
+      &quot;shadow&quot;: 1,
+      &quot;toneMapping&quot;: 4,
+      &quot;info&quot;: {
+        &quot;frame&quot;: 4,
+        &quot;calls&quot;: 152,
+        &quot;triangles&quot;: 3720552,
+        &quot;points&quot;: 0,
+        &quot;lines&quot;: 0
+      }
+    },
+    &quot;sceneTime&quot;: 7,
+    &quot;reviewHour&quot;: 12,
+    &quot;seed&quot;: 4419,
+    &quot;sectorCount&quot;: 10,
+    &quot;collectables&quot;: 2220,
+    &quot;materials&quot;: [
+      {
+        &quot;sector&quot;: &quot;jelly&quot;,
+        &quot;material&quot;: &quot;jelly&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;butter&quot;,
+        &quot;material&quot;: &quot;butter&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;slime&quot;,
+        &quot;material&quot;: &quot;slime&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;cloud&quot;,
+        &quot;material&quot;: &quot;cloud&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;giant&quot;,
+        &quot;material&quot;: &quot;giant&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 1089,
+          &quot;constraints&quot;: 11208,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999997,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;crunchy&quot;,
+        &quot;material&quot;: &quot;crunchy&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;collection&quot;,
+        &quot;material&quot;: &quot;mochi&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;mochi&quot;,
+        &quot;material&quot;: &quot;mochi&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999998,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;foam&quot;,
+        &quot;material&quot;: &quot;foam&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999997,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      },
+      {
+        &quot;sector&quot;: &quot;sensory&quot;,
+        &quot;material&quot;: &quot;foam&quot;,
+        &quot;solver&quot;: {
+          &quot;sleeping&quot;: true,
+          &quot;particles&quot;: 343,
+          &quot;constraints&quot;: 3150,
+          &quot;contacts&quot;: 0,
+          &quot;steps&quot;: 0,
+          &quot;time&quot;: 0,
+          &quot;volumeRatio&quot;: 1,
+          &quot;minTetRatio&quot;: 0.9999999999999997,
+          &quot;maxDeformation&quot;: 0,
+          &quot;maxStrain&quot;: 0,
+          &quot;damage&quot;: 0,
+          &quot;faults&quot;: 0,
+          &quot;limitedSteps&quot;: 0,
+          &quot;lastPhysicsMs&quot;: 0,
+          &quot;droppedTime&quot;: 0
+        }
+      }
+    ]
+  },
+  &quot;group&quot;: &quot;one-squish&quot;,
+  &quot;sameCameraAndRenderSettings&quot;: false,
+  &quot;comparisonSkippedReason&quot;: &quot;Reference frame camera/settings mismatch or baseline absent; no misregistered difference reported.&quot;
+}</pre></details></article>

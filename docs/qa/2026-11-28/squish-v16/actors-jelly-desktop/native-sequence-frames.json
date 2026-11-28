@@ -1,0 +1,863 @@
+{
+  "fps": 12,
+  "duration": 3.0833333333333335,
+  "kind": "Actual native fixed-step game rendering; not wall-clock hardware FPS",
+  "frames": [
+    {
+      "frame": 0,
+      "physicsStep": 0,
+      "time": 0,
+      "sha256": "d1dc0bc411bb77b491baeba0155e5f1400acca52321b05cbfd6ff8ee5ea64d91",
+      "nativePaws": [
+        {
+          "id": "chichi",
+          "paw": 0,
+          "point": [
+            3089.6785456469997,
+            -446.8028450669803,
+            1203.6501324299334
+          ],
+          "surface": -446.8028450669803,
+          "error": 0,
+          "contact": true,
+          "force": 43,
+          "area": 0.035,
+          "material": "jelly"
+        },
+        {
+          "id": "chichi",
+          "paw": 1,
+          "point": [
+            3089.811158675831,
+            -446.8201208434253,
+            1204.442135211662
+          ],
+          "surface": -446.82012084342523,
+          "error": -5.684341886080802e-14,
+          "contact": true,
+          "force": 43,
+          "area": 0.035,
+          "material": "jelly"
+        },
+        {
+          "id": "chichi",
+          "paw": 2,
+          "point": [
+            3090.2302295454106,
+            -446.807041077363,
+            1203.604379157398
+          ],
+          "surface": -446.807041077363,
+          "error": 0,
+          "contact": true,
+          "force": 43,
+          "area": 0.035,
+          "material": "jelly"
+        },
+        {
+          "id": "chichi",
+          "paw": 3,
+          "point": [
+            3090.274986787494,
+            -446.81073726065927,
+            1204.3778274551526
+          ],
+          "surface": -446.81073726065927,
+          "error": 0,
+          "contact": true,
+          "force": 43,
+          "area": 0.035,
+          "material": "jelly"
+        }
+      ]
+    },
+    {
+      "frame": 1,
+      "physicsStep": 5,
+      "time": 0.08333333333333333,
+      "sha256": "6d21801256ee41a60bb77e90340ab7b2a74fa67618868ed3294b485d68834650",
+      "nativePaws": []
+    },
+    {
+      "frame": 2,
+      "physicsStep": 10,
+      "time": 0.16666666666666666,
+      "sha256": "7083f0fea8cfadae1e2beebf29a54d39091d801326a5eab88603568affda08c5",
+      "nativePaws": []
+    },
+    {
+      "frame": 3,
+      "physicsStep": 15,
+      "time": 0.25,
+      "sha256": "c241bdc70b702680c0dab887c13cb82d5e06198600fc9745c0ac300f82cef2c4",
+      "nativePaws": []
+    },
+    {
+      "frame": 4,
+      "physicsStep": 20,
+      "time": 0.3333333333333333,
+      "sha256": "90d95d7d6b4ac47ed98f32f659a4d786c4921c0bc9795a61d96e7429325cf31e",
+      "nativePaws": []
+    },
+    {
+      "frame": 5,
+      "physicsStep": 25,
+      "time": 0.4166666666666667,
+      "sha256": "40b3657ccb6842e35c46aaa0c331e6eef6363eacc08b5667f83caa26bf2350df",
+      "nativePaws": []
+    },
+    {
+      "frame": 6,
+      "physicsStep": 30,
+      "time": 0.5,
+      "sha256": "3395a82c474824e0690d62981b099867c42a6b0a96a4b0495c27914a8f0b5682",
+      "nativePaws": []
+    },
+    {
+      "frame": 7,
+      "physicsStep": 35,
+      "time": 0.5833333333333334,
+      "sha256": "b4eb0d32e4fabcc1a827c80cb9a82153534ea2341057d0fe1b5f3eac29b3fbc7",
+      "nativePaws": []
+    },
+    {
+      "frame": 8,
+      "physicsStep": 40,
+      "time": 0.6666666666666666,
+      "sha256": "52556e82fa035c914e9859eb5410983f40775696fdbb0da8e7ee682c8ae33874",
+      "nativePaws": []
+    },
+    {
+      "frame": 9,
+      "physicsStep": 45,
+      "time": 0.75,
+      "sha256": "51d8fe7cf4e310b4682b5b55770e1540bfc0f6b1917ef7de2f1ceb364e5cfd75",
+      "nativePaws": []
+    },
+    {
+      "frame": 10,
+      "physicsStep": 50,
+      "time": 0.8333333333333334,
+      "sha256": "8b7dd9c74cb13c0a29def57cb3376739b1f62db70b74917e83ac03c7a4df67d9",
+      "nativePaws": []
+    },
+    {
+      "frame": 11,
+      "physicsStep": 55,
+      "time": 0.9166666666666666,
+      "sha256": "6e25e850d2a13bea4f3beab54541d2dfef9745f6c3c5cc8d6df88f2fa5b3f4dd",
+      "nativePaws": []
+    },
+    {
+      "frame": 12,
+      "physicsStep": 60,
+      "time": 1,
+      "sha256": "06b981847795fcc944c1bc623e2cef67d880d45841f27e93700b50d8b28a2851",
+      "nativePaws": []
+    },
+    {
+      "frame": 13,
+      "physicsStep": 65,
+      "time": 1.0833333333333333,
+      "sha256": "c31d4c66616bfef5dafdf2f3f29b6b67e5ff31140ec30626d144fdd5a7519077",
+      "nativePaws": []
+    },
+    {
+      "frame": 14,
+      "physicsStep": 70,
+      "time": 1.1666666666666667,
+      "sha256": "c6f9f0b04b95aefe93e8f685e83f6fe65e9a4d453d40930e10db4a5e2ae345bc",
+      "nativePaws": []
+    },
+    {
+      "frame": 15,
+      "physicsStep": 75,
+      "time": 1.25,
+      "sha256": "f61773343a01fc4264857dc4a7e1f0d7dd3961b43c96d6aaf6acf953e4cbd6a2",
+      "nativePaws": []
+    },
+    {
+      "frame": 16,
+      "physicsStep": 80,
+      "time": 1.3333333333333333,
+      "sha256": "fc6d366dfa0e04d4e8a3ed8d4fd324a5ed36414da4154ad89b921fcc502e8eea",
+      "nativePaws": []
+    },
+    {
+      "frame": 17,
+      "physicsStep": 85,
+      "time": 1.4166666666666667,
+      "sha256": "d951241e34d7e86e6d65aef6537137b72d498a4017368d3807f7a35ab485b824",
+      "nativePaws": []
+    },
+    {
+      "frame": 18,
+      "physicsStep": 90,
+      "time": 1.5,
+      "sha256": "7c48ad952243191da3acaaae970bc6994652539c14d26ef61865ce4d6306642d",
+      "nativePaws": []
+    },
+    {
+      "frame": 19,
+      "physicsStep": 95,
+      "time": 1.5833333333333333,
+      "sha256": "b8e7088e06066743555f18f3f6488c75ebc8abef327fc854ad1bc057e9ed414a",
+      "nativePaws": []
+    },
+    {
+      "frame": 20,
+      "physicsStep": 100,
+      "time": 1.6666666666666667,
+      "sha256": "354f7ecdbd9cbb328b6902e21241070f590378040438948736d1169298dd8fce",
+      "nativePaws": []
+    },
+    {
+      "frame": 21,
+      "physicsStep": 105,
+      "time": 1.75,
+      "sha256": "cf290b406543d3deba4f0420cf485f1ab3abeecec4c175ece503a73a6885e5df",
+      "nativePaws": []
+    },
+    {
+      "frame": 22,
+      "physicsStep": 110,
+      "time": 1.8333333333333333,
+      "sha256": "73f5916e39980adf29e82c0d3d291225b58db415bb7e7eb2236de0c9e109a6f7",
+      "nativePaws": []
+    },
+    {
+      "frame": 23,
+      "physicsStep": 115,
+      "time": 1.9166666666666667,
+      "sha256": "6ea40ae70daf2751d361324446bb1658f9ecf0c929c059ba715cce99b3986b6e",
+      "nativePaws": []
+    },
+    {
+      "frame": 24,
+      "physicsStep": 120,
+      "time": 2,
+      "sha256": "882f3eb4b30dcca7d833cb3451b02ca4bfb4c37e5b482959ddf07afdeacbabe4",
+      "nativePaws": []
+    },
+    {
+      "frame": 25,
+      "physicsStep": 125,
+      "time": 2.0833333333333335,
+      "sha256": "5ab9436ac1bd1d7739ddc5fdadc79f6afb29e8e685f540e0c4085b07b93f5b8a",
+      "nativePaws": []
+    },
+    {
+      "frame": 26,
+      "physicsStep": 130,
+      "time": 2.1666666666666665,
+      "sha256": "b0c2723995e999db186e58b2bf4b47c2ad4521ddcba72b744c46f14eaf1d0ad1",
+      "nativePaws": [
+        {
+          "id": "chichi",
+          "paw": 0,
+          "point": [
+            3089.6787415806616,
+            -446.9705633042648,
+            1203.6499525094343
+          ],
+          "surface": -446.9705633042648,
+          "error": 0,
+          "contact": true,
+          "force": 130.23293633057196,
+          "area": 0.035,
+          "material": "jelly"
+        },
+        {
+          "id": "chichi",
+          "paw": 2,
+          "point": [
+            3090.230451008873,
+            -447.0091123958691,
+            1203.6045081199434
+          ],
+          "surface": -447.0091123958691,
+          "error": 0,
+          "contact": true,
+          "force": 130.23293633057196,
+          "area": 0.035,
+          "material": "jelly"
+        },
+        {
+          "id": "chichi",
+          "paw": 3,
+          "point": [
+            3090.274775206981,
+            -446.9048634082822,
+            1204.3779813550848
+          ],
+          "surface": -446.9048634082822,
+          "error": 0,
+          "contact": true,
+          "force": 130.23293633060607,
+          "area": 0.035,
+          "material": "jelly"
+        }
+      ]
+    },
+    {
+      "frame": 27,
+      "physicsStep": 135,
+      "time": 2.25,
+      "sha256": "980c1a6d6ec31890aaf806c7d5218db6a4ee686f00a96ee73386fcdbda7b6c4c",
+      "nativePaws": [
+        {
+          "id": "chichi",
+          "paw": 0,
+          "point": [
+            3089.678741590232,
+            -446.7467449258774,
+            1203.6499525006516
+          ],
+          "surface": -446.7467449258774,
+          "error": 0,
+          "contact": true,
+          "force": 28.32507845016066,
+          "area": 0.035,
+          "material": "jelly"
+        },
+        {
+          "id": "chichi",
+          "paw": 2,
+          "point": [
+            3090.2304510196846,
+            -446.74510157609336,
+            1203.604508126244
+          ],
+          "surface": -446.7451015760934,
+          "error": 5.684341886080802e-14,
+          "contact": true,
+          "force": 28.32507845016066,
+          "area": 0.035,
+          "material": "jelly"
+        },
+        {
+          "id": "chichi",
+          "paw": 3,
+          "point": [
+            3090.2747751966467,
+            -446.73757424411986,
+            1204.3779813625972
+          ],
+          "surface": -446.73757424411986,
+          "error": 0,
+          "contact": true,
+          "force": 28.32507845016066,
+          "area": 0.035,
+          "material": "jelly"
+        }
+      ]
+    },
+    {
+      "frame": 28,
+      "physicsStep": 140,
+      "time": 2.3333333333333335,
+      "sha256": "6b50dc14d20fe2b48b65843139a2abc8d74f678e83ac2da20e546c6b3e58f15a",
+      "nativePaws": [
+        {
+          "id": "chichi",
+          "paw": 0,
+          "point": [
+            3089.6787415970884,
+            -446.7399984023062,
+            1203.6499524943579
+          ],
+          "surface": -446.7399984023062,
+          "error": 0,
+          "contact": true,
+          "force": 24.791121582621233,
+          "area": 0.035,
+          "material": "jelly"
+        },
+        {
+          "id": "chichi",
+          "paw": 2,
+          "point": [
+            3090.2304510274325,
+            -446.7392185051466,
+            1203.6045081307584
+          ],
+          "surface": -446.7392185051466,
+          "error": 0,
+          "contact": true,
+          "force": 24.791121582621233,
+          "area": 0.035,
+          "material": "jelly"
+        },
+        {
+          "id": "chichi",
+          "paw": 3,
+          "point": [
+            3090.2747751892425,
+            -446.7261783324765,
+            1204.37798136798
+          ],
+          "surface": -446.7261783324765,
+          "error": 0,
+          "contact": true,
+          "force": 24.791121582587127,
+          "area": 0.035,
+          "material": "jelly"
+        }
+      ]
+    },
+    {
+      "frame": 29,
+      "physicsStep": 145,
+      "time": 2.4166666666666665,
+      "sha256": "dfebc9fc7d4177f5741b454d8150dce1940f2f716105709e6379516c1b2caff1",
+      "nativePaws": [
+        {
+          "id": "chichi",
+          "paw": 0,
+          "point": [
+            3089.678741602003,
+            -446.7274862374158,
+            1203.6499524898488
+          ],
+          "surface": -446.72748623741586,
+          "error": 5.684341886080802e-14,
+          "contact": true,
+          "force": 22.856006283547284,
+          "area": 0.035,
+          "material": "jelly"
+        },
+        {
+          "id": "chichi",
+          "paw": 2,
+          "point": [
+            3090.2304510329836,
+            -446.7270708888933,
+            1203.6045081339932
+          ],
+          "surface": -446.72707088889337,
+          "error": 5.684341886080802e-14,
+          "contact": true,
+          "force": 22.856006283547284,
+          "area": 0.035,
+          "material": "jelly"
+        },
+        {
+          "id": "chichi",
+          "paw": 3,
+          "point": [
+            3090.2747751839374,
+            -446.7157066087394,
+            1204.377981371837
+          ],
+          "surface": -446.7157066087394,
+          "error": 0,
+          "contact": true,
+          "force": 22.856006283547284,
+          "area": 0.035,
+          "material": "jelly"
+        }
+      ]
+    },
+    {
+      "frame": 30,
+      "physicsStep": 150,
+      "time": 2.5,
+      "sha256": "e1e2e810578eacfefbbb388867339f43c00874910b52c9c0d1ac784a41b835d6",
+      "nativePaws": [
+        {
+          "id": "chichi",
+          "paw": 0,
+          "point": [
+            3089.678741605523,
+            -446.81925468563537,
+            1203.6499524866178
+          ],
+          "surface": -446.81925468563537,
+          "error": 0,
+          "contact": true,
+          "force": 41.3497260717357,
+          "area": 0.035,
+          "material": "jelly"
+        },
+        {
+          "id": "chichi",
+          "paw": 1,
+          "point": [
+            3089.8109111320996,
+            -446.8324005596838,
+            1204.4420294007653
+          ],
+          "surface": -446.8324005596838,
+          "error": 0,
+          "contact": true,
+          "force": 46.575116734906416,
+          "area": 0.035,
+          "material": "jelly"
+        },
+        {
+          "id": "chichi",
+          "paw": 2,
+          "point": [
+            3090.230451036961,
+            -446.82264031521277,
+            1203.6045081363106
+          ],
+          "surface": -446.82264031521277,
+          "error": 0,
+          "contact": true,
+          "force": 41.3497260717357,
+          "area": 0.035,
+          "material": "jelly"
+        },
+        {
+          "id": "chichi",
+          "paw": 3,
+          "point": [
+            3090.2747751801357,
+            -446.8253934380988,
+            1204.3779813746
+          ],
+          "surface": -446.82539343809884,
+          "error": 5.684341886080802e-14,
+          "contact": true,
+          "force": 41.34972607183802,
+          "area": 0.035,
+          "material": "jelly"
+        }
+      ]
+    },
+    {
+      "frame": 31,
+      "physicsStep": 155,
+      "time": 2.5833333333333335,
+      "sha256": "ce75fecc44220a89b28c5f5bdd52423c9f1258c390d6bce83058cc666264685d",
+      "nativePaws": [
+        {
+          "id": "chichi",
+          "paw": 0,
+          "point": [
+            3089.678741608046,
+            -446.7688794501088,
+            1203.6499524843025
+          ],
+          "surface": -446.7688794501088,
+          "error": 0,
+          "contact": true,
+          "force": 22.11584785283633,
+          "area": 0.035,
+          "material": "jelly"
+        },
+        {
+          "id": "chichi",
+          "paw": 1,
+          "point": [
+            3089.810911128914,
+            -446.76309466742424,
+            1204.4420293994026
+          ],
+          "surface": -446.7630946674243,
+          "error": 5.684341886080802e-14,
+          "contact": true,
+          "force": 22.11584785283633,
+          "area": 0.035,
+          "material": "jelly"
+        },
+        {
+          "id": "chichi",
+          "paw": 2,
+          "point": [
+            3090.2304510398117,
+            -446.7620628654335,
+            1203.6045081379712
+          ],
+          "surface": -446.76206286543345,
+          "error": -5.684341886080802e-14,
+          "contact": true,
+          "force": 22.11584785283633,
+          "area": 0.035,
+          "material": "jelly"
+        },
+        {
+          "id": "chichi",
+          "paw": 3,
+          "point": [
+            3090.274775177412,
+            -446.7624399191208,
+            1204.3779813765805
+          ],
+          "surface": -446.76243991912077,
+          "error": -5.684341886080802e-14,
+          "contact": true,
+          "force": 22.11584785283633,
+          "area": 0.035,
+          "material": "jelly"
+        }
+      ]
+    },
+    {
+      "frame": 32,
+      "physicsStep": 160,
+      "time": 2.6666666666666665,
+      "sha256": "10df323fb0a8ce6e0a3610c6cc3eee6aff27ada337d02f4b58514fae8c9bc886",
+      "nativePaws": [
+        {
+          "id": "chichi",
+          "paw": 0,
+          "point": [
+            3089.6787416098537,
+            -446.72715273906425,
+            1203.6499524826438
+          ],
+          "surface": -446.72715273906425,
+          "error": 0,
+          "contact": true,
+          "force": 22.042618043362303,
+          "area": 0.035,
+          "material": "jelly"
+        },
+        {
+          "id": "chichi",
+          "paw": 1,
+          "point": [
+            3089.8109111266317,
+            -446.72102008648943,
+            1204.4420293984265
+          ],
+          "surface": -446.72102008648943,
+          "error": 0,
+          "contact": true,
+          "force": 22.042618043362303,
+          "area": 0.035,
+          "material": "jelly"
+        },
+        {
+          "id": "chichi",
+          "paw": 2,
+          "point": [
+            3090.230451041854,
+            -446.7230470941483,
+            1203.6045081391617
+          ],
+          "surface": -446.72304709414834,
+          "error": 5.684341886080802e-14,
+          "contact": true,
+          "force": 22.042618043362303,
+          "area": 0.035,
+          "material": "jelly"
+        }
+      ]
+    },
+    {
+      "frame": 33,
+      "physicsStep": 165,
+      "time": 2.75,
+      "sha256": "aae047b1d23f280343b8493b48891e300ff095fd31b093ccdd6e320a26a42c61",
+      "nativePaws": [
+        {
+          "id": "chichi",
+          "paw": 0,
+          "point": [
+            3089.6787416111483,
+            -446.72711929252796,
+            1203.6499524814553
+          ],
+          "surface": -446.72711929252796,
+          "error": 0,
+          "contact": true,
+          "force": 23.261847352634252,
+          "area": 0.035,
+          "material": "jelly"
+        },
+        {
+          "id": "chichi",
+          "paw": 1,
+          "point": [
+            3089.810911124997,
+            -446.7217901038424,
+            1204.4420293977273
+          ],
+          "surface": -446.7217901038424,
+          "error": 0,
+          "contact": true,
+          "force": 23.261847352668358,
+          "area": 0.035,
+          "material": "jelly"
+        },
+        {
+          "id": "chichi",
+          "paw": 2,
+          "point": [
+            3090.2304510433173,
+            -446.7237506747589,
+            1203.6045081400146
+          ],
+          "surface": -446.72375067475895,
+          "error": 5.684341886080802e-14,
+          "contact": true,
+          "force": 23.261847352634252,
+          "area": 0.035,
+          "material": "jelly"
+        }
+      ]
+    },
+    {
+      "frame": 34,
+      "physicsStep": 170,
+      "time": 2.8333333333333335,
+      "sha256": "8d477ceab777a6893609a869c96b30695dc3f538605436737a79ef0e6f2422d2",
+      "nativePaws": [
+        {
+          "id": "chichi",
+          "paw": 0,
+          "point": [
+            3089.6787416120765,
+            -446.7323026888632,
+            1203.6499524806034
+          ],
+          "surface": -446.73230268886323,
+          "error": 5.684341886080802e-14,
+          "contact": true,
+          "force": 22.005767724969413,
+          "area": 0.035,
+          "material": "jelly"
+        },
+        {
+          "id": "chichi",
+          "paw": 1,
+          "point": [
+            3089.8109111238246,
+            -446.73044332260713,
+            1204.4420293972257
+          ],
+          "surface": -446.73044332260713,
+          "error": 0,
+          "contact": true,
+          "force": 22.005767724969413,
+          "area": 0.035,
+          "material": "jelly"
+        },
+        {
+          "id": "chichi",
+          "paw": 2,
+          "point": [
+            3090.230451044365,
+            -446.73098822195766,
+            1203.604508140625
+          ],
+          "surface": -446.7309882219576,
+          "error": -5.684341886080802e-14,
+          "contact": true,
+          "force": 22.005767724969413,
+          "area": 0.035,
+          "material": "jelly"
+        }
+      ]
+    },
+    {
+      "frame": 35,
+      "physicsStep": 175,
+      "time": 2.9166666666666665,
+      "sha256": "5b776813cffec4dd065fc0c94e526bc3c8f96ef34e2f67ec9050338965205675",
+      "nativePaws": [
+        {
+          "id": "chichi",
+          "paw": 0,
+          "point": [
+            3089.6787416127413,
+            -446.7721283481318,
+            1203.6499524799933
+          ],
+          "surface": -446.7721283481318,
+          "error": 0,
+          "contact": true,
+          "force": 32.48606744044712,
+          "area": 0.035,
+          "material": "jelly"
+        },
+        {
+          "id": "chichi",
+          "paw": 1,
+          "point": [
+            3089.8109111229846,
+            -446.7647916173329,
+            1204.4420293968667
+          ],
+          "surface": -446.7647916173329,
+          "error": 0,
+          "contact": true,
+          "force": 32.48606744044712,
+          "area": 0.035,
+          "material": "jelly"
+        },
+        {
+          "id": "chichi",
+          "paw": 2,
+          "point": [
+            3090.230451045117,
+            -446.7702998988819,
+            1203.6045081410632
+          ],
+          "surface": -446.7702998988819,
+          "error": 0,
+          "contact": true,
+          "force": 32.48606744044712,
+          "area": 0.035,
+          "material": "jelly"
+        }
+      ]
+    },
+    {
+      "frame": 36,
+      "physicsStep": 180,
+      "time": 3,
+      "sha256": "d6bf5877c1503098640e4ba4c4e8eff0260f21f2dffed26889916624fd9601bf",
+      "nativePaws": [
+        {
+          "id": "chichi",
+          "paw": 0,
+          "point": [
+            3089.678741613218,
+            -446.7305081310458,
+            1203.6499524795556
+          ],
+          "surface": -446.7305081310457,
+          "error": -5.684341886080802e-14,
+          "contact": true,
+          "force": 22.000780576692364,
+          "area": 0.035,
+          "material": "jelly"
+        },
+        {
+          "id": "chichi",
+          "paw": 1,
+          "point": [
+            3089.810911122383,
+            -446.72622364518105,
+            1204.4420293966093
+          ],
+          "surface": -446.72622364518105,
+          "error": 0,
+          "contact": true,
+          "force": 22.000780576692364,
+          "area": 0.035,
+          "material": "jelly"
+        },
+        {
+          "id": "chichi",
+          "paw": 2,
+          "point": [
+            3090.230451045655,
+            -446.7271699578194,
+            1203.6045081413768
+          ],
+          "surface": -446.72716995781946,
+          "error": 5.684341886080802e-14,
+          "contact": true,
+          "force": 22.000780576692364,
+          "area": 0.035,
+          "material": "jelly"
+        }
+      ]
+    }
+  ]
+}
