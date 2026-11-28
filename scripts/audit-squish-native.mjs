@@ -192,10 +192,13 @@ export async function auditRelease({
         v = w.runtime.get("chichi");
       return {
         manual: w.runtime.manual,
-        wanted:v?.manualWanted,
-        active:q.manualWalk().active,
-        startFailure:q.manualWalk().startFailure,
-        ground:(()=>{const s=q.manualSurface(q.chichiCarrier.position,q.catRadius());return s?{y:s.y,biome:s.biome}:null;})(),
+        wanted: v?.manualWanted,
+        active: q.manualWalk().active,
+        startFailure: q.manualWalk().startFailure,
+        ground: (() => {
+          const s = q.manualSurface(q.chichiCarrier.position, q.catRadius());
+          return s ? { y: s.y, biome: s.biome } : null;
+        })(),
         phase: v?.phase,
         squish: v?.frame?.squish?.state,
         paws: w.pawDiagnostics,
@@ -269,11 +272,24 @@ export async function auditRelease({
   await frame("one-squish-native-knead");
   if (process.env.CHICHI_SQUISH_MANUAL_AUDIT) {
     await activate("[data-warehouse-control]");
-    let ready = false;const manualTrace=[];let lastManualState=null;
+    let ready = false;
+    const manualTrace = [];
+    let lastManualState = null;
     for (let i = 0; i < 1600; i++) {
       const st = await advance(15);
-      const key=[st.phase,st.manual,st.wanted,st.active,st.startFailure,st.squish].join(':');
-      if(key!==lastManualState||i%120===0){manualTrace.push({i,...st});lastManualState=key;console.log('SQUISH_MANUAL_TRACE',JSON.stringify(manualTrace.at(-1)));}
+      const key = [
+        st.phase,
+        st.manual,
+        st.wanted,
+        st.active,
+        st.startFailure,
+        st.squish,
+      ].join(":");
+      if (key !== lastManualState || i % 120 === 0) {
+        manualTrace.push({ i, ...st });
+        lastManualState = key;
+        console.log("SQUISH_MANUAL_TRACE", JSON.stringify(manualTrace.at(-1)));
+      }
       if (
         st.manual === "chichi" &&
         (await page.locator(".chichi-walk-controls").isVisible())
@@ -282,8 +298,27 @@ export async function auditRelease({
         break;
       }
     }
-    await writeFile(join(review,'manual-handoff-trace.json'),JSON.stringify({manualTrace,dom:await page.evaluate(()=>{const e=document.querySelector('.chichi-walk-controls');return{hidden:e.hidden,display:getComputedStyle(e).display,coarse:matchMedia('(pointer:coarse)').matches};}),errors,httpErrors},null,2));
-    if(!ready)await frame('manual-handoff-failed');
+    await writeFile(
+      join(review, "manual-handoff-trace.json"),
+      JSON.stringify(
+        {
+          manualTrace,
+          dom: await page.evaluate(() => {
+            const e = document.querySelector(".chichi-walk-controls");
+            return {
+              hidden: e.hidden,
+              display: getComputedStyle(e).display,
+              coarse: matchMedia("(pointer:coarse)").matches,
+            };
+          }),
+          errors,
+          httpErrors,
+        },
+        null,
+        2,
+      ),
+    );
+    if (!ready) await frame("manual-handoff-failed");
     assert(
       ready,
       "actual UI starts existing native third-person controller after safe descent",
@@ -315,7 +350,7 @@ export async function auditRelease({
         touchPoints: points,
       });
     }
-    await advance(45);
+    await advance(55);
     const air = await frame("manual-actual-jump");
     const height = await page.evaluate(
       () => __lagoonQA.chichiCarrier.position.y,
@@ -339,14 +374,18 @@ export async function auditRelease({
     const landed = await page.evaluate(() => {
       const q = __lagoonQA,
         w = q.warehouse(),
-        p = q.chichiCarrier.position;
+        p = q.chichiCarrier.position,
+        v = w.runtime.get("chichi");
       return {
         p: p.toArray(),
         manual: w.runtime.manual,
-        wanted:v?.manualWanted,
-        active:q.manualWalk().active,
-        startFailure:q.manualWalk().startFailure,
-        ground:(()=>{const s=q.manualSurface(q.chichiCarrier.position,q.catRadius());return s?{y:s.y,biome:s.biome}:null;})(),
+        wanted: v?.manualWanted,
+        active: q.manualWalk().active,
+        startFailure: q.manualWalk().startFailure,
+        ground: (() => {
+          const s = q.manualSurface(q.chichiCarrier.position, q.catRadius());
+          return s ? { y: s.y, biome: s.biome } : null;
+        })(),
         paws: w.pawDiagnostics,
         contacts: w.interior.userData.toys.reduce(
           (n, t) => n + t.userData.solver.contacts.size,
@@ -357,6 +396,7 @@ export async function auditRelease({
     assert.equal(landed.manual, "chichi");
     assert(landed.contacts > 0, "manual actor actually loads soft surface");
     assert(landed.paws.every((p) => Math.abs(p.error) < 0.06));
+    await activate(".warehouse-access");
     await activate("[data-warehouse-return]");
     let released = false;
     for (let i = 0; i < 400; i++) {

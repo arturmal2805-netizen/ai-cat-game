@@ -94,7 +94,7 @@ export function createSquishManual({
       vy = launch;
     }
     if (!airborne && pendingJump && !releasing) {
-      vy = 8.2;
+      vy = 9.4;
       airborne = true;
       pendingJump = false;
     }

@@ -103,3 +103,32 @@ export function createSquishNavigation({ getInterior, floor, inside }) {
     cameraClear,
   };
 }
+
+// Keep the existing follower, but raise a Warehouse camera over soft ears when
+// its requested orbit is obstructed. This adapter is never used in other venues.
+export function createSoftCameraAdjustment({
+  getActor,
+  clear,
+  targetHeight = 1.1,
+}) {
+  const anchor = new T.Vector3(),
+    eye = new T.Vector3();
+  return ({ yaw, pitch, distance }) => {
+    const actor = getActor();
+    if (!actor) return null;
+    anchor.copy(actor.position);
+    anchor.y += targetHeight;
+    for (let angle = pitch; angle <= 0.8; angle += 0.08) {
+      eye
+        .set(
+          -Math.sin(yaw) * Math.cos(angle),
+          Math.sin(angle),
+          -Math.cos(yaw) * Math.cos(angle),
+        )
+        .multiplyScalar(distance)
+        .add(anchor);
+      if (clear(anchor, eye)) return { pitch: angle, distance };
+    }
+    return { pitch: 0.8, distance };
+  };
+}

@@ -92,11 +92,75 @@ test("manual camera cannot cut through the actual soft skin", () => {
   toy.userData.dispose();
 });
 
-test('actual deep-water Warehouse floor is walkable when no toy is underneath',()=>{
- const floor=-450.308,interior=new T.Group();interior.position.set(3060,floor+.36,1240);interior.userData={toys:[]};
- const nav=createSquishNavigation({getInterior:()=>interior,floor,inside:()=>true}),p={x:3040,y:floor,z:1258};
- assert.equal(nav.support(p,.6).y,floor,'do not compare a negative world height with an invented zero-height obstacle');
- const toy=createSquishToy();toy.position.set(30,0,-36);interior.add(toy);interior.userData.toys.push(toy);
- assert.equal(nav.support(p,.6).y,floor);assert.equal(nav.support({x:3090,y:floor,z:1204},.6),null);
- toy.userData.dispose();
+test("actual deep-water Warehouse floor is walkable when no toy is underneath", () => {
+  const floor = -450.308,
+    interior = new T.Group();
+  interior.position.set(3060, floor + 0.36, 1240);
+  interior.userData = { toys: [] };
+  const nav = createSquishNavigation({
+      getInterior: () => interior,
+      floor,
+      inside: () => true,
+    }),
+    p = { x: 3040, y: floor, z: 1258 };
+  assert.equal(
+    nav.support(p, 0.6).y,
+    floor,
+    "do not compare a negative world height with an invented zero-height obstacle",
+  );
+  const toy = createSquishToy();
+  toy.position.set(30, 0, -36);
+  interior.add(toy);
+  interior.userData.toys.push(toy);
+  assert.equal(nav.support(p, 0.6).y, floor);
+  assert.equal(nav.support({ x: 3090, y: floor, z: 1204 }, 0.6), null);
+  toy.userData.dispose();
+});
+
+import { createSoftCameraAdjustment } from "../public/squish-navigation.js";
+test("venue camera rises over soft ears instead of zooming into the native cat face", () => {
+  const { toy, nav } = setup(),
+    p = new T.Vector3(-0.7, toy.userData.surface(-0.7, 1.9), 1.9),
+    actor = { position: p };
+  const adjust = createSoftCameraAdjustment({
+    getActor: () => actor,
+    clear: nav.cameraClear,
+  });
+  const result = adjust({ yaw: 0.2, pitch: 0.2, distance: 6 }),
+    anchor = p.clone();
+  anchor.y += 1.1;
+  const eye = new T.Vector3(
+    -Math.sin(0.2) * Math.cos(result.pitch),
+    Math.sin(result.pitch),
+    -Math.cos(0.2) * Math.cos(result.pitch),
+  )
+    .multiplyScalar(6)
+    .add(anchor);
+  assert(nav.cameraClear(anchor, eye));
+  assert.equal(result.distance, 6);
+  assert(result.pitch >= 0.2 && result.pitch <= 0.8);
+  toy.userData.dispose();
+});
+
+import { createWarehouseThirdPersonCamera } from "../public/squish-manual-camera.js";
+test("scoped third-person adapter retains a full cat view above real ears", () => {
+  const { toy, nav } = setup(),
+    actor = {
+      position: new T.Vector3(-0.7, toy.userData.surface(-0.7, 1.9), 1.9),
+    },
+    camera = new T.PerspectiveCamera(60, 1, 0.12, 100),
+    look = new T.Vector3(),
+    canvas = { addEventListener() {}, removeEventListener() {} };
+  const adapter = createWarehouseThirdPersonCamera({
+    canvas,
+    camera,
+    look,
+    getActor: () => actor,
+    isActive: () => true,
+    clear: nav.cameraClear,
+  });
+  adapter.update(1 / 60, { yaw: 0.2, pitch: 0.2 });
+  assert(camera.position.distanceTo(actor.position) > 3);
+  adapter.dispose();
+  toy.userData.dispose();
 });

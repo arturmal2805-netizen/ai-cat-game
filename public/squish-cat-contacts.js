@@ -54,13 +54,26 @@ function pawMarkers(model) {
 export function createSquishCatContacts() {
   const pending = [],
     activeKeys = new Map(),
-    diagnostic = [];
+    diagnostic = [],
+    oriented = new Map();
+  function restore(model) {
+    const q = oriented.get(model);
+    if (q) {
+      model.quaternion.copy(q);
+      oriented.delete(model);
+    }
+  }
+  function restoreFrame() {
+    for (const [model, q] of oriented) model.quaternion.copy(q);
+    oriented.clear();
+  }
   const measure = (p) => {
     p.mesh.getVertexPosition(p.vertex, p.point);
     p.mesh.localToWorld(p.point);
     return p.point;
   };
   function collect(id, model, carrier, toy, age, reduced = false, acting = {}) {
+    restore(model);
     if (pending.length >= 8) return;
     const paws = pawMarkers(model);
     if (!paws.length) return;
@@ -115,6 +128,48 @@ export function createSquishCatContacts() {
     diagnostic.length = 0;
     const nextKeys = new Map();
     for (const v of pending) {
+      if (v.acting.state === "ManualWalk") {
+        const x = v.carrier.position.x,
+          z = v.carrier.position.z,
+          h = 0.28,
+          centre = v.toy.userData.surface(x, z),
+          xp = v.toy.userData.surface(x + h, z),
+          xm = v.toy.userData.surface(x - h, z),
+          zp = v.toy.userData.surface(x, z + h),
+          zm = v.toy.userData.surface(x, z - h);
+        if (centre !== null) {
+          const dx =
+              xp !== null && xm !== null
+                ? (xp - xm) / (2 * h)
+                : xp !== null
+                  ? (xp - centre) / h
+                  : xm !== null
+                    ? (centre - xm) / h
+                    : 0,
+            dz =
+              zp !== null && zm !== null
+                ? (zp - zm) / (2 * h)
+                : zp !== null
+                  ? (zp - centre) / h
+                  : zm !== null
+                    ? (centre - zm) / h
+                    : 0,
+            normal = new T.Vector3(-dx, 1, -dz)
+              .normalize()
+              .applyQuaternion(
+                v.carrier.getWorldQuaternion(new T.Quaternion()).invert(),
+              ),
+            tilt = new T.Quaternion().setFromUnitVectors(
+              new T.Vector3(0, 1, 0),
+              normal,
+            ),
+            angle = 2 * Math.acos(T.MathUtils.clamp(tilt.w, -1, 1));
+          if (angle > 0.55) tilt.slerp(new T.Quaternion(), 1 - 0.55 / angle);
+          oriented.set(v.model, v.model.quaternion.clone());
+          v.model.quaternion.premultiply(tilt);
+          refresh(v.model);
+        }
+      }
       const solver = v.toy.userData.solver,
         keys = nextKeys.get(solver) || [];
       nextKeys.set(solver, keys);
@@ -288,10 +343,12 @@ export function createSquishCatContacts() {
   return {
     collect,
     flush,
+    restoreFrame,
     get diagnostics() {
       return diagnostic;
     },
     clear() {
+      restoreFrame();
       for (const [s, keys] of activeKeys)
         for (const key of keys) s.release(key);
       activeKeys.clear();

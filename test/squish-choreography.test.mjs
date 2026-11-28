@@ -171,3 +171,35 @@ test("manual request while safely approaching does not force a return voyage or 
   assert.equal(visits.get(v.id), undefined);
   assert.equal(v.local.y, A.foot);
 });
+test("manual native paws conform on a steep soft slope and restore the original rig orientation", () => {
+  const toy = createSquishToy({ material: "cloud" }),
+    carrier = new T.Group(),
+    cat = createCat(),
+    contacts = createSquishCatContacts(),
+    scene = new T.Scene();
+  scene.add(toy, carrier);
+  carrier.add(cat);
+  toy.position.set(3030, -449.948, 1204);
+  carrier.rotation.y = Math.PI + 0.2;
+  const original = cat.quaternion.clone();
+  for (let i = 0; i < 40; i++) {
+    contacts.restoreFrame();
+    animateCat(cat, i / 60);
+    carrier.position.set(
+      3029.3,
+      toy.userData.surface(3029.3, 1205.1) + 0.012,
+      1205.1,
+    );
+    contacts.collect("chichi", cat, carrier, toy, i / 60, false, {
+      state: "ManualWalk",
+    });
+    contacts.flush(1 / 60, [toy]);
+    assert(contacts.diagnostics.length >= 2);
+    for (const p of contacts.diagnostics)
+      assert(Math.abs(p.error) < 0.06, "actual native toe on slope " + p.error);
+  }
+  contacts.clear();
+  assert(cat.quaternion.angleTo(original) < 1e-8);
+  toy.userData.dispose();
+  disposeCat(cat);
+});

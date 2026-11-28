@@ -1,3 +1,4 @@
+import { createWarehouseThirdPersonCamera } from "./squish-manual-camera.js";
 import { createSquishNavigation } from "./squish-navigation.js";
 import { createSquishManual } from "./squish-manual.js";
 import { createSquishCatVisits } from "./squish-cat-visits.js";
@@ -37,6 +38,7 @@ export function createWarehouseWorld({
   onInteriorCamera = () => {},
   canvas,
   camera,
+  look,
   onError,
 }) {
   const b = byBiome("autumn"),
@@ -386,6 +388,14 @@ export function createWarehouseWorld({
     getRadius: () => getActors().find((a) => a.id === "chichi")?.radius || 0.6,
     floor: A.foot,
   });
+  const thirdPersonCamera = createWarehouseThirdPersonCamera({
+    canvas,
+    camera,
+    look,
+    getActor: () => getActors().find((a) => a.id === "chichi"),
+    isActive: () => runtime.manual === "chichi",
+    clear: cameraClear,
+  });
   function support(p, radius = 0.6, from = null) {
     return navigation.support(p, radius, from);
   }
@@ -395,6 +405,7 @@ export function createWarehouseWorld({
       return false;
     runtime.releaseManual();
     manualPhysics.reset();
+    thirdPersonCamera.reset();
     if (pendingManualReturn) {
       runtime.cancel("chichi");
       pendingManualReturn = false;
@@ -484,6 +495,7 @@ export function createWarehouseWorld({
         : runtime.cancel(id),
     safePosition: runtime.safePosition,
     releaseManual,
+    thirdPersonCamera,
     playerTransport: (input) =>
       manualPhysics.transport({ ...input, jump: input.jump || jumpHeld }),
     arrival: () =>
@@ -491,6 +503,7 @@ export function createWarehouseWorld({
     startReady: (id, activityId, ticket) =>
       runtime.start(id, activityId, { ticket }),
     update(dt, time) {
+      pawContacts.restoreFrame();
       const active = getFocused() === "autumn",
         visible = active || getOverview();
       if (!active) exit();
@@ -530,6 +543,7 @@ export function createWarehouseWorld({
         if (manualPhysics.safeToRelease) {
           runtime.releaseManual();
           manualPhysics.reset();
+          thirdPersonCamera.reset();
           if (pendingManualReturn) {
             runtime.cancel("chichi");
             pendingManualReturn = false;
@@ -571,6 +585,7 @@ export function createWarehouseWorld({
       squishVisits.clear();
       squishPlayer.dispose();
       manualPhysics.reset();
+      thirdPersonCamera.dispose();
       jumpButton.remove();
       interior?.userData.dispose();
       fleet?.userData.dispose();
