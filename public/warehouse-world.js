@@ -115,6 +115,36 @@ export function createWarehouseWorld({
     },
     "warehouseSquishCat",
   );
+  button(
+    "З’єднати слайми",
+    async () => {
+      if (await openInterior("slime"))
+        interior.userData.toys
+          .find((t) => t.userData.material === "slime")
+          .userData.coalescence.merge();
+    },
+    "squishMerge",
+  );
+  button(
+    "Розділити слайми",
+    async () => {
+      if (await openInterior("slime"))
+        interior.userData.toys
+          .find((t) => t.userData.material === "slime")
+          .userData.coalescence.split();
+    },
+    "squishSplit",
+  );
+  button(
+    "Оновити сквиш",
+    () => {
+      squishPlayer.release();
+      interior?.userData.toys
+        .find((t) => t.userData.material === selectedMaterial)
+        ?.userData.reset();
+    },
+    "squishReset",
+  );
   const seat = new T.Vector3();
   for (const d of SQUISH_DEMONSTRATORS) {
     const b = button(d.name, () => void openInterior(d.id));

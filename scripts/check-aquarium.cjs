@@ -721,6 +721,7 @@ async function localWorker() {
       if(process.env.CHICHI_MANUAL_BUSY_AUDIT){const {auditManualBusy}=await import('./audit-manual-busy-native.mjs');await auditManualBusy({page,review,errors,httpErrors});return;}
       if(process.env.CHICHI_GLOBAL_MANUAL_AUDIT){const {auditGlobalManual}=await import('./audit-global-manual.mjs');await auditGlobalManual({page,context,browser,base,headers,review,errors,httpErrors});return;}
       if(process.env.CHICHI_MALL_PALETTE_AUDIT){const {auditMallPaletteNative}=await import('./audit-mall-palette-native.mjs');await auditMallPaletteNative({page,review,errors,httpErrors});return;}
+      if(process.env.CHICHI_SQUISH_AUDIT&&process.env.CHICHI_SQUISH_STAGE==='advanced'){const {auditSquishAdvanced}=await import('./audit-squish-advanced.mjs');await auditSquishAdvanced({page,review,errors,httpErrors,desktop:!!process.env.CHICHI_DESKTOP});return;}
       if(process.env.CHICHI_SQUISH_AUDIT&&process.env.CHICHI_SQUISH_STAGE==='materials'){const {auditSquishMaterials}=await import('./audit-squish-materials.mjs');await auditSquishMaterials({page,review,errors,httpErrors,desktop:!!process.env.CHICHI_DESKTOP});return;}
       if(process.env.CHICHI_SQUISH_AUDIT){const {auditRelease}=await import('./audit-squish-native.mjs');await auditRelease({page,review,errors,httpErrors,desktop:!!process.env.CHICHI_DESKTOP});return;}
       if(process.env.CHICHI_CACHE_TRACE){const {auditCacheCycles}=await import('./audit-cache-cycles.mjs');await auditCacheCycles({page,review,errors,httpErrors});return;}

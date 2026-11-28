@@ -88,9 +88,15 @@ export async function auditSquishMaterials({
     frames.push({ id, state, ...r });
     return r;
   };
-  for (const id of process.env.CHICHI_SQUISH_MATERIALS
-    ? process.env.CHICHI_SQUISH_MATERIALS.split(",")
-    : ["jelly", "butter", "slime", "cloud", "foam", "crunchy", "mochi"]) {
+  for (const id of [
+    "jelly",
+    "butter",
+    "slime",
+    "cloud",
+    "foam",
+    "crunchy",
+    "mochi",
+  ]) {
     await activate(`[data-squish-zone="${id}"]`);
     await page.evaluate((id) => {
       const q = __lagoonQA,

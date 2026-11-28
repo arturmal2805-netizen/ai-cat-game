@@ -38,6 +38,24 @@ export function createSquishPlayer({ canvas, camera, getInterior, container }) {
     bar.append(b);
     buttons.push(b);
   }
+  const pressureLabel = document.createElement("label");
+  pressureLabel.textContent = "Сила ";
+  pressureLabel.style.cssText =
+    "color:#fff4df;display:flex;align-items:center;font-size:12px";
+  const pressure = document.createElement("input");
+  pressure.type = "range";
+  pressure.min = ".25";
+  pressure.max = "1.6";
+  pressure.step = ".05";
+  pressure.value = ".85";
+  pressure.dataset.squishPressure = "";
+  pressure.setAttribute("aria-label", "Сила натискання");
+  pressure.style.cssText = "width:82px;min-height:44px;accent-color:#eac27f";
+  pressure.addEventListener("input", () => {
+    if (active?.lastEvent) apply(active.lastEvent);
+  });
+  pressureLabel.append(pressure);
+  bar.append(pressureLabel);
   container.append(bar);
   const cast = (e) => {
     const rect = canvas.getBoundingClientRect();
@@ -106,7 +124,11 @@ export function createSquishPlayer({ canvas, camera, getInterior, container }) {
       solver = a.toy.userData.solver,
       displacement = new T.Vector3();
     if (mode === "press" || mode === "knead") {
-      const depth = mode === "knead" ? 0.45 + 0.25 * Math.sin(a.age * 6) : 0.85;
+      const depth =
+        mode === "knead"
+          ? (0.45 + 0.25 * Math.sin(a.age * 6)) *
+            (Number(pressure.value) / 0.85)
+          : Number(pressure.value);
       displacement.copy(a.normal).multiplyScalar(-depth);
     } else if (mode === "stretch") {
       cast(e);
@@ -130,11 +152,12 @@ export function createSquishPlayer({ canvas, camera, getInterior, container }) {
       );
     }
     solver.setContact("player", {
+      kind: mode,
       point: a.point.toArray(),
       normal: a.normal.toArray(),
       displacement: displacement.toArray(),
       radius: solver.profile.interactionRadius,
-      force: 100,
+      force: 100 * (Number(pressure.value) / 0.85),
     });
   }
   canvas.addEventListener(
@@ -160,6 +183,7 @@ export function createSquishPlayer({ canvas, camera, getInterior, container }) {
     signal: abort.signal,
   });
   return {
+    release,
     show(value) {
       bar.hidden = !value;
       bar.style.display = value ? "flex" : "none";

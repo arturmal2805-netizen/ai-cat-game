@@ -108,7 +108,7 @@ export function createSquishCatContacts() {
     }
     for (const toy of toys) {
       toy.userData.solver.step(dt);
-      toy.userData.update();
+      toy.userData.update(dt);
     }
     for (const v of pending) {
       let sum = 0,

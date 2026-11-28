@@ -29,6 +29,7 @@ export class SquishSoftBody {
     this.time = 0;
     this.accumulator = 0;
     this.steps = 0;
+    this.revision = 0;
     this.droppedTime = 0;
     this.faults = 0;
     this.limitedSteps = 0;
@@ -142,6 +143,7 @@ export class SquishSoftBody {
       radius = this.profile.interactionRadius,
       force = 70,
       velocity = [0, 0, 0],
+      kind = "press",
     } = {},
   ) {
     if (
@@ -158,7 +160,9 @@ export class SquishSoftBody {
       displacement: new Float64Array(3),
       velocity: new Float64Array(3),
       filtered: new Float64Array(3),
+      torn: false,
     };
+    c.kind = kind;
     c.point.set(point);
     c.normal.set(normal);
     c.velocity.set(velocity);
@@ -188,6 +192,7 @@ export class SquishSoftBody {
     this.contacts.clear();
     this.accumulator = 0;
     this.sleeping = true;
+    this.revision++;
   }
   step(dt) {
     if (this.sleeping && !this.contacts.size) {
@@ -354,6 +359,7 @@ export class SquishSoftBody {
             gz = 0,
             total = 0;
           for (const c of this.contacts.values()) {
+            if (c.torn) continue;
             const dx = o[j] - c.point[0],
               dy = o[j + 1] - c.point[1],
               dz = o[j + 2] - c.point[2],
@@ -491,6 +497,7 @@ export class SquishSoftBody {
     }
     this.time += dt;
     this.steps++;
+    this.revision++;
   }
   // Trilinear skinning from unchanged rest-space coordinates. Both geometry
   // and contact queries use this same mapping, never separate visual squash.

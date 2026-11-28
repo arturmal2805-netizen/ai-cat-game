@@ -16,7 +16,7 @@
     "material-jelly-press-difference.png": "dbbb695c764ab65a23b728c08a15fa8200963443d3cc487f92d1a29ed8ffed68",
     "material-butter-rest.json": "73c46b6d802052e89272c349a866c0175a6643c9b66ab82faaea1f0ba5cf91c5",
     "material-foam-rest-difference.png": "2b49e39791d30a104e71a202c89cbe3d4351c377c952420b7bd31f7282702cb6",
-    "audit-squish-materials.mjs": "49181812c83ddd8aa87b220037308c06b643f0509ed6167ad165ae3d9940eb5a",
+    "audit-squish-materials.mjs": "b56e489571c65c658c5dc431a84cea7cb232f45b38568ad172867ec3bad0b3e3",
     "material-slime-recovery.json": "46f8078925ed65a828a2cab3bcb4732fc8faeab37465eaad01cdba6041d55663",
     "material-crunchy-rest-difference.png": "bed5a8f6eb949c0ebd096ddea3811af348a82ed11acae579eaa036518de34cf0",
     "material-foam-hold.json": "caa560f372130f932d368264076f58463d43353cf87217de2d72b3217495c015",
@@ -79,6 +79,7 @@
     "material-jelly-recovery.png": "0b2c3ebc45524381cc336a2fd50ae35520121360cd778b0a02ea3d85b673d413",
     "material-foam-recovery.png": "749a86b306085d8dc24b28e4ee9a21008d69d7f613fa00e065b185002be77784",
     "qa-app.js.gz": "32835310f83a5ad0b07308e4a907f663fd53c8e8b6deb781ed63ebc7c576f5d6",
+    "later-filtered-harness-not-tested.mjs": "49181812c83ddd8aa87b220037308c06b643f0509ed6167ad165ae3d9940eb5a",
     "source-HEAD.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "material-butter-recovery.png": "6f249da8bddda5a1109e0dc8f18ffcc5bf623e26468550dbabac2f8bc7d77a73",
     "squish-v16-material-stage-build.log": "06500bba010aac50c6e9bfc05b41a249bda9b598349ac833e5dc618a96bb9e3f",
@@ -102,5 +103,6 @@
     "exact-public-sources.tar.gz": "7778aacd8ddda74fe7cda33c2549ebd4df05813b1f2508ee3233052e36b5ba58",
     "material-mochi-hold.json": "a51c3b4b2d23a3e7bbc193156da6d8fd557ec0835fb27a5e642f1da5d09598dd",
     "material-foam-hold.png": "0ee54c871603d4a07c5b75058368e03a9c57857d8fa0c810bff47b950713abbc"
-  }
+  },
+  "harnessProvenance": "Exact audit module recovered from tested b710d8d. Later filtered copy retained separately, not a tested source."
 }

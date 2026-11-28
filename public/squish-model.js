@@ -1,3 +1,6 @@
+import { createButterShell } from "./squish-butter.js";
+import { createSlimeFilaments } from "./squish-slime.js";
+import { createSlimeCoalescence } from "./squish-slime-merge.js";
 import { cloudFleeceGeometry } from "./squish-cloud-geometry.js";
 import * as T from "three";
 import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
@@ -71,7 +74,9 @@ export function createSquishToy({
   root.userData.squishPhysics = true;
   const solver = new SquishSoftBody({ material, size, resolution }),
     meshes = [],
-    sources = [];
+    sources = [],
+    effects = [],
+    ownedEffectMaterials = [];
   const attach = (geometry, mat, name) => {
     const mesh = new T.Mesh(geometry, mat);
     mesh.name = name;
@@ -254,26 +259,45 @@ export function createSquishToy({
       "Floating jelly inclusions · same deformation",
     );
   }
+  let butter = null,
+    filaments = null,
+    coalescence = null;
+  if (material === "butter") {
+    butter = createButterShell({ root, solver, body: meshes[0], attach });
+    effects.push(butter);
+  }
+  if (material === "slime") {
+    const mat = squishSurfaceMaterial("slime");
+    ownedEffectMaterials.push(mat);
+    filaments = createSlimeFilaments({ root, solver, material: mat });
+    coalescence = createSlimeCoalescence({ root, material: mat });
+    effects.push(filaments, coalescence);
+  }
+  let lastTime = solver.time;
   let lastStep = -1;
   const scratch = new Float64Array(3);
-  const update = () => {
-    if (lastStep === solver.steps) return;
-    lastStep = solver.steps;
-    for (let n = 0; n < meshes.length; n++) {
-      const g = meshes[n].geometry,
-        a = g.attributes.position,
-        base = sources[n];
-      for (let j = 0; j < base.length; j += 3) {
-        solver.sample(base[j], base[j + 1], base[j + 2], scratch);
-        a.array[j] = scratch[0];
-        a.array[j + 1] = scratch[1];
-        a.array[j + 2] = scratch[2];
+  const update = (dt) => {
+    dt = Number.isFinite(dt) ? dt : Math.max(0, solver.time - lastTime);
+    lastTime = solver.time;
+    if (lastStep !== solver.revision) {
+      lastStep = solver.revision;
+      for (let n = 0; n < meshes.length; n++) {
+        const g = meshes[n].geometry,
+          a = g.attributes.position,
+          base = sources[n];
+        for (let j = 0; j < base.length; j += 3) {
+          solver.sample(base[j], base[j + 1], base[j + 2], scratch);
+          a.array[j] = scratch[0];
+          a.array[j + 1] = scratch[1];
+          a.array[j + 2] = scratch[2];
+        }
+        a.needsUpdate = true;
+        g.computeVertexNormals();
+        g.computeBoundingSphere();
+        g.computeBoundingBox();
       }
-      a.needsUpdate = true;
-      g.computeVertexNormals();
-      g.computeBoundingSphere();
-      g.computeBoundingBox();
     }
+    for (const e of effects) e.update(dt);
   };
   const ray = new T.Raycaster(),
     down = new T.Vector3(0, -1, 0);
@@ -298,6 +322,14 @@ export function createSquishToy({
     update,
     surface,
     material,
+    butter,
+    filaments,
+    coalescence,
+    reset() {
+      solver.reset();
+      for (const e of effects) e.reset?.();
+      update(0);
+    },
     restSurfaceHeight(x, z) {
       return pad
         ? size[1]
@@ -312,6 +344,8 @@ export function createSquishToy({
               );
     },
     dispose() {
+      for (const e of effects) e.dispose();
+      for (const m of ownedEffectMaterials) m.dispose();
       const materials = new Set();
       for (const m of meshes) {
         m.geometry.dispose();

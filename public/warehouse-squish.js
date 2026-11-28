@@ -63,7 +63,7 @@ export function* warehouseSquishSteps(origin) {
     update(dt) {
       for (const t of toys) {
         t.userData.solver.step(dt);
-        t.userData.update();
+        t.userData.update(dt);
       }
     },
     dispose() {
