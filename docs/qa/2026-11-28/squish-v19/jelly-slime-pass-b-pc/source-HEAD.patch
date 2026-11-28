@@ -1,0 +1,12 @@
+diff --git a/public/index.html b/public/index.html
+index 37925ae..d22d2fc 100644
+--- a/public/index.html
++++ b/public/index.html
+@@ -713,6 +713,6 @@
+       </div>
+     </dialog>
+     <div id="toast" role="status" aria-live="polite" hidden></div>
+-    <script type="module" src="./dist/app.js?v=bedf9877b61fedbd"></script>
++    <script type="module" src="./dist/app.js?v=a95012601535c35a"></script>
+   </body>
+ </html>

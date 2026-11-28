@@ -1,0 +1,100 @@
+{
+  "solver": {
+    "sleeping": true,
+    "particles": 64,
+    "constraints": 441,
+    "contacts": 0,
+    "steps": 0,
+    "time": 0,
+    "volumeRatio": 1,
+    "minTetRatio": 0.9999999999999998,
+    "maxDeformation": 0,
+    "maxStrain": 0,
+    "damage": 0,
+    "faults": 0,
+    "limitedSteps": 0,
+    "lastPhysicsMs": 0,
+    "droppedTime": 0
+  },
+  "surfaceMaterial": {
+    "roughness": 0.085,
+    "opacity": 0.88,
+    "clearcoat": 1,
+    "clearcoatRoughness": 0.055,
+    "ior": 1.38,
+    "envMapIntensity": 1.5
+  },
+  "camera": {
+    "position": [
+      3097,
+      -444.448,
+      1214
+    ],
+    "target": [
+      3090,
+      -447.948,
+      1204
+    ],
+    "fov": 48,
+    "aspect": 1.561764705882353,
+    "near": 0.08,
+    "far": 20000
+  },
+  "renderer": {
+    "dpr": 2,
+    "shadow": 1,
+    "toneMapping": 4,
+    "info": {
+      "frame": 2,
+      "calls": 154,
+      "triangles": 3772284,
+      "points": 320,
+      "lines": 0
+    }
+  },
+  "time": 0,
+  "sceneTime": 7,
+  "reviewHour": 12,
+  "seed": 4419,
+  "nativePaws": [],
+  "contactMeasurements": {
+    "material": "jelly",
+    "contacts": [],
+    "activePaws": 0,
+    "supportForce": 0,
+    "meanContactDepth": 0,
+    "maxContactDepth": 0,
+    "maxVertexDisplacement": 0,
+    "renderedBodyVolume": 36.7913680481167,
+    "renderedBodyVolumeRatio": 1,
+    "volumeMethod": "signed triangles of the actual main body; giant overlapping primitives are not a union-volume measurement",
+    "meshUpdated": true,
+    "activeNodes": 0,
+    "stiffness": 5,
+    "compliance": 0.02,
+    "timestep": 0.016666666666666666,
+    "meshVersion": 3,
+    "colliderGeometry": "0ca429a8-03b8-4af9-bd62-e536ef79a63c",
+    "colliderFollowsRender": true,
+    "recoveryActive": false,
+    "solver": {
+      "sleeping": true,
+      "particles": 64,
+      "constraints": 441,
+      "contacts": 0,
+      "steps": 0,
+      "time": 0,
+      "volumeRatio": 1,
+      "minTetRatio": 0.9999999999999998,
+      "maxDeformation": 0,
+      "maxStrain": 0,
+      "damage": 0,
+      "faults": 0,
+      "limitedSteps": 0,
+      "lastPhysicsMs": 0,
+      "droppedTime": 0
+    },
+    "lod": "STATIC",
+    "units": "game metres/seconds; force calibrated to an effective game mass, not laboratory measurements"
+  }
+}

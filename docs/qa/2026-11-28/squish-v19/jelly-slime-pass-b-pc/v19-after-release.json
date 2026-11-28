@@ -1,0 +1,100 @@
+{
+  "solver": {
+    "sleeping": false,
+    "particles": 343,
+    "constraints": 3150,
+    "contacts": 0,
+    "steps": 1101,
+    "time": 18.35000000000024,
+    "volumeRatio": 1.0005825487866744,
+    "minTetRatio": 0.9827800904192049,
+    "maxDeformation": 0.10997639935483336,
+    "maxStrain": 0.06375563361943892,
+    "damage": 0,
+    "faults": 0,
+    "limitedSteps": 0,
+    "lastPhysicsMs": 0.8999999761581421,
+    "droppedTime": 0
+  },
+  "surfaceMaterial": {
+    "roughness": 0.085,
+    "opacity": 0.88,
+    "clearcoat": 1,
+    "clearcoatRoughness": 0.055,
+    "ior": 1.38,
+    "envMapIntensity": 1.5
+  },
+  "camera": {
+    "position": [
+      3097,
+      -443.948,
+      1214
+    ],
+    "target": [
+      3090,
+      -446.948,
+      1204
+    ],
+    "fov": 48,
+    "aspect": 1.561764705882353,
+    "near": 0.08,
+    "far": 20000
+  },
+  "renderer": {
+    "dpr": 2,
+    "shadow": 1,
+    "toneMapping": 4,
+    "info": {
+      "frame": 14,
+      "calls": 248,
+      "triangles": 4521931,
+      "points": 320,
+      "lines": 0
+    }
+  },
+  "time": 18.35000000000024,
+  "sceneTime": 7,
+  "reviewHour": 12,
+  "seed": 4419,
+  "nativePaws": [],
+  "contactMeasurements": {
+    "material": "jelly",
+    "contacts": [],
+    "activePaws": 0,
+    "supportForce": 0,
+    "meanContactDepth": 0,
+    "maxContactDepth": 0,
+    "maxVertexDisplacement": 0.1052426919183631,
+    "renderedBodyVolume": 36.88581462259277,
+    "renderedBodyVolumeRatio": 1.0025670851475963,
+    "volumeMethod": "signed triangles of the actual main body; giant overlapping primitives are not a union-volume measurement",
+    "meshUpdated": true,
+    "activeNodes": 0,
+    "stiffness": 5,
+    "compliance": 0.02,
+    "timestep": 0.016666666666666666,
+    "meshVersion": 1105,
+    "colliderGeometry": "0ca429a8-03b8-4af9-bd62-e536ef79a63c",
+    "colliderFollowsRender": true,
+    "recoveryActive": true,
+    "solver": {
+      "sleeping": false,
+      "particles": 343,
+      "constraints": 3150,
+      "contacts": 0,
+      "steps": 1101,
+      "time": 18.35000000000024,
+      "volumeRatio": 1.0005825487866744,
+      "minTetRatio": 0.9827800904192049,
+      "maxDeformation": 0.10997639935483336,
+      "maxStrain": 0.06375563361943892,
+      "damage": 0,
+      "faults": 0,
+      "limitedSteps": 0,
+      "lastPhysicsMs": 0.8999999761581421,
+      "droppedTime": 0
+    },
+    "lod": "ACTIVE",
+    "units": "game metres/seconds; force calibrated to an effective game mass, not laboratory measurements"
+  }
+}
