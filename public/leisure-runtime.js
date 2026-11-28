@@ -49,6 +49,7 @@ export function createLeisureRuntime() {
         prepare = () => true,
         destination = (offer, a) => a.position,
         allow = true,
+        instantDispatch = false,
       } = {},
     ) {
       const profiles = game.jobCity?.profiles || {},
@@ -182,7 +183,9 @@ export function createLeisureRuntime() {
             source,
             members,
             offer,
-            phase: "travel",
+            phase: instantDispatch ? "queue" : "travel",
+            retryAt:time,
+            queuedAt:time,
             from,
             to: copy(to),
             position: from,

@@ -359,7 +359,7 @@ export function createWaterfrontWorld({
     return entry;
   }
   function teleportVisit(id,activityId,options={}){if(!teleportCat)return runtime?.start(id,activityId,options)||false;const entry=waterfrontTeleportEntry(activityId);if(!entry)return false;
-    return!!teleportCat(id,entry,()=>runtime.start(id,activityId,{...options,invite:false,portalArrival:true}),{ticket:options.ticket});
+    return!!teleportCat(id,entry,()=>{const ok=runtime.start(id,activityId,{...options,invite:false,portalArrival:true});if(ok&&id==='chichi'&&wantPlayer)runtime.requestPlayer();return ok;},{ticket:options.ticket});
   }
   async function invite(id, activityId) {
     if (!canSimulate() || !canInvite(id)) {

@@ -716,6 +716,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     leisure.step(game, actors, dt, time, {
       clock,
       offers: leisureCatalogue,
+      instantDispatch:!!catTeleport,
       allow: callbacks.canSimulateLeisure?.() !== false,
       blocked: (id, visit) => {
         const n = npcs.get(id),

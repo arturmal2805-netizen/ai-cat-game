@@ -1,3 +1,4 @@
+import {createSquishEnvironment} from "./squish-environment.js";
 import * as T from "three";
 import { bindSquishVisualLOD } from "./squish-visual-lod.js";
 import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
@@ -10,24 +11,7 @@ export function* squishInteriorArtSteps() {
     materials = new Set(),
     textures = new Set(),
     batches = new Map();
-  const envData = new Float32Array(128 * 64 * 4);
-  for (let y = 0; y < 64; y++)
-    for (let x = 0; x < 128; x++) {
-      const u = x / 128,
-        v = y / 64,
-        strip =
-          Math.pow(Math.max(0, Math.cos(u * Math.PI * 16)), 44) *
-          Math.exp(-(((v - 0.35) / 0.16) ** 2)),
-        dome = Math.max(0, Math.sin(v * Math.PI)),
-        i = (y * 128 + x) * 4;
-      envData[i] = 0.22 + dome * 0.8 + strip * 5;
-      envData[i + 1] = 0.12 + dome * 0.55 + strip * 3.7;
-      envData[i + 2] = 0.3 + dome * 0.7 + strip * 2.5;
-      envData[i + 3] = 1;
-    }
-  const env = new T.DataTexture(envData, 128, 64, T.RGBAFormat, T.FloatType);
-  env.mapping = T.EquirectangularReflectionMapping;
-  env.needsUpdate = true;
+  const env=createSquishEnvironment();
   textures.add(env);
   const mat = (options) => {
     const m = new T.MeshPhysicalMaterial({
@@ -36,6 +20,7 @@ export function* squishInteriorArtSteps() {
       ...options,
     });
     m.onBeforeCompile = (shader) => {
+      shader.fragmentShader=shader.fragmentShader.replace("#include <shadowmap_pars_fragment>",T.ShaderChunk.shadowmap_pars_fragment.replace("float radius = shadowRadius * texelSize.x;","float radius = max(shadowRadius,3.0) * texelSize.x;"));
       shader.fragmentShader = shader.fragmentShader.replace(
         "#include <fog_fragment>",
         T.ShaderChunk.fog_fragment.replace(
@@ -44,19 +29,19 @@ export function* squishInteriorArtSteps() {
         ),
       );
     };
-    m.customProgramCacheKey = () => "warehouse-owned-architecture-pbr-v2";
+    m.customProgramCacheKey = () => "warehouse-owned-architecture-pbr-v20";
     materials.add(m);
     return m;
   };
   const gold = mat({
-      color: 0xf5ce81,
-      metalness: 0.62,
-      roughness: 0.2,
+      color: 0xf4bf73,
+      metalness: 0.82,
+      roughness: 0.18,
       emissive: 0x8c5c25,
       emissiveIntensity: 0.22,
     }),
-    cream = mat({ color: 0xffe4dc, roughness: 0.28, clearcoat: 1 }),
-    pink = mat({ color: 0xf7b4d7, roughness: 0.3, clearcoat: 1 }),
+    cream = mat({ color: 0xf9edf7, roughness: 0.2, clearcoat: .8 }),
+    pink = mat({ color: 0xffbddf, roughness: 0.26, clearcoat: 1, sheen:.4, sheenColor:new T.Color(0xffd9ee) }),
     glass = mat({
       color: 0xb2f4ff,
       roughness: 0.1,
@@ -159,9 +144,12 @@ export function* squishInteriorArtSteps() {
   }
   // The polished overlay stays 5mm below the existing safe foot plane.
   const floor = mat({
-    color: 0xffded9,
-    metalness: 0.13,
-    roughness: 0.24,
+    color: 0xf0e4f4,
+    metalness: 0.02,
+    roughness: 0.18,
+    iridescence:.14,
+    iridescenceIOR:1.3,
+    clearcoatRoughness:.22,
     clearcoat: 1,
   });
   const floorFog = floor.onBeforeCompile;
@@ -178,10 +166,10 @@ export function* squishInteriorArtSteps() {
       s.fragmentShader.replace(
         "#include <color_fragment>",
         `#include <color_fragment>
- vec2 p=marbleUV*vec2(22.,18.);float bend=sin(p.y*.7+sin(p.x*.45)*1.6);float vein=pow(1.-abs(sin(p.x*.9+bend*1.8)),18.);diffuseColor.rgb*=1.-vein*.13;`,
+ vec2 p=marbleUV*vec2(22.,18.);float bend=sin(p.y*.7+sin(p.x*.45)*1.6);float vein=pow(1.-abs(sin(p.x*.9+bend*1.8)),18.);float grain=fract(sin(dot(floor(p*280.),vec2(127.1,311.7)))*43758.5453);diffuseColor.rgb*=.99-vein*.075+grain*.018;`,
       );
   };
-  floor.customProgramCacheKey = () => "squish-owned-marble-v1";
+  floor.customProgramCacheKey = () => "squish-owned-pearl-marble-v20";
   batch(
     g(new T.PlaneGeometry(164, 155)),
     floor,
@@ -237,14 +225,19 @@ export function* squishInteriorArtSteps() {
     batch(cylinder, gold, [x, -0.14, z], [9, 0.34, 9]);
     batch(cylinder, colourMat, [x, 0.06, z], [8.8, 0.08, 8.8]);
     ring(x, 0.14, z, 8.7, warm, 0.05);
+    ring(x,-.18,z,8.96,gold,.1);
+    ring(x,-.02,z,8.9,neon,.032);
     // Three shelves behind the local interaction, never across its front approach.
     for (let tier = 0; tier < 3; tier++) {
       batch(box, cream, [x, 2 + tier * 2.4, z - 7.8], [15, 0.23, 2.4]);
       batch(box, gold, [x, 1.8 + tier * 2.4, z - 6.58], [15, 0.12, 0.09]);
       batch(box, neon, [x, 1.68 + tier * 2.4, z - 6.55], [14.7, 0.045, 0.035]);
     }
-    for (const side of [-1, 1])
-      batch(box, gold, [x + side * 7.4, 3.8, z - 8], [0.16, 7.6, 2.4]);
+    for (const side of [-1, 1]){
+      batch(box,gold,[x+side*7.4,3.8,z-8],[.25,7.6,2.4]);
+      batch(box,warm,[x+side*7.54,3.9,z-6.7],[.035,7.4,.04]);
+      batch(box,pink,[x+side*7.35,3.8,z-8],[.32,7.2,2.1]);
+    }
     // Curved overhead portal and luminous sector identity.
     const pts = [];
     for (let k = 0; k <= 20; k++) {
@@ -257,13 +250,14 @@ export function* squishInteriorArtSteps() {
       0.05,
       neon,
     );
-    sign(sector.icon, x, 11.8, z - 9.1, 16, 3.1);
+    sign(sector.icon, x, 11.8, z - 9.1, 12.5, 2.4);
     blockers.push({ x, z: z - 7.8, w: 15, d: 2.6, h: 7.6 });
     // Side pedestal bowls, towels and tactile beads have the same authored palette.
     for (const side of [-1, 1]) {
       batch(cylinder, gold, [x + side * 6, 1, z + 2], [1.5, 2, 1.5]);
       batch(cylinder, white, [x + side * 6, 2.06, z + 2], [1.6, 0.15, 1.6]);
       ring(x + side * 6, 2.18, z + 2, 1.5, warm, 0.045);
+      for(let flute=0;flute<32;flute++){const a=flute*Math.PI*2/32;batch(box,gold,[x+side*6+Math.cos(a)*1.505,1,z+2+Math.sin(a)*1.505],[.022,1.93,.022]);}
       for (let i = 0; i < 4; i++)
         batch(
           sphere,
@@ -291,7 +285,7 @@ export function* squishInteriorArtSteps() {
     ring(x, 3.08, z, r, warm, 0.07);
   }
   sign("CHICHI SQUISH WAREHOUSE", 0, 23, -118, 62, 7);
-  sign("MEGA SQUISH COLLECTION", 0, 17, -118, 37, 4.4);
+  sign("CHICHI | MEGA SQUISH COLLECTION", 0, 17, -118, 37, 4.4);
   // Multi-storey curved collection walls extend into the unchanged giant shell.
   for (const side of [-1, 1])
     for (let section = 0; section < 5; section++) {
@@ -443,6 +437,8 @@ export function* squishInteriorArtSteps() {
     blockers,
     sectors: SQUISH_SECTORS,
     collectables: placements.length,
+    visualVersion:20,
+    visualPass:1,
     environment: env,
     update(dt, eye) {
       visualLOD.update(dt, eye);

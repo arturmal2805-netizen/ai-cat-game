@@ -383,7 +383,7 @@ export function createWarehouseWorld({
     return entry;
   }
   function teleportVisit(id,activityId="warehouse-explore",ticket=null){if(!teleportCat)return runtime.start(id,activityId,{ticket});const entry=warehouseTeleportEntry(activityId);
-    return !!teleportCat(id,entry,()=>runtime.start(id,activityId,{ticket,express:true}),{ticket});
+    return teleportCat(id,entry,()=>runtime.start(id,activityId,{ticket,express:true}),{ticket});
   }
   async function invite(id) {
     if (!canSimulate() || !canInvite(id)) {
@@ -394,12 +394,13 @@ export function createWarehouseWorld({
       return false;
     if (runtime.has(id)) return true;
     if (!reserve(id)) return false;
-    const ok = teleportVisit(id);
+    const transfer = teleportVisit(id);
+    const ok=transfer?true:false;
     if (ok)
       onError(
         "✨ Портал до субмарини. Далі — коротка поїздка до Warehouse.",
       );
-    return ok;
+    return transfer?.result?!!await transfer.result:ok;
   }
   function requestManual() {
     if (runtime.has("chichi")) {
@@ -593,7 +594,7 @@ export function createWarehouseWorld({
     arrival: () =>
       new T.Vector3(origin.x + A.shore.x, A.shore.y, origin.z + A.shore.z),
     startReady: (id, activityId, ticket) =>
-      teleportVisit(id, activityId, ticket),
+      !!teleportVisit(id, activityId, ticket),
     update(dt, time) {
       pawContacts.restoreFrame();
       const active = getFocused() === "autumn",

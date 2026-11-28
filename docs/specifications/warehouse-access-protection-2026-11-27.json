@@ -13,7 +13,8 @@
     "public/resort-spa-world.js",
     "public/resort-spa-invitations.js",
     "public/waterfront-world.js",
-    "public/waterfront-runtime.js"
+    "public/waterfront-runtime.js",
+    "public/leisure-runtime.js"
   ],
   "frozenFiles": {
     "package-lock.json": "b3d16d1c9aa17089e38d9dd4805f4177e5e5beac1293c4898e7e8ec964a1ddbe",
@@ -157,7 +158,7 @@
     "public/landscape-detail.js": "4289293bd097b473aefc62c8702c15475aa68f5a9797a85f15e06cdbd4ebf1e0",
     "public/legendary-assets.js": "5fbbf00eaf57cf54de03e11200ceace5777c9589e7c6e6b49009c15f69fcfc2a",
     "public/legendary-biome.js": "5ab17317a2239d9dd6c4f7852d8a58231364bf1ce9066dee2a5626292b712b0b",
-    "public/leisure-runtime.js": "3b7ed97a215a50dfe19db916599154e553a02fb67f1715be606aa80b8fbce444",
+    "public/leisure-runtime.js": "adad1ddfcac7e676aedebaf683604407988d34e8b6517ad5bdf26a4ff56a098d",
     "public/magic-bed-data.js": "57bbe56cfce742e4ed84599f9b04a9135c80da3ce1a8ca8331a3f303a66895eb",
     "public/magic-bed-harvest.js": "aa2e57c712c595737c51f8bb8ad3c0e16daa66f6dbe8201b495ea51c5ad4e756",
     "public/magic-bed-interaction.js": "b1a69b95169f1fff3793224eedf75e48e1b5e6d1156ec07a222452800eb67bda",
@@ -432,7 +433,7 @@
     "public/waterfront-restaurant.js": "ece2f7dd7e8ae4343e80bd2419ae9f8607de20c2c69778ea33dd7a86f6ad198b",
     "public/waterfront-runtime.js": "89cba0d9599d2249da8d865acc2aef9386c63ba1e7b02afc58903df774c15169",
     "public/waterfront-trampoline.js": "ca59d8ddf2573514d5375f3ac6f6fbbeb731edfa4d9bd35debc859ee5951407a",
-    "public/waterfront-world.js": "24920f5aa7123ac7ba5f3e8ec254db38815c73157026ef2c56a95d4c6b1e4430",
+    "public/waterfront-world.js": "1a1ca9e0a635cdb1b9a7dcdec6773de14ecaf86cdcfd164c370597cf0d6594d6",
     "public/whale-assets.js": "d1d050c4bbc626e76e158a5c72b4534acf46dea87ac4c8260740fd7810c06ccf",
     "public/whale-diorama.js": "e3fd42c9cb44c4b0fd6ccb90896b8c7aa0569084732fe38b55d4c127c03c6887",
     "public/work-profile.js": "71f797a4e34a25d2b0b616554205e205243706a0a33ff5c76172066328edb87e",
@@ -513,7 +514,7 @@
       {
         "file": "public/waterfront-world.js",
         "old": "55f901dc97b88ded01c708c8d6870097220236d31afcd68889230fdfcf552498",
-        "new": "24920f5aa7123ac7ba5f3e8ec254db38815c73157026ef2c56a95d4c6b1e4430"
+        "new": "1a1ca9e0a635cdb1b9a7dcdec6773de14ecaf86cdcfd164c370597cf0d6594d6"
       },
       {
         "file": "public/waterfront-runtime.js",
@@ -529,6 +530,11 @@
         "file": "public/resort-spa-invitations.js",
         "old": "75f392bfe6acc9deb256c0b206c8c36075d03c7f84d0eb64b8e5f1c22a92261c",
         "new": "043513aac1a043bb8049338ba95aa3a51596a08b3cf270cfe32b5acd2d748b2c"
+      },
+      {
+        "file": "public/leisure-runtime.js",
+        "old": "3b7ed97a215a50dfe19db916599154e553a02fb67f1715be606aa80b8fbce444",
+        "new": "adad1ddfcac7e676aedebaf683604407988d34e8b6517ad5bdf26a4ff56a098d"
       }
     ]
   }

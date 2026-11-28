@@ -18,7 +18,7 @@ const colours = {
   foam: 0xda8bbf,
   crunchy: 0xff94d5,
   mochi: 0xffcfdf,
-  giant: 0xffdccd,
+  giant: 0xfff2ec,
 };
 export function squishSurfaceMaterial(type) {
   const matte = ["cloud", "foam", "giant"].includes(type),

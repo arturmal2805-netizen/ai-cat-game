@@ -13,6 +13,7 @@ export async function auditSquishInterior({
   await page.evaluate(() => {
     const q = __lagoonQA;
     q.freeze = false;
+    q.manualFrames = false;
     q.drawPaused = true;
     q.reviewHour = 12;
     q.terrainClock = 7;
@@ -31,7 +32,7 @@ export async function auditSquishInterior({
     const q = __lagoonQA;
     q.manualFrames = true;
     q.drawPaused = true;
-    q.testNow = performance.now();
+    q.testNow = Math.max(q.testNow||0,performance.now());
   });
   const step = (n) =>
     page.evaluate((n) => {
@@ -99,6 +100,7 @@ export async function auditSquishInterior({
     assert(r.collectables >= 2000);
     console.log("SQUISH_INTERIOR_FRAME", id);
   };
+  if(!process.env.CHICHI_SQUISH_V20_CLOSE){
   await activate("[data-squish-overview]");
   await shot("overview");
   for (const id of [
@@ -115,6 +117,20 @@ export async function auditSquishInterior({
   ]) {
     await activate(`[data-squish-zone="${id}"]`);
     await shot(id);
+  }
+  }
+  for(const id of ['jelly','giant','collection']){
+    await page.evaluate(id=>{const q=__lagoonQA,t=q.warehouse().interior.userData.toys.find(t=>t.userData.sectorId===id),p=t.getWorldPosition(new q.THREE.Vector3()),large=id==='giant';q.oceanReviewCamera={eye:[p.x+(large?16:7),p.y+(large?10:5.5),p.z+(large?22:10)],target:[p.x,p.y+(large?4:2),p.z],fov:48,far:20000};},id);
+    await shot('close-'+id);
+  }
+  if(process.env.CHICHI_SQUISH_LIGHT_PROBE){
+    for(const gain of [0,1.5,5,15]){
+      const r=await page.evaluate(gain=>{const q=__lagoonQA,t=q.warehouse().interior.userData.toys.find(t=>t.userData.sectorId==='jelly'),p=t.getWorldPosition(new q.THREE.Vector3());q.oceanReviewCamera={eye:[p.x+7,p.y+5.5,p.z+10],target:[p.x,p.y+2,p.z],fov:48,far:20000};for(const m of t.userData.meshes.map(o=>o.material)){m.envMapIntensity=gain;m.needsUpdate=true;}q.manualStepping=true;q.step(q.testNow+=100);q.manualStepping=false;q.drawFrame();q.renderer.getContext().finish();const m=t.userData.meshes[0].material,props=q.renderer.properties.get(m);return{raw:q.renderer.domElement.toDataURL('image/png').split(',')[1],gain,uniformGain:props.uniforms?.envMapIntensity?.value,preparedMap:props.envMap?.image,inputMap:{width:m.envMap.image.width,height:m.envMap.image.height,maximum:m.envMap.image.data.reduce((a,b)=>Math.max(a,b),0)},camera:q.camera.position.toArray()};},gain);
+      await writeFile(join(review,`light-probe-${gain}.png`),Buffer.from(r.raw,'base64'));delete r.raw;await writeFile(join(review,`light-probe-${gain}.json`),JSON.stringify(r,null,2));
+    }
+  }
+  if(process.env.CHICHI_SQUISH_LIGHT_PROBE){
+    const r=await page.evaluate(()=>{const q=__lagoonQA,T=q.THREE,m=q.warehouse().interior.userData.toys[0].userData.meshes[0].material,prepared=q.renderer.properties.get(m).envMap,scene=new T.Scene(),camera=new T.OrthographicCamera(-1,1,1,-1,0,2),geometry=new T.PlaneGeometry(2,2),material=new T.MeshBasicMaterial({map:prepared,toneMapped:false,depthTest:false}),mesh=new T.Mesh(geometry,material),target=new T.WebGLRenderTarget(336,256),old=q.renderer.getRenderTarget();scene.add(mesh);camera.position.z=1;q.renderer.setRenderTarget(target);q.renderer.render(scene,camera);const pixels=new Uint8Array(336*256*4);q.renderer.readRenderTargetPixels(target,0,0,336,256,pixels);q.renderer.setRenderTarget(old);const canvas=document.createElement('canvas');canvas.width=336;canvas.height=256;canvas.getContext('2d').putImageData(new ImageData(new Uint8ClampedArray(pixels),336,256),0,0);const result={raw:canvas.toDataURL('image/png').split(',')[1],maximum:pixels.reduce((a,b,i)=>i%4===3?a:Math.max(a,b),0),mean:pixels.reduce((a,b,i)=>i%4===3?a:a+b,0)/(336*256*3),materialName:m.name};target.dispose();material.dispose();geometry.dispose();return result;});await writeFile(join(review,'probe-map.png'),Buffer.from(r.raw,'base64'));delete r.raw;await writeFile(join(review,'probe-map.json'),JSON.stringify(r,null,2));
   }
   assert.deepEqual(httpErrors, []);
   await writeFile(
