@@ -6285,12 +6285,12 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     },
     snapshotCatLocations(next,previous=next){
       const actors=[{id:'chichi',position:chichiCarrier.position,yaw:chichiCarrier.rotation.y,
-        transient:!!submarine?.active||!!court.get('chichi')?.zooCarry||!!heroGather||draggingCat?.catId==='chichi'||['ride','swim'].includes(operation?.decision.action)},
+        transient:!!manualWalk?.airborne||!!submarine?.active||!!court.get('chichi')?.zooCarry||!!heroGather||draggingCat?.catId==='chichi'||['ride','swim'].includes(operation?.decision.action)},
         ...[...npcs].map(([id,n])=>({id,position:n.carrier.position,yaw:n.carrier.rotation.y,
           transient:!!court.get(id)?.zooCarry||!!n.gatherTrip||draggingCat?.catId===id||!!spa.get(id)||!!chill.get(id)||swimVisits.has(id)||
             ['ride','swim'].includes(residentPlay.get(id)?.decision?.action)}))];
       const safeSpa=resortSpa?.safePositions()||new Map();
-      return captureCatLocations(submarine?{...next,mosasaurSubmarine:submarine.snapshot()}:next,previous,actors.map(a=>{const position=warehouseVisits?.safePosition(a.id)||waterfront?.safePosition(a.id)||mall?.safePosition(a.id)||safeSpa.get(a.id)||a.position;return{...a,position,transient:a.transient||safeSpa.has(a.id)&&!safeSpa.get(a.id),spaLayout:resortSpa?.locationStamp(a.id,position)};}));
+      return captureCatLocations(submarine?{...next,mosasaurSubmarine:submarine.snapshot()}:next,previous,actors.map(a=>{const position=(a.id==='chichi'&&manualWalk?.safePosition)||warehouseVisits?.safePosition(a.id)||waterfront?.safePosition(a.id)||mall?.safePosition(a.id)||safeSpa.get(a.id)||a.position;return{...a,position,transient:a.transient||safeSpa.has(a.id)&&!safeSpa.get(a.id),spaLayout:resortSpa?.locationStamp(a.id,position)};}));
     },
     followCat,
     inspectJobBusiness: inspectAttraction,

@@ -75,7 +75,7 @@
     "public/cat-wealth.js": "403839f28b653069cc49d82655a10bb77738a6e54b6738529c0d74f58e7b722e",
     "public/catalog-previews.js": "13c30d54db9a77acf4b38544903be6ca88a4ba797774cfd9e5c65bb67fa95bb5",
     "public/chichi-camera.js": "4fb07aa8c69ecd2211f4d397757a9cfdbb414ec3f9e21eabef9584bafe78c52c",
-    "public/chichi-manual.js": "8752291dada1c9a4f4fe0f5980cb23e670650ee7da4a328cf2f8e267e065b903",
+    "public/chichi-manual.js": "a8b8301e4643e16724de49c33200c7c18e75ed8b49d733ac72f7ffebf28812d9",
     "public/chichi-model.js": "a286b22eacca7813e1c6d59b3b672034b5f6b74ed7ac7c270390bdf71e96a59d",
     "public/chichi-sculpt.js": "9a3059bfad8189a1aacee15c07ced1496259f6f0d24fc7a7855559e41250a9c8",
     "public/chill-assets.js": "2568cf514919352fea4f0ea094aa6b1dfe7fca2158d57b89965213899b9ce0e8",
@@ -479,5 +479,16 @@
     "server.mjs": "5ebceae99dd5c595d48b1db7e64b1002110d874d91d8a92849ebb35acb4419cd",
     "worker.mjs": "38ef06c3128c2bb1c995d6ed47188052fb9753dbbbfe27354a5e8a9ab67f10d7"
   },
-  "workerBoundary": "Move the renderer-only Warehouse builder import from shared expansion physics to the biome scene. Physics, saved coordinates and every existing geometry remain identical; workerd must never initialize the Meshopt renderer encoder."
+  "workerBoundary": "Move the renderer-only Warehouse builder import from shared expansion physics to the biome scene. Physics, saved coordinates and every existing geometry remain identical; workerd must never initialize the Meshopt renderer encoder.",
+  "explicitUserEvolution20261128": {
+    "file": "public/chichi-manual.js",
+    "request": "User explicitly requested Space jump for Chichi, 2026-11-28; ordinary manual jump added while venue transports keep priority.",
+    "previousSha256": "8752291dada1c9a4f4fe0f5980cb23e670650ee7da4a328cf2f8e267e065b903",
+    "newSha256": "a8b8301e4643e16724de49c33200c7c18e75ed8b49d733ac72f7ffebf28812d9",
+    "unchangedControllerSections": {
+      "camera": "a11fc450ac4f8614f696a0d0892e5fa1a1a20cfa6862b2ac13fe57dd1a0bf35d",
+      "walking": "7c887e22b693a20e82e750648896d61d8c341cb4522daa31017115d9a5065c42",
+      "obstacles": "581031ff553cce83571f0907e9126093b5ac552f5722697bd617707318b9d903"
+    }
+  }
 }

@@ -347,7 +347,8 @@ async function localWorker() {
     }
     if(process.env.CHICHI_OCEAN_AREA_AUDIT&&!baseline){const {MOSA_RELEASED_SEA}=await import(root+'/public/mosasaur-data.js');g.mosasaurSubmarine={...g.mosasaurSubmarine,x:MOSA_RELEASED_SEA.rx+30,y:-8,z:0};}
     if(process.env.CHICHI_GLOBAL_MANUAL_AUDIT){g.catPosition={biome:'moon',x:0,z:0};delete g.catLocations;delete g.mosasaurSubmarine;}
-    if(process.env.CHICHI_MANUAL_BUSY_AUDIT){const {captureCatLocations}=await import(root+'/public/cat-locations.js'),{byBiome}=await import(root+'/public/game-data.js'),b=byBiome('homestead');Object.assign(g,captureCatLocations(g,g,[{id:'chichi',position:{x:b.center[0]+195,y:.16,z:b.center[1]-20},yaw:0}],now));}
+    if(process.env.CHICHI_MANUAL_BUSY_AUDIT||process.env.CHICHI_SPACE_JUMP_AUDIT){const {captureCatLocations}=await import(root+'/public/cat-locations.js'),{byBiome}=await import(root+'/public/game-data.js'),b=byBiome('homestead');Object.assign(g,captureCatLocations(g,g,[{id:'chichi',position:{x:b.center[0]+195,y:.16,z:b.center[1]-20},yaw:0}],now));}
+    if(process.env.CHICHI_SPACE_JUMP_AUDIT)delete g.mosasaurSubmarine;
     if(process.env.CHICHI_MANUAL_PATHS_AUDIT){
       const {ensureJobCity}=await import(root+'/public/jobcity-system.js'),{captureCatLocations}=await import(root+'/public/cat-locations.js'),{byBiome}=await import(root+'/public/game-data.js');
       g.unlocked=['moon','homestead','autumn','jobcity','cat-homes','sakura'];g.catDestinations={luna:'moon',moti:'moon'};delete g.catLocations;delete g.mosasaurSubmarine;
@@ -718,6 +719,7 @@ async function localWorker() {
       if(process.env.CHICHI_FORECOURT_AUDIT){const {auditForecourt}=await import('./audit-forecourt-native.mjs');await auditForecourt({page,review,errors,httpErrors});return;}
       if(process.env.CHICHI_OCEAN_AREA_AUDIT){const {auditOceanAreaNative}=await import('./audit-ocean-area-native.mjs');await auditOceanAreaNative({page,review,errors,httpErrors,baseline:!!baseline});return;}
       if(process.env.CHICHI_GLOBAL_BUTTON_AUDIT){const {auditGlobalButton}=await import('./audit-global-button.mjs');await auditGlobalButton({page,review,errors,httpErrors});return;}
+      if(process.env.CHICHI_SPACE_JUMP_AUDIT){const {auditSpaceJump}=await import('./audit-space-jump-native.mjs');await auditSpaceJump({page,review,errors,httpErrors});return;}
       if(process.env.CHICHI_MANUAL_BUSY_AUDIT){const {auditManualBusy}=await import('./audit-manual-busy-native.mjs');await auditManualBusy({page,review,errors,httpErrors});return;}
       if(process.env.CHICHI_GLOBAL_MANUAL_AUDIT){const {auditGlobalManual}=await import('./audit-global-manual.mjs');await auditGlobalManual({page,context,browser,base,headers,review,errors,httpErrors});return;}
       if(process.env.CHICHI_MALL_PALETTE_AUDIT){const {auditMallPaletteNative}=await import('./audit-mall-palette-native.mjs');await auditMallPaletteNative({page,review,errors,httpErrors});return;}
