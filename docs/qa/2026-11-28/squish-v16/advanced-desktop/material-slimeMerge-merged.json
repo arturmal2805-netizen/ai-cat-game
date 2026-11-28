@@ -1,0 +1,60 @@
+{
+  "material": "slime",
+  "solver": {
+    "sleeping": true,
+    "particles": 343,
+    "constraints": 3150,
+    "contacts": 0,
+    "steps": 127,
+    "time": 2.116666666666664,
+    "volumeRatio": 1,
+    "minTetRatio": 0.9999999999999998,
+    "maxDeformation": 0,
+    "maxStrain": 0.1525091760726015,
+    "damage": 0,
+    "faults": 0,
+    "limitedSteps": 0,
+    "lastPhysicsMs": 0,
+    "droppedTime": 0
+  },
+  "filaments": {
+    "active": 0,
+    "tears": 0,
+    "filaments": []
+  },
+  "coalescence": {
+    "phase": "merged",
+    "centres": [
+      0.495,
+      0.505
+    ],
+    "components": 1,
+    "volumeProxyRatio": 1.0195530726256983,
+    "isolation": 94.34375,
+    "vertices": 2184,
+    "updates": 150,
+    "approximation": "Two overdamped centres with volume-normalized implicit surface; not full fluid simulation."
+  },
+  "camera": {
+    "position": [
+      3068.3,
+      -446.748,
+      1243.3
+    ],
+    "target": [
+      3068.3,
+      -449.048,
+      1238.9
+    ],
+    "fov": 48,
+    "aspect": 1.561764705882353,
+    "near": 0.08,
+    "far": 20000
+  },
+  "renderer": {
+    "dpr": 2,
+    "shadow": 1,
+    "toneMapping": 4
+  },
+  "time": 2.116666666666664
+}
