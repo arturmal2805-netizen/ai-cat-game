@@ -1,0 +1,14 @@
+{
+  "id": "luna",
+  "position": [
+    -450,
+    -156.32,
+    530.2
+  ],
+  "visit": {
+    "floor": 2,
+    "phase": "inspect",
+    "storeId": "mall-nike"
+  },
+  "active": false
+}

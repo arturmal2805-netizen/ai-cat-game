@@ -1,0 +1,5 @@
+# Native portal handoff baseline
+
+Original Chichi real Warehouse button → visible pooled cat-head portal → actual native gangplank and original submarine → actual two-door pressure entry. Original Luna: free thermal SPA room y=-164.988 (real triangle support); floor2 mall-nike y=-156.32; trampoline net y=0.7018878. The native carrier moves to the new venue, not just an activity flag. WebGL/HTTP errors empty. Portal screenshot visually inspected: basic cat outline/particles/swirl, artistic polish still open. Ordinary camera settings not rewritten.
+
+Prior rejected runs outside repo: first core was incorrectly initialized in context-restore callback; next failed because old shore point was not recognized by the common walker. First four-owner attempt had weak assertions and missed old Mall return ownership and free SPA flattening; stronger semantic assertions exposed these, then real physical frame retention/detach fixed them. Source overlay and captured actual bundle included. The later initial registry/free HERO park additions require a fresh native run. No final release claim.

@@ -76,3 +76,52 @@ Primary visual reference: latest user supplied pink Jelly / collection wall / wh
 Existing sending owners: world.perform / performResident, leisure runtime, MallWorld.start/startReady, ResortSpaWorld.startReady/call/invitations, WaterfrontWorld.invite/startReady, WarehouseWorld.invite/startReady. Registry and integration not yet implemented; must not silently skip an owner. Existing Warehouse has actual bounded three-boat fleet, real gangplanks and pressure doors. Preserve these.
 
 Space request: general manual jump native PC VERIFIED (20 tests and actual keyboard/airborne/release frames under docs/qa/2026-11-28/chichi-space), separate from venue transport; exact camera/walker source hashes preserved in protection manifest.
+
+## V22 additive dynamic physics
+
+Full exact request: [V22](specifications/warehouse-dynamic-physics-v22-2026-11-28.md). Adds time-dependent local material state, static load vs impact, 3 distinct Slime modes, bounded physical immersion, contact age/history, real 0/.2/.5/1/2/4/6/10s game frames, 3 impact levels, material audio and real depth/time plots. Existing main pink is Jelly, not liquid Slime. Keep all previous work and finished jump/camera.
+
+- **NOT STARTED** — 1. ГЛАВНАЯ ЦЕЛЬ
+- **NOT STARTED** — 2. НЕ ТРОГАТЬ СУЩЕСТВУЮЩИЙ МИР
+- **NOT STARTED** — 3. ГЛАВНОЕ ИЗМЕНЕНИЕ — TIME-DEPENDENT DEFORMATION
+- **NOT STARTED** — 4. НЕ ПУТАЙ ПРУЖИНУ, ПЕНУ И ВЯЗКУЮ ЖИДКОСТЬ
+- **NOT STARTED** — 5. СОЗДАЙ DYNAMIC MATERIAL PROFILE V2
+- **NOT STARTED** — 6. ОСНОВНОЙ ЦИКЛ ФИЗИКИ
+- **NOT STARTED** — 7. РАЗДЕЛИ СТАТИЧЕСКУЮ НАГРУЗКУ И УДАРНЫЙ ИМПУЛЬС
+- **NOT STARTED** — 8. СИСТЕМА CONTACT AGE
+- **NOT STARTED** — 9. TIME-DEPENDENT CREEP SOLVER
+- **NOT STARTED** — 10. SLIME — DEEP IMMERSION SYSTEM
+- **NOT STARTED** — 11. ФИЗИЧЕСКАЯ ПОДДЕРЖКА ПРИ ПОГРУЖЕНИИ
+- **NOT STARTED** — 12. НЕЗАВИСИМЫЕ РЕЖИМЫ СЛАЙМА
+- **NOT STARTED** — 13. JELLY — IMPACT, WOBBLE & STATIC EQUILIBRIUM
+- **NOT STARTED** — 14. MEMORY FOAM — PRESSURE HISTORY
+- **NOT STARTED** — 15. CLOUD — EXTREME SOFT COMPRESSION
+- **NOT STARTED** — 16. BUTTER — PLASTIC DEFORMATION OVER TIME
+- **NOT STARTED** — 17. CRUNCHY — PRESSURE-SENSITIVE FILLER
+- **NOT STARTED** — 18. ДИНАМИЧЕСКАЯ ГЛУБИНА ПОГРУЖЕНИЯ
+- **NOT STARTED** — 19. CAT BODY DEFORMATION COUPLING
+- **NOT STARTED** — 20. АНИМАЦИЯ ВЫХОДА ИЗ ГЛУБОКОГО СЛАЙМА
+- **NOT STARTED** — 21. ПЕРЕНОС ВЕСА МЕЖДУ ЛАПАМИ
+- **NOT STARTED** — 22. НЕЛИНЕЙНАЯ РЕАКЦИЯ НА СИЛУ ПРЫЖКА
+- **NOT STARTED** — 23. CONTACT AREA EVOLUTION
+- **NOT STARTED** — 24. ДЕФОРМАЦИЯ ОБЪЁМА И МАССЫ
+- **NOT STARTED** — 25. НЕ ДОПУСКАЙ БЕСКОНЕЧНОГО ПРОВАЛИВАНИЯ
+- **NOT STARTED** — 26. ФИЗИКА ВНЕШНЕГО МЕША
+- **NOT STARTED** — 27. SHADER RESPONSE
+- **NOT STARTED** — 28. ЗВУКОВОЙ ОТКЛИК
+- **NOT STARTED** — 29. AI-ПОВЕДЕНИЕ НА МЯГКИХ МАТЕРИАЛАХ
+- **NOT STARTED** — 30. ТЕСТЫ ДЛИТЕЛЬНОГО СТОЯНИЯ
+- **NOT STARTED** — 31. ТЕСТЫ СИЛЫ ПРЫЖКА
+- **NOT STARTED** — 32. ТЕСТЫ ПОЗЫ КОТИКА
+- **NOT STARTED** — 33. DEBUG PANEL — DYNAMIC DEFORMATION
+- **NOT STARTED** — 34. REFERENCE VALIDATION
+- **NOT STARTED** — 35. ПРОИЗВОДИТЕЛЬНОСТЬ
+- **NOT STARTED** — 36. ПОРЯДОК РЕАЛИЗАЦИИ
+- **NOT STARTED** — 37. КРИТЕРИИ ПРИЁМКИ
+- **NOT STARTED** — 38. САМОЕ ГЛАВНОЕ ТРЕБОВАНИЕ
+
+Current physics audit: persistent contact duration and force metadata already exist, and XPBD/plastic rest/fine foam retain state; V22 independent creep profiles, contact-specific accumulated creep, physically supported deep immersion and real time curves are not yet implemented. Never call the previous one-frame press proof a V22 temporal test.
+
+## V21 implementation checkpoint
+
+Shared CatTeleportationSystem + 12 pooled cat-head portals + real destination adapter helpers implemented. Five core tests cover token cancellation, negative floors, group separation, changing support, safe snapshots, no particle buffer uploads. Four-owner actual-game baseline archived in docs/qa/2026-11-28/cat-teleport/owner-handoff. World generic commands wired, but generic native coverage and gather/moveResident/autonomous preliminary travel remain OPEN. Initial complete venue registry + free hero SPA retention added after that run; not yet native verified. Source-preservation pins updated only for explicitly authorized transport/command files; all model/exterior/economy/save pins remain unchanged. Full generated catalogue/remaining gaps: CAT_TELEPORT_DESTINATION_COVERAGE.md.

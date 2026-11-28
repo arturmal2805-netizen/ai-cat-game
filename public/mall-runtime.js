@@ -151,7 +151,7 @@ export function createMallRuntime({getGame,onPurchase=()=>false,onUse=()=>false,
   }
   return {
     visits,lift,start,has:id=>visits.has(id),get:id=>visits.get(id),
-    detach(id){const v=visits.get(id);if(v)finish(v);},
+    detach(id,{cancelled=false}={}){const v=visits.get(id);if(v){v.cancelled=cancelled;finish(v);}},
     cancel(id){const v=visits.get(id);if(!v)return;if(v.position.y>=-1&&v.phase==='walk'&&v.next==='queue'){finish(v);return;}v.returning=true;if(['inspect','compare','checkout','experience','joy','route-blocked'].includes(v.phase))leave(v);},
     clear(){visits.clear();queue.length=0;storeLocks.clear();lift.passengers.length=0;},
     safePosition(id){const v=visits.get(id);return !v?null:['riding','boarded'].includes(v.phase)||v.next==='boarded'?mallLanding(v.fromFloor,v.slot||0):copy(v.position);},

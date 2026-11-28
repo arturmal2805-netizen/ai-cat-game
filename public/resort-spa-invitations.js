@@ -15,6 +15,7 @@ export function createSpaInvitations({actors,free,recall,ride,transit,navigation
   get size(){return guests.size;},get active(){return[...guests.values()].filter(g=>g.phase!=='queued'&&g.phase!=='parked').length;},
   has:id=>guests.has(id),cancel:drop,
   invite(ids){let count=0;for(const id of new Set(ids)){if(guests.has(id)||!free(id))continue;const a=actors().find(a=>a.id===id);if(!a)continue;const p=local(a.position);if(p.y<80&&navigation.support(p,a.radius))continue;if(!onReserve(id))continue;guests.set(id,{id,radius:a.radius,phase:'queued'});count++;}return count;},
+  parkFromPortal(id,p){const a=actors().find(a=>a.id===id);if(!a)return false;const position=local(p);if(!navigation.support(position,a.radius)||!clear(position,a.radius,id))return false;guests.set(id,{id,radius:a.radius,phase:'parked',place:{...position},position:{...position},yaw:a.carrier?.rotation.y||0});onPark(id,world(position));return true;},
   ready(id){const g=guests.get(id);if(g?.phase==='recall')g.phase='ready';},
   arrived(id){const g=guests.get(id);if(g)g.phase='plan';},
   frame(id){const g=guests.get(id);return g?.position?{position:world(g.position),yaw:g.yaw||0,walking:g.phase==='walk',phase:'spa-invitation-'+g.phase,reaction:null}:null;},

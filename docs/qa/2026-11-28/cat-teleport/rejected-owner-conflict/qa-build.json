@@ -1,0 +1,8 @@
+{
+  "sha256": "01357f2c9c27addd2a85f7a6db803bd5fc138e7ae129b030271c9283718dddd8",
+  "baseline": null,
+  "node": "v22.23.5",
+  "head": "67360133f6f255b50e99bfa0c2734018cb71ed1c",
+  "dirty": " M docs/specifications/warehouse-access-protection-2026-11-27.json\n M public/mall-world.js\n M public/resort-spa-world.js\n M public/warehouse-visit-runtime.js\n M public/warehouse-world.js\n M public/waterfront-runtime.js\n M public/waterfront-world.js\n M public/world.js\n M scripts/check-aquarium.cjs\n?? public/cat-portal-visuals.js\n?? public/cat-teleport-destinations.js\n?? public/cat-teleportation-system.js\n?? scripts/__pycache__/\n?? scripts/audit-cat-teleport-native.mjs\n?? test/cat-teleportation.test.mjs\n",
+  "sourceOverlay": "source-HEAD.patch"
+}

@@ -1,0 +1,8 @@
+{
+  "sha256": "b58943464b3244d8338887a0f6aab47818fffb899d8352965a55fd1abc17ebf8",
+  "baseline": null,
+  "node": "v22.23.5",
+  "head": "67360133f6f255b50e99bfa0c2734018cb71ed1c",
+  "dirty": " M docs/SQUISH_V20_V21_IMPLEMENTATION_TRACKER.md\n M docs/specifications/warehouse-access-protection-2026-11-27.json\n M public/mall-runtime.js\n M public/mall-world.js\n M public/resort-spa-invitations.js\n M public/resort-spa-world.js\n M public/warehouse-visit-runtime.js\n M public/warehouse-world.js\n M public/waterfront-runtime.js\n M public/waterfront-world.js\n M public/world.js\n M scripts/check-aquarium.cjs\n?? docs/specifications/warehouse-dynamic-physics-v22-2026-11-28.md\n?? public/cat-portal-visuals.js\n?? public/cat-teleport-destinations.js\n?? public/cat-teleportation-system.js\n?? scripts/__pycache__/\n?? scripts/audit-cat-teleport-native.mjs\n?? test/cat-teleportation.test.mjs\n",
+  "sourceOverlay": "source-HEAD.patch"
+}

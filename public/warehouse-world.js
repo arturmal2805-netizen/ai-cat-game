@@ -1,3 +1,4 @@
+import {catArrivalCandidates,catTeleportDestination} from "./cat-teleport-destinations.js";
 import { createWarehouseThirdPersonCamera } from "./squish-manual-camera.js";
 import { createSquishNavigation } from "./squish-navigation.js";
 import { createSquishManual } from "./squish-manual.js";
@@ -14,7 +15,7 @@ import {
 import * as T from "three";
 import { byBiome } from "./game-data.js";
 import { WAREHOUSE as W } from "./mosasaur-expansion-data.js";
-import { WAREHOUSE_ACCESS as A } from "./warehouse-access-data.js";
+import { WAREHOUSE_ACCESS as A,WAREHOUSE_ACTIVITIES } from "./warehouse-access-data.js";
 import { warehouseFleetSteps } from "./warehouse-shuttle-models.js";
 import { createWarehouseVisits } from "./warehouse-visit-runtime.js";
 // A shared, bounded fleet. Visitors keep their original native carrier and rig.
@@ -42,6 +43,8 @@ export function createWarehouseWorld({
   camera,
   look,
   onError,
+  teleportCat=null,
+  teleportSupport=()=>true,
 }) {
   const b = byBiome("autumn"),
     origin = { x: b.center[0], z: b.center[1] },
@@ -86,6 +89,7 @@ export function createWarehouseWorld({
     () => void invite("chichi"),
     "warehouseCall",
   );
+  const skipTrip=button("⏩ Пропустити поїздку",()=>runtime.skipJourney("chichi"),"warehouseSkipTrip");skipTrip.hidden=true;
   const control = button(
     "🎮 Керувати Чічі після прибуття",
     () => requestManual(),
@@ -357,6 +361,30 @@ export function createWarehouseWorld({
     })();
     return pending;
   }
+  const boardingRay=new T.Raycaster(),boardingDown=new T.Vector3(0,-1,0),boardingProbe=new T.Vector3();
+  function boardingSupport(p,radius){
+    if(!fleet)return false;fleet.updateWorldMatrix(true,true);
+    for(const ramp of fleet.userData.ramps){const plank=ramp.children[0],q=plank.worldToLocal(new T.Vector3(p.x,p.y,p.z)),length=plank.geometry.parameters.depth;
+      if(Math.abs(q.x)>1.1-radius||Math.abs(q.z)>length/2-radius)continue;
+      boardingProbe.set(p.x,p.y+.5,p.z);boardingRay.set(boardingProbe,boardingDown);boardingRay.far=1.2;const hit=boardingRay.intersectObject(plank,false)[0];
+      if(hit&&Math.abs(hit.point.y+.012-p.y)<.08)return true;
+    }return false;
+  }
+  function boardingArrivals(actor){if(!fleet)return[];fleet.updateWorldMatrix(true,true);const out=[];
+    for(const [slot,ramp]of fleet.userData.ramps.entries()){const boat=runtime.boats[slot];if(boat.id||Math.hypot(boat.x-(A.departure.x+slot*14),boat.z-A.departure.z)>1)continue;boat.open=1;const plank=ramp.children[0],length=plank.geometry.parameters.depth;
+      for(let d=actor.radius+.4;d<Math.min(length-actor.radius,8);d+=actor.radius*2+.4){const q=plank.localToWorld(new T.Vector3(0,.08,-length/2+d));q.y+=.012;out.push(q);}}
+    return out;
+  }
+  function warehouseTeleportEntry(activityId){
+    const shore={x:origin.x+A.shore.x,y:A.shore.y,z:origin.z+A.shore.z};
+    const entry=catTeleportDestination({destinationId:activityId,displayName:activityId==="warehouse-rest"?"Warehouse · відпочинок":"Warehouse · огляд",targetType:"warehouse",portalTheme:"warehouse",arrivalAnimation:"submarine-boarding",arrivalPoint:shore,
+      prepare:()=>ensure(),requiredConditions:()=>canSimulate()&&getGame().unlocked.includes("autumn"),
+      arrivalPoints:boardingArrivals,checkArrival:(p,a)=>boardingSupport(p,a.radius)});
+    return entry;
+  }
+  function teleportVisit(id,activityId="warehouse-explore",ticket=null){if(!teleportCat)return runtime.start(id,activityId,{ticket});const entry=warehouseTeleportEntry(activityId);
+    return !!teleportCat(id,entry,()=>runtime.start(id,activityId,{ticket,express:true}),{ticket});
+  }
   async function invite(id) {
     if (!canSimulate() || !canInvite(id)) {
       onError("Дочекайся безпечного завершення поточного переходу.");
@@ -366,10 +394,10 @@ export function createWarehouseWorld({
       return false;
     if (runtime.has(id)) return true;
     if (!reserve(id)) return false;
-    const ok = runtime.start(id);
+    const ok = teleportVisit(id);
     if (ok)
       onError(
-        "Чічі прямує до причалу. Субмарина доставить її до входу Warehouse.",
+        "✨ Портал до субмарини. Далі — коротка поїздка до Warehouse.",
       );
     return ok;
   }
@@ -466,6 +494,7 @@ export function createWarehouseWorld({
     return !support(a, 0) || !!support(b, 0);
   }
   return {
+    teleportDestinations:()=>WAREHOUSE_ACTIVITIES.map(a=>warehouseTeleportEntry(a.id)),
     applyCatPose(id, model, carrier, time, reduced) {
       const f =
         id === "chichi" && runtime.manual === "chichi"
@@ -564,7 +593,7 @@ export function createWarehouseWorld({
     arrival: () =>
       new T.Vector3(origin.x + A.shore.x, A.shore.y, origin.z + A.shore.z),
     startReady: (id, activityId, ticket) =>
-      runtime.start(id, activityId, { ticket }),
+      teleportVisit(id, activityId, ticket),
     update(dt, time) {
       pawContacts.restoreFrame();
       const active = getFocused() === "autumn",
@@ -626,6 +655,7 @@ export function createWarehouseWorld({
         const s = entry.userData.state;
         entry.userData.update(s.outer, s.inner, s.water, time);
       }
+      skipTrip.hidden=runtime.get("chichi")?.phase!=="outbound";
       call.disabled = !canSimulate() || runtime.has("chichi");
       control.disabled = back.disabled =
         !canSimulate() || !runtime.has("chichi");

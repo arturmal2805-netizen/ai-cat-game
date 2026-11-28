@@ -1,0 +1,759 @@
+diff --git a/docs/SQUISH_V20_V21_IMPLEMENTATION_TRACKER.md b/docs/SQUISH_V20_V21_IMPLEMENTATION_TRACKER.md
+index c5afe76..2fc1094 100644
+--- a/docs/SQUISH_V20_V21_IMPLEMENTATION_TRACKER.md
++++ b/docs/SQUISH_V20_V21_IMPLEMENTATION_TRACKER.md
+@@ -76,3 +76,48 @@ Primary visual reference: latest user supplied pink Jelly / collection wall / wh
+ Existing sending owners: world.perform / performResident, leisure runtime, MallWorld.start/startReady, ResortSpaWorld.startReady/call/invitations, WaterfrontWorld.invite/startReady, WarehouseWorld.invite/startReady. Registry and integration not yet implemented; must not silently skip an owner. Existing Warehouse has actual bounded three-boat fleet, real gangplanks and pressure doors. Preserve these.
+ 
+ Space request: general manual jump native PC VERIFIED (20 tests and actual keyboard/airborne/release frames under docs/qa/2026-11-28/chichi-space), separate from venue transport; exact camera/walker source hashes preserved in protection manifest.
++
++## V22 additive dynamic physics
++
++Full exact request: [V22](specifications/warehouse-dynamic-physics-v22-2026-11-28.md). Adds time-dependent local material state, static load vs impact, 3 distinct Slime modes, bounded physical immersion, contact age/history, real 0/.2/.5/1/2/4/6/10s game frames, 3 impact levels, material audio and real depth/time plots. Existing main pink is Jelly, not liquid Slime. Keep all previous work and finished jump/camera.
++
++- **NOT STARTED** — 1. ГЛАВНАЯ ЦЕЛЬ
++- **NOT STARTED** — 2. НЕ ТРОГАТЬ СУЩЕСТВУЮЩИЙ МИР
++- **NOT STARTED** — 3. ГЛАВНОЕ ИЗМЕНЕНИЕ — TIME-DEPENDENT DEFORMATION
++- **NOT STARTED** — 4. НЕ ПУТАЙ ПРУЖИНУ, ПЕНУ И ВЯЗКУЮ ЖИДКОСТЬ
++- **NOT STARTED** — 5. СОЗДАЙ DYNAMIC MATERIAL PROFILE V2
++- **NOT STARTED** — 6. ОСНОВНОЙ ЦИКЛ ФИЗИКИ
++- **NOT STARTED** — 7. РАЗДЕЛИ СТАТИЧЕСКУЮ НАГРУЗКУ И УДАРНЫЙ ИМПУЛЬС
++- **NOT STARTED** — 8. СИСТЕМА CONTACT AGE
++- **NOT STARTED** — 9. TIME-DEPENDENT CREEP SOLVER
++- **NOT STARTED** — 10. SLIME — DEEP IMMERSION SYSTEM
++- **NOT STARTED** — 11. ФИЗИЧЕСКАЯ ПОДДЕРЖКА ПРИ ПОГРУЖЕНИИ
++- **NOT STARTED** — 12. НЕЗАВИСИМЫЕ РЕЖИМЫ СЛАЙМА
++- **NOT STARTED** — 13. JELLY — IMPACT, WOBBLE & STATIC EQUILIBRIUM
++- **NOT STARTED** — 14. MEMORY FOAM — PRESSURE HISTORY
++- **NOT STARTED** — 15. CLOUD — EXTREME SOFT COMPRESSION
++- **NOT STARTED** — 16. BUTTER — PLASTIC DEFORMATION OVER TIME
++- **NOT STARTED** — 17. CRUNCHY — PRESSURE-SENSITIVE FILLER
++- **NOT STARTED** — 18. ДИНАМИЧЕСКАЯ ГЛУБИНА ПОГРУЖЕНИЯ
++- **NOT STARTED** — 19. CAT BODY DEFORMATION COUPLING
++- **NOT STARTED** — 20. АНИМАЦИЯ ВЫХОДА ИЗ ГЛУБОКОГО СЛАЙМА
++- **NOT STARTED** — 21. ПЕРЕНОС ВЕСА МЕЖДУ ЛАПАМИ
++- **NOT STARTED** — 22. НЕЛИНЕЙНАЯ РЕАКЦИЯ НА СИЛУ ПРЫЖКА
++- **NOT STARTED** — 23. CONTACT AREA EVOLUTION
++- **NOT STARTED** — 24. ДЕФОРМАЦИЯ ОБЪЁМА И МАССЫ
++- **NOT STARTED** — 25. НЕ ДОПУСКАЙ БЕСКОНЕЧНОГО ПРОВАЛИВАНИЯ
++- **NOT STARTED** — 26. ФИЗИКА ВНЕШНЕГО МЕША
++- **NOT STARTED** — 27. SHADER RESPONSE
++- **NOT STARTED** — 28. ЗВУКОВОЙ ОТКЛИК
++- **NOT STARTED** — 29. AI-ПОВЕДЕНИЕ НА МЯГКИХ МАТЕРИАЛАХ
++- **NOT STARTED** — 30. ТЕСТЫ ДЛИТЕЛЬНОГО СТОЯНИЯ
++- **NOT STARTED** — 31. ТЕСТЫ СИЛЫ ПРЫЖКА
++- **NOT STARTED** — 32. ТЕСТЫ ПОЗЫ КОТИКА
++- **NOT STARTED** — 33. DEBUG PANEL — DYNAMIC DEFORMATION
++- **NOT STARTED** — 34. REFERENCE VALIDATION
++- **NOT STARTED** — 35. ПРОИЗВОДИТЕЛЬНОСТЬ
++- **NOT STARTED** — 36. ПОРЯДОК РЕАЛИЗАЦИИ
++- **NOT STARTED** — 37. КРИТЕРИИ ПРИЁМКИ
++- **NOT STARTED** — 38. САМОЕ ГЛАВНОЕ ТРЕБОВАНИЕ
++
++Current physics audit: persistent contact duration and force metadata already exist, and XPBD/plastic rest/fine foam retain state; V22 independent creep profiles, contact-specific accumulated creep, physically supported deep immersion and real time curves are not yet implemented. Never call the previous one-frame press proof a V22 temporal test.
+diff --git a/docs/specifications/warehouse-access-protection-2026-11-27.json b/docs/specifications/warehouse-access-protection-2026-11-27.json
+index 0a45a50..21f4783 100644
+--- a/docs/specifications/warehouse-access-protection-2026-11-27.json
++++ b/docs/specifications/warehouse-access-protection-2026-11-27.json
+@@ -204,7 +204,7 @@
+     "public/mall-system.js": "dc68ca900df6c86b8b85fb5ec9268bb2a52921ae625fe2e9fc2ae5f77225694d",
+     "public/mall-ui.js": "9c13024a8e5896625b6d20979918e318136b5034293c39c51058c82bd0081bb3",
+     "public/mall-walker.js": "864374c13c144356567e5671797984f8962a8def7c9bb9415f7328c8f4b6c719",
+-    "public/mall-world.js": "3b4ed3aca3073fb758ffe471d2a0ce551a5bee2864bec729201557eb46159a36",
++    "public/mall-world.js": "5b71ea570ae346e40130a9240c97c783a7e8aec9658f752fabaf9554dc37f6f3",
+     "public/manual-building-navigation.js": "a3f9ae3d5cc7345494c27c2bce93689473b042eceb4ca54818a13139993215b5",
+     "public/matrix-cache.js": "765195b44047ca8920b4d409dc27dd158c2d6c9176d4041989e71b62e6f3e6c9",
+     "public/meadow-cell-cache.js": "a05679ae7293d1709ace855148b5d8e5118b16811e603445ef41344f4f1edaa5",
+@@ -340,7 +340,7 @@
+     "public/resort-spa-water-quality.js": "1065e559360463572391343188f39cc1b629db46fb72de6e9b95514f34345dc3",
+     "public/resort-spa-water-v11.js": "c4c83f508384b64d1396e2fb334350b236278e53225216f84aae4ffbd22fbd66",
+     "public/resort-spa-water-v8.js": "474ca0600a2f94e224244a18183ab0729d304b940eafe1fbabed50c49e06eb97",
+-    "public/resort-spa-world.js": "e371973670055125d7249cad4c66bb6787b9b3a67c15b92d1ed5bb8102c25b99",
++    "public/resort-spa-world.js": "0631cf78c267a3c2dcc3c509a9bb2189bef5005216e69dbf16171324dd13fa2e",
+     "public/retired-attractions.js": "bb01b32aac69a4ace7f3758525d76744db4095c94501370198ee3a3f684ad4ed",
+     "public/ride-acting.js": "c5512870040dec16ef80546020a87474efbf49bcddbf8407c1d089cbb71c8c67",
+     "public/ride-guests.js": "6bda50ec2c7933c3abd4b60235c9c47e59162067383b1bb73d194b9ec4ad0880",
+@@ -424,9 +424,9 @@
+     "public/waterfront-physics.js": "2b0c0cc2480e3954d083cd5e89a1d1dbd2d97a5023fd7e9de312b7d97a7d6200",
+     "public/waterfront-primitives.js": "c51c5a696860c387a2be9b491880c0cfb102e48800e0fe620f2cf02f79af32c2",
+     "public/waterfront-restaurant.js": "ece2f7dd7e8ae4343e80bd2419ae9f8607de20c2c69778ea33dd7a86f6ad198b",
+-    "public/waterfront-runtime.js": "40acdb28e4ee3126741d98b8c1ac2a1a8902971b965c96978647fdab81546f33",
++    "public/waterfront-runtime.js": "89cba0d9599d2249da8d865acc2aef9386c63ba1e7b02afc58903df774c15169",
+     "public/waterfront-trampoline.js": "ca59d8ddf2573514d5375f3ac6f6fbbeb731edfa4d9bd35debc859ee5951407a",
+-    "public/waterfront-world.js": "55f901dc97b88ded01c708c8d6870097220236d31afcd68889230fdfcf552498",
++    "public/waterfront-world.js": "a0920b389b3539d40d83dad1e4733b609232cdec85c2f89e0fb42322d05c81c7",
+     "public/whale-assets.js": "d1d050c4bbc626e76e158a5c72b4534acf46dea87ac4c8260740fd7810c06ccf",
+     "public/whale-diorama.js": "e3fd42c9cb44c4b0fd6ccb90896b8c7aa0569084732fe38b55d4c127c03c6887",
+     "public/work-profile.js": "71f797a4e34a25d2b0b616554205e205243706a0a33ff5c76172066328edb87e",
+@@ -490,5 +490,30 @@
+       "walking": "7c887e22b693a20e82e750648896d61d8c341cb4522daa31017115d9a5065c42",
+       "obstacles": "581031ff553cce83571f0907e9126093b5ac552f5722697bd617707318b9d903"
+     }
++  },
++  "explicitUserTeleportV21": {
++    "request": "V21 explicitly authorizes command/transport integration while architecture, models, economics and save format stay protected.",
++    "files": [
++      {
++        "file": "public/mall-world.js",
++        "old": "3b4ed3aca3073fb758ffe471d2a0ce551a5bee2864bec729201557eb46159a36",
++        "new": "5b71ea570ae346e40130a9240c97c783a7e8aec9658f752fabaf9554dc37f6f3"
++      },
++      {
++        "file": "public/resort-spa-world.js",
++        "old": "e371973670055125d7249cad4c66bb6787b9b3a67c15b92d1ed5bb8102c25b99",
++        "new": "0631cf78c267a3c2dcc3c509a9bb2189bef5005216e69dbf16171324dd13fa2e"
++      },
++      {
++        "file": "public/waterfront-world.js",
++        "old": "55f901dc97b88ded01c708c8d6870097220236d31afcd68889230fdfcf552498",
++        "new": "a0920b389b3539d40d83dad1e4733b609232cdec85c2f89e0fb42322d05c81c7"
++      },
++      {
++        "file": "public/waterfront-runtime.js",
++        "old": "40acdb28e4ee3126741d98b8c1ac2a1a8902971b965c96978647fdab81546f33",
++        "new": "89cba0d9599d2249da8d865acc2aef9386c63ba1e7b02afc58903df774c15169"
++      }
++    ]
+   }
+ }
+diff --git a/public/mall-runtime.js b/public/mall-runtime.js
+index 7f93931..393c8f3 100644
+--- a/public/mall-runtime.js
++++ b/public/mall-runtime.js
+@@ -151,7 +151,7 @@ export function createMallRuntime({getGame,onPurchase=()=>false,onUse=()=>false,
+   }
+   return {
+     visits,lift,start,has:id=>visits.has(id),get:id=>visits.get(id),
+-    detach(id){const v=visits.get(id);if(v)finish(v);},
++    detach(id,{cancelled=false}={}){const v=visits.get(id);if(v){v.cancelled=cancelled;finish(v);}},
+     cancel(id){const v=visits.get(id);if(!v)return;if(v.position.y>=-1&&v.phase==='walk'&&v.next==='queue'){finish(v);return;}v.returning=true;if(['inspect','compare','checkout','experience','joy','route-blocked'].includes(v.phase))leave(v);},
+     clear(){visits.clear();queue.length=0;storeLocks.clear();lift.passengers.length=0;},
+     safePosition(id){const v=visits.get(id);return !v?null:['riding','boarded'].includes(v.phase)||v.next==='boarded'?mallLanding(v.fromFloor,v.slot||0):copy(v.position);},
+diff --git a/public/mall-world.js b/public/mall-world.js
+index 7b033d8..c5fff96 100644
+--- a/public/mall-world.js
++++ b/public/mall-world.js
+@@ -1,7 +1,8 @@
++import {catArrivalCandidates,catTeleportDestination} from './cat-teleport-destinations.js';
+ import {venueButton} from './venue-buttons.js';
+ import {mallGuestCameraEye,mallGuestCameraInside} from './mall-guest-camera.js';
+ import {mallCameraGuests,randomMallGuest} from './mall-guests.js';
+-import {mallPath,mallNavigationSteps,mallNavigationReady,mallAccessibleService,mallSegmentClear} from './mall-navigation.js';
++import {mallWalkable,mallPath,mallNavigationSteps,mallNavigationReady,mallAccessibleService,mallSegmentClear} from './mall-navigation.js';
+ import {catNavigationRadius} from './cat-navigation-size.js';
+ import {pauseHiddenMatrixUpdates} from './scene-visibility.js';
+ import {prepareMallArt} from './mall-art.js';
+@@ -19,7 +20,7 @@ import {catAppearance} from './cat-breeds.js';
+ import {NEIGHBORS,byBiome} from './game-data.js';
+ import {cacheSceneMatrices} from './matrix-cache.js';
+ 
+-export function createMallWorld({scene,container,getGame,getActors,getFocused,getOverview,getCameraElevation=()=>0,prepare,prepareModel,registerCat=()=>{},onCamera,onStoreCamera,onGuestCamera,onExit,onStore,onPurchase,onUse,onGoal,onComplete,onError=()=>{},canSimulate=()=>true,blocked=()=>false,reduced=false}={}){
++export function createMallWorld({scene,container,getGame,getActors,getFocused,getOverview,getCameraElevation=()=>0,prepare,prepareModel,registerCat=()=>{},onCamera,onStoreCamera,onGuestCamera,onExit,onStore,onPurchase,onUse,onGoal,onComplete,onError=()=>{},canSimulate=()=>true,blocked=()=>false,reduced=false,teleportCat=null}={}){
+   const centre=byBiome('autumn').center,abort=new AbortController(),staff=[],props=new Map(),personal=new Map(),worn=new Map(),navigationPending=new Map();
+   const iceProps=new Map(),iceOffset=new THREE.Matrix4(),icePoint=new THREE.Vector3(),iceScale=new THREE.Vector3(.65,.65,.65);
+   let root=null,pending=null,disposed=false,inspection=false,selected=null,lastResume=-1,guest=null,lastGuest=null,inspectionVersion=0;
+@@ -136,6 +137,15 @@ export function createMallWorld({scene,container,getGame,getActors,getFocused,ge
+     for(const t of textures)if(!borrowedTextures.has(t)&&!t.userData.sharedScenery)t.dispose();
+     model.removeFromParent();
+   }
++  function teleportStore(id,storeId,options={}){
++    const store=mallStore(storeId),a=getActors().find(a=>a.id===id);if(!store||!a)return false;
++    const entryPoint={x:centre[0]+store.entrance.x,y:store.y+.18,z:centre[1]+store.entrance.z};
++    const check=(p,actor)=>!!root&&mallWalkable({x:p.x-centre[0],z:p.z-centre[1]-MALL.z},actor.radius,root.userData.obstacles.get(store.floor));
++    const entry=catTeleportDestination({destinationId:storeId,displayName:store.name,targetType:"mall",portalTheme:"mall",zoneId:storeId,arrivalPoint:entryPoint,
++      prepare:async()=>!!await ensure()&&!!await prepareNavigation(store.floor,a.radius),requiredConditions:()=>canSimulate()&&getGame().unlocked.includes("autumn"),
++      arrivalPoints:actor=>catArrivalCandidates(entryPoint,actor.radius,8),checkArrival:check});
++    return teleportCat(id,entry,()=>runtime.start(id,storeId,local(a.position),{radius:a.radius,...options}),{ticket:options.ticket});
++  }
+   return {
+     runtime,ensure,inspect,inspectStore,exit,
+     resolveGuestCamera(eye,target){
+@@ -153,12 +163,14 @@ export function createMallWorld({scene,container,getGame,getActors,getFocused,ge
+     get root(){return root;},get ready(){return !!root&&!pending&&staff.length===7&&staff.every(s=>s.carrier.parent);},get inspection(){return inspection;},get floor(){return selected;},get guest(){return guest;},
+     async start(id,storeId,{productId=null,ticket=null,useOwned=false}={}){
+       const actor=getActors().find(a=>a.id===id),store=mallStore(storeId);if(!actor||!store||store.resort)return false;
++      if(teleportCat)return !!teleportStore(id,storeId,{productId,ticket,browseOnly:productId===null,useOwned});
+       const model=await ensure();if(!model||disposed||!canSimulate())return false;
+       if(!await prepareNavigation(store.floor,actor.radius))return false;
+       return runtime.start(id,storeId,local(actor.position),{radius:actor.radius,productId,ticket,browseOnly:productId===null,useOwned});
+     },
+     startReady(id,storeId,ticket=null){
+       const actor=getActors().find(a=>a.id===id),store=mallStore(storeId);
++      if(teleportCat&&actor&&store&&!store.resort)return !!teleportStore(id,storeId,{ticket,resume:getGame().jobCity?.profiles[id]?.mall?.goal});
+       if(!this.ready||!actor||!store||store.resort)return false;
+       if(!mallNavigationReady(root.userData.obstacles.get(store.floor),actor.radius)){
+         void prepareNavigation(store.floor,actor.radius).catch(error=>{if(!disposed)onError(error.message);});return false;
+@@ -173,6 +185,7 @@ export function createMallWorld({scene,container,getGame,getActors,getFocused,ge
+     },
+     cancel(id){personal.delete(id);runtime.cancel(id);},
+     detach(id){personal.delete(id);runtime.detach(id);},
++    detachForTeleport(id){personal.delete(id);runtime.detach(id,{cancelled:true});},
+     frame(id,time){
+       const p=personal.get(id);
+       if(p){const iceCream=p.item.iceFlavor?mallIceEating(p.elapsed,p.item.iceFlavor,reduced):null;return{iceCream,position:p.position,yaw:p.yaw,walking:false,reaction:{headPitch:p.item.use==='eat'?.27:p.item.use==='rest'?.18:-.08,paw:reduced?0:.18+Math.sin(p.elapsed*2)*.13,crouch:p.item.use==='rest'?.2:0,...(iceCream?{...iceCream.reaction,iceHolding:true,iceLick:iceCream.lick}:{})}};}
+diff --git a/public/resort-spa-invitations.js b/public/resort-spa-invitations.js
+index 4b51661..92f8854 100644
+--- a/public/resort-spa-invitations.js
++++ b/public/resort-spa-invitations.js
+@@ -15,6 +15,7 @@ export function createSpaInvitations({actors,free,recall,ride,transit,navigation
+   get size(){return guests.size;},get active(){return[...guests.values()].filter(g=>g.phase!=='queued'&&g.phase!=='parked').length;},
+   has:id=>guests.has(id),cancel:drop,
+   invite(ids){let count=0;for(const id of new Set(ids)){if(guests.has(id)||!free(id))continue;const a=actors().find(a=>a.id===id);if(!a)continue;const p=local(a.position);if(p.y<80&&navigation.support(p,a.radius))continue;if(!onReserve(id))continue;guests.set(id,{id,radius:a.radius,phase:'queued'});count++;}return count;},
++  parkFromPortal(id,p){const a=actors().find(a=>a.id===id);if(!a)return false;const position=local(p);if(!navigation.support(position,a.radius)||!clear(position,a.radius,id))return false;guests.set(id,{id,radius:a.radius,phase:'parked',place:{...position},position:{...position},yaw:a.carrier?.rotation.y||0});onPark(id,world(position));return true;},
+   ready(id){const g=guests.get(id);if(g?.phase==='recall')g.phase='ready';},
+   arrived(id){const g=guests.get(id);if(g)g.phase='plan';},
+   frame(id){const g=guests.get(id);return g?.position?{position:world(g.position),yaw:g.yaw||0,walking:g.phase==='walk',phase:'spa-invitation-'+g.phase,reaction:null}:null;},
+diff --git a/public/resort-spa-world.js b/public/resort-spa-world.js
+index b0d6c11..dffec56 100644
+--- a/public/resort-spa-world.js
++++ b/public/resort-spa-world.js
+@@ -1,3 +1,4 @@
++import {catArrivalCandidates,catTeleportDestination} from './cat-teleport-destinations.js';
+ import {venueButton} from './venue-buttons.js';
+ import {spaV7Service} from './resort-spa-services-v7.js';
+ import {createSpaInvitations} from './resort-spa-invitations.js';
+@@ -26,17 +27,29 @@ import {RESORT_SPA as L,RESORT_ACTIVE_ZONES,resortZone,resortSpaOrigin} from './
+ import {byBiome} from './game-data.js';
+ // Independent scene/camera owner. Mall's floors, selection and guest camera
+ // remain untouched; only the world coordinator performs the hand-off.
+-export function createResortSpaWorld({scene,container,getGame,getFocused,getOverview,prepare,prepareModel,onCamera,onExit,onRecovery=()=>{},onError=()=>{},getActors=()=>[],getAccessSurfaces=()=>[],accessClear=()=>true,registerCat=()=>{},canSimulate=()=>true,blocked=()=>false,onPurchase,onUse,onGoal,onComplete,onCall=()=>false,callBusy=()=>false,onInvitationArrive=()=>{},getInvitees=()=>[],guestFree=()=>false,onRecallGuest=()=>false,onGuestPark=()=>{},onGuestRelease=()=>{},onGuestReserve=()=>true,onGuestHold=()=>{}}){
++export function createResortSpaWorld({scene,container,getGame,getFocused,getOverview,prepare,prepareModel,onCamera,onExit,onRecovery=()=>{},onError=()=>{},getActors=()=>[],getAccessSurfaces=()=>[],accessClear=()=>true,registerCat=()=>{},canSimulate=()=>true,blocked=()=>false,onPurchase,onUse,onGoal,onComplete,onCall=()=>false,callBusy=()=>false,onInvitationArrive=()=>{},getInvitees=()=>[],guestFree=()=>false,onRecallGuest=()=>false,onGuestPark=()=>{},onGuestRelease=()=>{},onGuestReserve=()=>true,onGuestHold=()=>{},teleportCat=null}){
+  const centre=resortSpaOrigin(byBiome('autumn').center),controller=new AbortController(),buttons=new Map(),journeys=new Map(),heldFoods=new Map(),recovering=resortLiftRecovery(getGame()),layoutRecovery=resortPalaceRecovery(getGame());for(const id of recovering.keys())layoutRecovery.delete(id);let root=null,pending=null,disposed=false,inspection=false,selected=null,navigation=null,appointments=null,transit=null,invitations=null,staff=[],nextPreparation=0,watched=null;
+  const access=venueButton('spa');access.classList.add('resort-spa-access');access.hidden=true;access.onclick=()=>inspect();(container.querySelector('.map-controls')||container).append(access);
+  const panel=document.createElement('nav');panel.className='resort-spa-zones';panel.hidden=true;panel.setAttribute('aria-label','Зоны подводного SPA');container.append(panel);
+  for(const zone of [null,...RESORT_ACTIVE_ZONES]){const b=document.createElement('button');b.textContent=zone?.name||'Общий вид';b.onclick=()=>inspect(zone?.id);panel.append(b);buttons.set(zone?.id||'overview',b);}
+  const callButton=document.createElement('button');callButton.className='resort-spa-call';callButton.textContent='🐈 Позвать Чичи в SPA';callButton.title='Бесплатный вызов ко входу. Процедуры выбираются отдельно.';let calling=false;callButton.onclick=async()=>{if(calling||callBusy())return;calling=true;callButton.disabled=true;try{await onCall();}catch(e){onError(e.message);}finally{calling=false;callButton.disabled=false;}};panel.append(callButton);
+- const callAll=document.createElement('button');callAll.className='resort-spa-call-all';callAll.textContent='🐾 Позвать свободных котиков в SPA';callAll.title='Бесплатное приглашение свободных котиков. Входят по очереди через лифт; процедуры отдельно.';let callingAll=false;callAll.onclick=async()=>{if(callingAll)return;callingAll=true;try{if(!canSimulate()||!await ensure())return;const count=invitations.invite(getInvitees());onError(count?'Приглашено котиков: '+count+'. Они придут в SPA по очереди. Вызов бесплатный.':'Свободных котиков для нового приглашения сейчас нет.');}catch(e){onError(e.message);}finally{callingAll=false;}};panel.append(callAll);
++ const callAll=document.createElement('button');callAll.className='resort-spa-call-all';callAll.textContent='🐾 Позвать свободных котиков в SPA';callAll.title='Бесплатное приглашение свободных котиков через портал; процедуры отдельно.';let callingAll=false;callAll.onclick=async()=>{if(callingAll)return;callingAll=true;try{if(!canSimulate()||!await ensure())return;const count=teleportCat?getInvitees().filter(id=>teleportRoom(id,selected||RESORT_ACTIVE_ZONES[0].id,true)).length:invitations.invite(getInvitees());onError(count?'Приглашено котиков: '+count+'. Они придут в SPA по очереди. Вызов бесплатный.':'Свободных котиков для нового приглашения сейчас нет.');}catch(e){onError(e.message);}finally{callingAll=false;}};panel.append(callAll);
+  const close=document.createElement('button');close.textContent='Выйти из обзора';close.onclick=()=>exit();panel.append(close);
+  const liftButton=document.createElement('button');liftButton.className='resort-spa-lift';liftButton.hidden=true;(container.querySelector('.map-controls')||container).append(liftButton);
+  const serviceFor=id=>root?.userData.serviceContract?.zone(id)||spaV7Service(id)||resortZone(id);
+  const finish=(id,result)=>{journeys.delete(id);onComplete?.(id,result);};
++ function teleportRoom(id,zoneId,free=false){
++  const service=serviceFor(zoneId),a=getActors().find(a=>a.id===id);if(!service||!a)return false;
++  const paid=()=>{const p=getGame().jobCity?.profiles[id];return free||!!p&&(!service.retired&&p.coins>=service.price||!!resortPaidTicket(getGame(),id,zoneId));};
++  if(!paid())return false;
++  const entry=catTeleportDestination({destinationId:free?'spa-invitation-'+service.id:service.id,displayName:service.name,targetType:'spa',portalTheme:'spa',zoneId:service.roomId||service.id,
++   prepare:()=>ensure(),requiredConditions:()=>canSimulate()&&paid()&&getGame().unlocked.includes('autumn'),
++   arrivalPoints:actor=>{const contract=root?.userData.serviceContract;if(!contract)return[];const z=contract.zone(zoneId),slots=contract.slots?.(z)||Array.from({length:z.seats},(_,i)=>i);return slots.flatMap(i=>{const p=contract.seat(z,i)?.approach;return p?catArrivalCandidates({x:p.x+centre[0],y:p.y,z:p.z+centre[1]},actor.radius,3):[];});},
++   checkArrival:(p,actor)=>!!navigation?.support({x:p.x-centre[0],y:p.y-L.y,z:p.z-centre[1]},actor.radius)});
++  if(free&&id!=='chichi'&&!onGuestReserve(id))return false;
++  const op=teleportCat(id,entry,()=>{if(free){if(id!=='chichi')return!!invitations?.parkFromPortal(id,a.position);onInvitationArrive(id);return true;}return appointments.start(id,zoneId);});
++  if(!op&&free&&id!=='chichi')onGuestRelease(id);return!!op;
++ }
+  function start(id,zone){if(invitations?.has(id)){if(invitations.frame(id)?.phase!=='spa-invitation-parked')return false;invitations.cancel(id);}zone=resortTicketService(getGame(),id,zone,root?.userData.serviceContract);const service=serviceFor(zone),profile=getGame().jobCity?.profiles[id];if(pending||!appointments||!service||!profile||journeys.has(id)||transit?.has(id)||((service.retired||profile.coins<service.price)&&!resortPaidTicket(getGame(),id,zone)))return false;const actor=getActors().find(a=>a.id===id);if(!actor)return false;
+   if(Math.abs(actor.position.y-RESORT_LIFT.upperY)<.65){if(blocked(id)||!transit.start(id,1))return false;journeys.set(id,{zone,result:null});return true;}
+   return appointments.start(id,zone);
+@@ -79,7 +92,7 @@ export function createResortSpaWorld({scene,container,getGame,getFocused,getOver
+  function updateHeld(){const active=new Set();for(const v of appointments?.runtime.visits.values()||[]){if(v.zone.key!=='cafe'||v.phase!=='procedure')continue;const actor=getActors().find(a=>a.id===v.catId);if(!actor)continue;const action=appointments.frame(v.catId)?.action,kind=action==='drink'?'coffee':['taste-treat','satisfied-chew'].includes(action)?'cookie':null;if(!kind)continue;const key=v.catId+':'+kind;active.add(key);let prop=heldFoods.get(key);if(!prop){prop=courtFood(kind);prop.userData.biomeId='autumn';scene.add(prop);heldFoods.set(key,prop);}prop.visible=!!root?.visible;placeCourtFood(prop,actor.model,actor.carrier,{kind,drinking:kind==='coffee',time:v.elapsed});}for(const[key,prop]of heldFoods)if(!active.has(key)){prop.removeFromParent();heldFoods.delete(key);}}
+  const recoveryFrame=id=>{const legacy=layoutRecovery.get(id);if(legacy){const p=legacy.saved;return{position:{x:centre[0]+p.x,y:p.y,z:centre[1]+p.z-L.offsetZ},yaw:p.yaw,walking:false,phase:'restoring-spa-layout',reaction:null};}const p=recovering.get(id);return p?{position:{x:centre[0]+p.local.x,y:p.y,z:centre[1]+p.local.z},yaw:p.yaw,walking:false,phase:'restoring-lift',reaction:{ride:true}}:null;};
+  if(recovering.size||layoutRecovery.size)queueMicrotask(()=>{if(disposed)return;if(recovering.has('chichi')||layoutRecovery.has('chichi'))onRecovery();void ensure();});
+- return{safePositions(){if(root?.userData.layoutVersion!==7||!appointments)return new Map();return new Map([...palaceProcedureSavePositions(appointments.runtime.visits,navigation,getActors())].map(([id,p])=>[id,p?{x:p.x+centre[0],y:p.y,z:p.z+centre[1]}:null]));},locationStamp(id,position){if(root?.userData.layoutVersion!==7||layoutRecovery.has(id))return undefined;const p={x:position.x-centre[0],y:position.y-L.y,z:position.z-centre[1]};if(!spaPalaceContains(p.x,p.z,.1))return undefined;return appointments?.has(id)||navigation?.support(p,.571)?7:undefined;},ensure,inspect,exit,ride,updateHeld,invitationReady:id=>invitations?.ready(id),get invited(){return invitations?.size||0;},get recovering(){return recovering.size>0||layoutRecovery.size>0;},get root(){return root;},get ready(){return!!root&&!pending&&!!appointments;},get appointments(){return appointments;},get transit(){return transit;},has:id=>recovering.has(id)||layoutRecovery.has(id)||transit?.has(id)||appointments?.has(id)||!!(invitations?.has(id)&&invitations.frame(id)?.phase!=='spa-invitation-parked')||false,cancel:id=>{const a=transit?.cancel(id),b=appointments?.cancel(id),c=invitations?.cancel(id);return a||b||c;},frame:id=>recoveryFrame(id)||transit?.frame(id)||appointments?.frame(id)||invitations?.frame(id),transportFrame:id=>transit?.frame(id),startReady:start,get inspection(){return inspection;},get navigation(){return navigation;},get selected(){return selected;},
++ return{safePositions(){if(root?.userData.layoutVersion!==7||!appointments)return new Map();return new Map([...palaceProcedureSavePositions(appointments.runtime.visits,navigation,getActors())].map(([id,p])=>[id,p?{x:p.x+centre[0],y:p.y,z:p.z+centre[1]}:null]));},locationStamp(id,position){if(root?.userData.layoutVersion!==7||layoutRecovery.has(id))return undefined;const p={x:position.x-centre[0],y:position.y-L.y,z:position.z-centre[1]};if(!spaPalaceContains(p.x,p.z,.1))return undefined;return appointments?.has(id)||navigation?.support(p,.571)?7:undefined;},ensure,inspect,exit,ride,updateHeld,invitationReady:id=>invitations?.ready(id),get invited(){return invitations?.size||0;},get recovering(){return recovering.size>0||layoutRecovery.size>0;},get root(){return root;},get ready(){return!!root&&!pending&&!!appointments;},get appointments(){return appointments;},get transit(){return transit;},has:id=>recovering.has(id)||layoutRecovery.has(id)||transit?.has(id)||appointments?.has(id)||!!(invitations?.has(id)&&invitations.frame(id)?.phase!=='spa-invitation-parked')||false,cancel:id=>{const a=transit?.cancel(id),b=appointments?.cancel(id),c=invitations?.cancel(id);return a||b||c;},frame:id=>recoveryFrame(id)||transit?.frame(id)||appointments?.frame(id)||invitations?.frame(id),transportFrame:id=>transit?.frame(id),startReady:(id,zone)=>teleportCat?teleportRoom(id,resortTicketService(getGame(),id,zone,root?.userData.serviceContract)):start(id,zone),teleportCall:(id='chichi')=>teleportRoom(id,selected||RESORT_ACTIVE_ZONES[0].id,true),get inspection(){return inspection;},get navigation(){return navigation;},canTeleport:id=>!transit?.has(id)&&!(appointments?.runtime.get(id)?.contact?.pool&&(/^(wet-|procedure)/.test(appointments.runtime.get(id).phase))),get selected(){return selected;},
+   pick(ray,occluder=null){if(!root?.visible)return false;const hits=ray.intersectObject(root,true);if(!hits.length)return false;if(occluder){const front=ray.intersectObject(occluder,true)[0];if(front&&front.distance<hits[0].distance)return false;}void inspect();return true;},
+   update(dt,time,reduced=false){callAll.disabled=callingAll||pending||!canSimulate();callAll.textContent=invitations?.size?'🐾 В SPA приглашено: '+invitations.size:'🐾 Позвать свободных котиков в SPA';callButton.disabled=calling||callBusy();callButton.textContent=callBusy()?'🐾 Чичи идёт в SPA…':'🐈 Позвать Чичи в SPA';if(inspection&&watched){const actor=getActors().find(a=>a.id===watched);if(actor)onCamera(null,false,{follow:actor.position});else watched=null;}const active=getFocused()==='autumn',visible=active||getOverview(),unlocked=getGame().unlocked.includes('autumn');access.hidden=!active||!unlocked;if(active&&unlocked&&!root&&!pending&&time>=nextPreparation){nextPreparation=time+30;void ensure();}transit?.update(dt);invitations?.update(dt);appointments?.update(dt);const actor=getActors().find(a=>a.id==='chichi'),near=actor&&Math.hypot(actor.position.x-centre[0]-RESORT_LIFT.x,actor.position.z-centre[1]-RESORT_LIFT.z)<14&&(Math.abs(actor.position.y-RESORT_LIFT.upperY)<.65||Math.abs(actor.position.y-RESORT_LIFT.lowerY)<.65);liftButton.hidden=!active||!transit||!near||!!transit.has('chichi')||!!appointments?.has('chichi');liftButton.textContent=actor?.position.y>-80?'🪷 Спуститься в SPA':'🪷 Подняться на причал';updateResortStaff(staff,appointments,time,reduced,visible&&!pending);if(root){root.visible=visible&&!pending;if(visible){root.userData.update(time,reduced);if(appointments)updateResortPoolRipples(root,appointments.runtime.visits,time,reduced);}}},
+   dispose(){disposed=true;controller.abort();access.remove();panel.remove();liftButton.remove();for(const prop of heldFoods.values())prop.removeFromParent();heldFoods.clear();journeys.clear();invitations?.clear();transit?.clear();appointments?.clear();disposeResortStaff(staff);staff=[];if(root){scene.remove(root);root.userData.dispose();root=null;}},
+diff --git a/public/warehouse-visit-runtime.js b/public/warehouse-visit-runtime.js
+index 7acdece..b4cbdaa 100644
+--- a/public/warehouse-visit-runtime.js
++++ b/public/warehouse-visit-runtime.js
+@@ -14,27 +14,27 @@ export function createWarehouseVisits({origin,getActors,canSimulate=()=>true,onB
+  function phase(v,name){v.phase=name;v.age=0;}
+  function pose(v){const f=v.frame;f.position.set(v.local.x+origin.x,v.local.y,v.local.z+origin.z);f.yaw=v.yaw;f.phase=v.phase;return f;}
+  function seat(v){const b=boats[v.boat];onBoatPose(b,clock);return getSeat?getSeat(b):{x:b.x+Math.sin(b.yaw)*.25,y:b.y-.55,z:b.z+Math.cos(b.yaw)*.25};}
+- function walk(v,to,dt,speed=3.6){const d=distance(v.local,to),step=Math.min(d,dt*speed);if(d>.00001){v.yaw=Math.atan2(to.x-v.local.x,to.z-v.local.z);for(const k of ['x','y','z'])v.local[k]+=(to[k]-v.local[k])*step/d;v.frame.walking=true;v.frame.locomotion={mode:'walk',speed,phase:(v.walkPhase+=step*2.2)};}return d<=step+.001;}
++ function walk(v,to,dt,speed=3.6){if(v.express)speed*=4;const d=distance(v.local,to),step=Math.min(d,dt*speed);if(d>.00001){v.yaw=Math.atan2(to.x-v.local.x,to.z-v.local.z);for(const k of ['x','y','z'])v.local[k]+=(to[k]-v.local[k])*step/d;v.frame.walking=true;v.frame.locomotion={mode:'walk',speed,phase:(v.walkPhase+=step*2.2)};}return d<=step+.001;}
+  function finish(v){if(shoreOwner===v.id)shoreOwner=null;if(entryOwner===v.id)entryOwner=null;if(manual===v.id)manual=null;const b=boats[v.boat];if(b){b.id=null;b.speed=0;b.open=0;}onPark(v.id,world(v.local));visits.delete(v.id);onComplete(v.id,{completed:!v.cancelled,action:v.activity.action,activityId:v.activity.id,ticket:v.ticket});if(v.manualWanted&&!v.cancelled)onManualReady(v.id);}
+  function ride(v,reverse,dt){const r=routes[v.boat],b=boats[v.boat],left=r.length-v.progress,owner=reverse?shoreOwner:entryOwner;
+   if(left<105&&!owner){if(reverse)shoreOwner=v.id;else entryOwner=v.id;}
+-  const owns=(reverse?shoreOwner:entryOwner)===v.id,remaining=Math.max(0,left-(owns?0:100)),limit=Math.min(A.cruiseSpeed,Math.sqrt(8*remaining));b.speed=Math.min(limit,b.speed+4*dt);v.progress=Math.min(r.length,v.progress+b.speed*dt);
+-  Object.assign(b,r.sample(v.progress,reverse,scratch,reverse?-12:12));b.open=0;v.local={...seat(v)};v.yaw=b.yaw;v.frame.reaction={ride:true,rideSit:true,crouch:.28,headPitch:-.03};
++  const owns=(reverse?shoreOwner:entryOwner)===v.id,remaining=Math.max(0,left-(owns?0:100)),limit=Math.min(A.cruiseSpeed,Math.sqrt(8*remaining));b.speed=Math.min(limit,b.speed+4*dt);v.progress=Math.min(r.length,v.progress+b.speed*dt*(v.express?45:1));
++  if(v.skipOutbound&&!reverse){v.progress=r.length;b.speed=0;v.skipOutbound=false;}Object.assign(b,r.sample(v.progress,reverse,scratch,reverse?-12:12));b.open=0;v.local={...seat(v)};v.yaw=b.yaw;v.frame.reaction={ride:true,rideSit:true,crouch:.28,headPitch:-.03};
+   if(v.progress>100){if(reverse&&entryOwner===v.id)entryOwner=null;if(!reverse&&shoreOwner===v.id)shoreOwner=null;}
+   return v.progress>=r.length-.01;
+  }
+- function start(id,activityId='warehouse-explore',{ticket=null}={}){const a=warehouseActivity(activityId),actor=getActors().find(a=>a.id===id);if(!a||!actor||visits.has(id)||visits.size>=Math.min(384,getActors().length)||!canSimulate())return false;
+-  const p=local(actor.position),v={id,activity:a,ticket,boat:null,phase:'pending',age:0,local:p,yaw:actor.yaw||0,walkPhase:0,cancelled:false,manualWanted:false,frame:{position:actor.position.clone?.()||new T.Vector3(actor.position.x,actor.position.y,actor.position.z),yaw:actor.yaw||0,walking:false,reaction:{},locomotion:null}};visits.set(id,v);return true;
++ function start(id,activityId='warehouse-explore',{ticket=null,express=false}={}){const a=warehouseActivity(activityId),actor=getActors().find(a=>a.id===id);if(!a||!actor||visits.has(id)||visits.size>=Math.min(384,getActors().length)||!canSimulate())return false;
++  const p=local(actor.position),v={id,activity:a,ticket,express,boat:null,phase:'pending',age:0,local:p,yaw:actor.yaw||0,walkPhase:0,cancelled:false,manualWanted:false,frame:{position:actor.position.clone?.()||new T.Vector3(actor.position.x,actor.position.y,actor.position.z),yaw:actor.yaw||0,walking:false,reaction:{},locomotion:null}};visits.set(id,v);return true;
+  }
+  function update(dt,time){if(!canSimulate())return;dt=T.MathUtils.clamp(dt,0,.1);clock+=dt;
+   for(const v of [...visits.values()]){v.age+=dt;v.frame.walking=false;v.frame.reaction={};v.frame.locomotion=null;v.frame.squish=null;
+-   if(v.phase==='pending'){if(v.cancelled){finish(v);continue;}const b=boats.find(b=>!b.id);if(b){b.id=v.id;v.boat=b.slot;const to=world(A.shore);if(v.frame.position.distanceTo(to)<.05){v.local={...A.shore};phase(v,'await-board');}else{v.trip=gatherTrip(v.frame.position,to,clock*1000);phase(v,'shore-trip');}}}
++   if(v.phase==='pending'){if(v.cancelled){finish(v);continue;}const b=boats.find(b=>!b.id);if(b){b.id=v.id;v.boat=b.slot;const to=world(A.shore);if(v.express||v.frame.position.distanceTo(to)<.05){if(!v.express)v.local={...A.shore};phase(v,'await-board');}else{v.trip=gatherTrip(v.frame.position,to,clock*1000);phase(v,'shore-trip');}}}
+    else if(v.phase==='shore-trip'){const p=gatherFrame(v.trip,clock*1000);v.local=local(p.position);v.yaw=p.yaw;v.frame.reaction=p.reaction;if(p.done)phase(v,'await-board');}
+    else if(v.phase==='await-board'){if(v.cancelled){finish(v);continue;}if(!shoreOwner){shoreOwner=v.id;boats[v.boat].open=1;phase(v,'boarding');}}
+    else if(v.phase==='boarding'){const b=boats[v.boat];b.open=1;if(walk(v,seat(v),dt)){if(v.cancelled)phase(v,'disembark');else{v.progress=0;phase(v,'outbound');}}}
+    else if(v.phase==='outbound'){if(ride(v,false,dt)){boats[v.boat].open=1;if(v.cancelled){v.progress=0;phase(v,'inbound');}else phase(v,'leaving-boat');}}
+    else if(v.phase==='leaving-boat'){boats[v.boat].open=1;if(walk(v,A.outside,dt)){v.airlock=createWarehouseAirlock(true);phase(v,'airlock-in');}}
+-   else if(v.phase==='airlock-in'||v.phase==='airlock-out'){const f=v.airlock.step(dt);v.local={...f.position};v.frame.walking=true;v.frame.locomotion={mode:'walk',speed:2.5,phase:(v.walkPhase+=dt*5)};onDoorPose(f.outer,f.inner,f.water,time);if(f.done){if(v.phase==='airlock-in')phase(v,'lobby-walk');else phase(v,'return-boarding');}}
++   else if(v.phase==='airlock-in'||v.phase==='airlock-out'){const f=v.airlock.step(dt*(v.express?2.5:1));v.local={...f.position};v.frame.walking=true;v.frame.locomotion={mode:'walk',speed:2.5,phase:(v.walkPhase+=dt*5)};onDoorPose(f.outer,f.inner,f.water,time);if(f.done){if(v.phase==='airlock-in')phase(v,'lobby-walk');else phase(v,'return-boarding');}}
+    else if(v.phase==='lobby-walk'){if(walk(v,visitPoint(v),dt)){if(entryOwner===v.id)entryOwner=null;phase(v,'visit');}}
+    else if(v.phase==='visit'){let venueStep=false;
+     if(v.manualWanted&&manual!==v.id&&!onVisitUnsafe(v)){manual=v.id;if(!onManualReady(v.id)){manual=null;v.age=0;}}
+@@ -52,5 +52,5 @@ export function createWarehouseVisits({origin,getActors,canSimulate=()=>true,onB
+   }
+   for(const b of boats)onBoatPose(b,time);
+  }
+- return{start,update,visits,boats,has:id=>visits.has(id),get:id=>visits.get(id),frame:id=>visits.get(id)?.frame||null,unsafe:id=>unsafe.has(visits.get(id)?.phase)||!!(visits.get(id)&&onVisitUnsafe(visits.get(id))),get manual(){return manual;},requestManual(id='chichi'){const v=visits.get(id);if(!v)return false;v.manualWanted=true;v.cancelled=false;return true;},releaseManual(id=manual||'chichi'){const v=visits.get(id);if(v){const a=getActors().find(a=>a.id===id);if(a)v.local=local(a.position);v.manualWanted=false;v.age=0;}manual=null;},cancel(id){const v=visits.get(id);if(!v)return true;v.cancelled=true;v.manualWanted=false;if(manual===id)manual=null;if(v.phase==='pending'||v.phase==='await-board'){finish(v);return true;}return false;},safePosition(id){const v=visits.get(id);if(!v)return null;return v.phase==='pending'?v.frame.position.clone():world(A.shore);},dispose(){for(const v of [...visits.values()]){v.cancelled=true;onPark(v.id,this.safePosition(v.id));}visits.clear();for(const b of boats)b.id=null;manual=shoreOwner=entryOwner=null;}};
++ return{start,update,visits,boats,skipJourney(id='chichi'){const v=visits.get(id);if(v?.phase!=='outbound')return false;v.skipOutbound=true;return true;},has:id=>visits.has(id),get:id=>visits.get(id),frame:id=>visits.get(id)?.frame||null,unsafe:id=>unsafe.has(visits.get(id)?.phase)||!!(visits.get(id)&&onVisitUnsafe(visits.get(id))),get manual(){return manual;},requestManual(id='chichi'){const v=visits.get(id);if(!v)return false;v.manualWanted=true;v.cancelled=false;return true;},releaseManual(id=manual||'chichi'){const v=visits.get(id);if(v){const a=getActors().find(a=>a.id===id);if(a)v.local=local(a.position);v.manualWanted=false;v.age=0;}manual=null;},cancel(id){const v=visits.get(id);if(!v)return true;v.cancelled=true;v.manualWanted=false;if(manual===id)manual=null;if(v.phase==='pending'||v.phase==='await-board'){finish(v);return true;}return false;},safePosition(id){const v=visits.get(id);if(!v)return null;return v.phase==='pending'?v.frame.position.clone():world(A.shore);},dispose(){for(const v of [...visits.values()]){v.cancelled=true;onPark(v.id,this.safePosition(v.id));}visits.clear();for(const b of boats)b.id=null;manual=shoreOwner=entryOwner=null;}};
+ }
+diff --git a/public/warehouse-world.js b/public/warehouse-world.js
+index 6d41c1b..e5bfcdd 100644
+--- a/public/warehouse-world.js
++++ b/public/warehouse-world.js
+@@ -1,3 +1,4 @@
++import {catArrivalCandidates,catTeleportDestination} from "./cat-teleport-destinations.js";
+ import { createWarehouseThirdPersonCamera } from "./squish-manual-camera.js";
+ import { createSquishNavigation } from "./squish-navigation.js";
+ import { createSquishManual } from "./squish-manual.js";
+@@ -42,6 +43,8 @@ export function createWarehouseWorld({
+   camera,
+   look,
+   onError,
++  teleportCat=null,
++  teleportSupport=()=>true,
+ }) {
+   const b = byBiome("autumn"),
+     origin = { x: b.center[0], z: b.center[1] },
+@@ -86,6 +89,7 @@ export function createWarehouseWorld({
+     () => void invite("chichi"),
+     "warehouseCall",
+   );
++  const skipTrip=button("⏩ Пропустити поїздку",()=>runtime.skipJourney("chichi"),"warehouseSkipTrip");skipTrip.hidden=true;
+   const control = button(
+     "🎮 Керувати Чічі після прибуття",
+     () => requestManual(),
+@@ -357,6 +361,28 @@ export function createWarehouseWorld({
+     })();
+     return pending;
+   }
++  const boardingRay=new T.Raycaster(),boardingDown=new T.Vector3(0,-1,0),boardingProbe=new T.Vector3();
++  function boardingSupport(p,radius){
++    if(!fleet)return false;fleet.updateWorldMatrix(true,true);
++    for(const ramp of fleet.userData.ramps){const plank=ramp.children[0],q=plank.worldToLocal(new T.Vector3(p.x,p.y,p.z)),length=plank.geometry.parameters.depth;
++      if(Math.abs(q.x)>1.1-radius||Math.abs(q.z)>length/2-radius)continue;
++      boardingProbe.set(p.x,p.y+.5,p.z);boardingRay.set(boardingProbe,boardingDown);boardingRay.far=1.2;const hit=boardingRay.intersectObject(plank,false)[0];
++      if(hit&&Math.abs(hit.point.y+.012-p.y)<.08)return true;
++    }return false;
++  }
++  function boardingArrivals(actor){if(!fleet)return[];fleet.updateWorldMatrix(true,true);const out=[];
++    for(const [slot,ramp]of fleet.userData.ramps.entries()){const boat=runtime.boats[slot];if(boat.id||Math.hypot(boat.x-(A.departure.x+slot*14),boat.z-A.departure.z)>1)continue;boat.open=1;const plank=ramp.children[0],length=plank.geometry.parameters.depth;
++      for(let d=actor.radius+.4;d<Math.min(length-actor.radius,8);d+=actor.radius*2+.4){const q=plank.localToWorld(new T.Vector3(0,.08,-length/2+d));q.y+=.012;out.push(q);}}
++    return out;
++  }
++  function teleportVisit(id,activityId="warehouse-explore",ticket=null){
++    if(!teleportCat)return runtime.start(id,activityId,{ticket});
++    const shore={x:origin.x+A.shore.x,y:A.shore.y,z:origin.z+A.shore.z};
++    const entry=catTeleportDestination({destinationId:activityId,displayName:activityId==="warehouse-rest"?"Warehouse · відпочинок":"Warehouse · огляд",targetType:"warehouse",portalTheme:"warehouse",arrivalAnimation:"submarine-boarding",arrivalPoint:shore,
++      prepare:()=>ensure(),requiredConditions:()=>canSimulate()&&getGame().unlocked.includes("autumn"),
++      arrivalPoints:boardingArrivals,checkArrival:(p,a)=>boardingSupport(p,a.radius)});
++    return !!teleportCat(id,entry,()=>runtime.start(id,activityId,{ticket,express:true}),{ticket});
++  }
+   async function invite(id) {
+     if (!canSimulate() || !canInvite(id)) {
+       onError("Дочекайся безпечного завершення поточного переходу.");
+@@ -366,10 +392,10 @@ export function createWarehouseWorld({
+       return false;
+     if (runtime.has(id)) return true;
+     if (!reserve(id)) return false;
+-    const ok = runtime.start(id);
++    const ok = teleportVisit(id);
+     if (ok)
+       onError(
+-        "Чічі прямує до причалу. Субмарина доставить її до входу Warehouse.",
++        "✨ Портал до субмарини. Далі — коротка поїздка до Warehouse.",
+       );
+     return ok;
+   }
+@@ -564,7 +590,7 @@ export function createWarehouseWorld({
+     arrival: () =>
+       new T.Vector3(origin.x + A.shore.x, A.shore.y, origin.z + A.shore.z),
+     startReady: (id, activityId, ticket) =>
+-      runtime.start(id, activityId, { ticket }),
++      teleportVisit(id, activityId, ticket),
+     update(dt, time) {
+       pawContacts.restoreFrame();
+       const active = getFocused() === "autumn",
+@@ -626,6 +652,7 @@ export function createWarehouseWorld({
+         const s = entry.userData.state;
+         entry.userData.update(s.outer, s.inner, s.water, time);
+       }
++      skipTrip.hidden=runtime.get("chichi")?.phase!=="outbound";
+       call.disabled = !canSimulate() || runtime.has("chichi");
+       control.disabled = back.disabled =
+         !canSimulate() || !runtime.has("chichi");
+diff --git a/public/waterfront-runtime.js b/public/waterfront-runtime.js
+index 6db0815..8f3e916 100644
+--- a/public/waterfront-runtime.js
++++ b/public/waterfront-runtime.js
+@@ -142,7 +142,7 @@ export function createWaterfrontRuntime({
+   function start(
+     id,
+     activityId,
+-    { invite = false, ticket = null, enqueue = false } = {},
++    { invite = false, ticket = null, enqueue = false, portalArrival=false } = {},
+   ) {
+     const a = waterfrontActivity(activityId),
+       actor = getActors().find((a) => a.id === id);
+@@ -213,6 +213,9 @@ export function createWaterfrontRuntime({
+       );
+       v.trip.start = clock * 1000;
+       phase(v, "travel");
++    } else if(portalArrival&&v.active&&['bounce','dive'].includes(a.kind)&&waterfrontDrySupport(p,v.radius)?.kind==='net'){
++      v.local.y=netSurface(v,animationTime);phase(v,"prepare");
++      getTrampoline()?.userData.impact?.(v.local.x-W.trampoline.x,v.local.z-W.trampoline.z,2.95,animationTime);
+     } else if (!route(v, v.target, v.active ? "prepare" : "waiting"))
+       return false;
+     visits.set(id, v);
+@@ -630,6 +633,7 @@ export function createWaterfrontRuntime({
+       }
+   }
+   return {
++    teleportArrival(activityId){const activity=waterfrontActivity(activityId);if(!activity)return null;const used=new Set(activeVisits().map(v=>v.slot));let slot=0;while(used.has(slot))slot++;return destination(activity,slot);},
+     visits,
+     redirect(id, activity) {
+       const v = visits.get(id);
+diff --git a/public/waterfront-world.js b/public/waterfront-world.js
+index a6e4855..b7f2052 100644
+--- a/public/waterfront-world.js
++++ b/public/waterfront-world.js
+@@ -1,3 +1,4 @@
++import {catArrivalCandidates,catTeleportDestination} from "./cat-teleport-destinations.js";
+ import * as T from "three";
+ import { waterfrontLocalLighting } from "./waterfront-lighting.js";
+ import { cityClock } from "./jobcity-system.js";
+@@ -40,6 +41,7 @@ export function createWaterfrontWorld({
+   onCamera = () => {},
+   onExit = () => {},
+   onError = () => {},
++  teleportCat=null,
+ }) {
+   const origin = waterfrontOrigin(byBiome("autumn").center),
+     abort = new AbortController(),
+@@ -346,6 +348,16 @@ export function createWaterfrontWorld({
+     if (root) root.userData.restaurant.userData.roof.visible = true;
+     onExit(restore);
+   }
++  function teleportVisit(id,activityId,options={}){
++    if(!teleportCat)return runtime?.start(id,activityId,options)||false;
++    const activity=waterfrontActivity(activityId);if(!activity)return false;
++    const net=['bounce','dive'].includes(activity.kind);
++    const entry=catTeleportDestination({destinationId:activityId,displayName:activity.name,targetType:'waterfront',portalTheme:net?'trampoline':activity.kind==='dine'?'restaurant':'waterfront',arrivalAnimation:net?'net-drop':'portal-hop',
++      prepare:()=>ensure(),requiredConditions:()=>canSimulate()&&getGame().unlocked.includes('autumn'),
++      arrivalPoints:a=>{const p=runtime?.teleportArrival(activityId);if(!p)return[];return catArrivalCandidates({x:p.x+origin.x,y:p.y,z:p.z+origin.z},a.radius,8).map(p=>{const q=local(p),hit=waterfrontWalkable(q,a.radius);if(!hit||net&&hit.kind!=='net')return null;return{...p,y:net?(root.userData.trampoline?.userData.height?.(q.x-W.trampoline.x,q.z-W.trampoline.z,0)??W.trampoline.y)+.012:hit.y};}).filter(Boolean);},
++      checkArrival:(p,a)=>{const hit=waterfrontWalkable(local(p),a.radius);return!!hit&&(!net||hit.kind==='net');}});
++    return!!teleportCat(id,entry,()=>runtime.start(id,activityId,{...options,invite:false,portalArrival:true}),{ticket:options.ticket});
++  }
+   async function invite(id, activityId) {
+     if (!canSimulate() || !canInvite(id)) {
+       onError("Котик зараз зайнятий. Запроси після роботи або відпочинку.");
+@@ -358,7 +370,7 @@ export function createWaterfrontWorld({
+     }
+     if (runtime.has(id)) runtime.cancel(id);
+     if (!reserve(id)) return false;
+-    if (!runtime.start(id, activityId, { invite: true })) {
++    if (!teleportVisit(id, activityId, { invite: true })) {
+       onPark(id, getActors().find((a) => a.id === id)?.position);
+       return false;
+     }
+@@ -417,7 +429,7 @@ export function createWaterfrontWorld({
+     )
+       return false;
+     if (
+-      !runtime.start("chichi", "waterfront-bounce", {
++      !teleportVisit("chichi", "waterfront-bounce", {
+         invite: true,
+         enqueue: true,
+       })
+@@ -436,7 +448,7 @@ export function createWaterfrontWorld({
+       if (a.id === "chichi" || runtime.has(a.id) || !canInvite(a.id)) continue;
+       if (!reserve(a.id)) continue;
+       if (
+-        runtime.start(a.id, "waterfront-bounce", {
++        teleportVisit(a.id, "waterfront-bounce", {
+           invite: true,
+           enqueue: true,
+         })
+@@ -551,7 +563,7 @@ export function createWaterfrontWorld({
+       );
+     },
+     startReady(id, activityId, ticket) {
+-      return runtime?.start(id, activityId, { ticket }) || false;
++      return teleportVisit(id, activityId, { ticket });
+     },
+     support(p, radius) {
+       if (!root) return null;
+diff --git a/public/world.js b/public/world.js
+index c9b77dc..7c07d40 100644
+--- a/public/world.js
++++ b/public/world.js
+@@ -1,3 +1,6 @@
++import {createCatTeleportationSystem} from "./cat-teleportation-system.js";
++import {createCatPortalVisuals} from "./cat-portal-visuals.js";
++import {catArrivalCandidates,catTeleportDestination} from "./cat-teleport-destinations.js";
+ import {createWarehouseWorld} from './warehouse-world.js';
+ import {warehouseActivity} from './warehouse-access-data.js';
+ import {applyWaterfrontCatMotion} from './waterfront-cat-motion.js';
+@@ -542,6 +545,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
+     warehouseFraming = null,
+     warehouseAccess = null,
+     warehouseVisits = null,
++    catTeleport = null,
+     disposed = false;
+   const viewDistanceLimit=()=>viewingOverview?overviewDistanceLimit:
+     Math.max(600,islandOverviewDistance(focused==='autumn'&&!mall?.inspection&&!resortSpa?.inspection?expandedOverview().radius:byBiome(focused)?.radius,camera.fov,camera.aspect));
+@@ -718,7 +722,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
+           p = game.jobCity.profiles[id];
+         return (
+           !p ||
+-          (!visit && (mall?.has(id)||resortSpa?.has(id)||waterfront?.has(id)||warehouseVisits?.has(id))) ||
++          (!visit && (catTeleport?.has(id)||mall?.has(id)||resortSpa?.has(id)||waterfront?.has(id)||warehouseVisits?.has(id))) ||
+           draggingCat?.catId === id ||
+           (gatherParticipants.has(id) && (now < gatherUntil || now < (n?.gatheredUntil || 0))) ||
+           crew.workers.has(id) ||
+@@ -744,7 +748,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
+               operation?.partyIds?.has(id))
+         );
+       },
+-      active: (id) => (mall?.has(id)||resortSpa?.has(id)||waterfront?.has(id)||warehouseVisits?.has(id)) || (
++      active: (id) => (catTeleport?.has(id)||mall?.has(id)||resortSpa?.has(id)||waterfront?.has(id)||warehouseVisits?.has(id)) || (
+         id === "chichi"
+           ? !!operation?.leisureTicket
+           : !!(
+@@ -1512,7 +1516,24 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
+     mealVisits.delete(id);
+     swimVisits.delete(id);
+   }
+-  function performResident(id, decision, { autonomous = false } = {}) {
++  function teleportCat(id,entry,onArrival,metadata={}){
++    if(!catTeleport)return null;
++    catTeleport.register(entry);
++    const op=catTeleport.request(id,entry.destinationId,{onArrival,metadata});
++    if(op)callbacks.onReaction?.('✨ '+(id==='chichi'?'Чічі':'Котик')+' телепортується…');
++    return op;
++  }
++  function objectTeleportEntry(decision){
++    const g=itemGroups.get(decision.activityId),biome=g?.userData.placement?.biome;if(!g||!biome)return null;
++    const b=byBiome(biome),p=g.userData.approachOffset?g.localToWorld(new THREE.Vector3(...g.userData.approachOffset)):g.position.clone();
++    p.y=.16+islandHeight(biome,p.x-b.center[0],p.z-b.center[1]);if(!g.userData.approachOffset)p.z+=.8;
++    return catTeleportDestination({destinationId:decision.activityId,displayName:g.userData.name||decision.activityId,worldId:biome,targetType:'attraction',portalTheme:'default',arrivalPoint:p,
++      prepare:()=>{ensureDetail(biome);return!!g.userData.built;},requiredConditions:()=>game.unlocked.includes(biome)&&!!itemGroups.get(decision.activityId)?.userData.built,
++      arrivalPoints:a=>catArrivalCandidates(p,a.radius,14).map(q=>{const hit=manualSurface(q,a.radius);return hit?{...q,y:hit.y}:null;}).filter(Boolean),
++      checkArrival:(q,a)=>!!manualSurface(q,a.radius)});
++  }
++  function performResident(id, decision, { autonomous = false, teleported=false } = {}) {
++    if(catTeleport&&!teleported&&decision.activityId&&itemGroups.get(decision.activityId)?.userData.built){const entry=objectTeleportEntry(decision);if(entry)return!!teleportCat(id,entry,()=>performResident(id,decision,{autonomous,teleported:true}),{ticket:decision.leisure});}
+     if(warehouseVisits?.has(id))return false;
+     const n = npcs.get(id),
+       object = itemGroups.get(decision.activityId);
+@@ -2673,8 +2694,9 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
+   }
+   function perform(
+     decision,
+-    { manualFriendDrop = false, leisureTicket = null, background = false } = {},
++    { manualFriendDrop = false, leisureTicket = null, background = false, teleported=false } = {},
+   ) {
++    if(catTeleport&&!teleported&&decision.activityId&&itemGroups.get(decision.activityId)?.userData.built){const entry=objectTeleportEntry(decision);if(entry){const op=teleportCat('chichi',entry,()=>perform(decision,{manualFriendDrop,leisureTicket,background,teleported:true}),{ticket:leisureTicket});return op?op.result.then(result=>result||{cancelled:true}):Promise.resolve({cancelled:true});}}
+     if((submarine?.active||manualWalk?.active)||warehouseVisits?.has('chichi'))return Promise.resolve({cancelled:true});
+     const pending=decision.activityId&&itemGroups.get(decision.activityId);
+     if(pending?.userData.loadingReference&&isBuilt(pending.userData.placement)){
+@@ -3994,7 +4016,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
+     frameProfile?.section("cameraAndIslands");
+     if (!dialogOpen) stepLeisure(dt, time, now);
+     if(warehouseAccess)warehouseAccess.hidden=focused!=='autumn'||!game.unlocked.includes('autumn');
+-    if(!dialogOpen){mall?.update(dt,time);resortSpa?.update(dt,time,reduced);waterfront?.update(dt,time,reduced);warehouseVisits?.update(dt,time);}
++    if(!dialogOpen){catTeleport?.update(dt);mall?.update(dt,time);resortSpa?.update(dt,time,reduced);waterfront?.update(dt,time,reduced);warehouseVisits?.update(dt,time);}
+     const wallNow = Date.now();animalGuests.sync(game,wallNow);
+     const
+       lifeClock = game.jobCity ? cityClock(game.jobCity, wallNow) : null,
+@@ -4029,7 +4051,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
+               !p.trip &&
+               !manualJob) ||
+             (Date.now() < (p.manualUntil || 0) && !p.trip && !manualJob) ||
+-            (mall?.has(id)||resortSpa?.has(id)||waterfront?.has(id)||warehouseVisits?.has(id)) ||
++            (catTeleport?.has(id)||mall?.has(id)||resortSpa?.has(id)||waterfront?.has(id)||warehouseVisits?.has(id)) ||
+             draggingCat?.catId === id ||
+             (now < gatherUntil && gatherParticipants.has(id)) ||
+             (id === "chichi"
+@@ -4072,7 +4094,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
+             draggingCat?.catId === id ||
+             (gatherParticipants.has(id) && (now < gatherUntil || now < (n?.gatheredUntil||0))) ||
+             crew.workers.has(id) ||
+-            (mall?.has(id)||resortSpa?.has(id)||waterfront?.has(id)||warehouseVisits?.has(id)) ||
++            (catTeleport?.has(id)||mall?.has(id)||resortSpa?.has(id)||waterfront?.has(id)||warehouseVisits?.has(id)) ||
+             p?.trip ||
+             jobs.has(id) ||
+             Date.now() < (p?.manualUntil || 0) ||
+@@ -4358,7 +4380,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
+             court.get(id) ||
+             crew.workers.has(id) ||
+             jobs.has(id) ||
+-            (mall?.has(id)||resortSpa?.has(id)||waterfront?.has(id)||warehouseVisits?.has(id)) ||
++            (catTeleport?.has(id)||mall?.has(id)||resortSpa?.has(id)||waterfront?.has(id)||warehouseVisits?.has(id)) ||
+             housingLife.get(id) ||
+             leisure.has(id) ||
+             (now >= (n.gatheredUntil || 0) && (familyLinks.has(id) ||
+@@ -4422,7 +4444,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
+       const gathering = n.gatherTrip ? gatherFrame(n.gatherTrip,now) : null;
+       const homeVisit = housingLife.get(id);
+       const leisureFrame = leisure.frame(id);
+-      const mallFrame = mall?.frame(id,time)||resortSpa?.frame(id)||waterfront?.frame(id)||warehouseVisits?.frame(id);
++      const mallFrame = catTeleport?.frame(id)||mall?.frame(id,time)||resortSpa?.frame(id)||waterfront?.frame(id)||warehouseVisits?.frame(id);
+       const spouse = familyLinks.get(id),
+         follows =
+           spouse &&
+@@ -5752,7 +5774,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
+       walking = heroLeisure.walking;
+       reaction = heroLeisure.reaction;
+     }
+-    const heroMall=mall?.frame('chichi',time)||resortSpa?.frame('chichi')||waterfront?.frame('chichi')||warehouseVisits?.frame('chichi');
++    const heroMall=catTeleport?.frame('chichi')||mall?.frame('chichi',time)||resortSpa?.frame('chichi')||waterfront?.frame('chichi')||warehouseVisits?.frame('chichi');
+     if(heroMall&&!draggingCat&&!heroBuild&&!(submarine?.active||manualWalk?.active)){chichiCarrier.position.copy(heroMall.position);chichiCarrier.rotation.y=heroMall.yaw;walking=heroMall.walking;reaction=heroMall.reaction;}
+     refreshManualButton();
+     const boatPose=!dialogOpen?submarine?.update(dt,time,reduced):null;
+@@ -6055,7 +6077,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
+     }
+     requestAnimationFrame(loop);
+   }
+-  mall=createMallWorld({scene,container,reduced,getCameraElevation:()=>elevation,registerCat:model=>enableCatRenderBatch(model,poseAtlas),getGame:()=>game,getActors:()=>lifeActors,getFocused:()=>focused,getOverview:()=>viewingOverview,
++  mall=createMallWorld({scene,container,teleportCat,reduced,getCameraElevation:()=>elevation,registerCat:model=>enableCatRenderBatch(model,poseAtlas),getGame:()=>game,getActors:()=>lifeActors,getFocused:()=>focused,getOverview:()=>viewingOverview,
+     prepare:(steps,signal)=>prepareSceneSteps(steps,{scheduler:scenePreparation,priority:'autumn',signal}),
+     prepareModel:model=>shaderWarmup.prepare(model,{background:focused!=='autumn'}),
+     canSimulate:()=>callbacks.canSimulateLeisure?.()!==false,
+@@ -6090,7 +6112,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
+     onExit:restore=>{mallWideClip=false;mallFraming=null;camera.near=mallPreviousCamera?.near??.5;camera.updateProjectionMatrix();desiredFov=restore&&mallPreviousCamera?mallPreviousCamera.fov:40;if(restore&&mallPreviousCamera){desiredLook.copy(mallPreviousCamera.look);desiredDistance=mallPreviousCamera.distance;azimuth=mallPreviousCamera.azimuth;elevation=mallPreviousCamera.elevation;}mallPreviousCamera=null;},
+     onStore:id=>callbacks.onSelectMallStore?.(id),onError:message=>callbacks.onReaction?.(message),
+     onPurchase:(...args)=>callbacks.onMallPurchase?.(...args),onUse:(...args)=>callbacks.onMallUse?.(...args),onGoal:(...args)=>callbacks.onMallGoal?.(...args),
+-    onComplete:(id,visit)=>{if(visit.ticket)finishLeisure(id,{completed:true});else {const n=npcs.get(id);if(n)n.manualUntil=0;}},
++    onComplete:(id,visit)=>{if(visit.ticket)finishLeisure(id,{completed:!visit.cancelled});else {const n=npcs.get(id);if(n)n.manualUntil=0;}},
+   });
+   function freeSpaGuest(id,owned=false){
+     const n=npcs.get(id),p=game.jobCity?.profiles[id],now=performance.now();
+@@ -6101,7 +6123,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
+       !p?.trip&&Date.now()>=(p?.manualUntil||0)&&
+       ((!n.gatherTrip&&now>=(n.manualUntil||0))||(owned&&n.spaInvitationHeld));
+   }
+-  resortSpa=createResortSpaWorld({scene,container,
++  resortSpa=createResortSpaWorld({scene,container,teleportCat,
+     getInvitees:()=>availableGatherCats().filter(id=>id!=='chichi'&&freeSpaGuest(id)&&!resortSpa?.has(id)),guestFree:freeSpaGuest,
+     onGuestReserve:id=>{const n=npcs.get(id);if(!n||!freeSpaGuest(id))return false;jobs.cancel(id);n.spaInvitationHeld=true;n.manualAnchor={x:n.carrier.position.x,z:n.carrier.position.z};n.manualUntil=performance.now()+3600000;n.gatheredUntil=n.manualUntil;return true;},
+     onGuestHold:id=>{const n=npcs.get(id);if(n?.spaInvitationHeld){n.manualUntil=performance.now()+3600000;n.gatheredUntil=n.manualUntil;}},
+@@ -6121,6 +6143,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
+     onCall:async()=>{
+       if(warehouseVisits?.has('chichi'))return false;
+       if(callbacks.canSimulateLeisure?.()===false||!canControlChichi()){callbacks.onReaction?.('Сначала получи управление этим миром.');return false;}
++      if(catTeleport)return resortSpa.teleportCall('chichi');
+       if(heroGather?.spaInvitation||resortSpa?.has('chichi')){callbacks.onReaction?.('Чичи уже в SPA или направляется туда.');return false;}
+       if(submarine?.active){callbacks.onReaction?.('Сначала выйди из субмарины на причале.');return false;}
+       if(!availableGatherCats().includes('chichi')){callbacks.onReaction?.('Чичи сейчас работает или спит. Позови её после отдыха или смены.');return false;}
+@@ -6155,7 +6178,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
+     onExit:restore=>{if(restore&&resortSpaPreviousCamera){desiredLook.copy(resortSpaPreviousCamera.look);desiredDistance=resortSpaPreviousCamera.distance;azimuth=resortSpaPreviousCamera.azimuth;elevation=resortSpaPreviousCamera.elevation;desiredFov=resortSpaPreviousCamera.fov;camera.near=resortSpaPreviousCamera.near;camera.updateProjectionMatrix();}resortSpaPreviousCamera=null;},
+   });
+   const waterfrontFirstPerson=createWaterfrontFirstPerson({getCat:()=>cat,getActor:()=>chichiCarrier,camera,look,getFrame:()=>waterfront?.frame('chichi')});
+-  waterfront=createWaterfrontWorld({scene,container,getGame:()=>game,getActors:()=>lifeActors,getFocused:()=>focused,getOverview:()=>viewingOverview,
++  waterfront=createWaterfrontWorld({scene,container,teleportCat,getGame:()=>game,getActors:()=>lifeActors,getFocused:()=>focused,getOverview:()=>viewingOverview,
+     prepare:(steps,signal)=>prepareSceneSteps(steps,{scheduler:scenePreparation,priority:'autumn',signal}),prepareModel:model=>shaderWarmup.prepare(model,{background:focused!=='autumn'}),registerCat:model=>enableCatRenderBatch(model,poseAtlas),
+     canBuild:()=>!!mall?.root&&!!resortSpa?.ready&&!islands.get('autumn')?.userData.lowOnly&&shaderWarmup.idle(),canSimulate:()=>callbacks.canSimulateLeisure?.()!==false,
+     canInvite:(id,options={})=>id==='chichi'?!warehouseVisits?.has(id)&&canControlChichi()&&!submarine?.active&&(options.force||!mall?.has(id)&&!resortSpa?.has(id)&&!heroGather&&availableGatherCats().includes(id)):waterfront?.has(id)?!waterfront.unsafe(id):freeSpaGuest(id)&&!resortSpa?.has(id),
+@@ -6169,7 +6192,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
+     onExit:restore=>{if(restore&&waterfrontPreviousCamera){const v=waterfrontPreviousCamera;desiredLook.copy(v.look);desiredDistance=v.distance;azimuth=v.azimuth;elevation=v.elevation;desiredFov=v.fov;camera.near=v.near;camera.updateProjectionMatrix();}waterfrontPreviousCamera=null;},
+   });
+   warehouseAccess=venueButton('warehouse');warehouseAccess.classList.add('warehouse-access');warehouseAccess.hidden=true;warehouseAccess.setAttribute('aria-pressed','false');warehouseAccess.onclick=focusWarehouse;(container.querySelector('.map-controls')||container).append(warehouseAccess);
+-  warehouseVisits=createWarehouseWorld({scene,container,canvas:renderer.domElement,camera,look,getGame:()=>game,getActors:()=>lifeActors,getFocused:()=>focused,getOverview:()=>viewingOverview,getModel:()=>islands.get('autumn')?.userData.ocean?.warehouse,
++  warehouseVisits=createWarehouseWorld({scene,container,teleportCat,teleportSupport:(p,r)=>manualSurface(p,r),canvas:renderer.domElement,camera,look,getGame:()=>game,getActors:()=>lifeActors,getFocused:()=>focused,getOverview:()=>viewingOverview,getModel:()=>islands.get('autumn')?.userData.ocean?.warehouse,
+     prepare:(steps,signal)=>prepareSceneSteps(steps,{scheduler:scenePreparation,priority:'autumn',signal}),prepareModel:model=>shaderWarmup.prepare(model,{background:focused!=='autumn'}),canSimulate:()=>callbacks.canSimulateLeisure?.()!==false,
+     canInvite:id=>id==='chichi'?!submarine?.active&&!waterfront?.unsafe(id)&&!resortSpa?.transportFrame(id)&&!crew.workers.has(id)&&!draggingCat:freeSpaGuest(id)&&!resortSpa?.has(id),
+     reserve:id=>{if(id==='chichi'){manualWalk?.stop();callbacks.onControlChichi?.();cancelHeroActivity();heroGather=null;jobs.cancel(id);crew.cancel(id);housingLife.cancel?.(id);}else{cancelResident(id,true);const n=npcs.get(id);if(!n)return false;n.leisureBiome='autumn';n.manualUntil=performance.now()+60000;}return true;},
+@@ -6238,6 +6261,10 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
+     if(waterfront?.support(chichiCarrier.position,catNavigationRadius(cat))){if(!manualWalk.start())callbacks.onReaction?.('Нет свободной опоры.');refreshManualButton();return;}
+     if(await submarine.controlChichi?.()){refreshManualButton();return;}if(submarine.active)return;if(!manualWalk.start())callbacks.onReaction?.('Здесь пока нет свободной опоры для ходьбы.');refreshManualButton();};
+   if((initialGame.mosasaurSubmarine?.active||initialGame.mosasaurSubmarine?.explorer)&&game.unlocked.includes('autumn'))focus('autumn',false,true);
++  catTeleport=createCatTeleportationSystem({getActors:()=>lifeActors,canSimulate:()=>callbacks.canSimulateLeisure?.()!==false,
++    effects:createCatPortalVisuals(scene,{getCamera:()=>camera}),reducedMotion:reduced,
++    canTravel:id=>!(id==='chichi'&&(manualWalk?.airborne||submarine?.active))&&!waterfront?.unsafe(id)&&!warehouseVisits?.has(id)&&!resortSpa?.transportFrame(id)&&resortSpa?.canTeleport(id)!==false&&!draggingCat,
++    onBegin:(id,op)=>{mall?.detachForTeleport(id);if(id==='chichi'){manualWalk?.stop();callbacks.onControlChichi?.();cancelHeroActivity(!!op.metadata?.ticket);heroGather=null;jobs.cancel(id);crew.cancel(id);housingLife.cancel?.(id);}else{cancelResident(id,!!op.metadata?.ticket);const n=npcs.get(id);if(n){n.leisureBiome=op.destination.worldId;n.manualUntil=performance.now()+60000;}}return true;},onError:message=>callbacks.onReaction?.(message)});
+   requestAnimationFrame(loop);
+   for (const mood of moodNames) {
+     const image = document.querySelector(`[data-mood-image="${mood}"]`);
+@@ -6253,8 +6280,8 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
+   }
+   return {
+     perform,
+-    isHeroControlled:()=>!!(manualWalk?.active||submarine?.active||resortSpa?.has('chichi')||warehouseVisits?.has('chichi')||waterfront?.has('chichi')&&!waterfront?.runtime?.get('chichi')?.ticket),
+-    releaseHeroControl:()=>{manualWalk?.stop();submarine?.releaseControl();refreshManualButton();},
++    isHeroControlled:()=>!!(catTeleport?.has('chichi')||manualWalk?.active||submarine?.active||resortSpa?.has('chichi')||warehouseVisits?.has('chichi')||waterfront?.has('chichi')&&!waterfront?.runtime?.get('chichi')?.ticket),
++    releaseHeroControl:()=>{catTeleport?.cancel('chichi');manualWalk?.stop();submarine?.releaseControl();refreshManualButton();},
+     submarine:()=>submarine,
+     mall:()=>mall,
+     resortSpa:()=>resortSpa,
+@@ -6262,17 +6289,17 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
+     inspectMall:floor=>mall.inspect(floor),
+     focusWarehouse,
+     warehouse:()=>warehouseVisits,
++    teleportation:()=>catTeleport,
+     async useMallItem(id,itemId){const item=mallProduct(itemId),actor=lifeActors.find(a=>a.id===id);if(!item||!actor||!game.jobCity?.profiles[id]?.inventory[itemId]||mall.has(id)||warehouseVisits?.has(id))return false;
+       if(item.use==='wear')return !!callbacks.onMallUse?.(id,itemId);
+       if(crew.workers.has(id)||jobs.has(id)||housingLife.get(id)||(id==='chichi'&&(operation||(submarine?.active||manualWalk?.active)||game.care?.resting))||id!=='chichi'&&(residentPlay.get(id)||court.get(id)||spa.get(id)||chill.get(id)))return false;
+       if(['cinema','arcade','bowling','spa','photo'].includes(item.use)){
+-        const b=byBiome('autumn');if(Math.hypot(actor.position.x-b.center[0],actor.position.z-b.center[1])>b.radius)return false;
+-        return mall.start(id,item.storeId,{productId:itemId,useOwned:true});
++        const b=byBiome('autumn');return mall.start(id,item.storeId,{productId:itemId,useOwned:true});
+       }
+       return mall.startPersonal(id,itemId);
+     },
+     async visitMall(id,storeId,productId=null){
+-      const actor=lifeActors.find(a=>a.id===id),b=byBiome('autumn');if(!actor||!game.jobCity?.profiles[id]||Math.hypot(actor.position.x-b.center[0],actor.position.z-b.center[1])>b.radius||crew.workers.has(id)||jobs.get(id)?.job||id==='chichi'&&(operation||(submarine?.active||manualWalk?.active)))return false;
++      const actor=lifeActors.find(a=>a.id===id),b=byBiome('autumn');if(!actor||!game.jobCity?.profiles[id]||crew.workers.has(id)||jobs.get(id)?.job||id==='chichi'&&(operation||(submarine?.active||manualWalk?.active)))return false;
+       if(mall.has(id)||warehouseVisits?.has(id))return false;
+       if(id==='chichi')cancelHeroActivity();else cancelResident(id);
+       return mall.start(id,storeId,{productId});
+@@ -6285,12 +6312,12 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
+     },
+     snapshotCatLocations(next,previous=next){
+       const actors=[{id:'chichi',position:chichiCarrier.position,yaw:chichiCarrier.rotation.y,
+-        transient:!!manualWalk?.airborne||!!submarine?.active||!!court.get('chichi')?.zooCarry||!!heroGather||draggingCat?.catId==='chichi'||['ride','swim'].includes(operation?.decision.action)},
++        transient:!!catTeleport?.has('chichi')||!!manualWalk?.airborne||!!submarine?.active||!!court.get('chichi')?.zooCarry||!!heroGather||draggingCat?.catId==='chichi'||['ride','swim'].includes(operation?.decision.action)},
+         ...[...npcs].map(([id,n])=>({id,position:n.carrier.position,yaw:n.carrier.rotation.y,
+-          transient:!!court.get(id)?.zooCarry||!!n.gatherTrip||draggingCat?.catId===id||!!spa.get(id)||!!chill.get(id)||swimVisits.has(id)||
++          transient:!!catTeleport?.has(id)||!!court.get(id)?.zooCarry||!!n.gatherTrip||draggingCat?.catId===id||!!spa.get(id)||!!chill.get(id)||swimVisits.has(id)||
+             ['ride','swim'].includes(residentPlay.get(id)?.decision?.action)}))];
+       const safeSpa=resortSpa?.safePositions()||new Map();
+-      return captureCatLocations(submarine?{...next,mosasaurSubmarine:submarine.snapshot()}:next,previous,actors.map(a=>{const position=(a.id==='chichi'&&manualWalk?.safePosition)||warehouseVisits?.safePosition(a.id)||waterfront?.safePosition(a.id)||mall?.safePosition(a.id)||safeSpa.get(a.id)||a.position;return{...a,position,transient:a.transient||safeSpa.has(a.id)&&!safeSpa.get(a.id),spaLayout:resortSpa?.locationStamp(a.id,position)};}));
++      return captureCatLocations(submarine?{...next,mosasaurSubmarine:submarine.snapshot()}:next,previous,actors.map(a=>{const position=catTeleport?.safePosition(a.id)||(a.id==='chichi'&&manualWalk?.safePosition)||warehouseVisits?.safePosition(a.id)||waterfront?.safePosition(a.id)||mall?.safePosition(a.id)||safeSpa.get(a.id)||a.position;return{...a,position,transient:a.transient||safeSpa.has(a.id)&&!safeSpa.get(a.id),spaLayout:resortSpa?.locationStamp(a.id,position)};}));
+     },
+     followCat,
+     inspectJobBusiness: inspectAttraction,
+@@ -6457,7 +6484,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
+       staticDraws.dispose();
+       jobs.clear();
+       housingLife.clear();
+-      releaseAnimalDrag();animalGuests.dispose();if(manualButton)manualButton.onclick=null;manualWalk?.dispose();submarine?.dispose();mall?.dispose();resortSpa?.dispose();waterfront?.dispose();warehouseVisits?.dispose();warehouseAccess?.remove();
++      catTeleport?.dispose();releaseAnimalDrag();animalGuests.dispose();if(manualButton)manualButton.onclick=null;manualWalk?.dispose();submarine?.dispose();mall?.dispose();resortSpa?.dispose();waterfront?.dispose();warehouseVisits?.dispose();warehouseAccess?.remove();
+       leisure.clear();
+       drivePrompt.remove();
+       for (const car of cityCars.values()) car.removeFromParent();
+diff --git a/scripts/check-aquarium.cjs b/scripts/check-aquarium.cjs
+index 2f584d6..146fa77 100644
+--- a/scripts/check-aquarium.cjs
++++ b/scripts/check-aquarium.cjs
+@@ -347,8 +347,8 @@ async function localWorker() {
+     }
+     if(process.env.CHICHI_OCEAN_AREA_AUDIT&&!baseline){const {MOSA_RELEASED_SEA}=await import(root+'/public/mosasaur-data.js');g.mosasaurSubmarine={...g.mosasaurSubmarine,x:MOSA_RELEASED_SEA.rx+30,y:-8,z:0};}
+     if(process.env.CHICHI_GLOBAL_MANUAL_AUDIT){g.catPosition={biome:'moon',x:0,z:0};delete g.catLocations;delete g.mosasaurSubmarine;}
+-    if(process.env.CHICHI_MANUAL_BUSY_AUDIT||process.env.CHICHI_SPACE_JUMP_AUDIT){const {captureCatLocations}=await import(root+'/public/cat-locations.js'),{byBiome}=await import(root+'/public/game-data.js'),b=byBiome('homestead');Object.assign(g,captureCatLocations(g,g,[{id:'chichi',position:{x:b.center[0]+195,y:.16,z:b.center[1]-20},yaw:0}],now));}
+-    if(process.env.CHICHI_SPACE_JUMP_AUDIT)delete g.mosasaurSubmarine;
++    if(process.env.CHICHI_MANUAL_BUSY_AUDIT||process.env.CHICHI_SPACE_JUMP_AUDIT||process.env.CHICHI_TELEPORT_AUDIT){const {captureCatLocations}=await import(root+'/public/cat-locations.js'),{byBiome}=await import(root+'/public/game-data.js'),b=byBiome('homestead');Object.assign(g,captureCatLocations(g,g,[{id:'chichi',position:{x:b.center[0]+195,y:.16,z:b.center[1]-20},yaw:0}],now));}
++    if(process.env.CHICHI_SPACE_JUMP_AUDIT||process.env.CHICHI_TELEPORT_AUDIT)delete g.mosasaurSubmarine;
+     if(process.env.CHICHI_MANUAL_PATHS_AUDIT){
+       const {ensureJobCity}=await import(root+'/public/jobcity-system.js'),{captureCatLocations}=await import(root+'/public/cat-locations.js'),{byBiome}=await import(root+'/public/game-data.js');
+       g.unlocked=['moon','homestead','autumn','jobcity','cat-homes','sakura'];g.catDestinations={luna:'moon',moti:'moon'};delete g.catLocations;delete g.mosasaurSubmarine;
+@@ -719,6 +719,7 @@ async function localWorker() {
+       if(process.env.CHICHI_FORECOURT_AUDIT){const {auditForecourt}=await import('./audit-forecourt-native.mjs');await auditForecourt({page,review,errors,httpErrors});return;}
+       if(process.env.CHICHI_OCEAN_AREA_AUDIT){const {auditOceanAreaNative}=await import('./audit-ocean-area-native.mjs');await auditOceanAreaNative({page,review,errors,httpErrors,baseline:!!baseline});return;}
+       if(process.env.CHICHI_GLOBAL_BUTTON_AUDIT){const {auditGlobalButton}=await import('./audit-global-button.mjs');await auditGlobalButton({page,review,errors,httpErrors});return;}
++      if(process.env.CHICHI_TELEPORT_AUDIT){const {auditCatTeleport}=await import('./audit-cat-teleport-native.mjs');await auditCatTeleport({page,review,errors,httpErrors});return;}
+       if(process.env.CHICHI_SPACE_JUMP_AUDIT){const {auditSpaceJump}=await import('./audit-space-jump-native.mjs');await auditSpaceJump({page,review,errors,httpErrors});return;}
+       if(process.env.CHICHI_MANUAL_BUSY_AUDIT){const {auditManualBusy}=await import('./audit-manual-busy-native.mjs');await auditManualBusy({page,review,errors,httpErrors});return;}
+       if(process.env.CHICHI_GLOBAL_MANUAL_AUDIT){const {auditGlobalManual}=await import('./audit-global-manual.mjs');await auditGlobalManual({page,context,browser,base,headers,review,errors,httpErrors});return;}

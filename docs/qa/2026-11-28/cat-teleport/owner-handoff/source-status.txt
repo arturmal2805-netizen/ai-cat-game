@@ -1,0 +1,19 @@
+ M docs/SQUISH_V20_V21_IMPLEMENTATION_TRACKER.md
+ M docs/specifications/warehouse-access-protection-2026-11-27.json
+ M public/mall-runtime.js
+ M public/mall-world.js
+ M public/resort-spa-invitations.js
+ M public/resort-spa-world.js
+ M public/warehouse-visit-runtime.js
+ M public/warehouse-world.js
+ M public/waterfront-runtime.js
+ M public/waterfront-world.js
+ M public/world.js
+ M scripts/check-aquarium.cjs
+?? docs/specifications/warehouse-dynamic-physics-v22-2026-11-28.md
+?? public/cat-portal-visuals.js
+?? public/cat-teleport-destinations.js
+?? public/cat-teleportation-system.js
+?? scripts/__pycache__/
+?? scripts/audit-cat-teleport-native.mjs
+?? test/cat-teleportation.test.mjs

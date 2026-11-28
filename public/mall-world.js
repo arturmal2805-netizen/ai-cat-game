@@ -1,7 +1,8 @@
+import {catArrivalCandidates,catTeleportDestination} from './cat-teleport-destinations.js';
 import {venueButton} from './venue-buttons.js';
 import {mallGuestCameraEye,mallGuestCameraInside} from './mall-guest-camera.js';
 import {mallCameraGuests,randomMallGuest} from './mall-guests.js';
-import {mallPath,mallNavigationSteps,mallNavigationReady,mallAccessibleService,mallSegmentClear} from './mall-navigation.js';
+import {mallWalkable,mallPath,mallNavigationSteps,mallNavigationReady,mallAccessibleService,mallSegmentClear} from './mall-navigation.js';
 import {catNavigationRadius} from './cat-navigation-size.js';
 import {pauseHiddenMatrixUpdates} from './scene-visibility.js';
 import {prepareMallArt} from './mall-art.js';
@@ -19,7 +20,7 @@ import {catAppearance} from './cat-breeds.js';
 import {NEIGHBORS,byBiome} from './game-data.js';
 import {cacheSceneMatrices} from './matrix-cache.js';
 
-export function createMallWorld({scene,container,getGame,getActors,getFocused,getOverview,getCameraElevation=()=>0,prepare,prepareModel,registerCat=()=>{},onCamera,onStoreCamera,onGuestCamera,onExit,onStore,onPurchase,onUse,onGoal,onComplete,onError=()=>{},canSimulate=()=>true,blocked=()=>false,reduced=false}={}){
+export function createMallWorld({scene,container,getGame,getActors,getFocused,getOverview,getCameraElevation=()=>0,prepare,prepareModel,registerCat=()=>{},onCamera,onStoreCamera,onGuestCamera,onExit,onStore,onPurchase,onUse,onGoal,onComplete,onError=()=>{},canSimulate=()=>true,blocked=()=>false,reduced=false,teleportCat=null}={}){
   const centre=byBiome('autumn').center,abort=new AbortController(),staff=[],props=new Map(),personal=new Map(),worn=new Map(),navigationPending=new Map();
   const iceProps=new Map(),iceOffset=new THREE.Matrix4(),icePoint=new THREE.Vector3(),iceScale=new THREE.Vector3(.65,.65,.65);
   let root=null,pending=null,disposed=false,inspection=false,selected=null,lastResume=-1,guest=null,lastGuest=null,inspectionVersion=0;
@@ -136,7 +137,20 @@ export function createMallWorld({scene,container,getGame,getActors,getFocused,ge
     for(const t of textures)if(!borrowedTextures.has(t)&&!t.userData.sharedScenery)t.dispose();
     model.removeFromParent();
   }
+  function mallTeleportEntry(storeId){
+    const store=mallStore(storeId);if(!store)return null;
+    const entryPoint={x:centre[0]+store.entrance.x,y:store.y+.18,z:centre[1]+store.entrance.z};
+    const check=(p,actor)=>!!root&&mallWalkable({x:p.x-centre[0],z:p.z-centre[1]-MALL.z},actor.radius,root.userData.obstacles.get(store.floor));
+    const entry=catTeleportDestination({destinationId:storeId,displayName:store.name,targetType:"mall",portalTheme:"mall",zoneId:storeId,arrivalPoint:entryPoint,
+      prepare:async a=>!!await ensure()&&!!await prepareNavigation(store.floor,a.radius),requiredConditions:()=>canSimulate()&&getGame().unlocked.includes("autumn"),
+      arrivalPoints:actor=>catArrivalCandidates(entryPoint,actor.radius,8),checkArrival:check});
+    return entry;
+  }
+  function teleportStore(id,storeId,options={}){const a=getActors().find(a=>a.id===id),entry=mallTeleportEntry(storeId);if(!a||!entry)return false;
+    return teleportCat(id,entry,()=>runtime.start(id,storeId,local(a.position),{radius:a.radius,...options}),{ticket:options.ticket});
+  }
   return {
+    teleportDestinations:()=>MALL_STORES.filter(s=>!s.resort).map(s=>mallTeleportEntry(s.id)),
     runtime,ensure,inspect,inspectStore,exit,
     resolveGuestCamera(eye,target){
       if(!guest||!root)return;
@@ -153,12 +167,14 @@ export function createMallWorld({scene,container,getGame,getActors,getFocused,ge
     get root(){return root;},get ready(){return !!root&&!pending&&staff.length===7&&staff.every(s=>s.carrier.parent);},get inspection(){return inspection;},get floor(){return selected;},get guest(){return guest;},
     async start(id,storeId,{productId=null,ticket=null,useOwned=false}={}){
       const actor=getActors().find(a=>a.id===id),store=mallStore(storeId);if(!actor||!store||store.resort)return false;
+      if(teleportCat)return !!teleportStore(id,storeId,{productId,ticket,browseOnly:productId===null,useOwned});
       const model=await ensure();if(!model||disposed||!canSimulate())return false;
       if(!await prepareNavigation(store.floor,actor.radius))return false;
       return runtime.start(id,storeId,local(actor.position),{radius:actor.radius,productId,ticket,browseOnly:productId===null,useOwned});
     },
     startReady(id,storeId,ticket=null){
       const actor=getActors().find(a=>a.id===id),store=mallStore(storeId);
+      if(teleportCat&&actor&&store&&!store.resort)return !!teleportStore(id,storeId,{ticket,resume:getGame().jobCity?.profiles[id]?.mall?.goal});
       if(!this.ready||!actor||!store||store.resort)return false;
       if(!mallNavigationReady(root.userData.obstacles.get(store.floor),actor.radius)){
         void prepareNavigation(store.floor,actor.radius).catch(error=>{if(!disposed)onError(error.message);});return false;
@@ -173,6 +189,7 @@ export function createMallWorld({scene,container,getGame,getActors,getFocused,ge
     },
     cancel(id){personal.delete(id);runtime.cancel(id);},
     detach(id){personal.delete(id);runtime.detach(id);},
+    detachForTeleport(id){personal.delete(id);runtime.detach(id,{cancelled:true});},
     frame(id,time){
       const p=personal.get(id);
       if(p){const iceCream=p.item.iceFlavor?mallIceEating(p.elapsed,p.item.iceFlavor,reduced):null;return{iceCream,position:p.position,yaw:p.yaw,walking:false,reaction:{headPitch:p.item.use==='eat'?.27:p.item.use==='rest'?.18:-.08,paw:reduced?0:.18+Math.sin(p.elapsed*2)*.13,crouch:p.item.use==='rest'?.2:0,...(iceCream?{...iceCream.reaction,iceHolding:true,iceLick:iceCream.lick}:{})}};}
