@@ -173,8 +173,7 @@ export function createWarehouseWorld({
     const b = button(d.name, () => void openInterior(d.id));
     b.dataset.squishZone = d.id;
   }
-  async function openInterior(material = selectedMaterial) {
-    selectedMaterial = material;
+  async function ensureInterior() {
     if (!(await ensure()) || disposed) return false;
     if (!interior) {
       if (!interiorPending)
@@ -191,20 +190,38 @@ export function createWarehouseWorld({
       await interiorPending;
     }
     if (!interior) return false;
+    return !!interior;
+  }
+  async function openInterior(material = selectedMaterial) {
+    selectedMaterial = material;
+    if (!(await ensureInterior())) return false;
     squishPlayer.show(true);
     const d =
       SQUISH_DEMONSTRATORS.find((d) => d.id === material) ||
       SQUISH_DEMONSTRATORS[0];
-    const giant=material==='giant', fit=Math.max(1,.95/Math.max(.2,camera.aspect)), targetY=giant?4:4;
+    const giant = material === "giant",
+      fit = Math.max(1, 0.95 / Math.max(0.2, camera.aspect)),
+      targetY = giant ? 4 : 4;
     onInteriorCamera({
-      eye:[SQUISH_PROTOTYPE_ANCHOR.x+d.x+(giant?16:12)*fit,SQUISH_PROTOTYPE_ANCHOR.y+targetY+((giant?14:10)-targetY)*fit,SQUISH_PROTOTYPE_ANCHOR.z+d.z-2+(giant?26:20)*fit],
-      target:[SQUISH_PROTOTYPE_ANCHOR.x+d.x,SQUISH_PROTOTYPE_ANCHOR.y+targetY,SQUISH_PROTOTYPE_ANCHOR.z+d.z-2],fov:52
+      eye: [
+        SQUISH_PROTOTYPE_ANCHOR.x + d.x + (giant ? 16 : 12) * fit,
+        SQUISH_PROTOTYPE_ANCHOR.y +
+          targetY +
+          ((giant ? 14 : 10) - targetY) * fit,
+        SQUISH_PROTOTYPE_ANCHOR.z + d.z - 2 + (giant ? 26 : 20) * fit,
+      ],
+      target: [
+        SQUISH_PROTOTYPE_ANCHOR.x + d.x,
+        SQUISH_PROTOTYPE_ANCHOR.y + targetY,
+        SQUISH_PROTOTYPE_ANCHOR.z + d.z - 2,
+      ],
+      fov: 52,
     });
     return true;
   }
   const runtime = createWarehouseVisits({
     onVisitStep: squishVisits.update,
-    onVisitUnsafe: (v) => !!squishVisits.get(v.id),
+    onVisitUnsafe: (v) => squishVisits.unsafe(v.id),
     origin,
     getActors,
     canSimulate,
@@ -299,6 +316,7 @@ export function createWarehouseWorld({
         "inbound",
         "disembark",
       ].includes(runtime.get("chichi")?.phase);
+      squishVisits.cancel("chichi");
       runtime.requestManual();
       onError(
         returning
@@ -356,6 +374,7 @@ export function createWarehouseWorld({
           f.squish.toy,
           f.squish.age,
           reduced,
+          f.squish,
         );
     },
     finalizeFrame(dt) {
@@ -425,6 +444,15 @@ export function createWarehouseWorld({
         void ensure();
       }
       if (fleet) fleet.visible = visible;
+      if (
+        fleet &&
+        !interior &&
+        !interiorPending &&
+        [...runtime.visits.values()].some((v) =>
+          ["airlock-in", "lobby-walk", "visit"].includes(v.phase),
+        )
+      )
+        void ensureInterior();
       runtime.update(dt, time);
       if (interior) {
         interior.visible = visible;

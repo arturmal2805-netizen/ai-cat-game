@@ -92,8 +92,11 @@ export class FoamImprints {
           // Compact C1 pad kernels keep the spaces between all four toes visible.
           const kernel = (u, v, rx, rz) =>
             smooth(1 - (u / rx) ** 2 - (v / rz) ** 2);
-          let load = kernel(u, v + 0.23, 0.57, 0.49);
-          for (let toe = 0; toe < 4; toe++) {
+          let load =
+            c.kind === "body"
+              ? kernel(u, v, 0.95, 0.6)
+              : kernel(u, v + 0.23, 0.57, 0.49);
+          for (let toe = 0; c.kind !== "body" && toe < 4; toe++) {
             const tx = (toe - 1.5) * 0.39,
               tz = 0.45 - Math.abs(toe - 1.5) * 0.12;
             load = Math.max(load, kernel(u - tx, v - tz, 0.235, 0.29));

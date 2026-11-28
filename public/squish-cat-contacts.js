@@ -35,6 +35,19 @@ function pawMarkers(model) {
         initialized: false,
       });
   }
+  const body = model.userData.body;
+  if (body?.isMesh) {
+    let index = 0,
+      min = Infinity;
+    const p = body.geometry.attributes.position;
+    for (let i = 0; i < p.count; i++)
+      if (p.getY(i) < min) {
+        min = p.getY(i);
+        index = i;
+      }
+    list.body = { mesh: body, vertex: index, point: new T.Vector3() };
+  }
+  list.supportOffset = 0;
   markers.set(model, list);
   return list;
 }
@@ -47,22 +60,49 @@ export function createSquishCatContacts() {
     p.mesh.localToWorld(p.point);
     return p.point;
   };
-  function collect(id, model, carrier, toy, age, reduced = false) {
+  function collect(id, model, carrier, toy, age, reduced = false, acting = {}) {
     if (pending.length >= 8) return;
     const paws = pawMarkers(model);
     if (!paws.length) return;
+    const state = acting.state || "AlternatingKnead",
+      blend = acting.blend ?? 1;
+    if (acting.bodyContact) carrier.position.y += paws.supportOffset;
+    else paws.supportOffset = 0;
     for (const p of paws) {
-      p.swing =
-        p.leg.position.z > 0 && !reduced
-          ? Math.max(
+      const front = p.leg.position.z > 0,
+        left = p.leg.position.x < 0;
+      let lift = 0;
+      if (front && !reduced && !acting.bodyContact) {
+        const phase =
+          age * (state === "SoftKnead" ? 2.5 : 4.5) + (left ? 0 : Math.PI);
+        if (["AlternatingKnead", "SoftKnead"].includes(state))
+          lift = Math.max(0, Math.sin(phase)) * 0.12;
+        else if (state === "PawPress")
+          lift = left ? Math.max(0, Math.sin(age * 2.4)) * 0.14 : 0;
+        else if (state === "DoublePawPress")
+          lift = Math.max(0, Math.sin(age * 2.4)) * 0.12;
+        else if (
+          ["SlimePull", "SlimeStretch", "SlimeStickyPaw", "PawShake"].includes(
+            state,
+          )
+        ) {
+          lift =
+            Math.max(
               0,
-              Math.sin(age * 4 + (p.leg.position.x < 0 ? 0 : Math.PI)),
-            ) * 0.1
-          : 0;
+              Math.sin(
+                age * (state === "PawShake" ? 20 : 1.7) + (left ? 0 : Math.PI),
+              ),
+            ) * 0.12;
+          p.leg.rotation.x -= Math.sin(age * 1.7) * 0.13 * blend;
+        } else if (["SquishTwist", "SlimeFold"].includes(state))
+          p.leg.rotation.z +=
+            (left ? 1 : -1) * Math.sin(age * 1.6) * 0.15 * blend;
+      }
+      p.swing = lift * blend;
       p.leg.position.y += p.swing;
     }
     refresh(model);
-    pending.push({ id, model, carrier, toy, age, paws });
+    pending.push({ id, model, carrier, toy, age, paws, acting });
   }
   function flush(dt, toys) {
     diagnostic.length = 0;
@@ -71,6 +111,42 @@ export function createSquishCatContacts() {
       const solver = v.toy.userData.solver,
         keys = nextKeys.get(solver) || [];
       nextKeys.set(solver, keys);
+      if (v.acting.bodyContact && v.paws.body) {
+        const b = v.paws.body;
+        measure(b);
+        const surface = v.toy.userData.surface(b.point.x, b.point.z);
+        if (surface !== null) {
+          const adjust = T.MathUtils.clamp(surface - b.point.y, -0.16, 0.16);
+          v.paws.supportOffset += adjust;
+          v.carrier.position.y += adjust;
+          refresh(v.model);
+          measure(b);
+          const local = v.toy.worldToLocal(b.point.clone()),
+            key = v.id + ":body";
+          solver.setContact(key, {
+            kind: "body",
+            point: [
+              local.x,
+              v.toy.userData.restSurfaceHeight(local.x, local.z),
+              local.z,
+            ],
+            displacement: [0, -0.5, 0],
+            radius: 1,
+            force: 45,
+          });
+          keys.push(key);
+          diagnostic.push({
+            id: v.id,
+            kind: "body",
+            point: b.point.toArray(),
+            surface,
+            error: b.point.y - surface,
+            force: 45,
+            material: v.toy.userData.material,
+          });
+        }
+        continue;
+      }
       for (const p of v.paws) {
         measure(p);
         const target = v.toy.userData.surface(p.point.x, p.point.z);
@@ -91,7 +167,7 @@ export function createSquishCatContacts() {
         p.previous.copy(p.point);
         p.initialized = true;
         const force = T.MathUtils.clamp(
-            22 + Math.max(0, -velocity.y) * 10,
+            22 + Math.max(0, -velocity.y) * 10 + (v.acting.impact || 0) * 6,
             15,
             160,
           ),
@@ -105,7 +181,13 @@ export function createSquishCatContacts() {
         shear.clampLength(0, 0.38);
         p.force = force;
         solver.setContact(key, {
-          kind: "paw",
+          kind: ["SlimePull", "SlimeStretch", "SlimeStickyPaw"].includes(
+            v.acting.state,
+          )
+            ? "stretch"
+            : v.acting.state === "SquishTwist"
+              ? "twist"
+              : "paw",
           point: [p.grip.x, y, p.grip.z],
           displacement: [shear.x, -0.45, shear.z],
           footprintRadius: Math.sqrt(0.035 / Math.PI) * 1.8,
@@ -127,6 +209,37 @@ export function createSquishCatContacts() {
       toy.userData.update(dt);
     }
     for (const v of pending) {
+      if (v.acting.bodyContact) {
+        const body = v.paws.body;
+        if (body) {
+          measure(body);
+          const target = v.toy.userData.surface(body.point.x, body.point.z);
+          if (target !== null) {
+            const adjust = T.MathUtils.clamp(
+              target - body.point.y,
+              -0.12,
+              0.12,
+            );
+            v.paws.supportOffset += adjust;
+            v.carrier.position.y += adjust;
+            refresh(v.model);
+            measure(body);
+            const d = diagnostic.find(
+              (d) => d.id === v.id && d.kind === "body",
+            );
+            if (d) {
+              d.point = body.point.toArray();
+              d.surface = target;
+              d.error = body.point.y - target;
+            }
+          }
+        }
+        for (const p of v.paws) {
+          p.initialized = false;
+          p.grip = null;
+        }
+        continue;
+      }
       let sum = 0,
         n = 0;
       for (const p of v.paws) {
