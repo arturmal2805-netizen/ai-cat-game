@@ -16,6 +16,7 @@ export const SQUISH_DEMONSTRATORS = Object.freeze(
     { id: "foam", name: "Memory Foam", x: -12, z: -18 },
     { id: "crunchy", name: "Crunchy Squish", x: 12, z: -18 },
     { id: "mochi", name: "Mochi Stretch", x: 0, z: -28 },
+    { id: "giant", name: "Giant Squish Cat", x: 0, z: -45 },
   ].map(Object.freeze),
 );
 // Material demonstrators precede the full ten-sector interior. They use the
@@ -49,6 +50,7 @@ export function* warehouseSquishSteps(origin) {
     ]) {
       const mesh = new T.Mesh(geometry, m);
       mesh.position.set(d.x, y, d.z);
+      if (d.id === "giant") mesh.scale.set(2.1, 1, 2.1);
       mesh.castShadow = mesh.receiveShadow = true;
       root.add(mesh);
     }

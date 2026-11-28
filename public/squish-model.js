@@ -1,3 +1,4 @@
+import { giantCatGeometry, giantRestHeight } from "./squish-giant.js";
 import { FoamImprints } from "./squish-foam.js";
 import { createCrunchyFiller } from "./squish-crunchy.js";
 import { createButterShell } from "./squish-butter.js";
@@ -67,9 +68,16 @@ export function squishSurfaceMaterial(type) {
 export function createSquishToy({
   material = "jelly",
   size = null,
-  resolution = [7, 7, 7],
+  resolution = null,
 } = {}) {
-  size ||= material === "foam" ? [5, 1.4, 4.5] : [5, 4.4, 4.5];
+  size ||=
+    material === "foam"
+      ? [5, 1.4, 4.5]
+      : material === "giant"
+        ? [14, 9, 14]
+        : [5, 4.4, 4.5];
+  const giant = material === "giant";
+  resolution ||= giant ? [11, 9, 11] : [7, 7, 7];
   const pad = material === "foam";
   const root = new T.Group();
   root.name = "SquishPhysics · " + material;
@@ -88,9 +96,11 @@ export function createSquishToy({
     sources.push(geometry.attributes.position.array.slice());
     return mesh;
   };
-  const body = pad
-    ? new T.BoxGeometry(size[0], size[1], size[2], 64, 10, 64)
-    : new T.SphereGeometry(1, 48, 32);
+  const body = giant
+    ? giantCatGeometry(size)
+    : pad
+      ? new T.BoxGeometry(size[0], size[1], size[2], 64, 10, 64)
+      : new T.SphereGeometry(1, 48, 32);
   if (pad) {
     const a = body.attributes.position,
       r = 0.27;
@@ -105,7 +115,7 @@ export function createSquishToy({
       a.setXYZ(i, cx + v.x, cy + v.y + size[1] / 2, cz + v.z);
     }
     body.computeVertexNormals();
-  } else {
+  } else if (!giant) {
     body.scale(size[0] * 0.49, size[1] * 0.37, size[2] * 0.49);
     body.translate(0, size[1] * 0.38, 0);
   }
@@ -134,7 +144,11 @@ export function createSquishToy({
         curveSegments: 16,
       });
       g.scale(size[0] / 5, size[1] / 4.4, size[2] / 4.5);
-      g.translate(side * size[0] * 0.29, size[1] * 0.65, -0.17);
+      g.translate(
+        side * size[0] * (giant ? 0.2 : 0.29),
+        size[1] * 0.65,
+        giant ? size[2] * 0.15 : -0.17,
+      );
       earGeos.push(g);
     }
     const ear = mergeGeometries(earGeos);
@@ -206,7 +220,20 @@ export function createSquishToy({
                 ((y - size[1] * 0.38) / (size[1] * 0.37)) ** 2,
             ),
           );
-      fp.setZ(i, surface + 0.025 + (fp.getZ(i) - z) * 0.65);
+      const front = giant
+        ? size[2] * 0.15 +
+          size[2] *
+            0.24 *
+            Math.sqrt(
+              Math.max(
+                0.01,
+                1 -
+                  (x / (size[0] * 0.33)) ** 2 -
+                  ((y - size[1] * 0.43) / (size[1] * 0.29)) ** 2,
+              ),
+            )
+        : surface;
+      fp.setZ(i, front + 0.025 + (fp.getZ(i) - z) * 0.65);
     }
     f.computeVertexNormals();
     attach(f, dark, "Smile eyes and nose · surface bound");
@@ -225,6 +252,26 @@ export function createSquishToy({
       }
     const cg = mergeGeometries(cheeks);
     cheeks.forEach((g) => g.dispose());
+    if (giant) {
+      const a = cg.attributes.position;
+      for (let i = 0; i < a.count; i++)
+        a.setZ(
+          i,
+          size[2] * 0.15 +
+            size[2] *
+              0.24 *
+              Math.sqrt(
+                Math.max(
+                  0.01,
+                  1 -
+                    (a.getX(i) / (size[0] * 0.33)) ** 2 -
+                    ((a.getY(i) - size[1] * 0.43) / (size[1] * 0.29)) ** 2,
+                ),
+              ) +
+            0.04,
+        );
+      cg.computeVertexNormals();
+    }
     attach(cg, pink, "Pastel cheek marks · surface bound");
   }
   if (material === "cloud") {
@@ -386,9 +433,11 @@ export function createSquishToy({
       update(0);
     },
     restSurfaceHeight(x, z) {
-      return pad
-        ? size[1]
-        : size[1] * 0.38 +
+      return giant
+        ? giantRestHeight(size, x, z)
+        : pad
+          ? size[1]
+          : size[1] * 0.38 +
             size[1] *
               0.37 *
               Math.sqrt(

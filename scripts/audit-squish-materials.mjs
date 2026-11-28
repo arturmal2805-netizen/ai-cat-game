@@ -129,8 +129,8 @@ export async function auditSquishMaterials({
           .interior.userData.toys.find((t) => t.userData.material === id),
         p = new T.Vector3(
           0,
-          id === "foam" ? 1.38 : 2.6,
-          id === "foam" ? 0.3 : 1.9,
+          id === "giant" ? 6 : id === "foam" ? 1.38 : 2.6,
+          id === "giant" ? 1 : id === "foam" ? 0.3 : 1.9,
         );
       t.localToWorld(p);
       p.project(q.camera);

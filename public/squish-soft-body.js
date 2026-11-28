@@ -186,8 +186,10 @@ export class SquishSoftBody {
     // A mounted foam pad cannot consume most of its own thickness in one
     // coarse cell. Fine paw relief is resolved by the secondary surface field.
     if (this.profile.materialType === "foam")
-      c.displacement[1] = Math.max(c.displacement[1], -this.size[1] * .22);
+      c.displacement[1] = Math.max(c.displacement[1], -this.size[1] * 0.22);
     c.radius = clamp(radius, 0.1, Math.max(...this.size));
+    if (this.profile.materialType === "giant")
+      c.radius = Math.max(c.radius, this.profile.interactionRadius);
     c.force = clamp(force, 0, 600);
     this.contacts.set(id, c);
     this.sleeping = false;

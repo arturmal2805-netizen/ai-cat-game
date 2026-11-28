@@ -174,13 +174,13 @@ export function createWarehouseWorld({
       SQUISH_DEMONSTRATORS[0];
     onInteriorCamera({
       eye: [
-        SQUISH_PROTOTYPE_ANCHOR.x + d.x + 8,
-        SQUISH_PROTOTYPE_ANCHOR.y + 6,
-        SQUISH_PROTOTYPE_ANCHOR.z + d.z + 11,
+        SQUISH_PROTOTYPE_ANCHOR.x + d.x + (material === "giant" ? 16 : 8),
+        SQUISH_PROTOTYPE_ANCHOR.y + (material === "giant" ? 13 : 6),
+        SQUISH_PROTOTYPE_ANCHOR.z + d.z + (material === "giant" ? 24 : 11),
       ],
       target: [
         SQUISH_PROTOTYPE_ANCHOR.x + d.x,
-        SQUISH_PROTOTYPE_ANCHOR.y + 2,
+        SQUISH_PROTOTYPE_ANCHOR.y + (material === "giant" ? 4 : 2),
         SQUISH_PROTOTYPE_ANCHOR.z + d.z,
       ],
       fov: 48,
