@@ -1,4 +1,9 @@
 import { squishMaterial } from "./squish-materials.js";
+import {
+  dynamicSquishProfile,
+  materialLoadDepth,
+  createDynamicContactState,
+} from "./squish-dynamic-material.js";
 const clamp = (x, a, b) => Math.max(a, Math.min(b, x));
 // A small volumetric XPBD cage, six positively oriented tetrahedra per cell.
 // Render meshes bind trilinearly; no scene objects or timers in this solver.
@@ -10,6 +15,7 @@ export class SquishSoftBody {
     iterations = 5,
   } = {}) {
     this.profile = squishMaterial(material);
+    this.dynamicProfile = dynamicSquishProfile(material);
     this.size = size.slice();
     this.resolution = resolution.slice();
     this.iterations = iterations;
@@ -24,6 +30,13 @@ export class SquishSoftBody {
     this.inverseMass = new Float64Array(n);
     this.damage = new Float32Array(n);
     this.plasticAge = new Float32Array(n);
+    // Retarded material strain, held in original cage coordinates. It survives
+    // contact replacement/release and LOD, unlike a per-character sink timer.
+    this.creep = new Float64Array(n);
+    this.permanent = new Float64Array(n);
+    this.dynamicInfluence = new Float32Array(n);
+    this.impactEvents = 0;
+    this.totalImpactImpulse = 0;
     this.contactField = new Float32Array(n);
     this.contacts = new Map();
     this.time = 0;
@@ -151,6 +164,15 @@ export class SquishSoftBody {
       supportShare = 0,
       twist = 0,
       targetCompressionRatio = 0,
+      physicalLoad = false,
+      contactArea = 0.035,
+      submergedArea = 0.0025,
+      effectiveMass = force / 9.81,
+      impactVelocity = 0,
+      impactId = null,
+      catId = null,
+      limbId = null,
+      squishId = null,
     } = {},
   ) {
     if (
@@ -169,6 +191,10 @@ export class SquishSoftBody {
         supportShare,
         twist,
         targetCompressionRatio,
+        contactArea,
+        submergedArea,
+        effectiveMass,
+        impactVelocity,
       ].every(Number.isFinite)
     )
       return false;
@@ -185,7 +211,29 @@ export class SquishSoftBody {
       filtered: new Float64Array(3),
       torn: false,
       filteredTwist: 0,
+      dynamic: createDynamicContactState(),
+      lastImpactId: null,
     };
+    c.physicalLoad = !!physicalLoad;
+    c.contactArea = clamp(contactArea, 0.0001, 2);
+    c.submergedArea = clamp(submergedArea, 0.00001, c.contactArea);
+    c.catId = catId;
+    c.limbId = limbId;
+    c.squishId = squishId;
+    c.activeState = "active";
+    c.contactId = id;
+    c.effectiveMass = clamp(effectiveMass, 0, 100);
+    if (
+      impactVelocity > 0 &&
+      impactId !== null &&
+      impactId !== c.lastImpactId
+    ) {
+      c.lastImpactId = impactId;
+      c.dynamic.pendingImpactImpulse +=
+        c.effectiveMass *
+        impactVelocity *
+        (1 + this.dynamicProfile.reboundStrength);
+    }
     c.kind = kind;
     c.footprintRadius = clamp(footprintRadius, 0, 1);
     c.orientation = orientation;
@@ -234,6 +282,10 @@ export class SquishSoftBody {
     this.velocity.fill(0);
     this.damage.fill(0);
     this.plasticAge.fill(0);
+    this.creep.fill(0);
+    this.permanent.fill(0);
+    this.impactEvents = 0;
+    this.totalImpactImpulse = 0;
     this.contacts.clear();
     this.accumulator = 0;
     this.sleeping = true;
@@ -259,7 +311,151 @@ export class SquishSoftBody {
     this.lastMs = (globalThis.performance?.now?.() || 0) - start;
     return n;
   }
+  updateDynamicMaterial(dt) {
+    const d = this.dynamicProfile,
+      o = this.original;
+    this.dynamicInfluence.fill(0);
+    for (const c of this.contacts.values()) {
+      if (!c.physicalLoad) continue;
+      const state = c.dynamic;
+      if (!state.contactDuration) state.contactStartTime = this.time;
+      state.contactDuration += dt;
+      const load = materialLoadDepth(
+        d,
+        c.force,
+        Math.max(0.001, c.point[1]),
+        c.contactArea,
+        c.submergedArea,
+        c.load || (c.load = {}),
+      );
+      c.load = load;
+      state.equilibriumDepth = load.elastic + load.creep;
+      if (state.pendingImpactImpulse > 0) {
+        state.impactImpulse = state.pendingImpactImpulse;
+        state.impactVelocity -=
+          state.pendingImpactImpulse / Math.max(0.1, c.effectiveMass);
+        state.pendingImpactImpulse = 0;
+        state.impactEvents++;
+        this.impactEvents++;
+        this.totalImpactImpulse += state.impactImpulse;
+      }
+      // A mass/spring/damper contact transient consumes J once. Its displacement
+      // enters the SAME cage constraint as static load; it is never added to N.
+      const omega = Math.sqrt(
+        d.effectiveStiffness / Math.max(0.1, c.effectiveMass),
+      );
+      const damping = d.reboundStrength > 0.3 ? 3 : 2 * omega;
+      state.impactVelocity +=
+        (-omega * omega * state.impactOffset - damping * state.impactVelocity) *
+        dt;
+      state.impactOffset = clamp(
+        state.impactOffset + state.impactVelocity * dt,
+        -load.limit,
+        load.limit * 0.15,
+      );
+      c.displacement[1] = -load.elastic + state.impactOffset;
+      // Broad contact growth reflects compression; the small geometric paw
+      // area used for pressure/buoyancy stays distinct from cage resolution.
+      c.effectiveRadius =
+        c.radius *
+        (1 + Math.min(0.45, state.accumulatedCreep / Math.max(0.1, c.radius)));
+    }
+    for (let i = 0; i < this.count; i++) {
+      if (!this.inverseMass[i]) continue;
+      const j = i * 3;
+      let target = 0,
+        total = 0,
+        plasticDrive = 0;
+      for (const c of this.contacts.values()) {
+        if (!c.physicalLoad || c.torn) continue;
+        const r = c.effectiveRadius || c.radius;
+        const r2 =
+          ((o[j] - c.point[0]) ** 2 +
+            (o[j + 1] - c.point[1]) ** 2 +
+            (o[j + 2] - c.point[2]) ** 2) /
+          (r * r);
+        if (r2 >= 4) continue;
+        const influence = Math.exp(-r2 * 1.4) * (1 - r2 / 4) ** 2;
+        target += c.load.creep * influence;
+        plasticDrive +=
+          Math.max(0, c.force / c.contactArea - d.yieldStress) * influence;
+        total += influence;
+      }
+      this.dynamicInfluence[i] = Math.min(1, total);
+      const prior = this.creep[i];
+      const limit =
+        o[j + 1] * Math.min(d.maximumCompression, d.maximumImmersion);
+      target = clamp(target, 0, Math.max(0, limit - this.permanent[i]));
+      const loadedTau =
+        d.materialClass === "viscous-immersion"
+          ? d.viscosity /
+            Math.max(
+              0.001,
+              d.creepStiffness +
+                d.effectiveBuoyancy * d.density * 9.81 * 0.0025,
+            )
+          : d.creepTimeConstant;
+      const tau =
+        total > 1e-5 ? loadedTau : 1 / Math.max(0.01, d.shapeRecoverySpeed);
+      this.creep[i] +=
+        (target - prior) * (1 - Math.exp(-dt / Math.max(0.05, tau)));
+      if (d.plasticFlowRate && plasticDrive > 0) {
+        const increment =
+          ((d.plasticFlowRate * plasticDrive) /
+            Math.max(1, d.yieldStress || 500)) *
+          dt;
+        this.permanent[i] = clamp(
+          this.permanent[i] + increment,
+          0,
+          limit * d.plasticStrainLimit,
+        );
+      }
+      // Butter keeps yield deformation; slime can relax its remanent flow.
+      if (
+        !total &&
+        (d.materialClass === "viscoplastic-solid" ||
+          d.materialClass === "viscous-immersion")
+      )
+        this.permanent[i] *= Math.exp(-d.shapeRecoverySpeed * dt * 0.25);
+      if (this.creep[i] > 1e-8 || this.permanent[i] > 1e-8)
+        this.rest[j + 1] = o[j + 1] - this.creep[i] - this.permanent[i];
+    }
+    for (const c of this.contacts.values()) {
+      if (!c.physicalLoad) continue;
+      const state = c.dynamic,
+        prior = state.accumulatedCreep;
+      state.accumulatedCreep = this.sampleScalar(this.creep, c.point);
+      state.accumulatedPlasticStrain =
+        this.sampleScalar(this.permanent, c.point) /
+        Math.max(0.001, c.point[1]);
+      state.sinkVelocity = (state.accumulatedCreep - prior) / dt;
+    }
+  }
+  sampleScalar(array, point) {
+    const [nx, ny, nz] = this.resolution,
+      [sx, sy, sz] = this.size;
+    const fx = clamp((point[0] / sx + 0.5) * (nx - 1), 0, nx - 1 - 1e-8),
+      fy = clamp((point[1] / sy) * (ny - 1), 0, ny - 1 - 1e-8),
+      fz = clamp((point[2] / sz + 0.5) * (nz - 1), 0, nz - 1 - 1e-8),
+      ix = Math.floor(fx),
+      iy = Math.floor(fy),
+      iz = Math.floor(fz),
+      tx = fx - ix,
+      ty = fy - iy,
+      tz = fz - iz;
+    let result = 0;
+    for (let y = 0; y < 2; y++)
+      for (let z = 0; z < 2; z++)
+        for (let x = 0; x < 2; x++)
+          result +=
+            array[((iy + y) * nz + iz + z) * nx + ix + x] *
+            (x ? tx : 1 - tx) *
+            (y ? ty : 1 - ty) *
+            (z ? tz : 1 - tz);
+    return result;
+  }
   fixed(dt) {
+    this.updateDynamicMaterial(dt);
     const p = this.position,
       v = this.velocity,
       rest = this.rest,
@@ -412,7 +608,9 @@ export class SquishSoftBody {
             const dx = o[j] - c.point[0],
               dy = o[j + 1] - c.point[1],
               dz = o[j + 2] - c.point[2],
-              r2 = (dx * dx + dy * dy + dz * dz) / (c.radius * c.radius);
+              r2 =
+                (dx * dx + dy * dy + dz * dz) /
+                (c.effectiveRadius || c.radius) ** 2;
             if (r2 >= 4) continue;
             const influence =
               Math.exp(-r2 * 1.4) *
@@ -445,7 +643,11 @@ export class SquishSoftBody {
                 nz * dot * (1 - cosine);
             }
             gx += (c.filtered[0] + tx) * influence;
-            gy += (c.filtered[1] + ty) * influence;
+            gy +=
+              (c.filtered[1] +
+                ty -
+                (c.physicalLoad ? this.creep[i] + this.permanent[i] : 0)) *
+              influence;
             gz += (c.filtered[2] + tz) * influence;
           }
           this.contactField[i] = Math.max(
@@ -464,7 +666,20 @@ export class SquishSoftBody {
             p[j + 2] +=
               (o[j + 2] + gz * s - p[j + 2]) * Math.min(1, total) * strength;
           }
-          p[j + 1] = Math.max(0.001, p[j + 1]);
+          p[j + 1] = Math.max(
+            this.dynamicInfluence[i] > 1e-5
+              ? Math.max(
+                  0.001,
+                  o[j + 1] *
+                    (1 -
+                      Math.min(
+                        this.dynamicProfile.maximumCompression,
+                        this.dynamicProfile.maximumImmersion,
+                      )),
+                )
+              : 0.001,
+            p[j + 1],
+          );
           const displacement = Math.hypot(
               p[j] - o[j],
               p[j + 1] - o[j + 1],
@@ -491,10 +706,10 @@ export class SquishSoftBody {
           0,
           1,
         );
-        if (m.plasticity)
+        if (m.plasticity && this.dynamicInfluence[i] < 1e-5)
           for (let k = 0; k < 3; k++)
             rest[j + k] += (p[j + k] - rest[j + k]) * m.plasticity * dt * 2;
-      } else {
+      } else if (this.creep[i] < 1e-8 && this.permanent[i] < 1e-8) {
         this.plasticAge[i] += dt;
         for (let k = 0; k < 3; k++)
           rest[j + k] +=
@@ -563,16 +778,27 @@ export class SquishSoftBody {
       error = 0;
     for (let q = 0; q < p.length; q++) {
       energy = Math.max(energy, Math.abs(v[q]));
-      error = Math.max(error, Math.abs(p[q] - o[q]), Math.abs(rest[q] - o[q]));
+      error = Math.max(
+        error,
+        Math.abs(p[q] - o[q]),
+        Math.abs(rest[q] - o[q]),
+        this.creep[Math.floor(q / 3)],
+        this.permanent[Math.floor(q / 3)],
+      );
     }
+    const retainedPlastic = this.permanent.some((d) => d > 1e-5);
     this.quietSteps =
-      !this.contacts.size && energy < 1e-4 && error < 1e-4
+      !this.contacts.size &&
+      energy < 1e-4 &&
+      (retainedPlastic ? Math.max(...this.creep) < 1e-4 : error < 1e-4)
         ? this.quietSteps + 1
         : 0;
     if (this.quietSteps > 30) {
       this.sleeping = true;
-      p.set(o);
-      rest.set(o);
+      if (!retainedPlastic) {
+        p.set(o);
+        rest.set(o);
+      }
       v.fill(0);
     }
     this.time += dt;
@@ -638,6 +864,29 @@ export class SquishSoftBody {
       particles: this.count,
       constraints: this.edges.length / 3 + this.tets.length / 5,
       contacts: this.contacts.size,
+      materialClass: this.dynamicProfile.materialClass,
+      materialId: this.dynamicProfile.materialId,
+      staticLoad: [...this.contacts.values()].reduce((s, c) => s + c.force, 0),
+      impactEvents: this.impactEvents,
+      totalImpactImpulse: this.totalImpactImpulse,
+      accumulatedCreep: Math.max(...this.creep),
+      plasticStrain:
+        Math.max(...this.permanent) / Math.max(0.001, this.size[1]),
+      plasticDisplacement: Math.max(...this.permanent),
+      dynamicContacts: [...this.contacts.values()]
+        .filter((c) => c.physicalLoad)
+        .map((c) => ({
+          id: c.contactId,
+          catId: c.catId,
+          squishId: c.squishId,
+          activeState: c.activeState,
+          limbId: c.limbId,
+          force: c.force,
+          area: c.contactArea,
+          ...c.dynamic,
+          supportFloor: 0,
+          targetEquilibriumDepth: c.dynamic.equilibriumDepth,
+        })),
       steps: this.steps,
       time: this.time,
       volumeRatio: volume / restVolume,

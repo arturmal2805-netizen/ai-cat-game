@@ -98,6 +98,9 @@ export function createSquishToy({
   resolution = null,
   shape = null,
 } = {}) {
+  const dynamicMaterial = material;
+  if (["slime-soft", "slime-gooey", "slime-ultra"].includes(material))
+    material = "slime";
   const pad = material === "foam" && shape !== "cat";
   size ||= pad
     ? [5, 1.4, 4.5]
@@ -109,7 +112,11 @@ export function createSquishToy({
   const root = new T.Group();
   root.name = "SquishPhysics · " + material;
   root.userData.squishPhysics = true;
-  const solver = new SquishSoftBody({ material, size, resolution }),
+  const solver = new SquishSoftBody({
+      material: dynamicMaterial,
+      size,
+      resolution,
+    }),
     meshes = [],
     sources = [],
     effects = [],

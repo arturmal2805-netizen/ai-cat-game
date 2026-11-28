@@ -59,7 +59,16 @@ export function measureSquish(toy) {
       normal: hit.normal.toArray(),
       force: c.force,
       supportShare: c.supportShare,
-      duration: c.duration,
+      duration: c.physicalLoad ? c.dynamic.contactDuration : c.duration,
+      contactStartTime: c.dynamic.contactStartTime,
+      impactImpulse: c.dynamic.impactImpulse,
+      impactEvents: c.dynamic.impactEvents,
+      accumulatedCreep: c.dynamic.accumulatedCreep,
+      accumulatedPlasticStrain: c.dynamic.accumulatedPlasticStrain,
+      targetEquilibriumDepth: c.dynamic.equilibriumDepth,
+      sinkVelocity: c.dynamic.sinkVelocity,
+      contactArea: c.contactArea,
+      physicalLoad: c.physicalLoad,
       radius: c.radius,
       footprintRadius: c.footprintRadius,
       penetration: c.penetration,
@@ -92,6 +101,10 @@ export function measureSquish(toy) {
     activeNodes,
     stiffness: s.profile.elasticity,
     compliance: s.profile.compliance,
+    viscosity: s.dynamicProfile.viscosity,
+    creepRate: s.dynamicProfile.creepRate,
+    elasticRecovery: s.dynamicProfile.elasticRecovery,
+    materialClass: s.dynamicProfile.materialClass,
     timestep: 1 / 60,
     meshVersion: u.meshes[0].geometry.attributes.position.version,
     colliderGeometry: u.meshes[0].geometry.uuid,
@@ -135,7 +148,17 @@ export function createSquishDebug({ scene, container, getInterior, getPaws }) {
   table.dataset.squishDebug = "";
   table.style.cssText =
     "position:absolute;left:8px;top:140px;max-width:90%;padding:8px;background:#101226de;color:#c4ffdb;font:11px monospace;pointer-events:none;z-index:30;white-space:pre-wrap";
-  container.append(table);
+  const graph = document.createElement("canvas");
+  graph.width = 320;
+  graph.height = 88;
+  graph.dataset.squishCompressionGraph = "";
+  graph.style.cssText =
+    "position:absolute;left:8px;bottom:12px;z-index:30;pointer-events:none;background:#101226de";
+  const context = graph.getContext("2d");
+  container.append(table, graph);
+  const history = new Map();
+  let timeline = 0,
+    fps = 60;
   let elapsed = 1,
     last = [];
   const matrix = new T.Matrix4();
@@ -143,7 +166,9 @@ export function createSquishDebug({ scene, container, getInterior, getPaws }) {
     update(dt) {
       const interior = getInterior();
       group.visible = !!interior?.visible;
-      table.hidden = !group.visible;
+      table.hidden = graph.hidden = !group.visible;
+      timeline += Number.isFinite(dt) ? Math.max(0, dt) : 0;
+      if (dt > 0) fps += (1 / dt - fps) * 0.1;
       if (!group.visible || (elapsed += dt) < 0.2) return;
       elapsed = 0;
       last = interior.userData.toys
@@ -151,6 +176,34 @@ export function createSquishDebug({ scene, container, getInterior, getPaws }) {
           (t) => t.userData.solver.contacts.size || !t.userData.solver.sleeping,
         )
         .map(measureSquish);
+      if (context) {
+        context.clearRect(0, 0, 320, 88);
+        context.font = "10px monospace";
+        context.fillStyle = "#e5f2ff";
+        context.fillText("TIME → COMPRESSION DEPTH (m), last 24s", 6, 12);
+        const colours = ["#ff8ccc", "#adf7c5", "#9ccbff", "#ffdb89", "#d4b2ff"];
+        for (const [index, d] of last.entries()) {
+          const key = d.material;
+          const samples = history.get(key) || [];
+          samples.push([
+            timeline,
+            d.maxContactDepth || d.maxVertexDisplacement,
+          ]);
+          while (samples.length > 121) samples.shift();
+          history.set(key, samples);
+          context.strokeStyle = colours[index % colours.length];
+          context.beginPath();
+          samples.forEach(([t, depth], i) => {
+            const x = 6 + ((t - Math.max(0, timeline - 24)) / 24) * 308;
+            const y = 80 - (Math.min(2, depth) / 2) * 60;
+            if (i) context.lineTo(x, y);
+            else context.moveTo(x, y);
+          });
+          context.stroke();
+        }
+        // Histories are diagnostic only and bounded to the real toy catalogue.
+        if (history.size > 32) history.delete(history.keys().next().value);
+      }
       let count = 0,
         li = 0;
       for (const d of last)
@@ -189,7 +242,11 @@ ACTIVE PAWS: ${d.activePaws} | SUPPORT FORCE: ${d.supportForce.toFixed(2)} game 
 CONTACT DEPTH: ${d.maxContactDepth.toFixed(3)}m | MAX VERTEX DISPLACEMENT: ${d.maxVertexDisplacement.toFixed(3)}m
 ACTIVE NODES: ${d.activeNodes} | STIFFNESS: ${d.stiffness} | COMPLIANCE: ${d.compliance}
 DT: ${d.timestep.toFixed(5)}s | MESH VERSION: ${d.meshVersion} | COLLIDER: actual rendered mesh
-RECOVERY ACTIVE: ${d.recoveryActive ? "YES" : "NO"} | SOLVER: ${d.solver.lastPhysicsMs.toFixed(2)}ms | LOD: ${d.lod}`,
+IMPACT IMPULSE: ${d.solver.totalImpactImpulse.toFixed(2)}N*s | CONTACT DURATION: ${Math.max(0, ...d.contacts.map((c) => c.duration)).toFixed(2)}s
+TARGET EQUILIBRIUM DEPTH: ${Math.max(0, ...d.contacts.map((c) => c.targetEquilibriumDepth)).toFixed(3)}m | SINK VELOCITY: ${Math.max(0, ...d.contacts.map((c) => c.sinkVelocity)).toFixed(3)}m/s
+VISCOSITY: ${d.viscosity}N*s/m | CREEP RATE: ${d.creepRate.toFixed(3)}/s | ELASTIC RECOVERY: ${d.elasticRecovery}
+PLASTIC STRAIN: ${d.solver.plasticStrain.toFixed(3)} | CURRENT SUPPORT SURFACE: actual rendered triangles
+RECOVERY ACTIVE: ${d.recoveryActive ? "YES" : "NO"} | SOLVER: ${d.solver.lastPhysicsMs.toFixed(2)}ms | LOD: ${d.lod} | FPS: ${fps.toFixed(1)}`,
         )
         .join("\n\n");
     },
@@ -199,6 +256,8 @@ RECOVERY ACTIVE: ${d.recoveryActive ? "YES" : "NO"} | SOLVER: ${d.solver.lastPhy
     dispose() {
       group.removeFromParent();
       table.remove();
+      graph.remove();
+      history.clear();
       geometry.dispose();
       red.dispose();
       green.dispose();
