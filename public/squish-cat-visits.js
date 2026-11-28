@@ -28,11 +28,20 @@ export function createSquishCatVisits({ getInterior, origin }) {
       s.to = { ...to };
       s.t = 0;
       const dy = to.y - s.from.y;
-      s.duration = Math.max(
-        1.05,
-        Math.sqrt((Math.max(0, dy) * 2) / 9.81) + 0.55,
-      );
-      s.vy = (dy + 0.5 * 9.81 * s.duration * s.duration) / s.duration;
+      const launch =
+        dy >= 0
+          ? Math.sqrt(2 * 9.81 * dy + 20)
+          : Math.max(
+              3.5,
+              Math.min(
+                6,
+                Math.sqrt((s.toy.userData.solver?.size[1] || 4.4) * 9.81 * 0.5),
+              ),
+            );
+      s.vy = launch;
+      s.duration =
+        (launch + Math.sqrt(Math.max(0, launch * launch - 2 * 9.81 * dy))) /
+        9.81;
     }
     s.t = Math.min(s.duration, s.t + dt);
     const u = s.t / s.duration;
@@ -113,7 +122,15 @@ export function createSquishCatVisits({ getInterior, origin }) {
     }
     s.age += dt;
     const world = s.toy.getWorldPosition(interior.userData.scratch),
-      base = { x: world.x - origin.x, y: A.foot, z: world.z - origin.z + 4.8 },
+      standOffset = Math.max(
+        4.8,
+        (s.toy.userData.solver?.size[2] || 4.5) / 2 + 1.2,
+      ),
+      base = {
+        x: world.x - origin.x,
+        y: A.foot,
+        z: world.z - origin.z + standOffset,
+      },
       top = s.toy.userData.surface(world.x, world.z);
     if (
       v.manualWanted &&
@@ -249,9 +266,29 @@ export function createSquishCatVisits({ getInterior, origin }) {
         };
       s.impact *= Math.exp(-dt * 12);
       if ((v.cancelled || v.manualWanted || acting.done) && !airborne) {
-        s.phase = "exit";
+        s.phase = acting.bodyContact ? "stand" : "exit";
+        s.standReaction = { ...acting.reaction };
         s.age = 0;
         v.squishWanted = false;
+      }
+    } else if (s.phase === "stand") {
+      const u = Math.min(1, s.age / 0.55),
+        blend = 1 - u * u * (3 - 2 * u);
+      v.local.y = top + 0.012;
+      v.frame.reaction = {
+        ...s.standReaction,
+        waterProne: (s.standReaction.waterProne || 0) * blend,
+        rideSit: (s.standReaction.rideSit || 0) * blend,
+      };
+      v.frame.squish = {
+        toy: s.toy,
+        age: s.age,
+        state: "StandRelease",
+        supportBlend: blend,
+      };
+      if (u >= 1) {
+        s.phase = "exit";
+        s.age = 0;
       }
     } else if (s.phase === "exit") {
       if (flight(s, v, base, dt)) {
@@ -285,7 +322,8 @@ export function createSquishCatVisits({ getInterior, origin }) {
   return {
     update,
     get: (id) => owned.get(id),
-    unsafe: (id) => ["jump", "knead", "exit"].includes(owned.get(id)?.phase),
+    unsafe: (id) =>
+      ["jump", "knead", "stand", "exit"].includes(owned.get(id)?.phase),
     cancel(id) {
       const s = owned.get(id);
       if (
@@ -297,10 +335,8 @@ export function createSquishCatVisits({ getInterior, origin }) {
         owned.delete(id);
         return;
       }
-      if (s && s.phase === "knead") {
-        s.phase = "exit";
-        s.age = 0;
-      }
+      // Midair/rest requests are latched on the existing visitor. update()
+      // finishes the current arc, stands up, and descends before handing over.
     },
     clear() {
       owned.clear();

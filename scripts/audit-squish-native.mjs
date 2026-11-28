@@ -191,6 +191,7 @@ export async function auditRelease({
       const w = q.warehouse(),
         v = w.runtime.get("chichi");
       return {
+        manual: w.runtime.manual,
         phase: v?.phase,
         squish: v?.frame?.squish?.state,
         paws: w.pawDiagnostics,
@@ -262,6 +263,117 @@ export async function auditRelease({
     JSON.stringify(await advance(12), null, 2),
   );
   await frame("one-squish-native-knead");
+  if (process.env.CHICHI_SQUISH_MANUAL_AUDIT) {
+    await activate("[data-warehouse-control]");
+    let ready = false;
+    for (let i = 0; i < 1600; i++) {
+      const st = await advance(15);
+      if (
+        st.manual === "chichi" &&
+        (await page.locator(".chichi-walk-controls").isVisible())
+      ) {
+        ready = true;
+        break;
+      }
+    }
+    assert(
+      ready,
+      "actual UI starts existing native third-person controller after safe descent",
+    );
+    await page.evaluate(() => {
+      __lagoonQA.oceanReviewCamera = null;
+    });
+    await advance(8);
+    const floor = await page.evaluate(
+      () => __lagoonQA.chichiCarrier.position.y,
+    );
+    let controlCdp;
+    if (desktop) {
+      await page.keyboard.down("KeyS");
+      await page.keyboard.down("Space");
+    } else {
+      const points = await page.evaluate(() =>
+        [
+          '.chichi-walk-controls [data-walk-key="KeyS"]',
+          "[data-warehouse-jump]",
+        ].map((s, i) => {
+          const r = document.querySelector(s).getBoundingClientRect();
+          return { x: r.x + r.width / 2, y: r.y + r.height / 2, id: 51 + i };
+        }),
+      );
+      controlCdp = await page.context().newCDPSession(page);
+      await controlCdp.send("Input.dispatchTouchEvent", {
+        type: "touchStart",
+        touchPoints: points,
+      });
+    }
+    await advance(45);
+    const air = await frame("manual-actual-jump");
+    const height = await page.evaluate(
+      () => __lagoonQA.chichiCarrier.position.y,
+    );
+    assert(
+      height > floor + 2,
+      "keyboard/touch produces real high jump, not a camera animation",
+    );
+    if (desktop) {
+      await page.keyboard.up("KeyS");
+      await page.keyboard.up("Space");
+    } else {
+      await controlCdp.send("Input.dispatchTouchEvent", {
+        type: "touchEnd",
+        touchPoints: [],
+      });
+      await controlCdp.detach();
+    }
+    await advance(70);
+    await frame("manual-soft-surface-landing");
+    const landed = await page.evaluate(() => {
+      const q = __lagoonQA,
+        w = q.warehouse(),
+        p = q.chichiCarrier.position;
+      return {
+        p: p.toArray(),
+        manual: w.runtime.manual,
+        paws: w.pawDiagnostics,
+        contacts: w.interior.userData.toys.reduce(
+          (n, t) => n + t.userData.solver.contacts.size,
+          0,
+        ),
+      };
+    });
+    assert.equal(landed.manual, "chichi");
+    assert(landed.contacts > 0, "manual actor actually loads soft surface");
+    assert(landed.paws.every((p) => Math.abs(p.error) < 0.06));
+    await activate("[data-warehouse-return]");
+    let released = false;
+    for (let i = 0; i < 400; i++) {
+      const st = await advance(15);
+      if (st.manual !== "chichi") {
+        released = true;
+        break;
+      }
+    }
+    assert(released, "return button releases after supported landing");
+    await frame("manual-safe-release");
+    await writeFile(
+      join(review, "manual-native-result.json"),
+      JSON.stringify(
+        {
+          passed: true,
+          desktop,
+          air,
+          height,
+          floor,
+          landed,
+          limitations:
+            "Actual fixed-step native input/collision; not physical-device latency or FPS.",
+        },
+        null,
+        2,
+      ),
+    );
+  }
   assert.deepEqual(errors, []);
   assert.deepEqual(httpErrors, []);
   await writeFile(

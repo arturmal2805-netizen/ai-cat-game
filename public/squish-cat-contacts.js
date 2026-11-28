@@ -67,7 +67,14 @@ export function createSquishCatContacts() {
     const state = acting.state || "AlternatingKnead",
       blend = acting.blend ?? 1;
     if (acting.bodyContact) carrier.position.y += paws.supportOffset;
-    else paws.supportOffset = 0;
+    else if (state === "StandRelease") {
+      if (paws.supportState !== state)
+        paws.transitionOffset = paws.supportOffset;
+      paws.supportOffset =
+        (paws.transitionOffset || 0) * (acting.supportBlend || 0);
+      carrier.position.y += paws.supportOffset;
+    } else paws.supportOffset = 0;
+    paws.supportState = state;
     for (const p of paws) {
       const front = p.leg.position.z > 0,
         left = p.leg.position.x < 0;

@@ -1,3 +1,5 @@
+import { createSquishNavigation } from "./squish-navigation.js";
+import { createSquishManual } from "./squish-manual.js";
 import { createSquishCatVisits } from "./squish-cat-visits.js";
 import { createSquishCatContacts } from "./squish-cat-contacts.js";
 import { createSquishPlayer } from "./squish-player.js";
@@ -47,6 +49,8 @@ export function createWarehouseWorld({
     pending = null,
     disposed = false,
     opened = false,
+    pendingManualReturn = false,
+    jumpHeld = false,
     nextTry = 0;
   const panel = document.createElement("div");
   panel.className = "waterfront-panel warehouse-panel";
@@ -76,11 +80,33 @@ export function createWarehouseWorld({
     "↩ Повернути Чічі на берег",
     () => {
       onReleaseManual();
-      runtime.releaseManual();
-      runtime.cancel("chichi");
+      releaseManual(true);
     },
     "warehouseReturn",
   );
+  const jumpButton = document.createElement("button");
+  jumpButton.textContent = "🐾 ↑";
+  jumpButton.hidden = true;
+  jumpButton.dataset.warehouseJump = "";
+  jumpButton.setAttribute("aria-label", "Стрибнути (Space)");
+  jumpButton.style.cssText =
+    "position:absolute;right:18px;bottom:160px;min-width:48px;min-height:48px;border:1px solid #e8bf7a;border-radius:14px;background:#412b52;color:#fff4df;z-index:12";
+  container.append(jumpButton);
+  container.ownerDocument.defaultView?.addEventListener(
+    "blur",
+    () => (jumpHeld = false),
+    { signal: abort.signal },
+  );
+  jumpButton.onpointerdown = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    jumpButton.setPointerCapture?.(e.pointerId);
+    jumpHeld = true;
+  };
+  for (const type of ["pointerup", "pointercancel", "lostpointercapture"])
+    jumpButton.addEventListener(type, () => (jumpHeld = false), {
+      signal: abort.signal,
+    });
   const status = document.createElement("small");
   status.setAttribute("role", "status");
   status.style.color = "#e8d8ad";
@@ -334,8 +360,8 @@ export function createWarehouseWorld({
     if (!runtime.manual) runtime.releaseManual();
   }
   const local = (p) => ({ x: p.x - origin.x, y: p.y, z: p.z - origin.z });
-  function support(p, radius = 0.6) {
-    if (!getModel() || Math.abs(p.y - A.foot) > 0.65) return null;
+  function insideFloor(p, radius = 0.6) {
+    if (!getModel()) return false;
     const q = local(p),
       sx = W.width / 240,
       sz = W.depth / 120,
@@ -346,10 +372,37 @@ export function createWarehouseWorld({
       inside = (dx / rx) ** 2 + (dz / rz) ** 2 < 1;
     const corridor =
       Math.abs(q.x - W.x) < 4 - radius && q.z >= A.lobby.z && q.z <= A.inside.z;
-    if (!inside && !corridor) return null;
-    return { biome: "autumn", y: A.foot };
+    return inside || corridor;
+  }
+  const navigation = createSquishNavigation({
+    getInterior: () => interior,
+    floor: A.foot,
+    inside: insideFloor,
+  });
+  const manualPhysics = createSquishManual({
+    getActor: () => getActors().find((a) => a.id === "chichi"),
+    getNavigation: () => navigation,
+    isActive: () => runtime.manual === "chichi",
+    getRadius: () => getActors().find((a) => a.id === "chichi")?.radius || 0.6,
+    floor: A.foot,
+  });
+  function support(p, radius = 0.6, from = null) {
+    return navigation.support(p, radius, from);
+  }
+  function releaseManual(returning = false) {
+    pendingManualReturn ||= returning;
+    if (runtime.manual === "chichi" && !manualPhysics.requestRelease())
+      return false;
+    runtime.releaseManual();
+    manualPhysics.reset();
+    if (pendingManualReturn) {
+      runtime.cancel("chichi");
+      pendingManualReturn = false;
+    }
+    return true;
   }
   function cameraClear(a, b) {
+    if (!navigation.cameraClear(a, b)) return false;
     const qa = local(a),
       qb = local(b);
     if (Math.min(qa.y, qb.y) < A.floor + 0.1) return false;
@@ -365,7 +418,10 @@ export function createWarehouseWorld({
   }
   return {
     applyCatPose(id, model, carrier, time, reduced) {
-      const f = runtime.frame(id);
+      const f =
+        id === "chichi" && runtime.manual === "chichi"
+          ? manualPhysics.frame
+          : runtime.frame(id);
       if (f?.squish)
         pawContacts.collect(
           id,
@@ -420,10 +476,16 @@ export function createWarehouseWorld({
     },
     has: runtime.has,
     frame: runtime.frame,
-    unsafe: runtime.unsafe,
-    cancel: runtime.cancel,
+    unsafe: (id) =>
+      runtime.unsafe(id) || (id === "chichi" && manualPhysics.airborne),
+    cancel: (id) =>
+      id === "chichi" && runtime.manual === "chichi"
+        ? releaseManual(true)
+        : runtime.cancel(id),
     safePosition: runtime.safePosition,
-    releaseManual: () => runtime.releaseManual(),
+    releaseManual,
+    playerTransport: (input) =>
+      manualPhysics.transport({ ...input, jump: input.jump || jumpHeld }),
     arrival: () =>
       new T.Vector3(origin.x + A.shore.x, A.shore.y, origin.z + A.shore.z),
     startReady: (id, activityId, ticket) =>
@@ -454,6 +516,29 @@ export function createWarehouseWorld({
       )
         void ensureInterior();
       runtime.update(dt, time);
+      if (canSimulate()) manualPhysics.update(dt);
+      if (manualPhysics.releasing) {
+        const f = manualPhysics.frame,
+          v = runtime.get("chichi");
+        if (f && v) {
+          v.frame.position.copy(f.position);
+          v.frame.yaw = f.yaw;
+          v.frame.walking = f.walking;
+          v.frame.reaction = f.reaction;
+          v.frame.squish = f.squish;
+        }
+        if (manualPhysics.safeToRelease) {
+          runtime.releaseManual();
+          manualPhysics.reset();
+          if (pendingManualReturn) {
+            runtime.cancel("chichi");
+            pendingManualReturn = false;
+          }
+        }
+      }
+      jumpButton.hidden = runtime.manual !== "chichi";
+      jumpButton.disabled = manualPhysics.releasing || !canSimulate();
+      if (runtime.manual === "chichi") squishPlayer.show(false);
       if (interior) {
         interior.visible = visible;
         if (active) squishPlayer.update(dt);
@@ -485,6 +570,8 @@ export function createWarehouseWorld({
       pawContacts.clear();
       squishVisits.clear();
       squishPlayer.dispose();
+      manualPhysics.reset();
+      jumpButton.remove();
       interior?.userData.dispose();
       fleet?.userData.dispose();
       panel.remove();
