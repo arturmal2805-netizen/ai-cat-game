@@ -1502,7 +1502,7 @@ FLUFFY REST → SOFT SINK → WIDE COMPRESSION → SLOW RECOVERY.
 
 ### 38. ДИАГНОСТИКА ОШИБОК
 
-- Status: **NOT STARTED**.
+- Status: **IN PROGRESS**.
 - Module: `scoped contact debug (pending)` (under `public/` unless stated).
 - Concrete implementation / known issue / next action: No ordinary UI debug. Implement opt-in markers/normals/nodes/constraints/depth/timing/LOD.
 - Test: Existing `test/squish-*.test.mjs` and native archives; new-load regression pending.
@@ -1792,3 +1792,15 @@ without displacing the other visitor or exceeding capacity. Actual native group
 proof still required. Full Node22 build PASS; updated viewport-shadow uniform
 uses the SAME viewer for colour/depth/distance passes. Final current-stage tests
 and real browser state captures follow; no whole-V19 acceptance.
+
+## Actual 20-state Pass A review
+
+[Real frames, source and semantic review](qa/2026-11-28/squish-v19/bench-pc-pass-a/REVIEW.md),
+source d593054, full Node22 build and56 targeted tests PASS. Five actual real
+solver materials ×4 states, original-factory temporary test rig; original live
+pink toy independently verified before this bench. No whole-V19 acceptance.
+Foam held/body, Jelly compression/wobble/recovery, Butter local cracks/24 shards,
+Cloud broad sinking/recovery work. Slime twist has an abrupt trajectory/tear
+MAJOR; true angular contact constraint/rest-space grip correction next. Merge
+remains explicitly approximate. Phone/full videos/final reference polish and
+remaining core/debug/performance/save/release stages are still open.
