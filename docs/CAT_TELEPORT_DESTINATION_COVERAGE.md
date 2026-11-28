@@ -152,13 +152,44 @@ Actual app sending entry points discovered: `gather`, `moveResident`, `perform`,
 
 The original Chichi Warehouse button opened a real portal at the actual homestead origin, transferred to an actual gangplank, boarded the original native submarine and reached the real pressure entry. The same original resident Luna arrived in submerged thermal SPA at y=-164.988, then floor2 mall-nike at y=-156.32, then the actual trampoline net at y=0.7018878. Proof: docs/qa/2026-11-28/cat-teleport/owner-handoff. This verifies those transitions only.
 
+## Dispatch integration (CPU verified; native QA pending)
+
+- `gather` now requests the shared portal coordinator at each existing biome arrival; it filters current workers/sleepers, reserves distinct native-radius slots and waits behind the bounded visual pool. Unsupported/locked destinations fail explicitly.
+- `moveResident` requests a portal around the actual drop/Chichi point and revalidates its real supporting surface; a drop onto Chichi starts the greeting only after arrival.
+- Generic `perform` / `performResident` prepare cold paid attractions under the operation token, resolve current placement transforms and native SPA/chill/court/job entry data, and never silently revert to an unregistered distant activity route.
+- Built/cold eligible player placement registry entries refresh during world sync; removed/stored entries cancel pending operations. Native manual takeover cancels a pending portal.
+- Before relocation, saves retain the confirmed command without a mid-air pose. After relocation, saves project to the actual validated floor while the arrival hop is still animated. Save fields and wallet logic are unchanged.
+- Followed cats rebase the existing camera via its enable/disable API at relocation; other camera modes retain their framing. Actual visual transition QA is pending.
+
+| Dispatch destination key | Existing destination source | Status |
+|---|---|---|
+| gather:moon | moon authored arrival + actual native surface | Wired; native recall QA pending |
+| gather:autumn | autumn authored arrival + actual native surface | Wired; native recall QA pending |
+| gather:winter | winter authored arrival + actual native surface | Wired; native recall QA pending |
+| gather:water | water authored arrival + actual native surface | Wired; native recall QA pending |
+| gather:summer | summer authored arrival + actual native surface | Wired; native recall QA pending |
+| gather:sakura | sakura authored arrival + actual native surface | Wired; native recall QA pending |
+| gather:volcano | volcano authored arrival + actual native surface | Wired; native recall QA pending |
+| gather:candy | candy authored arrival + actual native surface | Wired; native recall QA pending |
+| gather:galaxy | galaxy authored arrival + actual native surface | Wired; native recall QA pending |
+| gather:ice | ice authored arrival + actual native surface | Wired; native recall QA pending |
+| gather:clockwork | clockwork authored arrival + actual native surface | Wired; native recall QA pending |
+| gather:foodcourt | foodcourt authored arrival + actual native surface | Wired; native recall QA pending |
+| gather:bikini | bikini authored arrival + actual native surface | Wired; native recall QA pending |
+| gather:homestead | homestead authored arrival + actual native surface | Wired; native recall QA pending |
+| gather:aquarium | aquarium authored arrival + actual native surface | Wired; native recall QA pending |
+| gather:jobcity | jobcity authored arrival + actual native surface | Wired; native recall QA pending |
+| gather:cat-homes | cat-homes authored arrival + actual native surface | Wired; native recall QA pending |
+| gather:atoll-park | atoll-park authored arrival + actual native surface | Wired; native recall QA pending |
+| gather:magic-zoo | magic-zoo authored arrival + actual native surface | Wired; native recall QA pending |
+| move-resident:&lt;existing cat ID&gt; | Actual drop point or current Chichi position on selected unlocked biome | Wired; native drag/drop QA pending |
+
 ## Remaining coverage and failures
 
 - Generic attractions, dynamic placements and every catalogue row need native destination tests.
 - Free hero SPA park frame and initial complete destination registry are implemented after the last native run; rerun pending.
 - Autonomous leisure still contains its prior preliminary travel stage; route it directly to the portal dispatch queue.
-- Existing gather / moveResident commands still use their prior recall/direct relocation and need shared portal integration.
 - Warehouse departures while already visiting need a safe vessel/door handoff; current coordinator waits for the existing visit to release.
 - Group calls, paid-session ledgers, quick redirection, cold reload, touch and performance require final native coverage.
-- Generic and locked/unbuilt arrivals must fail explicitly if no safe native surface exists, rather than fall back to old distant walking.
+- Generic physical validation and explicit failure are implemented; native evidence for every generic destination is still required.
 - No V20/V21/V22 release has been published.

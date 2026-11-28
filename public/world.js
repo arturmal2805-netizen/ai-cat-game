@@ -103,6 +103,7 @@ import {
   courtLayout,
   COURT_GATE,
   courtObject,
+  courtSeats,
   courtProject,
 } from "./foodcourt-data.js";
 import {
@@ -1499,7 +1500,9 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
       if (decision.leisure) finishLeisure(id);
     },
   });
+  const teleportBeginning=new Set(),objectTeleportIds=new Set();
   function cancelResident(id, keepLeisure = false) {
+    if(!teleportBeginning.has(id))catTeleport?.cancel(id);
     if(!keepLeisure){mall?.cancel(id);resortSpa?.cancel(id);waterfront?.cancel(id);warehouseVisits?.cancel(id);}
     if (!keepLeisure) leisure.cancel(id);
     const actor = npcs.get(id);
@@ -1521,20 +1524,51 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     if(!catTeleport)return null;
     catTeleport.register(entry);
     const op=catTeleport.request(id,entry.destinationId,{onArrival,onCancel:metadata.onCancel,metadata});
-    if(op)callbacks.onReaction?.('✨ '+(id==='chichi'?'Чічі':'Котик')+' телепортується…');
+    callbacks.onReaction?.(op?'✨ '+(id==='chichi'?'Чічі':'Котик')+' телепортується…':'Немає доступного безпечного місця для телепортації.');
     return op;
   }
+  function groundTeleportEntry(destinationId,biome,target,{displayName=destinationId,maxRadius=14,requiredConditions=()=>true}={}){
+    const b=byBiome(biome);if(!b)return null;
+    const physical=(p,a)=>{
+      const q={x:p.x-b.center[0],z:p.z-b.center[1]},r=a.radius;
+      if(Math.hypot(q.x,q.z)>(b.radius||11.65)-r-.3)return null;
+      if(b.magicFarm&&!farmWalkable(biome,q,r))return null;
+      if(biome==='autumn'){const dry=mosaDryPoint(q.x,q.z);if(Math.hypot(dry.x-q.x,dry.z-q.z)>.01)return null;}
+      if(biome==='summer'){const dry=capybaraDryPoint(q.x,q.z);if(Math.hypot(dry.x-q.x,dry.z-q.z)>.01)return null;}
+      return manualSurface(p,r,null,a.id);
+    };
+    return catTeleportDestination({destinationId,displayName,worldId:biome,targetType:'island-ground',
+      requiredConditions:a=>game.unlocked.includes(biome)&&requiredConditions(a),
+      prepare:()=>{ensureDetail(biome);return true;},arrivalPoint:target,
+      arrivalPoints:a=>{const p=target(a);if(!p)return[];return catArrivalCandidates(p,a.radius,maxRadius).map(q=>{const hit=physical(q,a);return hit&&hit.biome===biome?{...q,y:hit.y}:null;}).filter(Boolean);},
+      checkArrival:(p,a)=>{const hit=physical(p,a);return!!hit&&hit.biome===biome&&Math.abs(hit.y-p.y)<.05;}});
+  }
   function objectTeleportEntry(decision){
-    const g=itemGroups.get(decision.activityId),biome=g?.userData.placement?.biome;if(!g||!biome)return null;
-    const b=byBiome(biome),p=g.userData.approachOffset?g.localToWorld(new THREE.Vector3(...g.userData.approachOffset)):g.position.clone();
-    p.y=.16+islandHeight(biome,p.x-b.center[0],p.z-b.center[1]);if(!g.userData.approachOffset)p.z+=.8;
-    return catTeleportDestination({destinationId:decision.activityId,displayName:g.userData.name||decision.activityId,worldId:biome,targetType:'attraction',portalTheme:'default',arrivalPoint:p,
-      prepare:()=>{ensureDetail(biome);return!!g.userData.built;},requiredConditions:()=>game.unlocked.includes(biome)&&!!itemGroups.get(decision.activityId)?.userData.built,
-      arrivalPoints:a=>catArrivalCandidates(p,a.radius,14).map(q=>{const hit=manualSurface(q,a.radius);return hit?{...q,y:hit.y}:null;}).filter(Boolean),
-      checkArrival:(q,a)=>!!manualSurface(q,a.radius)});
+    const id=decision.activityId,g=itemGroups.get(id),biome=g?.userData.placement?.biome;if(!g||!biome)return null;
+    const b=byBiome(biome),target=()=>{
+      const current=itemGroups.get(id);if(!current)return null;
+      const courtTarget=courtObject(id),cozy=chillObject(id),wellness=spaObject(id),business=jobBusiness(id),
+        local=cozy?chillEntrance(cozy):wellness?SPA_ENTRANCES[id]:business?{x:business.x,z:business.z+11.7}:
+          courtTarget?(['cinema','aquarium','zoo'].includes(courtTarget.kind)?courtSeats(courtTarget)[0]:{x:courtTarget.x-1.5,z:courtTarget.z+13.2}):null;
+      const p=local?new THREE.Vector3(b.center[0]+local.x,.16,b.center[1]+local.z):current.userData.approachOffset?current.localToWorld(new THREE.Vector3(...current.userData.approachOffset)):current.position.clone();
+      p.y=.16+islandHeight(biome,p.x-b.center[0],p.z-b.center[1]);if(!local&&!current.userData.approachOffset)p.z+=.8;return p;
+    },available=()=>{const current=itemGroups.get(id);return game.unlocked.includes(biome)&&current?.userData.placement?.biome===biome&&(!!current.userData.built||!!current.userData.loadingReference&&isBuilt(current.userData.placement));};
+    return catTeleportDestination({destinationId:id,displayName:g.userData.name||id,worldId:biome,targetType:'attraction',portalTheme:'default',arrivalPoint:target,
+      prepare:async()=>{ensureDetail(biome);const current=itemGroups.get(id);if(current?.userData.loadingReference&&isBuilt(current.userData.placement)){referenceRequested.add(id);if(!await prepareReference(current.userData.placement))return false;}return!!itemGroups.get(id)?.userData.built;},requiredConditions:available,
+      arrivalPoints:a=>{const p=target();return p?catArrivalCandidates(p,a.radius,14).map(q=>{const hit=manualSurface(q,a.radius,null,a.id);return hit&&hit.biome===biome?{...q,y:hit.y}:null;}).filter(Boolean):[];},
+      checkArrival:(q,a)=>{const hit=manualSurface(q,a.radius,null,a.id);return!!hit&&hit.biome===biome&&Math.abs(hit.y-q.y)<.05;}});
+  }
+  function syncTeleportDestinations(){
+    if(!catTeleport)return;
+    const retained=new Set();
+    for(const [id,g]of itemGroups)if(g.userData.built||g.userData.loadingReference&&isBuilt(g.userData.placement)){
+      const entry=objectTeleportEntry({activityId:id});if(entry){retained.add(id);catTeleport.register(entry);}
+    }
+    for(const id of objectTeleportIds)if(!retained.has(id))catTeleport.unregister(id);
+    objectTeleportIds.clear();for(const id of retained)objectTeleportIds.add(id);
   }
   function performResident(id, decision, { autonomous = false, teleported=false } = {}) {
-    if(catTeleport&&!teleported&&decision.activityId&&itemGroups.get(decision.activityId)?.userData.built){const entry=objectTeleportEntry(decision);if(entry)return!!teleportCat(id,entry,()=>performResident(id,decision,{autonomous,teleported:true}),{ticket:decision.leisure});}
+    if(catTeleport&&!teleported&&decision.activityId){const entry=objectTeleportEntry(decision);if(!entry)return false;return!!teleportCat(id,entry,()=>performResident(id,decision,{autonomous,teleported:true}),{ticket:decision.leisure});}
     if(warehouseVisits?.has(id))return false;
     const n = npcs.get(id),
       object = itemGroups.get(decision.activityId);
@@ -1751,6 +1785,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
         syncActors();
         actorKey = nextActorsKey;
       }
+      syncTeleportDestinations();
       return;
     }
     sceneKey = key;
@@ -2227,6 +2262,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
         .add(new THREE.Vector3(0, 0, 0.8));
     }
     syncActors();
+    syncTeleportDestinations();
     actorKey = nextActorsKey;
   }
   function syncActors() {
@@ -2645,6 +2681,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
       );
   }
   function cancelHeroActivity(keepLeisure = false) {
+    if(!teleportBeginning.has('chichi'))catTeleport?.cancel('chichi');
     if(!keepLeisure){mall?.cancel("chichi");resortSpa?.cancel("chichi");if(!waterfront?.playerControlled)waterfront?.cancel("chichi");if(!warehouseVisits?.manual)warehouseVisits?.cancel("chichi");}
     if (!keepLeisure) leisure.cancel("chichi");
     court.cancel("chichi");
@@ -2697,7 +2734,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     decision,
     { manualFriendDrop = false, leisureTicket = null, background = false, teleported=false } = {},
   ) {
-    if(catTeleport&&!teleported&&decision.activityId&&itemGroups.get(decision.activityId)?.userData.built){const entry=objectTeleportEntry(decision);if(entry){const op=teleportCat('chichi',entry,()=>perform(decision,{manualFriendDrop,leisureTicket,background,teleported:true}),{ticket:leisureTicket});return op?op.result.then(result=>result||{cancelled:true}):Promise.resolve({cancelled:true});}}
+    if(catTeleport&&!teleported&&decision.activityId){const entry=objectTeleportEntry(decision);if(!entry)return Promise.resolve({cancelled:true});const op=teleportCat('chichi',entry,()=>perform(decision,{manualFriendDrop,leisureTicket,background,teleported:true}),{ticket:leisureTicket});return op?op.result.then(result=>result||{cancelled:true}):Promise.resolve({cancelled:true});}
     if((submarine?.active||manualWalk?.active)||warehouseVisits?.has('chichi'))return Promise.resolve({cancelled:true});
     const pending=decision.activityId&&itemGroups.get(decision.activityId);
     if(pending?.userData.loadingReference&&isBuilt(pending.userData.placement)){
@@ -5217,7 +5254,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
       walking=frame.walking;reaction=frame.reaction;
       if(frame.done){const invite=heroGather.spaInvitation;heroGather=null;if(invite&&!resortSpa?.ride('chichi',1,'invitation'))callbacks.onReaction?.('Не удалось пройти к лифту SPA. Чичи осталась на безопасном причале.');}
     }
-    if(gatherSavePending&&!heroGather&&![...npcs.values()].some(n=>n.gatherTrip)){
+    if(gatherSavePending&&!heroGather&&![...npcs.values()].some(n=>n.gatherTrip)&&![...catTeleport?.operations.values()||[]].some(op=>op.metadata?.gather)){
       gatherSavePending=false;callbacks.onGatherComplete?.();
     }
     const heroCanBuild =
@@ -6212,8 +6249,8 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     if(b.id==='sakura')return islands.get(b.id)?.userData.manualBuildings||[];
     return [];
   }
-  function manualSurface(p,radius,from=null){
-    const warehouseHit=warehouseVisits?.support(p,radius,from);if(warehouseHit||warehouseVisits?.manual)return warehouseHit;
+  function manualSurface(p,radius,from=null,excludeId=null){
+    const warehouseHit=warehouseVisits?.support(p,radius,from);if(warehouseHit||warehouseVisits?.manual&&!excludeId)return warehouseHit;
     const waterfrontHit=waterfront?.support(p,radius);if(waterfrontHit)return waterfrontHit;
     if(resortSpa?.ready){const r=resortSpa.root,q={x:p.x-r.position.x,y:p.y-RESORT_SPA_LAYOUT.y,z:p.z-r.position.z},hit=resortSpa.navigation.support(q,radius);if(hit)return{biome:'autumn',y:hit.y+RESORT_SPA_LAYOUT.y};}
     for(const b of BIOMES){if(!game.unlocked.includes(b.id))continue;const local={x:p.x-b.center[0],y:p.y,z:p.z-b.center[1]};
@@ -6229,7 +6266,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
       else if(housing)clear=housingLife.walkable(local,radius,physical);
       else clear=spaClear(local,radius,builderObstacles.get(b.id)||[]);
       if(!clear){if(building||b.id==='jobcity'||housing||b.id==='sakura')continue;if(p!==chichiCarrier.position&&(!from||spaClear(local,radius,builderObstacles.get(b.id)||[])||!clearsWalkObstacles(local,previous,radius,builderObstacles.get(b.id)||[])))continue;}
-      if(p!==chichiCarrier.position&&[...npcs.values()].some(n=>{const d=Math.hypot(n.carrier.position.x-p.x,n.carrier.position.z-p.z);return Math.abs(n.carrier.position.y-p.y)<1.6&&d<radius+catNavigationRadius(n.model)&&(!from||d<=Math.hypot(n.carrier.position.x-from.x,n.carrier.position.z-from.z)+1e-8);}))continue;
+      if(p!==chichiCarrier.position&&[...npcs].some(([id,n])=>{if(id===excludeId)return false;const d=Math.hypot(n.carrier.position.x-p.x,n.carrier.position.z-p.z);return Math.abs(n.carrier.position.y-p.y)<1.6&&d<radius+catNavigationRadius(n.model)&&(!from||d<=Math.hypot(n.carrier.position.x-from.x,n.carrier.position.z-from.z)+1e-8);}))continue;
       if(b.id==='autumn'){
         if(!mosaPierClear(local,radius,MOSA_SHORE_GATE.z))continue;
         const ground=islands.get(b.id)?.userData.navigationSurface;if(!ground)continue;manualOrigin.set(p.x,p.y+.65,p.z);manualGroundRay.set(manualOrigin,manualDown);manualGroundRay.near=0;manualGroundRay.far=1.4;const hit=manualGroundRay.intersectObject(ground,true).find(h=>h.face?.normal.z>.4||h.face?.normal.y>.4);if(hit)return{biome:b.id,y:hit.point.y+.16};continue;
@@ -6265,9 +6302,10 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
   catTeleport=createCatTeleportationSystem({getActors:()=>lifeActors,canSimulate:()=>callbacks.canSimulateLeisure?.()!==false,
     effects:createCatPortalVisuals(scene,{getCamera:()=>camera}),reducedMotion:reduced,
     canTravel:id=>!(id==='chichi'&&(manualWalk?.airborne||submarine?.active))&&!waterfront?.unsafe(id)&&!warehouseVisits?.has(id)&&!resortSpa?.transportFrame(id)&&resortSpa?.canTeleport(id)!==false&&!draggingCat,
-    onBegin:(id,op)=>{mall?.detachForTeleport(id);if(id==='chichi'){manualWalk?.stop();callbacks.onControlChichi?.();cancelHeroActivity(!!op.metadata?.ticket);heroGather=null;jobs.cancel(id);crew.cancel(id);housingLife.cancel?.(id);}else{cancelResident(id,!!op.metadata?.ticket);const n=npcs.get(id);if(n){n.leisureBiome=op.destination.worldId;n.manualUntil=performance.now()+60000;}}return true;},onError:message=>callbacks.onReaction?.(message)});
+    onBegin:(id,op)=>{teleportBeginning.add(id);try{mall?.detachForTeleport(id);if(id==='chichi'){manualWalk?.stop();callbacks.onControlChichi?.();cancelHeroActivity(!!op.metadata?.ticket);heroGather=null;jobs.cancel(id);crew.cancel(id);housingLife.cancel?.(id);}else{cancelResident(id,!!op.metadata?.ticket);const n=npcs.get(id);if(n){n.leisureBiome=op.destination.worldId;n.manualUntil=performance.now()+60000;}}return true;}finally{teleportBeginning.delete(id);}},
+    onRelocate:(id,op)=>{if(faceCamera.enabled&&followedCatId===id){faceCamera.setEnabled(false,look);const delta=new THREE.Vector3().subVectors(op.arrival,op.from);look.add(delta);desiredLook.add(delta);camera.position.add(delta);camera.updateMatrixWorld();faceCamera.setEnabled(true,look);}},onError:message=>callbacks.onReaction?.(message)});
   for(const owner of [mall,resortSpa,waterfront,warehouseVisits])for(const entry of owner.teleportDestinations())catTeleport.register(entry);
-  for(const [id,g]of itemGroups)if(g.userData.built){const entry=objectTeleportEntry({activityId:id});if(entry)catTeleport.register(entry);}
+  syncTeleportDestinations();
   requestAnimationFrame(loop);
   for (const mood of moodNames) {
     const image = document.querySelector(`[data-mood-image="${mood}"]`);
@@ -6320,7 +6358,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
           transient:!!catTeleport?.has(id)||!!court.get(id)?.zooCarry||!!n.gatherTrip||draggingCat?.catId===id||!!spa.get(id)||!!chill.get(id)||swimVisits.has(id)||
             ['ride','swim'].includes(residentPlay.get(id)?.decision?.action)}))];
       const safeSpa=resortSpa?.safePositions()||new Map();
-      return captureCatLocations(submarine?{...next,mosasaurSubmarine:submarine.snapshot()}:next,previous,actors.map(a=>{const position=catTeleport?.safePosition(a.id)||(a.id==='chichi'&&manualWalk?.safePosition)||warehouseVisits?.safePosition(a.id)||waterfront?.safePosition(a.id)||mall?.safePosition(a.id)||safeSpa.get(a.id)||a.position;return{...a,position,transient:a.transient||safeSpa.has(a.id)&&!safeSpa.get(a.id),spaLayout:resortSpa?.locationStamp(a.id,position)};}));
+      return captureCatLocations(submarine?{...next,mosasaurSubmarine:submarine.snapshot()}:next,previous,actors.map(a=>{const travel=catTeleport?.saveProjection(a.id),position=travel?.position||(a.id==='chichi'&&manualWalk?.safePosition)||warehouseVisits?.safePosition(a.id)||waterfront?.safePosition(a.id)||mall?.safePosition(a.id)||safeSpa.get(a.id)||a.position;return{...a,position,transient:travel?travel.transient:a.transient||safeSpa.has(a.id)&&!safeSpa.get(a.id),spaLayout:resortSpa?.locationStamp(a.id,position)};}));
     },
     followCat,
     inspectJobBusiness: inspectAttraction,
@@ -6339,44 +6377,21 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     enterCourt,
     exitCourt,
     performResident,
-    moveResident(id, biome, position) {
-      const n = npcs.get(id),
-        b = byBiome(biome);
-      if (!n || !b || !game.unlocked.includes(biome)) return false;
-      cancelResident(id);
-      if (position.nearChichi)
-        position = {
-          x: chichiCarrier.position.x + socialContext(cat, n.model).gap,
-          z: chichiCarrier.position.z,
-        };
-      let p = {
-        x: position.x - b.center[0],
-        z: position.z - b.center[1],
-        y: 0.16,
+    moveResident(id, biome, position, {onArrival=()=>true}={}) {
+      const n=npcs.get(id),b=byBiome(biome);
+      if(!n||!b||!catTeleport||!game.unlocked.includes(biome)||!position)return false;
+      const target=()=>{
+        if(position.nearChichi)return{x:chichiCarrier.position.x+socialContext(cat,n.model).gap,y:chichiCarrier.position.y,z:chichiCarrier.position.z};
+        if(![position.x,position.z].every(Number.isFinite))return null;
+        return{x:position.x,y:.16+islandHeight(biome,position.x-b.center[0],position.z-b.center[1]),z:position.z};
       };
-      if (biome === "jobcity") p = nearestCityGround(p, spaRadius(n.model));
-      else if(b.magicFarm)p=nearestFarmGround(biome,p,spaRadius(n.model));
-      else if (["foodcourt", "bikini", "aquarium", ZOO_ID].includes(biome))
-        p = nearestCourtGround(
-          p,
-          spaRadius(n.model),
-          getCourtBlockers(biome),
-          biome,
-        );
-      else if (biome === "sakura")
-        p = nearestChillGround(p, spaRadius(n.model), chillObstacles);
-      else if (biome === "water")
-        p = nearestSpaGround(p, spaRadius(n.model), spaObstacles);
-      if (!p) return false;
-      mall?.detach(id);
-      n.carrier.position.set(
-        b.center[0] + p.x,
-        0.16 + islandHeight(biome, p.x, p.z),
-        b.center[1] + p.z,
-      );
-      n.manualAnchor = { x: n.carrier.position.x, z: n.carrier.position.z };
-      n.manualUntil = performance.now() + 30000;
-      return true;
+      if(!target())return false;
+      const entry=groundTeleportEntry('move-resident:'+id,biome,target,{displayName:b.name});
+      return!!teleportCat(id,entry,()=>{
+        n.manualAnchor={x:n.carrier.position.x,z:n.carrier.position.z};
+        n.manualUntil=performance.now()+30000;gatherSavePending=true;
+        return onArrival();
+      });
     },
     sync,
     focus,
@@ -6420,58 +6435,31 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     getFocused: () => focused,
     gatherCandidates:availableGatherCats,
     gather(biome,ids=availableGatherCats()) {
-      const b = byBiome(biome);
-      if (!b || operation) return false;
-      const arrival = b.arrival || [0, 0],
-        to = new THREE.Vector3(
-          b.center[0] + arrival[0],
-          0.16 + islandHeight(b.id, arrival[0], arrival[1]),
-          b.center[1] + arrival[1],
-        );
-      gatherParticipants.clear();for(const id of ids)gatherParticipants.add(id);
-      const now=performance.now();gatherUntil=now+20000;gatherSavePending=true;
-      const reserved=[],arrivalPoint={x:arrival[0],z:arrival[1]},
-        obstacles=game.placements.filter(p=>p.biome===biome).map(p=>{
-          const d=byItem(p.item),f=d?.footprint||[1,1],swap=(p.rotation||0)%2;
-          return {x:p.x,z:p.z,w:f[swap?1:0],d:f[swap?0:1]};
-        }),
-        clear=(p,r)=>{
-          if(Math.hypot(p.x,p.z)>(b.radius||11.65)-r-.3)return false;
-          if(!spaClear(p,r,obstacles))return false;
-          if(['foodcourt','bikini','aquarium',ZOO_ID].includes(biome))return courtWalkable(p,r,getCourtBlockers(biome),biome);
-          if(biome==='water')return spaWalkable(p,r,spaObstacles);
-          if(biome==='sakura')return chillWalkable(p,r,chillObstacles);
-          if(biome==='autumn'){const q=mosaDryPoint(p.x,p.z);return Math.hypot(q.x-p.x,q.z-p.z)<.01;}
-          if(biome==='summer'){const q=capybaraDryPoint(p.x,p.z);return Math.hypot(q.x-p.x,q.z-p.z)<.01;}
+      const b=byBiome(biome);
+      if(!b||operation||!catTeleport||!game.unlocked.includes(biome))return false;
+      const eligible=new Set(availableGatherCats()),arrival=b.arrival||[0,0],
+        target=()=>({x:b.center[0]+arrival[0],y:.16+islandHeight(biome,arrival[0],arrival[1]),z:b.center[1]+arrival[1]}),
+        members=[...new Set(ids)].filter(id=>eligible.has(id)&&(id==='chichi'||npcs.has(id)))
+          .sort((a,b)=>spaRadius(b==='chichi'?cat:npcs.get(b).model)-spaRadius(a==='chichi'?cat:npcs.get(a).model));
+      gatherParticipants.clear();
+      let accepted=0;
+      for(const id of members){
+        const entry=groundTeleportEntry('gather:'+biome,biome,target,{displayName:b.name,maxRadius:Math.min((b.radius||11.65)*2,50),
+          requiredConditions:a=>availableGatherCats().includes(a.id)});
+        const op=teleportCat(id,entry,()=>{
+          const n=npcs.get(id),now=performance.now();
+          if(n){releaseGatherOverrides(n,now+20000);n.manualAnchor={x:n.carrier.position.x,z:n.carrier.position.z};n.gatheredUntil=now+90000;}
           return true;
-        },
-        members=ids.filter(id=>id==='chichi'||npcs.has(id)).map(id=>({id,n:id==='chichi'?null:npcs.get(id),
-          radius:spaRadius(id==='chichi'?cat:npcs.get(id)?.model)}))
-          .filter(a=>a.id==='chichi'||a.n).sort((a,b)=>b.radius-a.radius);
-      for(const {id,n,radius}of members){
-        const landing=gatherLanding(arrivalPoint,radius,reserved,clear,Math.min(b.radius*2,50));
-        if(!landing)continue;
-        reserved.push(landing);
-        const goal={x:b.center[0]+landing.x,z:b.center[1]+landing.z,
-          y:.16+islandHeight(biome,landing.x,landing.z)};
-        if(id==='chichi'){
-          spa.cancel(id);crew.cancel(id);chill.cancel(id);court.cancel(id);residentPlay.cancel(id);
-          heroGather=gatherTrip(chichiCarrier.position,goal,now);
-        }else{
-          cancelResident(id);releaseGatherOverrides(n,now+20000);
-          n.gatherTrip=gatherTrip(n.carrier.position,goal,now);
-          n.manualUntil=now+n.gatherTrip.duration+1500;n.gatheredUntil=now+90000;
-        }
+        },{gather:true,onCancel:()=>{gatherParticipants.delete(id);}});
+        if(op){accepted++;gatherParticipants.add(id);}
       }
+      if(!accepted)return false;
+      gatherUntil=performance.now()+20000;gatherSavePending=true;
       // Prepare only the nearest two cold paid rides. A recall must not build
       // twenty giant complexes during an overview or leave every ride cold.
       if(b.waterpark)game.placements.filter(p=>p.biome===biome&&byItem(p.item)?.referenceSlide&&isBuilt(p))
         .sort((a,b)=>Math.hypot(a.x-arrival[0],a.z-arrival[1])-Math.hypot(b.x-arrival[0],b.z-arrival[1]))
         .slice(0,2).forEach(p=>{referenceRequested.add(p.id);prepareReference(p);});
-      for (const id of ids) {
-        mealVisits.delete(id);
-        swimVisits.delete(id);
-      }
       focus(biome, false, true);
       return true;
     },

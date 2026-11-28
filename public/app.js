@@ -1585,9 +1585,9 @@ try {
             return false;
           }
           commit(moveResidentToBiome(game, id, biome));
-          if (!world.moveResident(id, biome, { nearChichi: true }))
-            return false;
-          return manualActivity({ friendId: id });
+          return world.moveResident(id, biome, { nearChichi: true }, {
+            onArrival: () => !busy && manualActivity({ friendId: id }),
+          });
         }
         const decision = selection
           ? manualInteraction(worldSnapshot(game), selection, "happy")
