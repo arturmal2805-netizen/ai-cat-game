@@ -55,7 +55,9 @@ export function createSquishCatContacts() {
   const pending = [],
     activeKeys = new Map(),
     diagnostic = [],
-    oriented = new Map();
+    oriented = new Map(),
+    landingStates = new WeakMap();
+  let frameIndex = 0;
   function restore(model) {
     const q = oriented.get(model);
     if (q) {
@@ -118,7 +120,15 @@ export function createSquishCatContacts() {
           p.leg.rotation.z +=
             (left ? 1 : -1) * Math.sin(age * 1.6) * 0.15 * blend;
       }
-      p.swing = lift * blend;
+      // Native limb lift meets local adhesion only while withdrawing from
+      // immersed slime. This finite resistance never blocks manual control.
+      const priorContact = toy.userData.solver.contacts.get(
+        id + ":paw:" + p.index,
+      );
+      const immersed = priorContact?.dynamic?.accumulatedCreep || 0;
+      const adhesion = toy.userData.solver.dynamicProfile.surfaceAdhesion;
+      p.stickyResistance = adhesion * immersed;
+      p.swing = (lift * blend) / (1 + 4 * p.stickyResistance);
       p.leg.position.y += p.swing;
     }
     refresh(model);
@@ -126,8 +136,22 @@ export function createSquishCatContacts() {
   }
   function flush(dt, toys) {
     diagnostic.length = 0;
+    frameIndex++;
     const nextKeys = new Map();
     for (const v of pending) {
+      const landing = landingStates.get(v.model) || {
+        value: 0,
+        frame: -2,
+        event: 0,
+      };
+      const impactSpeed = Math.max(0, v.acting.impact || 0);
+      const newLanding =
+        impactSpeed > 0.2 &&
+        (landing.frame < frameIndex - 1 || impactSpeed > landing.value + 0.2);
+      if (newLanding) landing.event++;
+      landing.value = impactSpeed;
+      landing.frame = frameIndex;
+      landingStates.set(v.model, landing);
       if (v.acting.state === "ManualWalk") {
         const x = v.carrier.position.x,
           z = v.carrier.position.z,
@@ -195,6 +219,15 @@ export function createSquishCatContacts() {
             displacement: [0, -0.5, 0],
             radius: 1,
             force: 8.5 * 9.81,
+            physicalLoad: true,
+            contactArea: 0.22,
+            submergedArea: 0.018,
+            effectiveMass: 8.5,
+            impactVelocity: newLanding ? impactSpeed : 0,
+            impactId: landing.event,
+            catId: v.id,
+            squishId: v.toy.uuid,
+            limbId: "body",
             targetCompressionRatio: 0.17,
           });
           keys.push(key);
@@ -240,13 +273,9 @@ export function createSquishCatContacts() {
         p.contactAge = p.initialized ? (p.contactAge || 0) + dt : 0;
         p.previous.copy(p.point);
         p.initialized = true;
-        const force = T.MathUtils.clamp(
-            supportedWeight +
-              Math.max(0, -velocity.y) * 10 +
-              (v.acting.impact || 0) * 6,
-            15,
-            160,
-          ),
+        // Weight remains N throughout contact. Landing velocity becomes an
+        // independently queued N*s event, once per contact, at the fixed step.
+        const force = supportedWeight,
           key = v.id + ":paw:" + p.index;
         // Continuous planted constraints preserve viscous filtering. Tangential
         // load follows actual toe movement, not an unrelated age-based sine.
@@ -281,6 +310,15 @@ export function createSquishCatContacts() {
           orientation: v.carrier.rotation.y,
           radius: 0.65,
           force,
+          physicalLoad: true,
+          contactArea: 0.035,
+          submergedArea: 0.0025,
+          effectiveMass: 8.5 / Math.max(1, supports),
+          impactVelocity: newLanding ? impactSpeed : 0,
+          impactId: landing.event,
+          catId: v.id,
+          squishId: v.toy.uuid,
+          limbId: "paw:" + p.index,
           duration: p.contactAge,
           penetration: Math.max(0, target - p.point.y),
           supportShare: 1 / Math.max(1, supports),
@@ -364,6 +402,7 @@ export function createSquishCatContacts() {
           contact: Math.abs(p.point.y - y) < 0.13,
           force: p.force ?? 22,
           area: 0.035,
+          stickyResistance: p.stickyResistance || 0,
           material: v.toy.userData.material,
         });
       }

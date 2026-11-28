@@ -40,7 +40,7 @@ export function createSquishPhysicsLOD(solver) {
       solver,
     );
     const next = new SquishSoftBody({
-      material: solver.profile.materialType,
+      material: solver.profile.materialId,
       size: solver.size,
       resolution,
       iterations: 5,
@@ -57,6 +57,16 @@ export function createSquishPhysicsLOD(solver) {
       next.rest.set(scratch, j);
       interpolate(old, old.velocity, 3, x, y, z, scratch);
       next.velocity.set(scratch, j);
+      next.creep[i] = interpolate(old, old.creep, 1, x, y, z, scratch)[0];
+      next.permanent[i] = interpolate(
+        old,
+        old.permanent,
+        1,
+        x,
+        y,
+        z,
+        scratch,
+      )[0];
       next.damage[i] = interpolate(old, old.damage, 1, x, y, z, scratch)[0];
       next.plasticAge[i] = interpolate(
         old,
@@ -71,6 +81,8 @@ export function createSquishPhysicsLOD(solver) {
     next.previous.set(next.position);
     next.contacts = old.contacts;
     for (const key of [
+      "impactEvents",
+      "totalImpactImpulse",
       "time",
       "steps",
       "accumulator",
@@ -105,7 +117,12 @@ export function createSquishPhysicsLOD(solver) {
         return;
       }
       // Memory/plastic damage are never discarded for a cheap LOD switch.
-      if (solver.damage.some((d) => d > 0.0001)) return;
+      if (
+        solver.damage.some((d) => d > 0.0001) ||
+        solver.creep.some((d) => d > 1e-5) ||
+        solver.permanent.some((d) => d > 1e-5)
+      )
+        return;
       change(active);
       solver.iterations = 3;
       level = visible && distance < 100 ? "ACTIVE" : "STATIC";

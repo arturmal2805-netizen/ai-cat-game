@@ -120,5 +120,8 @@ export const SQUISH_MATERIALS = Object.freeze({
     soundProfile: "jelly",
   }),
 });
-export const squishMaterial = (id) =>
-  SQUISH_MATERIALS[id] || SQUISH_MATERIALS.jelly;
+export const squishMaterial = (id) => {
+  if (id === "slime-soft" || id === "slime-gooey" || id === "slime-ultra")
+    return Object.freeze({ ...SQUISH_MATERIALS.slime, materialId: id });
+  return SQUISH_MATERIALS[id] || SQUISH_MATERIALS.jelly;
+};
