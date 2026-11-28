@@ -192,6 +192,10 @@ export async function auditRelease({
         v = w.runtime.get("chichi");
       return {
         manual: w.runtime.manual,
+        wanted:v?.manualWanted,
+        active:q.manualWalk().active,
+        startFailure:q.manualWalk().startFailure,
+        ground:(()=>{const s=q.manualSurface(q.chichiCarrier.position,q.catRadius());return s?{y:s.y,biome:s.biome}:null;})(),
         phase: v?.phase,
         squish: v?.frame?.squish?.state,
         paws: w.pawDiagnostics,
@@ -265,9 +269,11 @@ export async function auditRelease({
   await frame("one-squish-native-knead");
   if (process.env.CHICHI_SQUISH_MANUAL_AUDIT) {
     await activate("[data-warehouse-control]");
-    let ready = false;
+    let ready = false;const manualTrace=[];let lastManualState=null;
     for (let i = 0; i < 1600; i++) {
       const st = await advance(15);
+      const key=[st.phase,st.manual,st.wanted,st.active,st.startFailure,st.squish].join(':');
+      if(key!==lastManualState||i%120===0){manualTrace.push({i,...st});lastManualState=key;console.log('SQUISH_MANUAL_TRACE',JSON.stringify(manualTrace.at(-1)));}
       if (
         st.manual === "chichi" &&
         (await page.locator(".chichi-walk-controls").isVisible())
@@ -276,6 +282,8 @@ export async function auditRelease({
         break;
       }
     }
+    await writeFile(join(review,'manual-handoff-trace.json'),JSON.stringify({manualTrace,dom:await page.evaluate(()=>{const e=document.querySelector('.chichi-walk-controls');return{hidden:e.hidden,display:getComputedStyle(e).display,coarse:matchMedia('(pointer:coarse)').matches};}),errors,httpErrors},null,2));
+    if(!ready)await frame('manual-handoff-failed');
     assert(
       ready,
       "actual UI starts existing native third-person controller after safe descent",
@@ -335,6 +343,10 @@ export async function auditRelease({
       return {
         p: p.toArray(),
         manual: w.runtime.manual,
+        wanted:v?.manualWanted,
+        active:q.manualWalk().active,
+        startFailure:q.manualWalk().startFailure,
+        ground:(()=>{const s=q.manualSurface(q.chichiCarrier.position,q.catRadius());return s?{y:s.y,biome:s.biome}:null;})(),
         paws: w.pawDiagnostics,
         contacts: w.interior.userData.toys.reduce(
           (n, t) => n + t.userData.solver.contacts.size,

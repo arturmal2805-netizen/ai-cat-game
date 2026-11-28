@@ -27,7 +27,7 @@ export function createSquishNavigation({ getInterior, floor, inside }) {
     }
     let y = floor,
       toy = null,
-      edge = 0;
+      edge = floor;
     for (const t of interior.userData.toys) {
       t.getWorldPosition(point);
       const s = t.userData.solver.size;

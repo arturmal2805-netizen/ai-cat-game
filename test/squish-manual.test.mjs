@@ -91,3 +91,12 @@ test("manual camera cannot cut through the actual soft skin", () => {
   );
   toy.userData.dispose();
 });
+
+test('actual deep-water Warehouse floor is walkable when no toy is underneath',()=>{
+ const floor=-450.308,interior=new T.Group();interior.position.set(3060,floor+.36,1240);interior.userData={toys:[]};
+ const nav=createSquishNavigation({getInterior:()=>interior,floor,inside:()=>true}),p={x:3040,y:floor,z:1258};
+ assert.equal(nav.support(p,.6).y,floor,'do not compare a negative world height with an invented zero-height obstacle');
+ const toy=createSquishToy();toy.position.set(30,0,-36);interior.add(toy);interior.userData.toys.push(toy);
+ assert.equal(nav.support(p,.6).y,floor);assert.equal(nav.support({x:3090,y:floor,z:1204},.6),null);
+ toy.userData.dispose();
+});
