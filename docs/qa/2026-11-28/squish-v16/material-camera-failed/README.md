@@ -1,0 +1,3 @@
+# FAILED material camera capture, source5a3bcc2
+
+Not accepted. On selecting a different material the QA injected camera override but advanced only1ms. Native render pacing legitimately skipped that loop, leaving previous camera in rest frame. Slime projected outside the prior Butter camera and got no actual pointer contact. Camera JSON independently proves mismatch; never use these frames as final validation. Runtime material physics22checks and fullNode22build passed separately. Correction: advance a complete100ms frame and assert actual camera position before capture or pointer projection. No product camera/render-pacer change is authorized or needed.

@@ -113,7 +113,7 @@ export async function auditSquishMaterials({
         far: 20000,
       };
       q.manualStepping = true;
-      q.step((q.testNow += 1));
+      q.step((q.testNow += 100));
       q.manualStepping = false;
     }, id);
     await shot(id, "rest");
