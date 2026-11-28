@@ -15,7 +15,8 @@
     "public/waterfront-world.js",
     "public/waterfront-runtime.js",
     "public/leisure-runtime.js",
-    "public/app.js"
+    "public/app.js",
+    "public/chichi-manual.js"
   ],
   "frozenFiles": {
     "package-lock.json": "b3d16d1c9aa17089e38d9dd4805f4177e5e5beac1293c4898e7e8ec964a1ddbe",
@@ -497,7 +498,8 @@
       "camera": "a11fc450ac4f8614f696a0d0892e5fa1a1a20cfa6862b2ac13fe57dd1a0bf35d",
       "walking": "7c887e22b693a20e82e750648896d61d8c341cb4522daa31017115d9a5065c42",
       "obstacles": "581031ff553cce83571f0907e9126093b5ac552f5722697bd617707318b9d903"
-    }
+    },
+    "authorizationNote": "User explicitly requested ordinary Space jump. Exact current full file hash remains pinned in frozenFiles; original camera/walking/obstacle section hashes retained. Older Warehouse-only guards must recognize this authorized controller evolution."
   },
   "explicitUserTeleportV21": {
     "request": "V21 explicitly authorizes command/transport integration while architecture, models, economics and save format stay protected.",

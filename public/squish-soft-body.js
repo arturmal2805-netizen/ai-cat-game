@@ -147,6 +147,16 @@ export class SquishSoftBody {
       (x * (v * r - w * t) + y * (w * s - u * r) + z * (u * t - v * s)) / 6
     );
   }
+  setSlimeMode(mode) {
+    if (!['slime-soft','slime-gooey','slime-ultra'].includes(mode) ||
+        !['slime','slime-soft','slime-gooey','slime-ultra'].includes(this.profile.materialId) || this.contacts.size) return false;
+    // Keep the exact material-space field/history; never reset a toy to switch
+    // an unloaded rheology. Active paws/grips must leave before changing it.
+    this.profile = squishMaterial(mode);
+    this.dynamicProfile = dynamicSquishProfile(mode);
+    this.sleeping=false;this.quietSteps=0;
+    return true;
+  }
   setContact(
     id,
     {

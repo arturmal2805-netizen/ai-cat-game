@@ -88,3 +88,14 @@ test('save/load during recall retains the island command and stores the actual s
  assert.equal(restored.catLocations.chichi.biome,b.id);assert.equal(restored.catLocations.chichi.y,.16);assert.equal(restored.catLocations.chichi.z,375);assert.equal(restored.coins,game.coins);assert.equal(restored.diamonds,game.diamonds);assert.deepEqual(restored.placements,game.placements);
  tick(s);assert(await op.result);assert.equal(s.saveProjection(a.id),null);
 });
+
+test('all129 native-sized guests queue behind12 portal slots without silently dropping invitations',async()=>{
+ const actors=Array.from({length:129},(_,i)=>({id:'guest-'+i,position:new T.Vector3(i*3,.16,-100),radius:.6}));
+ let active=0,peak=0;const slots=new Set(),effects={acquire(){if(slots.size>=12)return null;const e={};slots.add(e);peak=Math.max(peak,++active);return e;},release(e){if(slots.delete(e))active--;},update(){},dispose(){slots.clear();}};
+ const core=createCatTeleportationSystem({getActors:()=>actors,effects}),points=actors.map((_,i)=>({x:100+(i%13)*3,y:-120,z:Math.floor(i/13)*3}));
+ core.register({destinationId:'group',arrivalPoints:()=>points,checkArrival:p=>p.y===-120});
+ const ops=actors.map(a=>core.request(a.id,'group'));assert(ops.every(Boolean),'every free guest is accepted into the bounded queue');await flush();
+ for(let i=0;i<160&&core.operations.size;i++)core.update(.1);
+ assert((await Promise.all(ops.map(o=>o.result))).every(Boolean));assert.equal(core.operations.size,0);assert.equal(peak,12);assert.equal(active,0);assert.equal(new Set(actors.map(a=>a.position.toArray().join(','))).size,129);
+ for(const a of actors)assert.equal(a.position.y,-120);core.dispose();
+});

@@ -1,3 +1,4 @@
+import {createSquishAudio} from "./squish-audio.js";
 import {catArrivalCandidates,catTeleportDestination} from "./cat-teleport-destinations.js";
 import { createWarehouseThirdPersonCamera } from "./squish-manual-camera.js";
 import { createSquishNavigation } from "./squish-navigation.js";
@@ -59,6 +60,8 @@ export function createWarehouseWorld({
         getPaws: () => pawContacts.diagnostics,
       })
     : null;
+  const materialAudio=createSquishAudio(container,container.ownerDocument.defaultView);
+  let audioSampleAge=0;
   let selectedMaterial = "jelly",
     interior = null,
     interiorPending = null,
@@ -134,6 +137,26 @@ export function createWarehouseWorld({
   panel.append(status);
   button("Закрити", () => exit());
   container.append(panel);
+  const soundToggle=button('🔇 Звук сквишів',()=>{
+    materialAudio.setEnabled(!materialAudio.enabled);
+    soundToggle.textContent=materialAudio.enabled?'🔊 Звук сквишів':'🔇 Звук сквишів';
+    soundToggle.setAttribute('aria-pressed',String(materialAudio.enabled));
+  },'squishSound');
+  soundToggle.setAttribute('aria-pressed','false');
+  soundToggle.style.cssText='min-height:32px;font-size:12px';
+  const slimeMode=document.createElement('select');slimeMode.dataset.squishSlimeMode='';
+  slimeMode.setAttribute('aria-label','Режим слайму');
+  for(const [value,text] of [['slime-soft','М’який слайм'],['slime-gooey','Тягучий слайм'],['slime-ultra','Глибокий слайм']]){
+    const option=document.createElement('option');option.value=value;option.textContent=text;slimeMode.append(option);
+  }
+  slimeMode.hidden=true;panel.append(slimeMode);
+  slimeMode.onchange=()=>{
+    const solver=interior?.userData.toys.find(t=>t.userData.material==='slime')?.userData.solver;
+    if(!solver?.setSlimeMode(slimeMode.value)){
+      slimeMode.value=solver?.dynamicProfile.materialId||'slime-soft';
+      onError('Спочатку звільни слайм від лапок або захвату.');
+    }
+  };
   const inspectInterior = button(
     "✨ Squish Warehouse",
     () => void openInterior(),
@@ -265,6 +288,8 @@ export function createWarehouseWorld({
   async function openInterior(material = selectedMaterial) {
     selectedMaterial = material;
     if (!(await ensureInterior())) return false;
+    slimeMode.hidden=material!=='slime';
+    slimeMode.value=interior.userData.toys.find(t=>t.userData.material==='slime')?.userData.solver.dynamicProfile.materialId||'slime-soft';
     squishPlayer.show(true);
     const d =
       SQUISH_DEMONSTRATORS.find((d) => d.id === material) ||
@@ -527,8 +552,24 @@ export function createWarehouseWorld({
         pawContacts.flush(dt, interior.userData.toys);
         testScene?.update(dt);
       } else pawContacts.clear();
+      if(materialAudio.enabled){
+        const visible=!!interior?.visible&&!container.ownerDocument.hidden;
+        audioSampleAge+=dt;
+        if(!visible){materialAudio.update(dt,[],false);audioSampleAge=0;}
+        else if(audioSampleAge>=.1){
+          const samples=interior.userData.toys.map(toy=>{
+            const s=toy.userData.solver,contacts=[...s.contacts.values()].map(c=>({id:c.contactId,accumulatedCreep:c.dynamic.accumulatedCreep}));
+            let creep=0,depth=0;for(let i=0;i<s.count;i++){creep=Math.max(creep,s.creep[i]);depth=Math.max(depth,s.original[i*3+1]-s.position[i*3+1]);}
+            return{id:toy.uuid,material:toy.userData.material,contacts,maxContactDepth:depth,
+              solver:{contacts:contacts.length,impactEvents:s.impactEvents,totalImpactImpulse:s.totalImpactImpulse,accumulatedCreep:creep,maxDeformation:depth},
+              butter:toy.userData.butter?.diagnostics,crunchy:toy.userData.crunchy?.diagnostics};
+          });
+          materialAudio.update(audioSampleAge,samples,true);audioSampleAge=0;
+        }
+      }
       debug?.update(dt);
     },
+    get audioDiagnostics(){return materialAudio.diagnostics;},
     get pawDiagnostics() {
       return pawContacts.diagnostics;
     },
@@ -678,6 +719,7 @@ export function createWarehouseWorld({
       pawContacts.clear();
       squishVisits.clear();
       squishPlayer.dispose();
+      materialAudio.dispose();
       debug?.dispose();
       testScene?.dispose();
       manualPhysics.reset();

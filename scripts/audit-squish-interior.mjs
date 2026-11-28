@@ -132,6 +132,21 @@ export async function auditSquishInterior({
   if(process.env.CHICHI_SQUISH_LIGHT_PROBE){
     const r=await page.evaluate(()=>{const q=__lagoonQA,T=q.THREE,m=q.warehouse().interior.userData.toys[0].userData.meshes[0].material,prepared=q.renderer.properties.get(m).envMap,scene=new T.Scene(),camera=new T.OrthographicCamera(-1,1,1,-1,0,2),geometry=new T.PlaneGeometry(2,2),material=new T.MeshBasicMaterial({map:prepared,toneMapped:false,depthTest:false}),mesh=new T.Mesh(geometry,material),target=new T.WebGLRenderTarget(336,256),old=q.renderer.getRenderTarget();scene.add(mesh);camera.position.z=1;q.renderer.setRenderTarget(target);q.renderer.render(scene,camera);const pixels=new Uint8Array(336*256*4);q.renderer.readRenderTargetPixels(target,0,0,336,256,pixels);q.renderer.setRenderTarget(old);const canvas=document.createElement('canvas');canvas.width=336;canvas.height=256;canvas.getContext('2d').putImageData(new ImageData(new Uint8ClampedArray(pixels),336,256),0,0);const result={raw:canvas.toDataURL('image/png').split(',')[1],maximum:pixels.reduce((a,b,i)=>i%4===3?a:Math.max(a,b),0),mean:pixels.reduce((a,b,i)=>i%4===3?a:a+b,0)/(336*256*3),materialName:m.name};target.dispose();material.dispose();geometry.dispose();return result;});await writeFile(join(review,'probe-map.png'),Buffer.from(r.raw,'base64'));delete r.raw;await writeFile(join(review,'probe-map.json'),JSON.stringify(r,null,2));
   }
+  if(process.env.CHICHI_SQUISH_UI_AUDIT){
+    await activate('[data-squish-zone="slime"]');
+    const select=page.locator('[data-squish-slime-mode]');await select.waitFor({state:'visible'});
+    const modes=[];for(const mode of ['slime-gooey','slime-ultra','slime-soft']){
+      await select.selectOption(mode);
+      const state=await page.evaluate(()=>{const t=__lagoonQA.warehouse().interior.userData.toys.find(t=>t.userData.material==='slime');return{mode:t.userData.solver.dynamicProfile.materialId,mesh:t.userData.meshes[0].geometry.uuid,contacts:t.userData.solver.contacts.size};});
+      assert.equal(state.mode,mode);assert.equal(state.contacts,0);modes.push(state);
+    }
+    assert.equal(new Set(modes.map(m=>m.mesh)).size,1,'same actual physics mesh across all3rheologies');
+    await activate('[data-squish-sound]');await page.waitForFunction(()=>__lagoonQA.warehouse().audioDiagnostics.unlocked,{timeout:15000});
+    const audio=await page.evaluate(()=>__lagoonQA.warehouse().audioDiagnostics);assert(audio.enabled&&audio.unlocked);assert.equal(audio.maxVoices,4);
+    await activate('[data-squish-sound]');const muted=await page.evaluate(()=>__lagoonQA.warehouse().audioDiagnostics);assert(!muted.enabled);assert.equal(muted.activeVoices,0);
+    await writeFile(join(review,'interior-ui-state.json'),JSON.stringify({modes,audio,muted,audibleListeningVerified:false},null,2));
+    await page.screenshot({path:join(review,'interior-native-controls.png')});
+  }
   assert.deepEqual(httpErrors, []);
   await writeFile(
     join(review, "interior-result.json"),

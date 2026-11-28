@@ -3,7 +3,7 @@ const finite=p=>p&&[p.x,p.y,p.z].every(Number.isFinite);
 const distance=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y,a.z-b.z);
 // The world owns ONE coordinator. Destinations provide their existing physical
 // navigation and activity callbacks; no geometry, wallet or cat rig is created.
-export function createCatTeleportationSystem({getActors,effects=null,canTravel=()=>true,canSimulate=()=>true,onBegin=()=>true,onRelocate=()=>{},onError=()=>{},reducedMotion=false,maxConcurrent=48}={}){
+export function createCatTeleportationSystem({getActors,effects=null,canTravel=()=>true,canSimulate=()=>true,onBegin=()=>true,onRelocate=()=>{},onError=()=>{},reducedMotion=false,maxConcurrent=384}={}){
   const destinations=new Map(),operations=new Map();let serial=0,disposed=false;
   const actor=id=>getActors().find(a=>a.id===id);
   const current=op=>!disposed&&operations.get(op.id)===op;

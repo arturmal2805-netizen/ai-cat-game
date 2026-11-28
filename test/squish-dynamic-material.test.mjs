@@ -240,3 +240,16 @@ test("time-dependent cage motion updates actual visible body and shared support 
     u.dispose();
   }
 });
+
+test('existing Slime rheology selector preserves loaded history and rejects changes beneath active paws',()=>{
+ const s=new SquishSoftBody({material:'slime',size:[5,4.4,4.5]});
+ s.setContact('paw',{point:[0,3.3,0],force:42,physicalLoad:true});
+ for(let i=0;i<120;i++)s.step(1/60);
+ assert.equal(s.setSlimeMode('slime-ultra'),false);
+ s.release('paw');const creep=s.creep.slice(),positions=s.position.slice(),time=s.time;
+ assert(s.setSlimeMode('slime-gooey'));assert.equal(s.dynamicProfile.materialId,'slime-gooey');
+ assert.deepEqual(s.creep,creep);assert.deepEqual(s.position,positions);assert.equal(s.time,time);
+ assert(s.setSlimeMode('slime-ultra'));assert(s.dynamicProfile.maximumImmersion>.6);
+ assert.equal(s.setSlimeMode('jelly'),false);
+ assert.equal(new SquishSoftBody({material:'jelly'}).setSlimeMode('slime-soft'),false);
+});

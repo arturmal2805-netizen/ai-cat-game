@@ -1,3 +1,4 @@
+import {decorateSquishInterior} from "./squish-interior-decor.js";
 import {createSquishEnvironment} from "./squish-environment.js";
 import * as T from "three";
 import { bindSquishVisualLOD } from "./squish-visual-lod.js";
@@ -413,6 +414,7 @@ export function* squishInteriorArtSteps() {
   }
   yield;
   // Finish fixed static draws by material. Tubes do not each cost a draw.
+  yield* decorateSquishInterior({batch,g,mat,gold,cream,pink,violet,white,warm,box,sphere,cylinder,ring,tube,sign});
   const mergedByMaterial = new Map();
   for (const b of batches.values()) {
     let group = mergedByMaterial.get(b.material);
@@ -438,7 +440,7 @@ export function* squishInteriorArtSteps() {
     sectors: SQUISH_SECTORS,
     collectables: placements.length,
     visualVersion:20,
-    visualPass:1,
+    visualPass:2,
     environment: env,
     update(dt, eye) {
       visualLOD.update(dt, eye);
