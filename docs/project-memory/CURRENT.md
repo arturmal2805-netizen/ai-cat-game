@@ -31,7 +31,7 @@ No full-section VERIFIED claims based only on unit tests.
 
 ## Exact safe code checkpoint
 
-**6a1b28b680ae7417ac4b76515d6b9326b8c050e9**, remote verified. Before it
+**47b512c** (read fullSHA from code worktree/remote), prior normalized-pressure checkpoint **6a1b28b680ae7417ac4b76515d6b9326b8c050e9**, remote verified. Before it
 **23ada02a790ac3e74cccb0639884a6663c822013** fixed negative deep-world floor,
 Warehouse-only third-person clearance and reversible native slope orientation.
 Actual coarse-touch takeover/jump/deformed landing/safe release PASS:
@@ -62,15 +62,40 @@ implemented experimentally but REMOVED from active source under V19.2 (avoid
 duplicate pressure). Safely archived `/workspace/qa/squish-v19-secondary-field-rejected`.
 Existing fine foam-pad toe imprint system retained. No whole-object scale trick.
 
-## Running QA — freeze source/build until completion
+## Current verified baseline and running QA
 
-ONE GPU exec **42206**, log `/workspace/qa/squish-v19-pressure-native-phone.log`,
-output `/workspace/qa/squish-v19-pressure-native-phone`, source6a1b28b.
-Native private Worker/SQLite; actual Chichi submarine→entry→existing Cloud toy;
-original/side/top/debug/body/paw/release/recovery captures and metrics.
-`CHICHI_SQUISH_CONTACT_V19=1`, query`squishDebug=1`, no repeated manual-camera audit.
-Inspect result/failures. Current QA asserts native contacts/leave; if failure,
-preserve exact artifacts and fix concrete cause rather than repeat blindly.
+Actual source6a1b28b Cloud phone PASS, archived on codebranch checkpointd946411
+`docs/qa/2026-11-28/squish-v19/pressure-native-phone/`. Four actual paws share
+83.385 effective game-force units; max contact depth0.33855m/exact vertex0.40802m,
+errors<1e-6m, positive tets/no fallback. Release0.4432m→0.10876m at2s→0.000402m
+at10s. Same native actor/toy/entry. Body capture precedes full sink, still PassB.
+
+Current **51 tests PASS** with new nested LOD/immutable groom guards. Source47b512c
+adds contact HERO7³ / idle ACTIVE4³ (giant11x9x11→6x5x6), exact nested
+promotion retaining solver/contact identity/clock/plastic/damage; no damaged or
+recovering demotion. Secondary existing instanced collectibles share GPU VISUAL
+body/face+depth/distance shaders, fading continuously to STATIC at100m. No per-toy
+solver or instance uploads. Native actual playing-body tests still required.
+
+Cloud FULL8000fibres/40000vertices now uses actual343-displacement GPU texture;
+CPU body/ears retain deformed collision/picking. Native WebGL2 transform-feedback
+**24 actual GPU points/normals already PASS**: positionerror1.407456e-7m,
+normalerror1.251071e-7, GLerror0; uploaded original native cage texture, same
+production GLSL. Proof `/workspace/qa/squish-v19-gpu-lod-native-pc/gpu-cage-parity.json`.
+5632 bytes per cage update replace ~960000 bytes of CPU groom position/normal
+updates. This is upload/CPU-work improvement, NOT a physical-device FPS claim.
+
+ONE GPU exec **4537**, `/workspace/qa/squish-v19-gpu-lod-native-pc.log`, source47b512c.
+ActualPC nativeCloud→original/side/top/release/recovery→allfive real pointer
+material states in SAME browser. Freeze public/build/testharness until done.
+Then inspect images/errors, archive exact evidence and update tracker.
+
+Outside independent draft (not yet integrated):
+`/workspace/qa/squish-detail-draft/squish-test-scene.js` developer-only5realmodels+
+ONE original-factory isolated native test rig, deterministic fixed60Hz/seed4419,
+4statecycles. Needs foam shape:"cat" option without replacing existing foam pad,
+queryflag-only integration, native20states/reset/proper fullvideos. Its test
+actor is explicitly temporary originalauthoring, not replacement for player.
 
 ## Implemented baseline, not final acceptance
 
@@ -92,9 +117,7 @@ Full historical successes AND failures archived on codebranch
 1. Inspect current native pressure results, register exact metrics/real images.
 2. Continue breadth first: explicit four LODs, developer-only five-real-model
    deterministic test mode, multi-cat/eight contacts, interaction/cycle coverage.
-3. Optimize full8000-fibre cloud GPU cage while preserving approved groom/DPR/
-   shadows. Draft outside source `/workspace/qa/squish-detail-draft/squish-gpu-cage.js`
-   is UNTESTED; real GL position/normal parity required. No extra field now.
+3. Finish phone verification and archive GPU/LOD native results; GL parity is now measured PASS. No extra pressure field.
 4. Full20 actual-state comparison board and five complete real cycle clips;
    original inline images have no mounted image bytes, record missing paths.
 5. Pass B material/IK/physical merge/bending/volume/art/light polish, then device-
