@@ -77,6 +77,11 @@ test("foam imprint changes actual CPU picked mesh and reset restores it", () => 
     toy.userData.update(1 / 60);
   }
   assert(toy.userData.foam.diagnostics.deepest > 0.15);
+  assert.equal(
+    s.diagnostics().limitedSteps,
+    0,
+    "mounted foam no longer repeatedly hits the inversion barrier",
+  );
   const pos = toy.userData.meshes[0].geometry.attributes.position;
   assert(pos.array.every(Number.isFinite));
   assert(toy.userData.surface(0, -0.15) < 1.35);

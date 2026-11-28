@@ -1306,9 +1306,9 @@ NORMAL → PRESS → DEFORMATION → RECOVERY
 
 ### 34. ОБЯЗАТЕЛЬНО СОЗДАЙ DEFORMATION TEST SCENE
 
-- Status: **NOT STARTED**.
+- Status: **IMPLEMENTED**.
 - Module: `developer QA harness (pending)` (under `public/` unless stated).
-- Concrete implementation / known issue / next action: Existing native harness has private world/cameras; five side-by-side real models and deterministic cycles pending.
+- Concrete implementation / known issue / next action: Developer-only `?squishTest=1` now creates five real solver cat-head models and one temporary original-factory native rig, fixed seed/60Hz, reset/pause/selection, separate from live toys/player. Unit proof passes; actual 20-state browser verification pending.
 - Test: Existing `test/squish-*.test.mjs` and native archives; new-load regression pending.
 - Actual screenshot: No final native evidence yet.
 
@@ -1710,8 +1710,8 @@ FLUFFY REST → SOFT SINK → WIDE COMPRESSION → SLOW RECOVERY.
 | 6 | Butter | IN PROGRESS | Recheck plastic core/local cracks/fracture under corrected loads |
 | 7 | Cloud | IN PROGRESS | Broad body sink and slow recovery, not jelly bounce |
 | 8 | Player input | IN PROGRESS | Explicit six actions with native camera preserved |
-| 9 | Multi-contact | IN PROGRESS | Two original cats/eight paws, opposite loads, landings/recovery |
-| 10 | Four physics LODs | IMPLEMENTED | Detailed hero, active, shader visual, static, smooth promotion |
+| 9 | Multi-contact | IN PROGRESS | Two native rigs/eight separate skinned paws now pass; actual game group proof pending. Two original cats/eight paws, opposite loads, landings/recovery |
+| 10 | Four physics LODs | IMPLEMENTED | Native PC GPU parity and five-material base pass; phone proof pending |
 | 11 | Reference validation | IN PROGRESS | All 20 actual states + differences + 5 real-cycle videos |
 | 12 | Regression/release | IN PROGRESS | Scope/native cats/saves/build/performance/CI/live bytes |
 
@@ -1772,3 +1772,23 @@ contact/picking surface. No reduction in original groom density or phone DPR.
 Secondary collection body/face/shadows share one shader field, fading continuously
 to exact STATIC at100m; instance buffers never update per frame. Actual WebGL2
 transform-feedback position/normal parity and five-material PC/touch still pending.
+
+## Baseline pass update: all five materials, input and developer bench
+
+Native PC pressure/recovery matrix for Foam/Jelly/Slime/Butter/Cloud produced20
+real frames at sourcef06208f. These are NOT all20 semantic reference states.
+Archived `qa/2026-11-28/squish-v19/five-materials-pc-foam-limited`. Review found
+81 mounted-foam barrier activations, despite basic harness PASS. Corrected normal
+compression to local cell bounds and retained requested fine pressure separately;
+fine imprint now applies only the residual beyond coarse compression, preventing
+doubled pressure. Strong foam test now requires zero barrier activations.
+
+Developer test bench implemented, query-only/no ordinary world/save mutations,
+five real cat-head materials (original foam pad is retained), original-factory
+isolated native rig and exact reset. No player/native-cat replacement. Tests
+cover two native rigs/eight true skinned contacts, support shares sum1 per cat,
+release and bounds. Giant local visit ownership now allows two distinct slots
+without displacing the other visitor or exceeding capacity. Actual native group
+proof still required. Full Node22 build PASS; updated viewport-shadow uniform
+uses the SAME viewer for colour/depth/distance passes. Final current-stage tests
+and real browser state captures follow; no whole-V19 acceptance.

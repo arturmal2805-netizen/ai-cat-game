@@ -184,6 +184,7 @@ export class SquishSoftBody {
     c.duration = Math.max(0, duration);
     c.penetration = Math.max(0, penetration);
     c.supportShare = clamp(supportShare, 0, 1);
+    c.pressureDepth = Math.max(0, -displacement[1]);
     c.point.set(point);
     c.normal.set(normal);
     c.velocity.set(velocity);
@@ -198,12 +199,10 @@ export class SquishSoftBody {
     if (this.profile.materialType === "foam")
       c.displacement[1] = Math.max(
         c.displacement[1],
-        -(this.size[1] < Math.min(this.size[0], this.size[2]) * 0.5
-          ? this.size[1] * 0.22
-          : Math.min(
-              this.size[1] * 0.22,
-              (this.size[1] / (this.resolution[1] - 1)) * 0.55,
-            )),
+        -Math.min(
+          this.size[1] * 0.22,
+          (this.size[1] / (this.resolution[1] - 1)) * 0.55,
+        ),
       );
     c.radius = clamp(radius, 0.1, Math.max(...this.size));
     if (this.profile.materialType === "giant")

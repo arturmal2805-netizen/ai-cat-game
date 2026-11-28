@@ -4,6 +4,7 @@ import { createSquishManual } from "./squish-manual.js";
 import { createSquishCatVisits } from "./squish-cat-visits.js";
 import { createSquishCatContacts } from "./squish-cat-contacts.js";
 import { createSquishDebug, measureSquish } from "./squish-diagnostics.js";
+import { createSquishTestScene } from "./squish-test-scene.js";
 import { createSquishPlayer } from "./squish-player.js";
 import {
   warehouseSquishSteps,
@@ -58,6 +59,7 @@ export function createWarehouseWorld({
   let selectedMaterial = "jelly",
     interior = null,
     interiorPending = null,
+    testScene = null,
     fleet = null,
     pending = null,
     disposed = false,
@@ -225,6 +227,31 @@ export function createWarehouseWorld({
           }
           interior = m;
           scene.add(m);
+          if (
+            new URLSearchParams(
+              container.ownerDocument.defaultView?.location?.search || "",
+            ).has("squishTest")
+          ) {
+            testScene = createSquishTestScene({
+              parent: m,
+              container,
+              environment: m.userData.art.userData.environment,
+              onCamera: (view) =>
+                onInteriorCamera({
+                  ...view,
+                  eye: [
+                    view.eye[0] - origin.x,
+                    view.eye[1],
+                    view.eye[2] - origin.z,
+                  ],
+                  target: [
+                    view.target[0] - origin.x,
+                    view.target[1],
+                    view.target[2] - origin.z,
+                  ],
+                }),
+            });
+          }
         })().finally(() => (interiorPending = null));
       await interiorPending;
     }
@@ -457,7 +484,8 @@ export function createWarehouseWorld({
     },
     finalizeFrame(dt) {
       if (interior) {
-        if (interior.visible) interior.userData.art.userData.update(dt);
+        if (interior.visible)
+          interior.userData.art.userData.update(dt, camera.position);
         for (const toy of interior.userData.toys)
           toy.userData.preparePhysics({
             distance: toy
@@ -467,6 +495,7 @@ export function createWarehouseWorld({
             selected: squishPlayer.active?.toy === toy,
           });
         pawContacts.flush(dt, interior.userData.toys);
+        testScene?.update(dt);
       } else pawContacts.clear();
       debug?.update(dt);
     },
@@ -487,6 +516,9 @@ export function createWarehouseWorld({
     openInterior,
     get interior() {
       return interior;
+    },
+    get testScene() {
+      return testScene;
     },
     invite,
     requestManual,
@@ -616,6 +648,7 @@ export function createWarehouseWorld({
       squishVisits.clear();
       squishPlayer.dispose();
       debug?.dispose();
+      testScene?.dispose();
       manualPhysics.reset();
       thirdPersonCamera.dispose();
       jumpButton.remove();

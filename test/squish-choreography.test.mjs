@@ -107,6 +107,33 @@ const visitor = () => ({
   squishWanted: true,
   squishMaterialWanted: "jelly",
 });
+test("giant admits two existing visitors into separate retained slots without overlapping or overbooking", () => {
+  const interior = fakeVenue(),
+    toy = interior.userData.toys[0];
+  toy.userData.material = "giant";
+  toy.userData.solver = { size: [14, 9, 14] };
+  const visits = createSquishCatVisits({
+    getInterior: () => interior,
+    origin: { x: 0, z: 0 },
+  });
+  const people = [0, 1, 2].map((i) => ({
+    ...visitor(),
+    id: "guest" + i,
+    squishMaterialWanted: "giant",
+  }));
+  assert(visits.update(people[0], 1 / 60, 0));
+  assert(visits.update(people[1], 1 / 60, 0));
+  assert.equal(visits.update(people[2], 1 / 60, 0), false);
+  assert.notEqual(visits.get(people[0].id).slot, visits.get(people[1].id).slot);
+  visits.cancel(people[0].id);
+  assert(visits.update(people[2], 1 / 60, 0));
+  assert.equal(
+    visits.get(people[2].id).slot,
+    0,
+    "released slot is reused without moving the other guest",
+  );
+  visits.clear();
+});
 test("autonomous approach follows aisles, uses 9.81 gravity, finishes bounce before manual descent and releases ownership", () => {
   const interior = fakeVenue(),
     visits = createSquishCatVisits({

@@ -1,6 +1,45 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { createSquishToy } from "../public/squish-model.js";
+import * as T from "three";
+import { bindSquishVisualLOD } from "../public/squish-visual-lod.js";
+
+test("secondary colour, depth and distance passes share actual viewer/time uniforms", () => {
+  const mesh = new T.Mesh(new T.SphereGeometry(), new T.MeshStandardMaterial());
+  const visual = bindSquishVisualLOD([mesh]),
+    programs = [];
+  for (const [name, material] of [
+    ["standard", mesh.material],
+    ["depth", mesh.customDepthMaterial],
+    ["distance", mesh.customDistanceMaterial],
+  ]) {
+    const shader = {
+      vertexShader: T.ShaderLib[name].vertexShader,
+      fragmentShader: T.ShaderLib[name].fragmentShader,
+      uniforms: {},
+    };
+    material.onBeforeCompile(shader);
+    programs.push(shader);
+    assert(
+      shader.vertexShader.includes("vec4 squishCentre="),
+      name + " main body injection exists",
+    );
+    assert.equal(
+      shader.uniforms.uSquishVisualEye,
+      visual.uniforms.uSquishVisualEye,
+    );
+    assert.equal(
+      shader.uniforms.uSquishVisualTime,
+      visual.uniforms.uSquishVisualTime,
+    );
+  }
+  visual.update(0.1, new T.Vector3(1, 2, 3));
+  for (const p of programs)
+    assert.deepEqual(p.uniforms.uSquishVisualEye.value.toArray(), [1, 2, 3]);
+  visual.dispose();
+  mesh.geometry.dispose();
+  mesh.material.dispose();
+});
 
 test("nested promotion preserves solver/contact identity, deformed shape, plasticity and clock", () => {
   const toy = createSquishToy({ material: "jelly" }),

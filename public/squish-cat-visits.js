@@ -70,7 +70,9 @@ export function createSquishCatVisits({ getInterior, origin }) {
     if (!s) {
       if (owned.size >= 4) return false;
       const available = interior.userData.toys.filter(
-        (t) => ![...owned.values()].some((s) => s.toy === t),
+        (t) =>
+          [...owned.values()].filter((s) => s.toy === t).length <
+          (t.userData.material === "giant" ? 2 : 1),
       );
       if (!available.length) return false;
       const toy =
@@ -116,22 +118,33 @@ export function createSquishCatVisits({ getInterior, origin }) {
         route: null,
         waypoint: 0,
         impact: 0,
+        slot:
+          toy.userData.material === "giant"
+            ? [...owned.values()].some(
+                (other) => other.toy === toy && other.slot === 0,
+              )
+              ? 1
+              : 0
+            : 0,
       };
       v.squishDone = false;
       owned.set(v.id, s);
     }
     s.age += dt;
     const world = s.toy.getWorldPosition(interior.userData.scratch),
+      targetX =
+        world.x +
+        (s.toy.userData.material === "giant" ? (s.slot === 0 ? -1.8 : 1.8) : 0),
       standOffset = Math.max(
         4.8,
         (s.toy.userData.solver?.size[2] || 4.5) / 2 + 1.2,
       ),
       base = {
-        x: world.x - origin.x,
+        x: targetX - origin.x,
         y: A.foot,
         z: world.z - origin.z + standOffset,
       },
-      top = s.toy.userData.surface(world.x, world.z);
+      top = s.toy.userData.surface(targetX, world.z);
     if (
       v.manualWanted &&
       ["inspect", "approach", "anticipate", "return-aisle"].includes(s.phase)
@@ -207,7 +220,7 @@ export function createSquishCatVisits({ getInterior, origin }) {
         flight(
           s,
           v,
-          { x: world.x - origin.x, y: top + 0.012, z: world.z - origin.z },
+          { x: targetX - origin.x, y: top + 0.012, z: world.z - origin.z },
           dt,
         )
       ) {

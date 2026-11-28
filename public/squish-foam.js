@@ -61,7 +61,7 @@ export class FoamImprints {
         cx = c.point[0],
         cz = c.point[2],
         strength =
-          clamp(-c.displacement[1] * 0.7, 0, 0.24) *
+          clamp((c.pressureDepth ?? -c.displacement[1]) * 0.7, 0, 0.24) *
           clamp(c.force / 65, 0.25, 1),
         xmin = clamp(
           Math.floor(((cx - r * 1.45 + sx / 2) / sx) * (n - 1)),

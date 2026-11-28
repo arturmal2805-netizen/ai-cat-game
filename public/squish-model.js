@@ -71,16 +71,16 @@ export function createSquishToy({
   material = "jelly",
   size = null,
   resolution = null,
+  shape = null,
 } = {}) {
-  size ||=
-    material === "foam"
-      ? [5, 1.4, 4.5]
-      : material === "giant"
-        ? [14, 9, 14]
-        : [5, 4.4, 4.5];
+  const pad = material === "foam" && shape !== "cat";
+  size ||= pad
+    ? [5, 1.4, 4.5]
+    : material === "giant"
+      ? [14, 9, 14]
+      : [5, 4.4, 4.5];
   const giant = material === "giant";
   resolution ||= giant ? [11, 9, 11] : [7, 7, 7];
-  const pad = material === "foam";
   const root = new T.Group();
   root.name = "SquishPhysics · " + material;
   root.userData.squishPhysics = true;
@@ -392,9 +392,13 @@ export function createSquishToy({
           const topBlend = pad
             ? T.MathUtils.smoothstep(base[j + 1], size[1] * 0.45, size[1] * 0.9)
             : 0;
-          a.array[j + 1] =
-            scratch[1] -
-            (foam ? foam.sample(base[j], base[j + 2]) * topBlend : 0);
+          // Fine foam relief resolves the remaining contact compression, never
+          // adds the same pressure a second time on top of the volume cage.
+          const fineDepth = foam
+            ? foam.sample(base[j], base[j + 2]) * topBlend
+            : 0;
+          const coarseDepth = Math.max(0, base[j + 1] - scratch[1]);
+          a.array[j + 1] = scratch[1] - Math.max(0, fineDepth - coarseDepth);
           a.array[j + 2] = scratch[2];
         }
         a.needsUpdate = true;
@@ -438,6 +442,9 @@ export function createSquishToy({
     meshes,
     sources,
     update,
+    get meshRevision() {
+      return lastStep;
+    },
     surface,
     surfaceInfo,
     material,

@@ -444,8 +444,8 @@ export function* squishInteriorArtSteps() {
     sectors: SQUISH_SECTORS,
     collectables: placements.length,
     environment: env,
-    update(dt) {
-      visualLOD.update(dt);
+    update(dt, eye) {
+      visualLOD.update(dt, eye);
     },
     dispose() {
       visualLOD.dispose();

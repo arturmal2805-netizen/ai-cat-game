@@ -5,6 +5,7 @@ import * as T from "three";
 // This decorative material response is not reported as a physical contact.
 export function bindSquishVisualLOD(meshes) {
   const time = { value: 0 },
+    eye = { value: new T.Vector3(1e6, 1e6, 1e6) },
     owned = [];
   const media =
     typeof matchMedia === "function"
@@ -16,8 +17,10 @@ export function bindSquishVisualLOD(meshes) {
     material.onBeforeCompile = (shader) => {
       compile.call(material, shader);
       shader.uniforms.uSquishVisualTime = time;
+      shader.uniforms.uSquishVisualEye = eye;
       shader.vertexShader =
-        "uniform float uSquishVisualTime;\n" + shader.vertexShader;
+        "uniform float uSquishVisualTime;\nuniform vec3 uSquishVisualEye;\n" +
+        shader.vertexShader;
       shader.vertexShader = shader.vertexShader.replace(
         /void\s+main\s*\(\s*\)\s*\{/,
         `$&
@@ -26,7 +29,7 @@ export function bindSquishVisualLOD(meshes) {
           squishCentre=instanceMatrix*squishCentre;
         #endif
         squishCentre=modelMatrix*squishCentre;
-        float squishVisualFade=1.-smoothstep(55.,100.,distance(cameraPosition,squishCentre.xyz));
+        float squishVisualFade=1.-smoothstep(55.,100.,distance(uSquishVisualEye,squishCentre.xyz));
         float squishVisualAmp=.018*sin(uSquishVisualTime*1.6+squishCentre.x*.11+squishCentre.z*.17)*squishVisualFade;
         float squishVisualY=position.y;
         float squishVisualDen=1.+squishVisualY*squishVisualY;
@@ -73,12 +76,13 @@ export function bindSquishVisualLOD(meshes) {
     mesh.geometry.boundingSphere.radius += 0.018;
   }
   return {
-    update(dt) {
+    update(dt, position) {
+      if (position) eye.value.copy(position);
       time.value = media?.matches
         ? 0
         : time.value + Math.min(0.1, Math.max(0, dt));
     },
-    uniforms: { uSquishVisualTime: time },
+    uniforms: { uSquishVisualTime: time, uSquishVisualEye: eye },
     dispose() {
       for (const material of owned) material.dispose();
     },

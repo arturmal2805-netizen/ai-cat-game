@@ -1,4 +1,23 @@
 import * as T from "three";
+const restVolumes = new WeakMap();
+function bodyVolume(geometry, positions) {
+  const index = geometry.index?.array;
+  let volume = 0;
+  for (let i = 0; i < (index?.length || positions.length / 3); i += 3) {
+    const a = (index ? index[i] : i) * 3,
+      b = (index ? index[i + 1] : i + 1) * 3,
+      c = (index ? index[i + 2] : i + 2) * 3;
+    volume +=
+      positions[a] *
+        (positions[b + 1] * positions[c + 2] -
+          positions[b + 2] * positions[c + 1]) +
+      positions[a + 1] *
+        (positions[b + 2] * positions[c] - positions[b] * positions[c + 2]) +
+      positions[a + 2] *
+        (positions[b] * positions[c + 1] - positions[b + 1] * positions[c]);
+  }
+  return Math.abs(volume / 6);
+}
 
 // Opt-in measurements: actual rendered vertices and the same raycast surface
 // that supports the native paws. No invented visual-similarity or device FPS.
@@ -11,6 +30,11 @@ export function measureSquish(toy) {
     sumDepth = 0;
   const body = u.meshes[0].geometry.attributes.position.array;
   const original = u.sources[0];
+  const geometry = u.meshes[0].geometry;
+  if (!restVolumes.has(geometry))
+    restVolumes.set(geometry, bodyVolume(geometry, original));
+  const initialVolume = restVolumes.get(geometry),
+    currentVolume = bodyVolume(geometry, body);
   for (let i = 0; i < body.length; i += 3)
     maxDisplacement = Math.max(
       maxDisplacement,
@@ -54,6 +78,12 @@ export function measureSquish(toy) {
     meanContactDepth: sumDepth / Math.max(1, contacts.length),
     maxContactDepth: Math.max(0, ...contacts.map((c) => c.depth)),
     maxVertexDisplacement: maxDisplacement,
+    renderedBodyVolume: currentVolume,
+    renderedBodyVolumeRatio:
+      initialVolume > 1e-9 ? currentVolume / initialVolume : null,
+    volumeMethod:
+      "signed triangles of the actual main body; giant overlapping primitives are not a union-volume measurement",
+    meshUpdated: u.meshRevision === s.revision,
     activeNodes,
     stiffness: s.profile.elasticity,
     compliance: s.profile.compliance,
