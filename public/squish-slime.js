@@ -190,15 +190,18 @@ export function createSlimeFilaments({ root, solver, material }) {
       const f = pool[i];
       if (grip) {
         const c = grip.c;
-        solver.sample(...c.point, scratch);
+        // A real surface patch has separated roots. Three coincident roots
+        // hid all strands inside the skin even with a correct XPBD rope.
+        const span = (i - 1) * 0.38;
+        solver.sample(c.point[0] + span, c.point[1], c.point[2], scratch);
         a.set(...scratch);
         b.set(
           c.point[0] + c.displacement[0],
           c.point[1] + c.displacement[1],
           c.point[2] + c.displacement[2],
         );
-        a.x += (i - 1) * 0.045;
-        b.x += (i - 1) * 0.025;
+
+        b.x += (i - 1) * 0.075;
         const distance = a.distanceTo(b);
         if (!f.active) {
           f.reset(a, b);

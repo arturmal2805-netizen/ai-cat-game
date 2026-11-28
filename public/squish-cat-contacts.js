@@ -66,18 +66,19 @@ export function createSquishCatContacts() {
   }
   function flush(dt, toys) {
     diagnostic.length = 0;
-    for (const [solver, keys] of activeKeys)
-      for (const key of keys) solver.release(key);
-    activeKeys.clear();
+    const nextKeys = new Map();
     for (const v of pending) {
       const solver = v.toy.userData.solver,
-        keys = activeKeys.get(solver) || [];
-      activeKeys.set(solver, keys);
+        keys = nextKeys.get(solver) || [];
+      nextKeys.set(solver, keys);
       for (const p of v.paws) {
-        if (p.swing > 0.04) continue;
         measure(p);
         const target = v.toy.userData.surface(p.point.x, p.point.z);
-        if (target === null || p.point.y - target > 0.13) continue;
+        if (p.swing > 0.04 || target === null || p.point.y - target > 0.13) {
+          p.initialized = false;
+          p.grip = null;
+          continue;
+        }
         const local = v.toy.worldToLocal(p.point.clone()),
           [sx, sy, sz] = solver.size,
           y = v.toy.userData.restSurfaceHeight(local.x, local.z),
@@ -94,11 +95,21 @@ export function createSquishCatContacts() {
             15,
             160,
           ),
-          key = v.id + ":paw:" + p.index,
-          twist = Math.sin(v.age * 0.7) * 0.025;
+          key = v.id + ":paw:" + p.index;
+        // Continuous planted constraints preserve viscous filtering. Tangential
+        // load follows actual toe movement, not an unrelated age-based sine.
+        if (!p.grip || p.toy !== v.toy) p.grip = local.clone();
+        p.toy = v.toy;
+        const shear = local.clone().sub(p.grip);
+        shear.y = 0;
+        shear.clampLength(0, 0.38);
+        p.force = force;
         solver.setContact(key, {
-          point: [local.x, y, local.z],
-          displacement: [-local.z * twist, -0.45, local.x * twist],
+          kind: "paw",
+          point: [p.grip.x, y, p.grip.z],
+          displacement: [shear.x, -0.45, shear.z],
+          footprintRadius: Math.sqrt(0.035 / Math.PI) * 1.8,
+          orientation: v.carrier.rotation.y,
           radius: 0.65,
           force,
           velocity: velocity.toArray(),
@@ -106,6 +117,11 @@ export function createSquishCatContacts() {
         keys.push(key);
       }
     }
+    for (const [solver, keys] of activeKeys)
+      for (const key of keys)
+        if (!nextKeys.get(solver)?.includes(key)) solver.release(key);
+    activeKeys.clear();
+    for (const [solver, keys] of nextKeys) activeKeys.set(solver, keys);
     for (const toy of toys) {
       toy.userData.solver.step(dt);
       toy.userData.update(dt);
@@ -141,7 +157,7 @@ export function createSquishCatContacts() {
           surface: y,
           error: p.point.y - y,
           contact: Math.abs(p.point.y - y) < 0.13,
-          force: 22,
+          force: p.force ?? 22,
           area: 0.035,
           material: v.toy.userData.material,
         });

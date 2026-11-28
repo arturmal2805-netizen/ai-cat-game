@@ -19,6 +19,8 @@ test("actual skinned paw vertices follow the deformed mesh in translated deep-wa
       .filter((o) => o.isSkinnedMesh)
       .map((o) => o.geometry.attributes.position.array.slice()),
   );
+  let plantedContact;
+  const plantedIndex=cat.userData.legs.findIndex(l=>l.position.z<=0);
   for (let i = 0; i < 45; i++) {
     animateCat(cat, i / 60);
     carrier.position.y =
@@ -26,6 +28,9 @@ test("actual skinned paw vertices follow the deformed mesh in translated deep-wa
     carrier.updateWorldMatrix(true, true);
     contact.collect("chichi", cat, carrier, toy, i / 60);
     contact.flush(1 / 60, [toy]);
+    const current=toy.userData.solver.contacts.get("chichi:paw:"+plantedIndex);
+    if(i===0) plantedContact=current;
+    else assert.equal(current,plantedContact,"planted paw keeps its filtered constraint across native animation frames");
     assert(contact.diagnostics.length >= 2);
     for (const p of contact.diagnostics)
       assert(Math.abs(p.error) < 0.025, "native toe/surface error " + p.error);

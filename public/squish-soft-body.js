@@ -144,13 +144,22 @@ export class SquishSoftBody {
       force = 70,
       velocity = [0, 0, 0],
       kind = "press",
+      footprintRadius = 0,
+      orientation = 0,
     } = {},
   ) {
     if (
       !point ||
-      ![...point, ...normal, ...displacement, ...velocity, radius, force].every(
-        Number.isFinite,
-      )
+      ![
+        ...point,
+        ...normal,
+        ...displacement,
+        ...velocity,
+        radius,
+        force,
+        footprintRadius,
+        orientation,
+      ].every(Number.isFinite)
     )
       return false;
     if (!this.contacts.has(id) && this.contacts.size >= 16) return false;
@@ -163,6 +172,8 @@ export class SquishSoftBody {
       torn: false,
     };
     c.kind = kind;
+    c.footprintRadius = clamp(footprintRadius, 0, 1);
+    c.orientation = orientation;
     c.point.set(point);
     c.normal.set(normal);
     c.velocity.set(velocity);

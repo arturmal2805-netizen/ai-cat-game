@@ -1,3 +1,5 @@
+import { FoamImprints } from "./squish-foam.js";
+import { createCrunchyFiller } from "./squish-crunchy.js";
 import { createButterShell } from "./squish-butter.js";
 import { createSlimeFilaments } from "./squish-slime.js";
 import { createSlimeCoalescence } from "./squish-slime-merge.js";
@@ -87,7 +89,7 @@ export function createSquishToy({
     return mesh;
   };
   const body = pad
-    ? new T.BoxGeometry(size[0], size[1], size[2], 24, 10, 24)
+    ? new T.BoxGeometry(size[0], size[1], size[2], 64, 10, 64)
     : new T.SphereGeometry(1, 48, 32);
   if (pad) {
     const a = body.attributes.position,
@@ -235,7 +237,7 @@ export function createSquishToy({
     );
     hair.castShadow = false;
   }
-  if (["jelly", "slime", "crunchy"].includes(material)) {
+  if (["jelly", "slime"].includes(material)) {
     const inclusions = [];
     for (let i = 0; i < 32; i++) {
       const angle = i * 2.399963,
@@ -269,17 +271,62 @@ export function createSquishToy({
   if (material === "slime") {
     const mat = squishSurfaceMaterial("slime");
     ownedEffectMaterials.push(mat);
-    filaments = createSlimeFilaments({ root, solver, material: mat });
+    const threadMat = mat.clone();
+    threadMat.opacity = 0.9;
+    threadMat.emissiveIntensity = 0.3;
+    threadMat.onBeforeCompile = mat.onBeforeCompile;
+    threadMat.customProgramCacheKey = mat.customProgramCacheKey;
+    ownedEffectMaterials.push(threadMat);
+    filaments = createSlimeFilaments({ root, solver, material: threadMat });
     coalescence = createSlimeCoalescence({ root, material: mat });
-    effects.push(filaments, coalescence);
+    const bowl = new T.Group();
+    bowl.name = "Slime merge · supported shallow glass dish";
+    bowl.position.set(-3.7, 0.28, 2.9);
+    const baseMat = new T.MeshPhysicalMaterial({
+        color: 0xffdfef,
+        metalness: 0.15,
+        roughness: 0.2,
+        clearcoat: 1,
+      }),
+      rimMat = new T.MeshStandardMaterial({
+        color: 0xf4cc7d,
+        metalness: 0.7,
+        roughness: 0.2,
+      });
+    ownedEffectMaterials.push(baseMat, rimMat);
+    const base = new T.Mesh(
+        new T.CylinderGeometry(1.65, 1.55, 0.12, 64),
+        baseMat,
+      ),
+      rim = new T.Mesh(new T.TorusGeometry(1.62, 0.065, 8, 64), rimMat);
+    rim.rotation.x = Math.PI / 2;
+    rim.position.y = 0.1;
+    bowl.add(base, rim);
+    root.add(bowl);
+    effects.push(filaments, coalescence, {
+      update() {},
+      reset() {},
+      dispose() {
+        base.geometry.dispose();
+        rim.geometry.dispose();
+        root.remove(bowl);
+      },
+    });
   }
+  const foam = pad ? new FoamImprints(size) : null,
+    crunchy =
+      material === "crunchy" ? createCrunchyFiller({ root, solver }) : null;
+  if (crunchy) effects.push(crunchy);
+  let lastFoam = -1;
   let lastTime = solver.time;
   let lastStep = -1;
   const scratch = new Float64Array(3);
   const update = (dt) => {
     dt = Number.isFinite(dt) ? dt : Math.max(0, solver.time - lastTime);
     lastTime = solver.time;
-    if (lastStep !== solver.revision) {
+    foam?.step(dt, solver.contacts);
+    if (lastStep !== solver.revision || (foam && lastFoam !== foam.revision)) {
+      lastFoam = foam?.revision ?? -1;
       lastStep = solver.revision;
       for (let n = 0; n < meshes.length; n++) {
         const g = meshes[n].geometry,
@@ -288,7 +335,12 @@ export function createSquishToy({
         for (let j = 0; j < base.length; j += 3) {
           solver.sample(base[j], base[j + 1], base[j + 2], scratch);
           a.array[j] = scratch[0];
-          a.array[j + 1] = scratch[1];
+          const topBlend = pad
+            ? T.MathUtils.smoothstep(base[j + 1], size[1] * 0.45, size[1] * 0.9)
+            : 0;
+          a.array[j + 1] =
+            scratch[1] -
+            (foam ? foam.sample(base[j], base[j + 2]) * topBlend : 0);
           a.array[j + 2] = scratch[2];
         }
         a.needsUpdate = true;
@@ -325,8 +377,11 @@ export function createSquishToy({
     butter,
     filaments,
     coalescence,
+    foam,
+    crunchy,
     reset() {
       solver.reset();
+      foam?.reset();
       for (const e of effects) e.reset?.();
       update(0);
     },

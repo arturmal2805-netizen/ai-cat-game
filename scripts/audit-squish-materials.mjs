@@ -15,6 +15,7 @@ export async function auditSquishMaterials({
     q.freeze = false;
     q.drawPaused = true;
     q.reviewHour = 12;
+    q.terrainClock = 7;
     document.querySelector('[data-biome="autumn"]').click();
   });
   await page.waitForFunction(
@@ -58,6 +59,11 @@ export async function auditSquishMaterials({
         raw: q.renderer.domElement.toDataURL("image/png").split(",")[1],
         material: id,
         solver: t.userData.solver.diagnostics(),
+        foam: t.userData.foam?.diagnostics,
+        crunchy: t.userData.crunchy?.diagnostics,
+        sceneTime: q.terrainClock,
+        reviewHour: q.reviewHour,
+        seed: 4419,
         camera: {
           position: q.camera.position.toArray(),
           target: q.look.toArray(),
@@ -101,7 +107,10 @@ export async function auditSquishMaterials({
         p = t.getWorldPosition(new T.Vector3()),
         sy = t.userData.solver.size[1];
       q.oceanReviewCamera = {
-        eye: [p.x + 7, p.y + 5.5, p.z + 10],
+        eye:
+          id === "foam"
+            ? [p.x + 2, p.y + 7, p.z + 4.5]
+            : [p.x + 7, p.y + 5.5, p.z + 10],
         target: [p.x, p.y + sy * 0.45, p.z],
         fov: 48,
         far: 20000,
