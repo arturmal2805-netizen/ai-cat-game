@@ -13,3 +13,16 @@ Ten sectors, not buildings: ButterKingdom, SlimeLab, CloudParadise, GiantCat, Je
 V17 EVERY stage: reference→implement→real screenshot→semanticcomparison→issue→fix→retest. Fixed cameraoverview/interaction/closeup, seed/physicsstep/force/contactduration/light/time/resolution. Clean-canvas orHUDmask, no ordinarydebugHUD. Archive fullsourceSHA/dirtyoverlay/bundle/sourcehashes/cameras/assets/PNG/measurements/failedattempts. Actual samecamera regressions can use differences/edge/color/SSIM, conceptart cannot be judged by a fake universal similarity score. Reviewer0–100 criteria estimates need proof and BLOCKER/MAJOR/MINOR/ACCEPTED findings. Do not closeissues until rerun. Actual3–5s jelly, slime REST→STRETCH→TWIST→RELEASE→MERGE and allmandatory A–G demos + fivepanelboard. Original references are inline userimages, bytes unmounted: manifestexplicitmissingpath, no generated replacements or inventedoriginals. SourcecodefirstsquishnativePASS is not finalartapproval. Softwaretimings not physicalMac/iPhoneFPS.
 
 Only transient waves/dents/fragments resetonload; no purchasedtoy/customization was requested. Do not dump particles into player/sharedsaves or invent newownership. Add minimalstate only if a subsequently requested mechanic requires it. Preserve actualprivateSQLite stale/coldreload positivewallet checks and no duplicatedactors/controllers/charges.
+
+
+## V18/V19/V19.1/V19.2 additive updates
+
+Read exact uploaded specifications on the implementation branch. All 41 V19
+sections and nested requirements are tracked in
+`docs/SQUISH_V19_IMPLEMENTATION_TRACKER.md`. V19.1 supersedes strict first-pink-
+perfection ordering with breadth-first five baselines, then physics/visual polish.
+V19.2 adds evidence-based contact pressure diagnosis, actual original/side/top/
+debug/release cameras and forbids duplicate procedural pressure replacing the
+primary solver. Do not redo verified native manual landing/camera without a
+measured regression. All12 phases,20 states,five real cycle videos,4LOD remain.
+Freeze exterior/zone anchors/other venues. No fake VERIFIED or device FPS.

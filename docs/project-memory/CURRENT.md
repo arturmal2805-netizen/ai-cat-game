@@ -1,51 +1,111 @@
-# Current — 28 November2026, Europe/Kyiv
+# Current — 28 November 2026, Europe/Kyiv
 
-Canonical memory: codex/ocean-recovery-memory. Its source code is historical; use the implementation worktree below. Preserve all old worktrees.
+Canonical memory: `codex/ocean-recovery-memory`. This worktree's code is historical.
+Use `/workspace/chichi-squish-v16`, branch `codex/warehouse-squish-v16`.
+Preserve every older worktree. No subagents without explicit user instruction.
 
-## Published and verified
+## Published
 
-Main **541293e6f5d9ba24e0f71485820e4e2547e01da8**, source **23a5043877f186eb719eb673f37c5406ba017277**, same tree920ebdc277351c1068647d061b8875af97cf6888. PR21 merged normally; run46049325298 all3shards/test/deploy/pages SUCCESS. Actual HTTP app/CSS/probe and deployed Worker fullSHA verified. [Game](https://arturmal2805-netizen.github.io/ai-cat-game/?v=541293e) · [Evidence](../qa/2026-11-27/warehouse-access/README.md).
+Main **541293e6f5d9ba24e0f71485820e4e2547e01da8**, source23a5043, PR21,
+run46049325298 all test shards/test/deploy/pages SUCCESS; actual HTTP and deployed
+Worker full SHA verified. [Game](https://arturmal2805-netizen.github.io/ai-cat-game/?v=541293e).
+No newer V16–V19 update is published. Published entry/submarines/wallets preserved.
 
-Warehouse width corrected: depth720/platformDepth888, length3600/heightScale7.5/position retained. Real no-elevator entry, clipped glass aperture, 2 pressure doors, actual dry floor, 3 water berths/deployable gangplanks and 3 original native submarines. Existing native cats board/travel/enter/return; safe queued manual takeover. Recall/control/return panel and 2 free existing-batch AI offers. Native desktop1100x800/DPR2 + coarsephone390x844/DPR2 PASS with474 exact modules and2 private SQLite reloads. Separate cold Worker restart/stale-write test preserves129 positive cat wallets/playercoins. Original Mall/SPA/restaurant/trampoline/cats/economy/saveformats preserved. Software QA is not physical-device FPS or artistic approval.
+## Active user objective
 
-## Active: Squish Warehouse V16 + visual validation V17
+V16 full Squish Warehouse physics/interior + V17 repeated reference validation +
+V18 visual overhaul + V19 all 41 physics requirements. New **V19.1** explicitly
+changes strategy to breadth first: baseline ALL five materials, then polish,
+then references/performance/regression. Do not perfect one dent indefinitely or
+redo already verified manual landing/camera without regression. **V19.2** adds
+measured local pressure diagnosis, no duplicate procedural pressure, actual
+original/side/top/debug/release views. It does not cancel V19/V19.1.
 
-User supplied full V16physics spec and V17 mandatory repeated reference validation. The earlier phase1 prohibition on equipping Warehouse is SUPERSEDED for its interior only. Exterior, dimensions/worldcoords, other venues/geography/water/cats/economy/user saveformats frozen. No new per-cat inference calls.
+All V16/17/18/19/19.1/19.2 uploads fully read, exact specs under active codebranch
+`docs/specifications/`. Latest full user file V19.2 local upload:
+`/workspace/attachments/d0a9d8e1-686f-492a-bb8c-3f9a90cf089c/Вставленный текст.txt`.
+Master tracker **`docs/SQUISH_V19_IMPLEMENTATION_TRACKER.md`** contains all 41
+original sections INCLUDING verbatim nested requirements, 12 phase statuses,
+honest five-material completeness matrix and diagnostic hypotheses. Update it.
+No full-section VERIFIED claims based only on unit tests.
 
-Sourceworktree **/workspace/chichi-squish-v16**, branch **codex/warehouse-squish-v16**. Latest code checkpoint **e795265c6bde0107fa2e087f49627765b4ed320c** (remote verified) (read fullSHA/verifyremote), base published541293e. NO V16 publication/PR yet. Exact V16/V17 specs fully read and in docs/specifications; scopefreeze/auditf1dd91a. Continue full goal, do not end after checkpoint.
+## Exact safe code checkpoint
 
-Completed phase1: first343particle XPBD/distance/positive tetrahedral-volume/shape/trilinearskin, real pointer press/release and original Chichi submarine→entry→ballistic ascent→alternating skinned-paw knead. NativePC+coarsetouch PASS source062b7a8; archive codebranch docs/qa/2026-11-27/squish-v16/one-body-v2-{desktop,phone}. Original cat buffers untouched. Fixed AttachedBindMode CPUquery doubletranslation via model.updateMatrixWorld, not only updateWorldMatrix. Normal native animation resets temporary leg-height corrections. No full analytic IK claim; current contact adaptation uses real skinned toe vertices and bounded reversible existing-leg height correction.
+**6a1b28b680ae7417ac4b76515d6b9326b8c050e9**, remote verified. Before it
+**23ada02a790ac3e74cccb0639884a6663c822013** fixed negative deep-world floor,
+Warehouse-only third-person clearance and reversible native slope orientation.
+Actual coarse-touch takeover/jump/deformed landing/safe release PASS:
+`/workspace/qa/squish-v19-manual-camera-fix`.
+Do NOT edit protected `public/chichi-manual.js` (hash guard); scoped existing
+camera/transport hooks are sufficient. Original cats/buffers untouched.
 
-Completed basic7material phase (source5a3bcc2/b710cameraQAfix): real mutable material rest strain, viscous pressure filtering, foamhold, cloudslowrecovery, jellywobble, signed-volume fallback, idle sleep/no inactive geometry uploads. Seven demonstrators only, NOT final10sectorinterior. Full22targeted+Node22buildPASS. Actual seven desktop and coarsephone states PASS. Cloud initially lookedspiky thenpimpled; replaced by original groomFur authoring on NEW toy clone (8000fibres, no nativecat/source changes), plusvelvetmicroshader; actualcloud+foamPC andall7touch PASS source **0a06b9e4a372dbf7ea0167e942cc4247b81b6934**. Exactsource/bundle/PNG/camerametadata/reviews codebranch docs/qa/2026-11-28/squish-v16/{materials-desktop,cloud-groom-desktop,materials-phone}. Refs/art still far fromfinalrichhall. Historical cameraFAILED: QAadvanced1ms gotpacedout, usedpreviouscamera; corrected100ms+samecamera asserts. Archive material-camera-failed. Do not change productrenderpacer for QA.
+Current code fixes **double contact-influence attenuation** in the primary XPBD
+solver. Prior weighted displacement divided by max(1,total), then multiplied
+by total again: small paw loads became quadratically weak. Isolated same-input
+42-unit cloud comparison: 0.060143m old vs0.283871m normalized depth. New compact
+C1 contact support keeps remote giant skin quiet; foam mounted/volume-cell caps
+avoid tet folding. Final exact compact-kernel/native values must be measured,
+not borrowed from that isolated A/B. Estimated game mass8.5 shares gravity among
+actual supporting paws; body uses total effective weight. Actual surface normals,
+contact duration/penetration/share now stored. Ray support uses the rendered mesh.
 
-CURRENT advanced stage: code **dc6ad9c** added separate Butterrind/core + strainmask/procedural baked crackchart +24physicalpooledshards, 3XPBD slimefilaments pinnedbetweenactualcageskin/heldgrip with gravity/thinning/tear/release, and two-mass implicitMarchingCubes coalescence/split. Coalescence is explicitly a volume-normalized rendering approximation with2overdampedcentres, NOT fullfluidNavierStokes; actualcomponents2→1→2, occupiedvoxelproxy~2%volumeerror. New player strengthrange, merge/split/resetbuttons; localreset now increments solver.revision to refreshactualgeometry evenif solver sleeps. No saves/purchases changes. `public/squish-{butter,slime,slime-merge}.js`, advancedhelper/test, solver/material/model/player changes. All archived oncodebranch; draft copies /workspace/qa/squish-next are obsolete now, do not reapply overfixedcode.
+**48 targeted tests PASS** at `/workspace/qa/squish-v19-final-core-tests.log`.
+Includes prior material/native paw/entry/Worker guards plus new load/mesh metrics.
+Explicit HOLD/DRAG/RELEASE added alongside PRESS/STRETCH/TWIST/KNEAD; actual native
+interaction regressions for new actions pending. Opt-in `?squishDebug=1` red actual
+contacts/green skinned paws/normal+pressure lines/table; measured mesh displacement,
+contact depth, force, active nodes, compliance, timestep, actual collider identity.
+No ordinary debug UI. Node/constraint/damage visualizations still pending.
 
-Advanced native failures preserved: dc6ad9c detached0 due choosingonlyevery23rdvertex and missing10actualhighdamagerindvertices; **66b4fd5** usesactualdamage+spatialseparation+24fixedslots and coverage-texture mask. Its native ranallButter/slime/merge numeric assertions but finalGLguard caught missing newline before# defineSTANDARD in crackGLSL; rind was absent, neveraccepted. Slime actualimage showedblackfan (inwardwinding). Archive docs/qa/2026-11-28/squish-v16/{butter-fracture-failed,advanced-shader-failed}. **9d75f0e** fixes shaderprefixnewline, outwardtubeindices andparallel-transportframes, morevisiblefilteredcoverage. Unitfixture corrected to initialgentleload beforestrongfracture instead of expecting nofracturefromalreadyhighload. Adds actualoutwardtriangle-normal test. **27 targetedphysics/nativepaw/material/entrychecksPASS** at /workspace/qa/squish-v16-advanced-corrected-tests.log. FullNode22buildPASS at dc6 code, staticlegacyassets unchangedaftershaderfix; no need regenerateallanimals aftereveryfrontend-onlyfix. FinalCI willfullbuild.
+Rejected alternative: independent cloud/jelly fine surface pressure field was
+implemented experimentally but REMOVED from active source under V19.2 (avoid
+duplicate pressure). Safely archived `/workspace/qa/squish-v19-secondary-field-rejected`.
+Existing fine foam-pad toe imprint system retained. No whole-object scale trick.
 
-Advanced desktop+coarse-touch actual input/render PASS source9d75f0e, zero GL/HTTP errors. Archived exact public source, tested harness/bundle,12 frames each, open-reference reviews and manifests on code checkpoint **1f307af91b0c904a347c3a9594a9845b8d92c2c5**. Actual rind/shards visible; threads still too short and implicit masses lacked support (MAJOR, not final accepted). No published release.
+## Running QA — freeze source/build until completion
 
-New detail53fbab8: actual native PC/phone detected foam folding; source7c0d40cb7010515ebc6ff2a471045ea396320b63 caps mounted foam normal displacement to22%thickness and widens player footprint. Real coarse-touch frame now shows palm+4toes with minTet .557/zero limitedSteps,31 targetedPASS. Physical filler12clusters/96beads, idleuploads sleep. Planted native paw constraints persist/filter correctly, actual toe shear replaces canned age-sine. Exactarchives e7f3a8abdd035272fd1122ce606df6fd6d51080e docs/qa/2026-11-28/squish-v16/{detail-desktop-fold-rejected,detail-phone-refined}. Still minor relief/lighting polish; not fullartapproval.
+ONE GPU exec **42206**, log `/workspace/qa/squish-v19-pressure-native-phone.log`,
+output `/workspace/qa/squish-v19-pressure-native-phone`, source6a1b28b.
+Native private Worker/SQLite; actual Chichi submarine→entry→existing Cloud toy;
+original/side/top/debug/body/paw/release/recovery captures and metrics.
+`CHICHI_SQUISH_CONTACT_V19=1`, query`squishDebug=1`, no repeated manual-camera audit.
+Inspect result/failures. Current QA asserts native contacts/leave; if failure,
+preserve exact artifacts and fix concrete cause rather than repeat blindly.
 
-Giant source2596fea3a98208ed2f6eb646eb42aa16e1b2180b: actualbelly/head/4paws/tail bound to1089particlecage; 8localcontacts/positivevolume/distantquiet/reset testsPASS. Actual PC nativepress/recovery PASS, but QAhelper camera conditional failed to match formattedsource so giant gotold7m closecamera, clippedears; no overviewapproval. Evidence /workspace/qa/squish-v16-giant-desktop still needs archive; correctedhelperwidecamera nowin0cd121a.
+## Implemented baseline, not final acceptance
 
-Architecture0cd121a:10logicalsectors/originalshell/loftygoldarches/ownmarble/localIBL/neon/pawcounter/2220newinstancedcollectables, no approvedcatclones. Staticarchitecturemergedbymaterial. Actual11nativePCcamerasPASSbutvisualREJECTEDcoldfog/metals/sparsefloor/clippedlabels. cd730077b4e382d10c55d69ce219fa8e65f6db10 corrects scopedfog/.62warmgold/portraitfit. Actual11coarsetouchcamerasPASSandIBLprepared true/CubeUV306, but STILLbasic/sparse vsrefA. Need curvedcounters/pawdisplayfill/softbigexhibits/densewarmdetails/floorheightfrontoverview. Originalhugeexterior unchanged. Fullarchives **5f5c1caf64209d504aaf3cabb9cb5b36102692b9** docs/qa/2026-11-28/squish-v16/{giant-desktop-close,interior-desktop-v1,interior-phone-v2,actors-jelly-desktop}. Last giantPCclosecamera clippedears, correctedphoneGIANTview included but no fulltouchgiantphysyet.
+343-node XPBD/positive tetra volume/structural edges/shape/plastic rest/fixed60Hz,
+16 bounded contacts; 1089-node full giant. Eight differentiated profiles; five
+required foam/jelly/slime/butter/cloud basics exist. Foam held real palm/toe dents,
+jelly bounce/recovery, cloud slow pressure/fleece, layered Butter strain/rind/
+24 pooled fragments, XPBD slime strands and volume-normalized implicit2-centre
+merge approximation (NOT physical fluid merge), crunchy12clusters/96beads.
+22 native material choreography states, actual skinned paws/body, 3 original
+submarines and native AI/entry, owned manual transport. No paid per-cat AI calls.
+Ten stable zones + basic gold arches/ownIBL/2220 instanced collectibles; V18 art
+still basic/sparse vs original inline reference, not artistic acceptance.
+Full historical successes AND failures archived on codebranch
+`docs/qa/2026-11-28/squish-v16/`. Older details in linked previous CURRENT.
 
-Actor source **7c7ce20f3da9bc9aea5267e05edea687460f12e9**:22actualmaterialtimelines, original native toe and BODY mesh contacts, boundedreversible leg/carrysupportoffset, realtoe shear, true9.81flight/jellyvscloudresponses/landingimpulse; stableholdconstraints. AutomaticexistingAI visitors chooseavailablematerial by distance/id-affinity/rest, clearaislewaypoints, busy/manualpriority; coalescedinteriorpreparation separatefromcamera, no newinference. Tests39PASSincludingoriginalbodygeometrybytes/contact/restoredpose andactualprivateWorker. NativePC originalChichi fullsubmarine/airlock/approach/jump/HappyBounce/pawsPASSzeroGL/HTTPerrors. **37realnativeframes/12fps=3.08s** with actual4anchors/MP4/fullsource/hashes, in actors-jelly-desktop archive5f5c1ca. Rawallframes /workspace/qa/squish-v16-actors-jelly-desktop. Exactactualcontacterrors<.06m/landing43N per paw. This is fixedstepplayback, notphysicalhardwareFPS. Correctedoldnativehelper'sdouble100ms/cameraanchorbug; nowtrue60Hz andactualselectedtoycoordinates.
+## Next concrete work
 
-CURRENT source **e795265c6bde0107fa2e087f49627765b4ed320c** Warehouse-onlymanualphysics adapter:actualdeformedskin/support/shelfblockers/cameraraycollisions,8.2m/sgravityjump/thirdperson/own48pxtouchjumpbutton, existingWASD/camera reused; midair/softtoprelease keepsownership andreturns toclearfloorbeforeexistingreturnvoyage. World.js only2scopedlines:WarehousegetTransport/canJump andnoexternalbiomefallbackwhenblocked. Safe-shore save unchanged. Giantstandpointnowoutsideactualpaws andtruearcwithpositiveexitlaunch; rest→standrelease smooth beforejump. All **42targeted checksPASS** /workspace/qa/squish-manual-all-tests.log (nativebelly/8giantcontacts/manualactualsoftmeshjump/saferelease/realcamera/2oldentrysuites). Sourcepublic/squish-{manual,navigation}.js +visits/contacts/world integration.
+1. Inspect current native pressure results, register exact metrics/real images.
+2. Continue breadth first: explicit four LODs, developer-only five-real-model
+   deterministic test mode, multi-cat/eight contacts, interaction/cycle coverage.
+3. Optimize full8000-fibre cloud GPU cage while preserving approved groom/DPR/
+   shadows. Draft outside source `/workspace/qa/squish-detail-draft/squish-gpu-cage.js`
+   is UNTESTED; real GL position/normal parity required. No extra field now.
+4. Full20 actual-state comparison board and five complete real cycle clips;
+   original inline images have no mounted image bytes, record missing paths.
+5. Pass B material/IK/physical merge/bending/volume/art/light polish, then device-
+   honest performance, full native PC+touch/saves/19islands/full CI/build, normal
+   PR merge, deploy/pages and actual HTTP+Worker fullSHA before claiming release.
 
-ONE GPU exec85147 **/workspace/qa/squish-v16-cloud-manual-phone** (.log), fullcoarsetouchCloudnativebody3.08svideo +actualtwotouchS/jumpmanuallanding/returnbutton. Aslastcheckedpassedsubmarine/entry/visit, recordinprogress. Freezepublic/build/selectedQAscriptsuntilfinished; inspecteveryactualframe andcatchnativefailuresbeforeclaimPASS. ActorhelperCHICHI_SQUISH_CAT_MATERIAL=cloud,CHICHI_SQUISH_RECORD=1,CHICHI_SQUISH_MANUAL_AUDIT=1. No V16PR/publicationyet. Publishedold541unchanged.
-
-DRAFTNEXT /workspace/qa/squish-detail-draft/squish-gpu-cage.js: full8000-fibreNEWcloudtoyshader receives343displacementfloattexels withtrilineardifferentialcofactornormals; notintegrated/tested. GoalremoveactivecloudCPU~40kvertexdeform/normal/uploadswithoutchangingoriginalgroom/detail/DPR/nativecats. CPUbodyskinstayactualcontact/pick; GPUfurcanbeexcludedfromsolidpicking sincehairnotcollider. Need actualGLtransformfeedbackposition/normalparity +nativePC/touchframes+sameposeimmutablebuffers. DualsolverLOD1atRESTonlywithstableoriginalsolverobject(Object.assign), preservetime/revision/damage/state; promotehero on actualplayer/pawcontact; bounded4active detailedobjects (3fleet+player). AddmediumGPUdecor+farstaticinstancedLODs withmatchingdepthshaders, no perframeinstanceuploads. Remaining:explicit9mouse/touchactions/adaptiveoriginalASMR/debugoptin/finalrichart/finalmaterialA–Gand5panelboard/full3–5sclips/save/otherworld/fullCI/normalmerge/liveproof. OptionaloriginalrefURLquestionunanswered. DO NOT blindlycopyallolderdraftfolder overfixedsources:art/layout/giant/contacts/visits/manual drafts nowobsoleteexceptnewGPUfileandfutureindependentdrafts. Continue fullgoal, neverendafterWIPcheckpoint.
-
-Native command: Node22 PATH, CHICHI_SQUISH_AUDIT=1 CHICHI_SQUISH_STAGE=advanced (or materials, omitstagefororiginalChichipath), CHICHI_CHROMIUM=/usr/bin/chromium, CHICHI_PLAYWRIGHT_MODULE=/opt/codex/runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright, CHICHI_DESKTOP=1 (omitphone390x844/DPR2), CHICHI_REVIEW_DIR=/outside/evidence node scripts/check-aquarium.cjs. Materialsoptional CHICHI_SQUISH_MATERIALS=cloud,foam. ActualprivateWorker/SQLite/game; no liveworld/paidinference. scripts/compare-squish-references.py generatesHTML/JSON/diffs/edgechanges onlyif actualcamera/renderparams match. Do not countpixelcomparison toconceptart asobjectivebeauty. Original referenceA/B images seeninline but no filesystembytes; manifest explicit missingimagePath. Askedoptional asyncquestion28Nov for DIRECTURL originals (textonly); continueindependently, userhasnotanswered yet. No generatedreference substitution.
-
-Next incomplete: foam currentlyplainGaussianhelddent, needsactualpaw-lobemicrofootprint; crunchy beads currentlySTATIC inclusions needboundedphysicalclusters/response; nativecat onlyoneSquishJump/AlternatingKnead sequence, needsmaterial-specific22states/bodycontacts/tangentialactualyaw+jumpimpact. Nativecontroller currentlycanned tiny age-sin twist, replace with actualtangentpawvelocity/cumulativegrip. Manual Warehouse stillfloor-only andcanwalkthroughnewprops: addscopedrealinteriorcollision/deformedsupport/transportadapter viaexistinggetTransport hook, no globalmanualengine rewrite. QueuedmanualonautoSquishcurrentlydescendsbeforehandoff forsafe floor; enableactualgiantmanualsupport later. No giantsegmentedbody,10richsectors, fullAIselection, originalASMR,4LOD, recorded3–5ssequences/finalboard, V16save/otherworld/fullCI/live yet. Existing2freeAIWarehouseoffers arrive butdoNOTauto-useSquishunlesswanted manually; finishlocaldecision/occupancywithoutnewinference. Preservepublished3shuttles/safeentry.
-
-Art directionrefA hugegold/glassvault, densepastelcollectables/curvedcounters/giantcatheads/pawdisplay/warmneon/polishedfloor. Currenthallstillplainwhite/prototype: do NOTpublishasfinished. Exterior/size3600x720/height7.5 frozen, avoid wholebuildingrescale. Fit ten logicalsectors inoneexistinghall, no10newbuildings, keepactualnativeactors. Global lighting cannot changeoutsideprotectedvenues; usevenue-ownedPBR/emissives/ownofflineenvironmentcapture, no perframe reflectiontargets. Performancefuturefocus: activecloudCPUskinning8000fur fibres islarge; implementGPUcageFloatDataTexture/trilineardeform+cofactornormals forfur only (keepCPUdeformedbodysurfaceforpicking/contacts) atoptimizationphase, bounds/shadowparity/actualGLprobes. Staticthousandstoys mustinstancematerials, notfullsolver/rigpertoy. Userrequires remotecheckpoints and repeatedrealreferenceQA; retain allfailedartifacts.
-
-V16 sourceupload /workspace/attachments/9d033ccc-c520-4b72-855a-4c20e62ebf0c/Вставленный текст.txt (85484B). V17 /workspace/attachments/c5389bb6-7408-4033-9bbb-d5823656654c/Вставленный текст.txt (30221B). Requirements: hybrid localXPBD/rigidfragments/viscoelastic slime, local fourpaw/twist/IK, 8materialprofiles, layeredbutterdamage, jellywaves/cloudsinking/foamimprints/crunchyfiller/mochi, giant/multicontact, explicitmouse+touchactions, originalaudio, bounded4LOD/fixedstep. Ten sectors inside original shell, no10newbuildings. No new purchasedeconomy/customization requested: ephemeral deformations reconstructed; no globalparticle saves. V17 fixed cameras/seed/steps, real screenshots/video, per-phase comparison/correction/retest, semantic reference analysis; no pixel-similarity claims againstconceptart. Final reference board and HTMLreports; evidence needed beforeclosingissues.
-
-## Runtime and safeguards
-
-Node22 PATH /home/agent/.npm/_npx/52027bd8fc0022aa/node_modules/.bin. ONE GPU browser at a time. Keep renderer imports out of shared Worker physics graph (public/mosasaur-expansion.js must not import warehouse renderer/MeshoptTLA). Use public/mosasaur-biome.js renderer boundary. FloorA follows scaledslabcap+2cm, not old buriedneutralplane. Keep hidden decorativecone below realbed. Preserve original cat rigs/saves/money and physical entry ownership. User requests autonomous progress and remote backups at each meaningful stage; do not end after plan/checkpoint. No delegated agents without explicituser/AGENTS request. Historical details: [previousCURRENT](history/CURRENT-before-squish-v16-2026-11-27.md).
+Freeze exterior Warehouse/dimensions/coords/10 zone anchors, Mall/SPA/restaurant/
+trampoline/ocean/native cats/economy/save format. V19.2 forbids reconstruction;
+V18 art work stays interior only and must not displace physics priorities.
+Node22 PATH `/home/agent/.npm/_npx/52027bd8fc0022aa/node_modules/.bin`.
+ONE GPU browser; during run independent drafts only OUTSIDE source. Never
+stage `scripts/__pycache__/`. Sparse QA paths require `git add --sparse`.
+User authorized autonomous work and repeated remote checkpoints; do not stop
+at a WIP commit, ask repeated permissions, or claim unverified work complete.
