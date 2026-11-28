@@ -3,7 +3,7 @@ const finite=p=>p&&[p.x,p.y,p.z].every(Number.isFinite);
 const distance=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y,a.z-b.z);
 // The world owns ONE coordinator. Destinations provide their existing physical
 // navigation and activity callbacks; no geometry, wallet or cat rig is created.
-export function createCatTeleportationSystem({getActors,effects=null,canTravel=()=>true,canSimulate=()=>true,onBegin=()=>true,onError=()=>{},reducedMotion=false,maxConcurrent=48}={}){
+export function createCatTeleportationSystem({getActors,effects=null,canTravel=()=>true,canSimulate=()=>true,onBegin=()=>true,onRelocate=()=>{},onError=()=>{},reducedMotion=false,maxConcurrent=48}={}){
   const destinations=new Map(),operations=new Map();let serial=0,disposed=false;
   const actor=id=>getActors().find(a=>a.id===id);
   const current=op=>!disposed&&operations.get(op.id)===op;
@@ -33,7 +33,7 @@ export function createCatTeleportationSystem({getActors,effects=null,canTravel=(
     let resolve;const result=new Promise(r=>resolve=r),from=copy(a.position);
     const op={id,token:++serial,destinationId,destination,actor:a,radius:a.radius||.6,phase:'ValidatingDestination',age:0,from,safe:from,arrival:null,started:false,prepared:false,hidden:false,originalVisible:a.carrier?.visible??true,onArrival,onCancel,resolve,result,metadata,frame:{position:copy(from),yaw:a.carrier?.rotation.y||0,walking:false,reaction:null,phase:'ValidatingDestination',locomotion:{mode:'walk',speed:0,phase:0}}};
     operations.set(id,op);
-    Promise.resolve().then(()=>destination.prepare?.(a)).then(ok=>{
+    Promise.resolve().then(()=>current(op)?destination.prepare?.(a):false).then(ok=>{
       if(!current(op))return;
       if(ok===false||destination.requiredConditions?.(a)===false){fail(op,'Місце призначення зараз недоступне.');return;}
       op.prepared=true;
@@ -42,8 +42,10 @@ export function createCatTeleportationSystem({getActors,effects=null,canTravel=(
   }
   return {
     destinations,operations,register(entry){if(!entry?.destinationId)throw Error('Teleport destination needs a real game ID');destinations.set(entry.destinationId,entry);return entry;},
+    unregister(destinationId){const removed=destinations.delete(destinationId);for(const op of [...operations.values()])if(op.destinationId===destinationId)fail(op,'Місце призначення більше недоступне.');return removed;},
     request,cancel,has:id=>operations.has(id),frame:id=>operations.get(id)?.started?operations.get(id).frame:null,
     safePosition:id=>{const op=operations.get(id);return op?.started?copy(op.safe):null;},
+    saveProjection:id=>{const op=operations.get(id);return op?.started?{position:copy(op.safe),transient:!op.relocated}:null;},
     update(dt){
       if(disposed||!canSimulate())return;const h=Math.min(.1,Math.max(0,Number.isFinite(dt)?dt:0));
       for(const op of [...operations.values()]){
@@ -66,8 +68,10 @@ export function createCatTeleportationSystem({getActors,effects=null,canTravel=(
           if(!op.relocated){
             // Re-query the ACTUAL floor/net/soft surface at the commit boundary.
             if(op.destination.requiredConditions?.(a)===false){fail(op,'Місце призначення більше недоступне.');continue;}
-            const p=choose(op);if(!p){op.age=.39;continue;}op.arrival=p;op.safe=copy(p);op.relocated=true;
+            const p=choose(op);if(!p){op.age=.39;op.slotWait=(op.slotWait||0)+h;if(op.slotWait>15)fail(op,'Немає вільної безпечної точки прибуття.');continue;}op.arrival=p;op.safe=copy(p);op.relocated=true;
             Object.assign(a.position,p);
+            try{onRelocate(op.id,op);}catch{fail(op,'Не вдалося завершити перехід. Котик залишився на безпечному місці.');continue;}
+            if(!current(op))continue;
           }
           op.phase='ArrivalAnimation';const u=Math.min(1,(t-.4)/.3);
           op.frame.position={...op.arrival,y:op.arrival.y+(reducedMotion?0:.44145*(1-u*u))};
