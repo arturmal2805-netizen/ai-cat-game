@@ -14,14 +14,15 @@
     "public/resort-spa-invitations.js",
     "public/waterfront-world.js",
     "public/waterfront-runtime.js",
-    "public/leisure-runtime.js"
+    "public/leisure-runtime.js",
+    "public/app.js"
   ],
   "frozenFiles": {
     "package-lock.json": "b3d16d1c9aa17089e38d9dd4805f4177e5e5beac1293c4898e7e8ec964a1ddbe",
     "package.json": "9802861e43b55082045938dfc6fe0197b3714b60daf28c6380527fcc43fa7165",
     "public/adoption.js": "a314764e03f44ad761a212698689b4bee8ed98ea26ba0b1c1070f03867545fee",
     "public/advanced-assets.js": "6c6cdbea1267119d6e43934dbfcae3905ee8d7de74f9e56eb5894fc5126e1d55",
-    "public/app.js": "695efbcd3f6146a72b44aa6e69060cb62afd5dee9ccf69cfdc92d4c5d395eff0",
+    "public/app.js": "a8aaf2d7bb3ceca0553f515f84ba91b14dd8a66de06c23cc37a3cef6401f8f68",
     "public/aquarium-assets.js": "0501e2a5c4e0764e3446d40b437755ca6076ac67f765ffa44cb1e49fa3b60575",
     "public/aquarium-biome.js": "8dfa75d910342f2c25f66526e333ee8b94106b5aac27d5d20a5d638112db18db",
     "public/aquarium-data.js": "92e9097d774ff682a4c276d085312d5094a88f720baf2e535315f97f06a66e73",
@@ -535,6 +536,11 @@
         "file": "public/leisure-runtime.js",
         "old": "3b7ed97a215a50dfe19db916599154e553a02fb67f1715be606aa80b8fbce444",
         "new": "adad1ddfcac7e676aedebaf683604407988d34e8b6517ad5bdf26a4ff56a098d"
+      },
+      {
+        "file": "public/app.js",
+        "old": "695efbcd3f6146a72b44aa6e69060cb62afd5dee9ccf69cfdc92d4c5d395eff0",
+        "new": "a8aaf2d7bb3ceca0553f515f84ba91b14dd8a66de06c23cc37a3cef6401f8f68"
       }
     ]
   }
