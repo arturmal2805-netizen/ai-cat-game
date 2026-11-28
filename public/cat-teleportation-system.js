@@ -54,9 +54,16 @@ export function createCatTeleportationSystem({getActors,effects=null,canTravel=(
         if(!op.started){
           if(!op.prepared||!canTravel(op.id,op))continue;
           if(op.destination.requiredConditions?.(a)===false){fail(op,'Місце призначення зараз недоступне.');continue;}
-          op.arrival=choose(op);if(!op.arrival){op.slotWait=(op.slotWait||0)+h;op.phase='WaitingForArrivalSlot';if(op.slotWait>15)fail(op,'Немає вільної безпечної точки прибуття.');continue;}
           op.effect=effects?.acquire(op.destination.portalTheme||'default',op.radius);
           if(effects&&!op.effect)continue; // Queue behind the bounded visual pool.
+          op.arrival=choose(op);
+          if(!op.arrival){
+            // An unopened operation owns neither a visual slot nor a physical
+            // reservation. Retry native placement only when an effect is free.
+            effects?.release(op.effect);op.effect=null;op.arrival=null;
+            op.slotWait=(op.slotWait||0)+h;op.phase='WaitingForArrivalSlot';
+            if(op.slotWait>15)fail(op,'Немає вільної безпечної точки прибуття.');continue;
+          }
           if(onBegin(op.id,op)===false){fail(op,'Дочекайся безпечного завершення переходу.');continue;}
           if(!current(op)){release(op);continue;}
           op.from=copy(a.position);op.safe=copy(a.position);op.started=true;op.age=0;op.phase='OpeningPortal';
