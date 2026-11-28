@@ -3,6 +3,7 @@ import { createSquishNavigation } from "./squish-navigation.js";
 import { createSquishManual } from "./squish-manual.js";
 import { createSquishCatVisits } from "./squish-cat-visits.js";
 import { createSquishCatContacts } from "./squish-cat-contacts.js";
+import { createSquishDebug, measureSquish } from "./squish-diagnostics.js";
 import { createSquishPlayer } from "./squish-player.js";
 import {
   warehouseSquishSteps,
@@ -44,6 +45,16 @@ export function createWarehouseWorld({
   const b = byBiome("autumn"),
     origin = { x: b.center[0], z: b.center[1] },
     abort = new AbortController();
+  const debug = new URLSearchParams(
+    container.ownerDocument.defaultView?.location?.search || "",
+  ).has("squishDebug")
+    ? createSquishDebug({
+        scene,
+        container,
+        getInterior: () => interior,
+        getPaws: () => pawContacts.diagnostics,
+      })
+    : null;
   let selectedMaterial = "jelly",
     interior = null,
     interiorPending = null,
@@ -447,9 +458,19 @@ export function createWarehouseWorld({
     finalizeFrame(dt) {
       if (interior?.visible) pawContacts.flush(dt, interior.userData.toys);
       else pawContacts.clear();
+      debug?.update(dt);
     },
     get pawDiagnostics() {
       return pawContacts.diagnostics;
+    },
+    get squishMeasurements() {
+      return debug?.measurements || [];
+    },
+    measureSquish(material) {
+      const toy = interior?.userData.toys.find(
+        (t) => t.userData.material === material,
+      );
+      return toy ? measureSquish(toy) : null;
     },
     origin,
     ensure,
@@ -584,6 +605,7 @@ export function createWarehouseWorld({
       pawContacts.clear();
       squishVisits.clear();
       squishPlayer.dispose();
+      debug?.dispose();
       manualPhysics.reset();
       thirdPersonCamera.dispose();
       jumpButton.remove();

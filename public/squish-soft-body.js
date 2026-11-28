@@ -146,6 +146,9 @@ export class SquishSoftBody {
       kind = "press",
       footprintRadius = 0,
       orientation = 0,
+      duration = 0,
+      penetration = 0,
+      supportShare = 0,
     } = {},
   ) {
     if (
@@ -159,6 +162,9 @@ export class SquishSoftBody {
         force,
         footprintRadius,
         orientation,
+        duration,
+        penetration,
+        supportShare,
       ].every(Number.isFinite)
     )
       return false;
@@ -174,6 +180,9 @@ export class SquishSoftBody {
     c.kind = kind;
     c.footprintRadius = clamp(footprintRadius, 0, 1);
     c.orientation = orientation;
+    c.duration = Math.max(0, duration);
+    c.penetration = Math.max(0, penetration);
+    c.supportShare = clamp(supportShare, 0, 1);
     c.point.set(point);
     c.normal.set(normal);
     c.velocity.set(velocity);
@@ -186,7 +195,15 @@ export class SquishSoftBody {
     // A mounted foam pad cannot consume most of its own thickness in one
     // coarse cell. Fine paw relief is resolved by the secondary surface field.
     if (this.profile.materialType === "foam")
-      c.displacement[1] = Math.max(c.displacement[1], -this.size[1] * 0.22);
+      c.displacement[1] = Math.max(
+        c.displacement[1],
+        -(this.size[1] < Math.min(this.size[0], this.size[2]) * 0.5
+          ? this.size[1] * 0.22
+          : Math.min(
+              this.size[1] * 0.22,
+              (this.size[1] / (this.resolution[1] - 1)) * 0.55,
+            )),
+      );
     c.radius = clamp(radius, 0.1, Math.max(...this.size));
     if (this.profile.materialType === "giant")
       c.radius = Math.max(c.radius, this.profile.interactionRadius);
@@ -381,8 +398,11 @@ export class SquishSoftBody {
               dy = o[j + 1] - c.point[1],
               dz = o[j + 2] - c.point[2],
               r2 = (dx * dx + dy * dy + dz * dz) / (c.radius * c.radius);
-            if (r2 > 9) continue;
-            const influence = Math.exp(-r2 * 1.4) * clamp(c.force / 70, 0, 2);
+            if (r2 >= 4) continue;
+            const influence =
+              Math.exp(-r2 * 1.4) *
+              (1 - r2 / 4) ** 2 *
+              clamp(c.force / 70, 0, 2);
             total += influence;
             gx += c.filtered[0] * influence;
             gy += c.filtered[1] * influence;
@@ -393,7 +413,10 @@ export class SquishSoftBody {
             Math.min(1, total),
           );
           if (total > 1e-5) {
-            const s = 1 / Math.max(1, total),
+            // Normalize the weighted contact target by its actual influence.
+            // max(1,total) attenuated small paw loads TWICE (target and
+            // stiffness), making a 42-N cloud contact only ~0.06m deep.
+            const s = 1 / Math.max(1e-5, total),
               strength = m.materialType === "slime" ? 0.35 : 0.62;
             p[j] += (o[j] + gx * s - p[j]) * Math.min(1, total) * strength;
             p[j + 1] +=

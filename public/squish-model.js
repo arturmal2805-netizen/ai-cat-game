@@ -400,7 +400,7 @@ export function createSquishToy({
   };
   const ray = new T.Raycaster(),
     down = new T.Vector3(0, -1, 0);
-  const surface = (worldX, worldZ) => {
+  const surfaceInfo = (worldX, worldZ) => {
     root.updateWorldMatrix(true, true);
     ray.set(
       new T.Vector3(
@@ -411,8 +411,19 @@ export function createSquishToy({
       down,
     );
     const hits = ray.intersectObjects(meshes.slice(0, pad ? 1 : 2), false);
-    return hits[0]?.point.y ?? null;
+    const hit = hits[0];
+    if (!hit) return null;
+    return {
+      y: hit.point.y,
+      point: hit.point,
+      normal: hit.face.normal
+        .clone()
+        .applyMatrix3(new T.Matrix3().getNormalMatrix(hit.object.matrixWorld))
+        .normalize(),
+      collider: hit.object.uuid,
+    };
   };
+  const surface = (worldX, worldZ) => surfaceInfo(worldX, worldZ)?.y ?? null;
   root.userData = {
     ...root.userData,
     solver,
@@ -420,6 +431,7 @@ export function createSquishToy({
     sources,
     update,
     surface,
+    surfaceInfo,
     material,
     butter,
     filaments,

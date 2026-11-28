@@ -194,7 +194,7 @@ export function createSquishCatContacts() {
             ],
             displacement: [0, -0.5, 0],
             radius: 1,
-            force: 45,
+            force: 8.5 * 9.81,
           });
           keys.push(key);
           diagnostic.push({
@@ -203,15 +203,25 @@ export function createSquishCatContacts() {
             point: b.point.toArray(),
             surface,
             error: b.point.y - surface,
-            force: 45,
+            force: 8.5 * 9.81,
             material: v.toy.userData.material,
           });
         }
         continue;
       }
+      let supports = 0;
       for (const p of v.paws) {
         measure(p);
-        const target = v.toy.userData.surface(p.point.x, p.point.z);
+        const h = v.toy.userData.surface(p.point.x, p.point.z);
+        if (p.swing <= 0.04 && h !== null && p.point.y - h <= 0.13) supports++;
+      }
+      // Art-tuned 8.5 kg estimate, distributed among planted paws rather than
+      // doubling/halving the cat's weight as its animation changes support.
+      const supportedWeight = (8.5 * 9.81) / Math.max(1, supports);
+      for (const p of v.paws) {
+        measure(p);
+        const hit = v.toy.userData.surfaceInfo(p.point.x, p.point.z);
+        const target = hit?.y ?? null;
         if (p.swing > 0.04 || target === null || p.point.y - target > 0.13) {
           p.initialized = false;
           p.grip = null;
@@ -226,10 +236,13 @@ export function createSquishCatContacts() {
                 .sub(p.previous)
                 .multiplyScalar(1 / Math.max(dt, 1 / 120))
             : new T.Vector3();
+        p.contactAge = p.initialized ? (p.contactAge || 0) + dt : 0;
         p.previous.copy(p.point);
         p.initialized = true;
         const force = T.MathUtils.clamp(
-            22 + Math.max(0, -velocity.y) * 10 + (v.acting.impact || 0) * 6,
+            supportedWeight +
+              Math.max(0, -velocity.y) * 10 +
+              (v.acting.impact || 0) * 6,
             15,
             160,
           ),
@@ -242,6 +255,12 @@ export function createSquishCatContacts() {
         shear.y = 0;
         shear.clampLength(0, 0.38);
         p.force = force;
+        const localNormal = hit.normal
+          .clone()
+          .applyMatrix3(
+            new T.Matrix3().setFromMatrix4(v.toy.matrixWorld).transpose(),
+          )
+          .normalize();
         solver.setContact(key, {
           kind: ["SlimePull", "SlimeStretch", "SlimeStickyPaw"].includes(
             v.acting.state,
@@ -251,11 +270,19 @@ export function createSquishCatContacts() {
               ? "twist"
               : "paw",
           point: [p.grip.x, y, p.grip.z],
-          displacement: [shear.x, -0.45, shear.z],
+          normal: localNormal.toArray(),
+          displacement: [
+            shear.x - localNormal.x * 0.45,
+            -localNormal.y * 0.45,
+            shear.z - localNormal.z * 0.45,
+          ],
           footprintRadius: Math.sqrt(0.035 / Math.PI) * 1.8,
           orientation: v.carrier.rotation.y,
           radius: 0.65,
           force,
+          duration: p.contactAge,
+          penetration: Math.max(0, target - p.point.y),
+          supportShare: 1 / Math.max(1, supports),
           velocity: velocity.toArray(),
         });
         keys.push(key);

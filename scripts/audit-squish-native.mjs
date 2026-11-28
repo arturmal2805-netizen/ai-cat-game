@@ -83,6 +83,9 @@ export async function auditRelease({
         reviewHour: q.reviewHour,
         seed: 4419,
         nativePaws: q.warehouse().pawDiagnostics,
+        contactMeasurements: q
+          .warehouse()
+          .measureSquish(q.squishReviewMaterial || "jelly"),
       };
     });
     await writeFile(
@@ -173,6 +176,7 @@ export async function auditRelease({
       far: 20000,
     };
   }, catMaterial);
+  if (process.env.CHICHI_SQUISH_CONTACT_V19) await frame("v19-before-contact");
   await activate("[data-warehouse-squish-cat]");
   const phases = [];
   let found = false;
@@ -233,6 +237,76 @@ export async function auditRelease({
     found,
     "original Chichi boards submarine, enters and jumps onto the squish",
   );
+  if (process.env.CHICHI_SQUISH_CONTACT_V19) {
+    const view = async (offset, targetY) =>
+      page.evaluate(
+        ({ offset, targetY }) => {
+          const q = __lagoonQA,
+            t = q
+              .warehouse()
+              .interior.userData.toys.find(
+                (t) => t.userData.material === q.squishReviewMaterial,
+              );
+          const p = t.getWorldPosition(new q.THREE.Vector3());
+          q.oceanReviewCamera = {
+            eye: [p.x + offset[0], p.y + offset[1], p.z + offset[2]],
+            target: [p.x, p.y + targetY, p.z],
+            fov: 48,
+            far: 20000,
+          };
+          q.camera.position.fromArray(q.oceanReviewCamera.eye);
+          q.look.fromArray(q.oceanReviewCamera.target);
+          q.camera.fov = 48;
+          q.camera.lookAt(q.look);
+          q.camera.updateProjectionMatrix();
+          q.camera.updateMatrixWorld(true);
+        },
+        { offset, targetY },
+      );
+    await view([7, 6, 10], 3);
+    await frame("v19-contact-original");
+    await view([9, 3.8, 0], 2.2);
+    await frame("v19-contact-side");
+    await view([0, 12, 0.01], 1.9);
+    await frame("v19-contact-top");
+    await view([7, 6, 10], 3);
+    await frame("v19-contact-debug");
+    let paws = false,
+      body = false,
+      released = false;
+    for (let i = 0; i < 100; i++) {
+      const st = await advance(15),
+        w = await page.evaluate(() =>
+          __lagoonQA.warehouse().measureSquish(__lagoonQA.squishReviewMaterial),
+        );
+      if (!paws && w?.contacts.some((c) => c.kind === "paw")) {
+        await frame("v19-paw-pressure");
+        paws = true;
+      }
+      if (!body && w?.contacts.some((c) => c.kind === "body")) {
+        await frame("v19-body-compression");
+        body = true;
+      }
+      if ((paws || body) && !st.squish && w && !w.contacts.length) {
+        released = true;
+        await frame("v19-after-release");
+        break;
+      }
+    }
+    assert(paws || body, "actual native contact cycle recorded");
+    assert(
+      released,
+      "native cat leaves the actual support and releases contacts",
+    );
+    await step(120);
+    await frame("v19-recovery-2s");
+    await step(480);
+    await frame("v19-recovery-10s");
+    await writeFile(
+      join(review, "v19-cycle-result.json"),
+      JSON.stringify({ paws, body, released, material: catMaterial }, null, 2),
+    );
+  }
   if (process.env.CHICHI_SQUISH_RECORD) {
     const hashes = [];
     const { createHash } = await import("node:crypto");
