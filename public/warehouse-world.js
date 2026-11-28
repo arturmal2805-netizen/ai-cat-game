@@ -195,18 +195,10 @@ export function createWarehouseWorld({
     const d =
       SQUISH_DEMONSTRATORS.find((d) => d.id === material) ||
       SQUISH_DEMONSTRATORS[0];
+    const giant=material==='giant', fit=Math.max(1,.95/Math.max(.2,camera.aspect)), targetY=giant?4:4;
     onInteriorCamera({
-      eye: [
-        SQUISH_PROTOTYPE_ANCHOR.x + d.x + (material === "giant" ? 16 : 8),
-        SQUISH_PROTOTYPE_ANCHOR.y + (material === "giant" ? 13 : 6),
-        SQUISH_PROTOTYPE_ANCHOR.z + d.z + (material === "giant" ? 24 : 11),
-      ],
-      target: [
-        SQUISH_PROTOTYPE_ANCHOR.x + d.x,
-        SQUISH_PROTOTYPE_ANCHOR.y + (material === "giant" ? 4 : 2),
-        SQUISH_PROTOTYPE_ANCHOR.z + d.z,
-      ],
-      fov: 48,
+      eye:[SQUISH_PROTOTYPE_ANCHOR.x+d.x+(giant?16:12)*fit,SQUISH_PROTOTYPE_ANCHOR.y+targetY+((giant?14:10)-targetY)*fit,SQUISH_PROTOTYPE_ANCHOR.z+d.z-2+(giant?26:20)*fit],
+      target:[SQUISH_PROTOTYPE_ANCHOR.x+d.x,SQUISH_PROTOTYPE_ANCHOR.y+targetY,SQUISH_PROTOTYPE_ANCHOR.z+d.z-2],fov:52
     });
     return true;
   }

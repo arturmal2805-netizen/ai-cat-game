@@ -31,13 +31,15 @@ export function* squishInteriorArtSteps() {
   const mat = (options) => {
     const m = new T.MeshPhysicalMaterial({
       envMap: env,
-      envMapIntensity: 1.05,
+      envMapIntensity: 1.8,
       ...options,
     });
+    m.onBeforeCompile = shader => {shader.fragmentShader=shader.fragmentShader.replace("#include <fog_fragment>",T.ShaderChunk.fog_fragment.replace("fogFactor );","min(fogFactor,0.08) );"));};
+    m.customProgramCacheKey=()=>"warehouse-owned-architecture-pbr-v2";
     materials.add(m);
     return m;
   };
-  const gold = mat({ color: 0xf5ce81, metalness: 0.8, roughness: 0.2 }),
+  const gold = mat({ color: 0xf5ce81, metalness: 0.62, roughness: 0.2, emissive:0x8c5c25,emissiveIntensity:.22 }),
     cream = mat({ color: 0xffe4dc, roughness: 0.28, clearcoat: 1 }),
     pink = mat({ color: 0xf7b4d7, roughness: 0.3, clearcoat: 1 }),
     glass = mat({
@@ -132,7 +134,7 @@ export function* squishInteriorArtSteps() {
     const tex = new T.CanvasTexture(c);
     tex.colorSpace = T.SRGBColorSpace;
     textures.add(tex);
-    const m = new T.MeshBasicMaterial({ map: tex, transparent: true });
+    const m = new T.MeshBasicMaterial({ map: tex, transparent: true, fog:false });
     materials.add(m);
     batch(g(new T.PlaneGeometry(width, height)), m, [x, y, z]);
   }
@@ -143,7 +145,9 @@ export function* squishInteriorArtSteps() {
     roughness: 0.24,
     clearcoat: 1,
   });
+  const floorFog=floor.onBeforeCompile;
   floor.onBeforeCompile = (s) => {
+    floorFog(s);
     s.vertexShader =
       "varying vec2 marbleUV;\n" +
       s.vertexShader.replace(

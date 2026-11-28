@@ -76,6 +76,7 @@ export async function auditSquishInterior({
         seed: 4419,
         sectorCount: a.userData.sectors.length,
         collectables: a.userData.collectables,
+        environments: [...new Set([...a.children].filter(o=>o.isMesh).map(o=>o.material))].map(m=>({colour:m.color?.getHex(),metalness:m.metalness,emissive:m.emissive?.getHex(),intensity:m.envMapIntensity,inputMap:!!m.envMap,preparedMap:!!q.renderer.properties.get(m).envMap,preparedMapping:q.renderer.properties.get(m).envMap?.mapping,textureType:q.renderer.properties.get(m).envMap?.type})),
         materials: w.interior.userData.toys.map((t) => ({
           sector: t.userData.sectorId,
           material: t.userData.material,
