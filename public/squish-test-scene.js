@@ -55,7 +55,8 @@ export function createSquishTestScene({
     time = 0,
     accumulator = 0,
     playing = false,
-    steps = 0;
+    steps = 0,
+    temporal = null;
   const button = (text, action, key) => {
     const b = document.createElement("button");
     b.textContent = text;
@@ -84,6 +85,7 @@ export function createSquishTestScene({
     });
   }
   function reset() {
+    temporal = null;
     contacts.clear();
     for (const toy of toys) toy.userData.reset();
     time = 0;
@@ -99,7 +101,75 @@ export function createSquishTestScene({
     focus();
     return true;
   }
+  // Optional deterministic V22 audit mode: a static original-factory native
+  // pose loads the same five actual cage/render meshes continuously. Times are
+  // measured physics steps, never authored depth or carrier-height curves.
+  function temporalPose() {
+    const toy = selectedToy();
+    contacts.restoreFrame();
+    animateCat(actor, 0, false, false);
+    reactCat(actor, { ride: true }, false);
+    applyAtollSit(actor, { ride: true }, false);
+    actor.visible = true;
+    carrier.rotation.y = 0.1;
+    if (temporal.loading) {
+      const world = root.localToWorld(new T.Vector3(toy.position.x, 0, 0));
+      const surface = toy.userData.surface(world.x, world.z);
+      const local = root.worldToLocal(
+        new T.Vector3(world.x, surface ?? world.y, world.z),
+      );
+      carrier.position.set(toy.position.x, local.y + 0.012, 0);
+      root.updateWorldMatrix(true, true);
+      contacts.collect(
+        "v22-temporal-native",
+        actor,
+        carrier,
+        toy,
+        time,
+        false,
+        { state: "ManualWalk", blend: 1, impact: 0 },
+      );
+    } else {
+      const age = time - temporal.releaseTime;
+      carrier.position.set(
+        toy.position.x,
+        Math.max(0, temporal.releaseY + 3.8 * age - 4.905 * age * age),
+        Math.min(4.5, age * 3),
+      );
+      if (carrier.position.y > 0)
+        reactCat(actor, { ride: true, paw: 0.2, hindTuck: 0.15 }, false);
+      root.updateWorldMatrix(true, true);
+    }
+  }
+  function fixedTemporal() {
+    time += 1 / 60;
+    steps++;
+    temporalPose();
+    contacts.flush(1 / 60, toys);
+    status.textContent = `${selected}: V22 ${temporal.loading ? "STATIC NATIVE LOAD" : "RELEASE / RECOVERY"} · ${time.toFixed(2)}s`;
+  }
+  function startTemporal(material) {
+    if (!select(material)) return false;
+    temporal = { loading: true, releaseTime: null, releaseY: 0 };
+    temporalPose();
+    // Register actual original skinned paw contacts at t=0, without advancing
+    // a fixed step. The first captured frame is the true undeformed cage.
+    contacts.flush(0, toys);
+    return true;
+  }
+  function releaseTemporal() {
+    if (!temporal || !temporal.loading) return false;
+    temporal.loading = false;
+    temporal.releaseTime = time;
+    temporal.releaseY = carrier.position.y;
+    contacts.clear();
+    return true;
+  }
   function fixed() {
+    if (temporal) {
+      fixedTemporal();
+      return;
+    }
     const toy = selectedToy(),
       u = toy.userData,
       s = u.solver;
@@ -202,6 +272,8 @@ export function createSquishTestScene({
     select,
     reset,
     focus,
+    startTemporal,
+    releaseTemporal,
     setPlaying(value) {
       playing = !!value;
     },
@@ -227,6 +299,9 @@ export function createSquishTestScene({
         time,
         selected,
         playing,
+        temporal: temporal
+          ? { ...temporal, actorPosition: carrier.position.toArray() }
+          : null,
         nativePaws: contacts.diagnostics,
         nativeActor:
           "original createCat factory; isolated temporary test actor, not player replacement",
