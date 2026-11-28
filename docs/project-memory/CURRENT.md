@@ -32,8 +32,7 @@ No full-section VERIFIED claims based only on unit tests.
 ## Current verified checkpoint and newest instructions
 
 Active source `/workspace/chichi-squish-v16`, branch `codex/warehouse-squish-v16`.
-Latest **6736013** ordinary Space jump + exact V20/V21 specs/trackers, push initiated,
-verify remote full SHA before claiming remote. Prior **5382f50637cce27cc7cd44bac4171fef97abd983**
+Latest remote-verified **f1abf006e2354ccad74a2c8884699f4562b5c958** shared portal/owner checkpoint; Space **67360133f6f255b50e99bfa0c2734018cb71ed1c** remains verified. Prior **5382f50637cce27cc7cd44bac4171fef97abd983**
 archives actual Pass B Jelly/Slime proof at source8b603d107c926a6e201305577913baee7993d8fe.
 **58 targeted physics/access/Worker tests and full Node22 build PASS** at8b603d1.
 Jelly actual native Chichi body compression0.4545m, bodyvertex0.46637, bodyvolume0.98396;
@@ -91,7 +90,7 @@ Full historical successes AND failures archived on codebranch
 
 ## Next concrete work
 
-1. Implement V20/V21 breadth-first additions, preserving verified Space/physics. Native Space already PASS; V21 unified destination/send audit is next. Continue remaining V19 physics/debug/audio and full material clips.
+1. Implement V20/V21 breadth-first additions, preserving verified Space/physics. Native Space already PASS; V21 breadth adapters now implemented and four-owner native baseline PASS; remaining dispatch, physical ownership and complete coverage are next. Continue remaining V19 physics/debug/audio and full material clips.
 2. Continue breadth first: explicit four LODs, developer-only five-real-model
    deterministic test mode, multi-cat/eight contacts, interaction/cycle coverage.
 3. Finish phone verification and archive GPU/LOD native results; GL parity is now measured PASS. No extra pressure field.
@@ -109,3 +108,57 @@ ONE GPU browser; during run independent drafts only OUTSIDE source. Never
 stage `scripts/__pycache__/`. Sparse QA paths require `git add --sparse`.
 User authorized autonomous work and repeated remote checkpoints; do not stop
 at a WIP commit, ask repeated permissions, or claim unverified work complete.
+
+## Latest V21 actual state / V22 added
+
+Full newest **V22** uploaded user spec fully read and copied exactly to active
+branch `docs/specifications/warehouse-dynamic-physics-v22-2026-11-28.md` (38sections).
+Tracker V20_V21 now retains V22 section statuses too. V22 adds dynamic material
+profiles/true local creep history/static load vs one-shot impact/3Slime variants/
+physically bounded supported immersion/native sticky exit/0,.2,.5,1,2,4,6,10s
+real game frames/material temporal graphs/audio. It does NOT cancel V19/V20/V21.
+Main original pink is Jelly; do not convert it to liquid. New dynamic profiles/
+creep law not implemented yet; persistent duration/plastic rest already exists.
+
+Shared `cat-teleportation-system.js`, `cat-portal-visuals.js` (12 pooled lightweight
+cat-outline portals/96immutable particles each/0lights), destination helper and
+all4existing venue adapters implemented. Generic perform/performResident wired.
+Initial real destination registry added; generated coverage139stable catalogue
+IDs + player placement IDs in `docs/CAT_TELEPORT_DESTINATION_COVERAGE.md`.
+**58 targeted portal/manual/venue/runtime/ledger/Worker tests PASS**, log
+`/workspace/qa/v21-handoff-tests.log`. Older broad146test run had3 failures:
+2missing sparse fixtures (materialized from exact HEAD), oldV14frozen hash guard
+for explicit V21 owner changes (authorized + exact updated full hashes retained).
+
+Native original Chichi real Warehouse button -> actual origin portal -> actual
+gangplank -> ORIGINAL submarine -> actual pressure doors PASS. Original Luna
+thermalSPA room y=-164.988 (actual triangle support), floor2 mall-nike y=-156.32,
+then actual trampoline net y=.7018878. GL/HTTP errors empty. Archive source overlay
++captured bundle+PNG+JSON under docs/qa/2026-11-28/cat-teleport/owner-handoff.
+Do NOT call all destinations complete. Prior weaker audit falsely accepted old
+Mall carrier staying on floor2 and free SPA snapback to shore: strengthened actual
+position assertions caught them; safe Mall detach + retained parked SPA physical
+frame fixed. Rejected positions archived under rejected-owner-conflict.
+
+After last native run: complete initial destination registry and free HERO SPA
+parked frame retention added; rerun pending. OnBegin uses original owner cancel/
+safe Mall detach, honors cancelled leisure tickets, no old route competition.
+Generic send native tests, group free SPA, all139individual cases, gather/
+moveResident portal routing, autonomous leisure preliminary travel removal,
+Warehouse departure safe empty-boat return, touch/cold-save/paid/everything
+regression and visual arrival polish remain OPEN. Current coordinator safely
+waits while Warehouse already owns a cat; do not pretend immediate exit works.
+Full present source is WIP, no V20/V21/V22 publication.
+
+Current **ONE GPU audit running**: exec5950, `/workspace/qa/squish-v20-before.log`,
+output `/workspace/qa/squish-v20-before`, CHICHI_SQUISH_STAGE=interior desktop.
+It captures real BEFORE art all10existing sectors and overview at exact f1abf00,
+using unchanged actual UI cameras. Freeze public/build/harness until it finishes.
+After baseline, apply independent prepared Pass1 files OUTSIDE source:
+`/workspace/qa/squish-environment-v20.js` (new HDRmodule ->public/squish-environment.js)
+and `/workspace/qa/squish-interior-art-v20-draft.js` (modified existing art; imports
+new module). These are NEW V20drafts, not older stale replacements. Syntax checked.
+Owned static softbox/ocean/champagne HDR replaces same env slot, ivory pearl
+floor/materials, richer existing shelf metal/LED trims and fluted side podiums,
+no exterior/anchors/physics/other venue edits. Main source art still OLD until
+explicit copy. Need real AFTER same camera before calling improvement.
