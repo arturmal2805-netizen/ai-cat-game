@@ -294,6 +294,7 @@ export function createSquishCatContacts() {
     activeKeys.clear();
     for (const [solver, keys] of nextKeys) activeKeys.set(solver, keys);
     for (const toy of toys) {
+      toy.userData.preparePhysics?.();
       toy.userData.solver.step(dt);
       toy.userData.update(dt);
     }

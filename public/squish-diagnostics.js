@@ -63,7 +63,7 @@ export function measureSquish(toy) {
     colliderFollowsRender: true,
     recoveryActive: !s.sleeping && !s.contacts.size,
     solver: s.diagnostics(),
-    lod: u.physicsLOD || (s.sleeping ? "STATIC" : "HERO"),
+    lod: u.physicsLOD?.level || (s.sleeping ? "STATIC" : "HERO"),
     units:
       "game metres/seconds; force calibrated to an effective game mass, not laboratory measurements",
   };

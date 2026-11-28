@@ -1,5 +1,7 @@
 import { giantCatGeometry, giantRestHeight } from "./squish-giant.js";
 import { FoamImprints } from "./squish-foam.js";
+import { bindGpuCage } from "./squish-gpu-cage.js";
+import { createSquishPhysicsLOD } from "./squish-physics-lod.js";
 import { createCrunchyFiller } from "./squish-crunchy.js";
 import { createButterShell } from "./squish-butter.js";
 import { createSlimeFilaments } from "./squish-slime.js";
@@ -87,6 +89,9 @@ export function createSquishToy({
     sources = [],
     effects = [],
     ownedEffectMaterials = [];
+  const physicsLOD = createSquishPhysicsLOD(solver);
+  const gpuBindings = [];
+  let physicsView = {};
   const attach = (geometry, mat, name) => {
     const mesh = new T.Mesh(geometry, mat);
     mesh.name = name;
@@ -283,6 +288,7 @@ export function createSquishToy({
       "Dense groomed cloud fleece · same contact cage",
     );
     hair.castShadow = false;
+    gpuBindings.push(bindGpuCage(hair, solver));
   }
   if (["jelly", "slime"].includes(material)) {
     const inclusions = [];
@@ -376,6 +382,7 @@ export function createSquishToy({
       lastFoam = foam?.revision ?? -1;
       lastStep = solver.revision;
       for (let n = 0; n < meshes.length; n++) {
+        if (meshes[n].userData.squishGpuCage) continue;
         const g = meshes[n].geometry,
           a = g.attributes.position,
           base = sources[n];
@@ -396,6 +403,7 @@ export function createSquishToy({
         g.computeBoundingBox();
       }
     }
+    for (const binding of gpuBindings) binding.update();
     for (const e of effects) e.update(dt);
   };
   const ray = new T.Raycaster(),
@@ -433,6 +441,13 @@ export function createSquishToy({
     surface,
     surfaceInfo,
     material,
+    physicsLOD,
+    gpuBindings,
+    pickMeshes: meshes.slice(0, pad ? 1 : 2),
+    preparePhysics(options) {
+      if (options) physicsView = options;
+      physicsLOD.prepare(physicsView);
+    },
     butter,
     filaments,
     coalescence,
@@ -460,6 +475,7 @@ export function createSquishToy({
               );
     },
     dispose() {
+      for (const binding of gpuBindings) binding.dispose();
       for (const e of effects) e.dispose();
       for (const m of ownedEffectMaterials) m.dispose();
       const materials = new Set();

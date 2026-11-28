@@ -169,6 +169,7 @@ export class SquishSoftBody {
     )
       return false;
     if (!this.contacts.has(id) && this.contacts.size >= 16) return false;
+    this.onBeforeContact?.();
     const c = this.contacts.get(id) || {
       point: new Float64Array(3),
       normal: new Float64Array(3),

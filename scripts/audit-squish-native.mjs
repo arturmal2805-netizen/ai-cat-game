@@ -237,6 +237,13 @@ export async function auditRelease({
     found,
     "original Chichi boards submarine, enters and jumps onto the squish",
   );
+  if (process.env.CHICHI_SQUISH_GPU_AUDIT) {
+    const { probeSquishGpu } = await import("./audit-squish-gpu.mjs");
+    await writeFile(
+      join(review, "gpu-cage-parity.json"),
+      JSON.stringify(await probeSquishGpu(page), null, 2),
+    );
+  }
   if (process.env.CHICHI_SQUISH_CONTACT_V19) {
     const view = async (offset, targetY) =>
       page.evaluate(
@@ -521,4 +528,10 @@ export async function auditRelease({
     ),
   );
   console.log("SQUISH_PROTOTYPE_NATIVE_PASS");
+  if (process.env.CHICHI_SQUISH_AFTER_MATERIALS) {
+    const { auditSquishMaterials } = await import(
+      "./audit-squish-materials.mjs"
+    );
+    await auditSquishMaterials({ page, review, errors, httpErrors, desktop });
+  }
 }

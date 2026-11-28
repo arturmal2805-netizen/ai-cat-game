@@ -10,13 +10,15 @@ export const SQUISH_PROTOTYPE_ANCHOR = Object.freeze({
   z: W.z + W.depth / 2 - 70,
 });
 export const SQUISH_DEMONSTRATORS = Object.freeze(
-  [...SQUISH_SECTORS].sort((a,b)=>Number(b.id === "jelly")-Number(a.id === "jelly")).map((d) =>
-    Object.freeze({
-      ...d,
-      material:
-        d.id === "collection" ? "mochi" : d.id === "sensory" ? "foam" : d.id,
-    }),
-  ),
+  [...SQUISH_SECTORS]
+    .sort((a, b) => Number(b.id === "jelly") - Number(a.id === "jelly"))
+    .map((d) =>
+      Object.freeze({
+        ...d,
+        material:
+          d.id === "collection" ? "mochi" : d.id === "sensory" ? "foam" : d.id,
+      }),
+    ),
 );
 // Ten logical sectors share the existing shell, entry and safe floor.
 export function* warehouseSquishSteps(origin) {
@@ -76,6 +78,7 @@ export function* warehouseSquishSteps(origin) {
     scratch: new T.Vector3(),
     update(dt) {
       for (const t of toys) {
+        t.userData.preparePhysics();
         t.userData.solver.step(dt);
         t.userData.update(dt);
       }

@@ -88,7 +88,7 @@ export function createSquishPlayer({ canvas, camera, getInterior, container }) {
       if (!mode || !interior?.visible || e.button !== 0) return;
       cast(e);
       const hits = ray.intersectObjects(
-        interior.userData.toys.flatMap((t) => t.userData.meshes),
+        interior.userData.toys.flatMap((t) => t.userData.pickMeshes),
         false,
       );
       if (!hits.length) return;

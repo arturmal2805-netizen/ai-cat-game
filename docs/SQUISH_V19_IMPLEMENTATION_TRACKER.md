@@ -1258,9 +1258,9 @@ NORMAL → PRESS → DEFORMATION → RECOVERY
 
 ### 33. УРОВНИ ФИЗИЧЕСКОЙ ДЕТАЛИЗАЦИИ
 
-- Status: **NOT STARTED**.
+- Status: **IMPLEMENTED**.
 - Module: `squish-physics-lod.js (pending)` (under `public/` unless stated).
-- Concrete implementation / known issue / next action: Sleeping/static instancing exist. Four explicit HERO/ACTIVE/VISUAL/STATIC tiers and smooth promotion pending.
+- Concrete implementation / known issue / next action: Sleeping/static instancing exist. Four tiers now IMPLEMENTED: contact HERO7³, nested ACTIVE4³, GPU secondary VISUAL and distant STATIC; original solver/contact identity, clocks/plasticity retained. Native GL proof pending.
 - Test: Existing `test/squish-*.test.mjs` and native archives; new-load regression pending.
 - Actual screenshot: No final native evidence yet.
 
@@ -1711,7 +1711,7 @@ FLUFFY REST → SOFT SINK → WIDE COMPRESSION → SLOW RECOVERY.
 | 7 | Cloud | IN PROGRESS | Broad body sink and slow recovery, not jelly bounce |
 | 8 | Player input | IN PROGRESS | Explicit six actions with native camera preserved |
 | 9 | Multi-contact | IN PROGRESS | Two original cats/eight paws, opposite loads, landings/recovery |
-| 10 | Four physics LODs | NOT STARTED | Detailed hero, active, shader visual, static, smooth promotion |
+| 10 | Four physics LODs | IMPLEMENTED | Detailed hero, active, shader visual, static, smooth promotion |
 | 11 | Reference validation | IN PROGRESS | All 20 actual states + differences + 5 real-cycle videos |
 | 12 | Regression/release | IN PROGRESS | Scope/native cats/saves/build/performance/CI/live bytes |
 
@@ -1761,3 +1761,14 @@ FLUFFY REST → SOFT SINK → WIDE COMPRESSION → SLOW RECOVERY.
 V19.2 23 sections remain in exact linked specification
 `specifications/warehouse-contact-v19-2-2026-11-28.md`; its mandatory original,
 side, top, debug and after-release views are not waived by breadth-first ordering.
+
+## LOD/GPU checkpoint (next native pass pending)
+
+51 targeted tests PASS, including exact nested lattice promotion with <1e-8m
+field change, retained solver/contact identity and plastic state, and immutable
+full cloud groom input buffers. Active cloud fur now receives the same 343-node
+physical cage through a shared float texture; its body remains the real CPU
+contact/picking surface. No reduction in original groom density or phone DPR.
+Secondary collection body/face/shadows share one shader field, fading continuously
+to exact STATIC at100m; instance buffers never update per frame. Actual WebGL2
+transform-feedback position/normal parity and five-material PC/touch still pending.

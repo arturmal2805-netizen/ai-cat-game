@@ -456,8 +456,18 @@ export function createWarehouseWorld({
         );
     },
     finalizeFrame(dt) {
-      if (interior?.visible) pawContacts.flush(dt, interior.userData.toys);
-      else pawContacts.clear();
+      if (interior) {
+        if (interior.visible) interior.userData.art.userData.update(dt);
+        for (const toy of interior.userData.toys)
+          toy.userData.preparePhysics({
+            distance: toy
+              .getWorldPosition(interior.userData.scratch)
+              .distanceTo(camera.position),
+            visible: interior.visible,
+            selected: squishPlayer.active?.toy === toy,
+          });
+        pawContacts.flush(dt, interior.userData.toys);
+      } else pawContacts.clear();
       debug?.update(dt);
     },
     get pawDiagnostics() {
