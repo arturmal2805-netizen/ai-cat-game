@@ -93,7 +93,8 @@ export async function auditSquishTemporal({
       const catMin = new T.Vector3(Infinity, Infinity, Infinity),
         catMax = new T.Vector3(-Infinity, -Infinity, -Infinity),
         v = new T.Vector3();
-      b.actor.updateWorldMatrix(true, true);
+      b.actor.updateWorldMatrix(true, false);
+      b.actor.updateMatrixWorld(true);
       let nativeVertices = 0;
       b.actor.traverse((o) => {
         const p = o.geometry?.attributes?.position;
@@ -186,8 +187,14 @@ export async function auditSquishTemporal({
       "actual original native vertices sampled",
     );
     assert(
-      frame.nativeBounds.min[1] >= frame.objectPosition[1] - 0.03,
-      material + " native cat never crosses physical bottom",
+      frame.nativeBounds.min[1] >=
+        (phase === "load"
+          ? frame.objectPosition[1]
+          : frame.bench.floor.worldY) -
+          0.03,
+      material +
+        " native cat never crosses " +
+        (phase === "load" ? "physical toy bottom" : "actual Warehouse floor"),
     );
     return frame;
   };

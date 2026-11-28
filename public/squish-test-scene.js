@@ -4,6 +4,11 @@ import { applyAtollSit } from "./atoll-slide-acting.js";
 import { createSquishToy } from "./squish-model.js";
 import { createSquishCatContacts } from "./squish-cat-contacts.js";
 import { measureSquish } from "./squish-diagnostics.js";
+import { WAREHOUSE_ACCESS as A } from "./warehouse-access-data.js";
+
+// The actual interior root is A.foot + .36 above its authored floor.
+export const SQUISH_TEST_FLOOR_Y = A.floor - (A.foot + 0.36);
+export const SQUISH_TEST_CARRIER_GROUND_Y = SQUISH_TEST_FLOOR_Y + 0.012;
 
 export const SQUISH_TEST_STATES = Object.freeze({
   foam: ["NORMAL", "PAW PRESS", "DEEP COMPRESSION", "SLOW RECOVERY"],
@@ -38,6 +43,41 @@ export function createSquishTestScene({
     root.add(toy);
     return toy;
   });
+  // Developer-only supports terminate at each actual rendered rest bottom.
+  // These five instances never attach to production toys or sector anchors.
+  const plinthGeometry = new T.CylinderGeometry(3.4, 3.55, 1, 48),
+    plinthMaterial = new T.MeshStandardMaterial({
+      color: 0xf6eadc,
+      roughness: 0.35,
+      metalness: 0.25,
+    }),
+    plinths = new T.InstancedMesh(plinthGeometry, plinthMaterial, toys.length),
+    plinthMatrix = new T.Matrix4();
+  plinths.name = "Developer bench · five floor-supported plinths";
+  plinths.castShadow = plinths.receiveShadow = true;
+  for (let i = 0; i < toys.length; i++) {
+    const toy = toys[i],
+      source = toy.userData.sources[0];
+    let bottom = Infinity;
+    for (let j = 1; j < source.length; j += 3)
+      bottom = Math.min(bottom, source[j]);
+    const height = bottom - SQUISH_TEST_FLOOR_Y;
+    plinthMatrix.makeScale(1, height, 1);
+    plinthMatrix.setPosition(
+      toy.position.x,
+      SQUISH_TEST_FLOOR_Y + height / 2,
+      0,
+    );
+    plinths.setMatrixAt(i, plinthMatrix);
+  }
+  plinths.instanceMatrix.needsUpdate = true;
+  root.add(plinths);
+  function refreshNativeWorld() {
+    // updateWorldMatrix alone skips SkinnedMesh.updateMatrixWorld's attached
+    // bindMatrixInverse refresh. CPU picking must match the next native draw.
+    root.updateWorldMatrix(true, false);
+    root.updateMatrixWorld(true);
+  }
   const actor = createCat("happy"),
     carrier = new T.Group();
   carrier.add(actor);
@@ -119,7 +159,7 @@ export function createSquishTestScene({
         new T.Vector3(world.x, surface ?? world.y, world.z),
       );
       carrier.position.set(toy.position.x, local.y + 0.012, 0);
-      root.updateWorldMatrix(true, true);
+      refreshNativeWorld();
       contacts.collect(
         "v22-temporal-native",
         actor,
@@ -133,12 +173,15 @@ export function createSquishTestScene({
       const age = time - temporal.releaseTime;
       carrier.position.set(
         toy.position.x,
-        Math.max(0, temporal.releaseY + 3.8 * age - 4.905 * age * age),
+        Math.max(
+          SQUISH_TEST_CARRIER_GROUND_Y,
+          temporal.releaseY + 3.8 * age - 4.905 * age * age,
+        ),
         Math.min(4.5, age * 3),
       );
-      if (carrier.position.y > 0)
+      if (carrier.position.y > SQUISH_TEST_CARRIER_GROUND_Y + 1e-6)
         reactCat(actor, { ride: true, paw: 0.2, hindTuck: 0.15 }, false);
-      root.updateWorldMatrix(true, true);
+      refreshNativeWorld();
     }
   }
   function fixedTemporal() {
@@ -250,7 +293,7 @@ export function createSquishTestScene({
     }
     reactCat(actor, reaction, false);
     applyAtollSit(actor, reaction, false);
-    root.updateWorldMatrix(true, true);
+    refreshNativeWorld();
     if (grounded)
       contacts.collect(
         "v19-test-native",
@@ -299,6 +342,11 @@ export function createSquishTestScene({
         time,
         selected,
         playing,
+        floor: {
+          localY: SQUISH_TEST_FLOOR_Y,
+          worldY: root.localToWorld(new T.Vector3(0, SQUISH_TEST_FLOOR_Y, 0)).y,
+          carrierGroundLocalY: SQUISH_TEST_CARRIER_GROUND_Y,
+        },
         temporal: temporal
           ? { ...temporal, actorPosition: carrier.position.toArray() }
           : null,
@@ -312,6 +360,8 @@ export function createSquishTestScene({
       contacts.clear();
       disposeCat(actor);
       for (const toy of toys) toy.userData.dispose();
+      plinthGeometry.dispose();
+      plinthMaterial.dispose();
       root.removeFromParent();
       panel.remove();
     },

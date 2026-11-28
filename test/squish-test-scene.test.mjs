@@ -123,3 +123,88 @@ test("V22 temporal bench uses persistent native static paws and leaves loaded sh
     bench.dispose();
   }
 });
+
+test("temporal release refreshes native attached skin bindings before CPU queries and lands on the actual floor", () => {
+  const parent = new T.Group();
+  parent.position.set(3060, -449.948, 1240);
+  const bench = createSquishTestScene({
+    parent,
+    container: { ownerDocument: doc, append() {} },
+    environment: null,
+    onCamera() {},
+  });
+  const vertex = new T.Vector3();
+  const nativeMinimum = () => {
+    let minimum = Infinity,
+      count = 0;
+    // Intentionally no render or manual skin refresh here: the bench must have
+    // made all native CPU skinned vertices current when it advanced the pose.
+    bench.actor.traverse((mesh) => {
+      const position = mesh.geometry?.attributes?.position;
+      if (!mesh.isMesh || !position) return;
+      for (let i = 0; i < position.count; i++) {
+        mesh.getVertexPosition(i, vertex);
+        mesh.localToWorld(vertex);
+        assert(Number.isFinite(vertex.y));
+        minimum = Math.min(minimum, vertex.y);
+        count++;
+      }
+    });
+    assert(count > 1000);
+    return minimum;
+  };
+  try {
+    bench.startTemporal("jelly");
+    bench.advanceFixed(120);
+    const loaded = nativeMinimum();
+    assert(
+      loaded > parent.position.y + 1,
+      "native actor starts on elevated actual jelly",
+    );
+    assert(bench.releaseTemporal());
+    bench.advanceFixed(120);
+    const d = bench.diagnostics,
+      released = nativeMinimum();
+    assert(Math.abs(d.floor.localY + 0.372) < 1e-8);
+    assert(Math.abs(bench.carrier.position.y + 0.36) < 1e-8);
+    assert(
+      released >= d.floor.worldY - 0.02,
+      "all actual native rendered vertices stay above floor after release: " +
+        released +
+        " vs " +
+        d.floor.worldY,
+    );
+    assert(
+      released < d.floor.worldY + 0.03,
+      "actual feet reach authored Warehouse floor",
+    );
+    const plinth = bench.root.children.find(
+      (o) => o.name === "Developer bench · five floor-supported plinths",
+    );
+    assert(plinth?.isInstancedMesh);
+    assert.equal(plinth.count, 5);
+    const matrix = new T.Matrix4(),
+      centre = new T.Vector3(),
+      scale = new T.Vector3();
+    for (let i = 0; i < 5; i++) {
+      plinth.getMatrixAt(i, matrix);
+      centre.setFromMatrixPosition(matrix);
+      scale.setFromMatrixScale(matrix);
+      const toy = bench.toys[i],
+        rest = toy.userData.sources[0];
+      let restBottom = Infinity;
+      for (let j = 1; j < rest.length; j += 3)
+        restBottom = Math.min(restBottom, rest[j]);
+      assert(
+        Math.abs(centre.y - scale.y * 0.5 - d.floor.localY) < 1e-7,
+        "plinth reaches floor",
+      );
+      assert(
+        Math.abs(centre.y + scale.y * 0.5 - restBottom) < 1e-7,
+        "plinth supports real rendered rest bottom",
+      );
+    }
+  } finally {
+    bench.dispose();
+  }
+});
