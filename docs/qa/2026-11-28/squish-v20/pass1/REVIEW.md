@@ -19,3 +19,16 @@ This pass is NOT reference parity or final visual acceptance. Actual supplied in
 reference bytes are not mounted; comparison is visual against conversation image.
 Next investigate actual GPU probe content/material response, then repeat same-camera
 native captures. Do not interpret diagnostic env gain15 override as production proof.
+
+## Review correction: QA-only environment suppression
+
+Subsequent causal investigation found check-aquarium.cjs paused render wrapper
+suppressed ALL nested renderer.render calls, including Three PMREM generation.
+It also suppressed the tiny probe readback render itself. Therefore the apparent
+black map and almost identical gain0/15 images do NOT establish production map
+failure. The flat material assessment above describes those captured frames;
+it is not a trustworthy production lighting comparison. Preserve them as rejected
+intermediate evidence, not acceptance evidence. Geometry/anchor/count observations
+remain valid. A corrected gate allows internal/offscreen scenes and suppresses
+only the exact main scene/camera. A fresh native browser is required because Three
+caches the first generated map. New audit /workspace/qa/squish-v20-real-ibl pending.

@@ -73,7 +73,7 @@ Primary visual reference: latest user supplied pink Jelly / collection wall / wh
 
 ## Current audit
 
-Existing sending owners: world.perform / performResident, leisure runtime, MallWorld.start/startReady, ResortSpaWorld.startReady/call/invitations, WaterfrontWorld.invite/startReady, WarehouseWorld.invite/startReady. Registry and integration not yet implemented; must not silently skip an owner. Existing Warehouse has actual bounded three-boat fleet, real gangplanks and pressure doors. Preserve these.
+Existing sending owners: world.perform / performResident, leisure runtime, MallWorld.start/startReady, ResortSpaWorld.startReady/call/invitations, WaterfrontWorld.invite/startReady, WarehouseWorld.invite/startReady. Registry and four native owners are implemented; see checkpoint and generated coverage. Generic native coverage remains pending; must not silently skip an owner. Existing Warehouse has actual bounded three-boat fleet, real gangplanks and pressure doors. Preserve these.
 
 Space request: general manual jump native PC VERIFIED (20 tests and actual keyboard/airborne/release frames under docs/qa/2026-11-28/chichi-space), separate from venue transport; exact camera/walker source hashes preserved in protection manifest.
 
@@ -120,8 +120,18 @@ Full exact request: [V22](specifications/warehouse-dynamic-physics-v22-2026-11-2
 - **NOT STARTED** — 37. КРИТЕРИИ ПРИЁМКИ
 - **NOT STARTED** — 38. САМОЕ ГЛАВНОЕ ТРЕБОВАНИЕ
 
-Current physics audit: persistent contact duration and force metadata already exist, and XPBD/plastic rest/fine foam retain state; V22 independent creep profiles, contact-specific accumulated creep, physically supported deep immersion and real time curves are not yet implemented. Never call the previous one-frame press proof a V22 temporal test.
+Current physics audit: integrated e646a6b (agent075c3ca4). V2 profiles, actual local material-node creep/plastic history, physical static paw/body weight, separate one-shot landing impulse and history transfer across LOD are implemented. CPU50/50 plus focused9/9 pass on agent branch; parent combined94/94PASS. Three Slime modes use distinct bounded rheology; ultra displaced-contact-volume is an artistic cross-section proxy, NOT a full fluid solver. Native temporal images/true deep limb wrapping/full adhesive exit/COM load transfer/audio/AI/global regression remain OPEN.
 
 ## V21 implementation checkpoint
 
 Shared CatTeleportationSystem + 12 pooled cat-head portals + real destination adapter helpers implemented. Five core tests cover token cancellation, negative floors, group separation, changing support, safe snapshots, no particle buffer uploads. Four-owner actual-game baseline archived in docs/qa/2026-11-28/cat-teleport/owner-handoff. World generic commands wired, but generic native coverage and gather/moveResident/autonomous preliminary travel remain OPEN. Initial complete venue registry + free hero SPA retention added after that run; not yet native verified. Source-preservation pins updated only for explicitly authorized transport/command files; all model/exterior/economy/save pins remain unchanged. Full generated catalogue/remaining gaps: CAT_TELEPORT_DESTINATION_COVERAGE.md.
+
+## Integrated continuation checkpoint
+
+Parent bf763498 (remote verified): V22 constitutive baseline + V21 generic/recall/drop ownership dispatch, safe save projection and followed-camera rebasing integrated. Source and intermediate real-game evidence stored; no publication or reference parity claim.
+
+V20 Pass1: owned HDR/material/floor/shelf/podium refinements and2220 unchangedcollectibles implemented. Repeated actual before/after11/14views archived in docs/qa/2026-11-28/squish-v20/pass1. IMPORTANT: later found QA pause wrapper blocked internal PMREM conversion and even mapreadback; these old lighting captures are rejected as acceptance proof. Corrected gate must permit offscreen/internal passes and fresh browser regenerate cache. New actual-capture verification running. Production lighting has not been shown faulty by that diagnostic.
+
+V21 dispatch: ea5dec9+d9850d9,69 agent CPU/Worker tests +Node22 build PASS. Recall and moveResident now shared portal, deferred greeting after real arrival; generic cold preparation/token cancellation/current native service entry; dynamic placed IDs and lost-support failure; transient save projection. Parent preserves asynchronous Warehouse invite .result, Waterfront manual request after arrival, and instantDispatch removes preliminary leisure flight. 48-operation cap and Warehouse departure safe wait remain; full native generic/group/phone/cold-save not yet verified.
+
+V22 limitations: vertical scalar constitutive history within actual volumetric cage, not full3D viscous tensor/fluid; native immersion calibration/limb wrapping/automatic deep body transition unfinished. Sticky withdrawal is bounded resistance with existing real strands, not verified full9-stage exit. Existing equal planted-paw shares remain, COM transfer pending. No new material audio or AI choreography claimed.
