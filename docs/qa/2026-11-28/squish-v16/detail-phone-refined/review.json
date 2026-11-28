@@ -1,0 +1,32 @@
+{
+  "stage": "detail-phone-refined",
+  "referenceImage": null,
+  "ratings": {
+    "Materials": 66,
+    "Physics Behavior": 78,
+    "Visual Style": 38,
+    "Reference Fidelity": 46,
+    "Lighting": 25,
+    "Performance": null
+  },
+  "findings": [
+    {
+      "id": "SQ-07",
+      "severity": "ACCEPTED scoped contact field",
+      "status": "RETESTED",
+      "actual": "Real touch press/held memory/recovery. Refined pad shows palm and four toes, minTetRatio .557 and zero limited steps; earlier desktop pad folded and hid the footprint. Final high-resolution relief and lighting still need polish."
+    },
+    {
+      "id": "SQ-10",
+      "severity": "ACCEPTED scoped filler movement",
+      "status": "RETESTED",
+      "actual": "Real crunchy press/recovery: 12 physical clusters,96 instanced beads, finite buffers and asleep idle-upload check; not individual96rigid bodies."
+    },
+    {
+      "id": "SQ-02",
+      "severity": "MAJOR",
+      "status": "OPEN",
+      "actual": "Rich ten-sector hall, full native cat choreography/manual support/giant/audio/LOD and final reference board remain incomplete."
+    }
+  ]
+}

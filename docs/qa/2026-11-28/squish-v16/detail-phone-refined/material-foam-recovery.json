@@ -1,0 +1,64 @@
+{
+  "material": "foam",
+  "solver": {
+    "sleeping": false,
+    "particles": 343,
+    "constraints": 3150,
+    "contacts": 0,
+    "steps": 420,
+    "time": 6.9999999999999805,
+    "volumeRatio": 0.9741096795449273,
+    "minTetRatio": 0.7060199984205255,
+    "maxDeformation": 0.20873876154226229,
+    "maxStrain": 0.0019102113225442426,
+    "damage": 0,
+    "faults": 0,
+    "limitedSteps": 0,
+    "lastPhysicsMs": 1,
+    "droppedTime": 0
+  },
+  "foam": {
+    "nodes": 4225,
+    "deepest": 0.11750089377164841,
+    "held": 0,
+    "steps": 420,
+    "sleeping": false
+  },
+  "sceneTime": 7,
+  "reviewHour": 12,
+  "seed": 4419,
+  "camera": {
+    "position": [
+      3050,
+      -442.948,
+      1226.5
+    ],
+    "target": [
+      3048,
+      -449.318,
+      1222
+    ],
+    "fov": 48,
+    "aspect": 0.5300546448087432,
+    "near": 0.08,
+    "far": 20000
+  },
+  "objectPosition": [
+    3048,
+    -449.948,
+    1222
+  ],
+  "renderer": {
+    "dpr": 2,
+    "shadow": 1,
+    "toneMapping": 4,
+    "info": {
+      "frame": 5,
+      "calls": 64,
+      "triangles": 699622,
+      "points": 0,
+      "lines": 0
+    }
+  },
+  "time": 6.9999999999999805
+}
