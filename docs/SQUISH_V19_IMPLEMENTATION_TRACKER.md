@@ -14,10 +14,17 @@ A section stays IN PROGRESS when even one mandatory nested requirement remains.
 ## Current evidence and next action
 
 - Native manual takeover, two-touch jump, real deformed support, third-person camera and safe return PASS at `23ada02`: `/workspace/qa/squish-v19-manual-camera-fix`.
-- Current normalization correction is unverified in the game. Controlled same-input A/B: old cloud 0.060143m vs corrected 0.283871m depth at local (-0.5,3.265,0), 42 game-force units, 90 fixed steps. Same 343 particles; min positive tet ratio 0.663 (rounded). No claim that an artistic mass is a real measured cat mass.
+- Primary normalized pressure baseline is now VERIFIED in the native phone game at `6a1b28b`; full V19 remains incomplete. Controlled same-input A/B: old cloud 0.060143m vs corrected 0.283871m depth at local (-0.5,3.265,0), 42 game-force units, 90 fixed steps. Same 343 particles; min positive tet ratio 0.663 (rounded). No claim that an artistic mass is a real measured cat mass.
 - Rejected secondary cloud/jelly surface field archived outside source at `/workspace/qa/squish-v19-secondary-field-rejected`; it must not duplicate primary contact pressure.
 - Prior native PC/touch material/fracture/merge and failed attempts: `docs/qa/2026-11-28/squish-v16/`. Those are earlier-source evidence, not proof of the new normalization change.
-- Next: core regression → actual same-object pressure/side/top/debug/recovery → all five-material interaction and LOD → final 20-state board, real cycles, save/full CI/live verification.
+- Next: all five-material interaction and LOD → full-cycle/reference/regression → final 20-state board, real cycles, save/full CI/live verification.
+
+Actual same-object proof: [pressure review](qa/2026-11-28/squish-v19/pressure-native-phone/REVIEW.md).
+Four planted paws: 83.385 effective game-force units total; maximum contact depth
+0.33855m; exact body vertex displacement0.40802m; captured toe errors below1e-6m;
+positive tetrahedra/no inversion fallback. Actual release2s/10s displacement
+0.10876m/0.000402m. 48 targeted tests PASS. This closes the baseline underloading
+issue; detailed body/foam reference polish stays open for Pass B.
 
 ## All 41 original requirements
 

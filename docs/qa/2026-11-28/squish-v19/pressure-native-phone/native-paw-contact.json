@@ -1,0 +1,42 @@
+{
+  "state": {
+    "manual": null,
+    "wanted": false,
+    "active": false,
+    "startFailure": null,
+    "ground": {
+      "y": -446.71575344144213,
+      "biome": "autumn"
+    },
+    "phase": "visit",
+    "squish": "FoamSink",
+    "paws": [
+      {
+        "id": "chichi",
+        "kind": "body",
+        "point": [
+          3029.880879976523,
+          -446.716523800719,
+          1204.1020974093017
+        ],
+        "surface": -446.716523800719,
+        "error": 0,
+        "force": 83.385,
+        "material": "cloud"
+      }
+    ],
+    "position": [
+      3030,
+      -447.10859874320687,
+      1204
+    ]
+  },
+  "phases": [
+    "boarding",
+    "outbound",
+    "leaving-boat",
+    "airlock-in",
+    "lobby-walk",
+    "visit"
+  ]
+}
