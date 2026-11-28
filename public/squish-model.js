@@ -29,6 +29,24 @@ export function squishSurfaceMaterial(type) {
       depthWrite: true,
     });
   m.onBeforeCompile = (s) => {
+    if (type === "cloud" || type === "foam") {
+      s.vertexShader =
+        "varying vec2 vSquishWoolUV;\n" +
+        s.vertexShader.replace(
+          "#include <begin_vertex>",
+          "#include <begin_vertex>\nvSquishWoolUV=uv;",
+        );
+      s.fragmentShader = "varying vec2 vSquishWoolUV;\n" + s.fragmentShader;
+      s.fragmentShader = s.fragmentShader.replace(
+        "#include <color_fragment>",
+        `#include <color_fragment>
+      float woolThread=vSquishWoolUV.x*1250.+sin(vSquishWoolUV.y*240.)*2.;float woolFade=1.-smoothstep(1.,5.,fwidth(woolThread));float woolNap=sin(woolThread)*woolFade;float woolUnder=sin(vSquishWoolUV.y*650.)*sin(vSquishWoolUV.x*420.);diffuseColor.rgb*=.98+woolNap*.035+woolUnder*.012;`,
+      );
+      s.fragmentShader = s.fragmentShader.replace(
+        "#include <normal_fragment_begin>",
+        "#include <normal_fragment_begin>\nnormal=normalize(normal+vec3(woolNap*.025,woolUnder*.012,0.));",
+      );
+    }
     s.fragmentShader = s.fragmentShader.replace(
       "#include <fog_fragment>",
       T.ShaderChunk.fog_fragment.replace(
@@ -37,7 +55,7 @@ export function squishSurfaceMaterial(type) {
       ),
     );
   };
-  m.customProgramCacheKey = () => "warehouse-local-squish-pbr-v1";
+  m.customProgramCacheKey = () => "warehouse-local-squish-pbr-v2-" + type;
   return m;
 }
 // A new toy prop, never a replacement for an approved live cat mesh.
@@ -203,11 +221,14 @@ export function createSquishToy({
     attach(cg, pink, "Pastel cheek marks · surface bound");
   }
   if (material === "cloud") {
-    attach(
+    const fleece = squishSurfaceMaterial(material);
+    fleece.vertexColors = true;
+    const hair = attach(
       cloudFleeceGeometry(size),
-      squishSurfaceMaterial(material),
-      "Soft opaque cloud fleece · same contact cage",
+      fleece,
+      "Dense groomed cloud fleece · same contact cage",
     );
+    hair.castShadow = false;
   }
   if (["jelly", "slime", "crunchy"].includes(material)) {
     const inclusions = [];
